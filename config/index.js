@@ -19,7 +19,7 @@ module.exports = {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: './',
-    assetsPublicPath: '/dingtalk/',
+    assetsPublicPath: './',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -39,7 +39,7 @@ module.exports = {
     authServer: 'https://ding.rishiqing.com/',
     // authServer: 'http://dd.rsq.etoutiao.cn/rsqauth/',
     // 日事清前端文件地址
-    frontServer: 'https://rishiqing-front.oss-cn-beijing.aliyuncs.com',
+    frontServer: 'http://fronttest.qywx.etoutiao.cn',
     // 阿里云OSS STS认证的server地址，临时！！！！注意更新
     stsServer: 'https://stsserver.hz.taeapp.com/sts/',
     // stsServer: 'http://182.92.222.40:8300/sts/',

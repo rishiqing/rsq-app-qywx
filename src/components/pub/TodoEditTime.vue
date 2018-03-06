@@ -18,7 +18,7 @@
         </div>
       </v-touch>
       <v-touch tag="li">
-        <div @click="setEndTime">
+        <div @click="setEndTime" class="setEndTime">
           <span class="list-key">结束时间</span>
           <span class="list-value">{{clock.endTime}}</span>
           <i class="icon2-arrow-right-small arrow"></i>
@@ -35,6 +35,9 @@
   </div>
 </template>
 <style lang="scss">
+  .setEndTime{
+    /*border-bottom:0.5px solid #DADADA;*/
+  }
   .weui-picker__item{
     font-size: 18px;
   }
@@ -94,12 +97,12 @@
     }
     ul{
       background-color: white;
-      border-bottom:0.5px solid #DADADA;
+      /*border-bottom:0.5px solid #DADADA;*/
       border-top:0.5px solid #DADADA;
     }
     .edit-time-all-day{
       margin-top: 0.231rem;
-      border-bottom:0.5px solid #DADADA;
+      /*border-bottom:0.5px solid #DADADA;*/
       border-top:0.5px solid #DADADA;
     }
     .edit-time-all-day>li{
@@ -118,6 +121,7 @@
     .sec{
       margin-top:0.231rem ;
       padding-left:3%;
+      border-bottom:0.5px solid #DADADA;
     }
     .last{
       margin-top:0.391rem ;

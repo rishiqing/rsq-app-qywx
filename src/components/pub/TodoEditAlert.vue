@@ -19,7 +19,7 @@
       </v-touch>
     </ul>
     <ul class="sec">
-      <v-touch tag="li" @tap="showTimePicker">
+      <v-touch tag="li" @tap="showTimePicker" class="defineAlert">
         <span class="remind">自定义提醒时间</span>
       </v-touch>
     </ul>
@@ -27,51 +27,49 @@
 </template>
 <style>
   .edit-alert {
-    .remind{
+    .remind {
       display: block;
       margin-left: 0.2rem;
       font-family: PingFangSC-Regular;
       font-size: 16px;
       color: #55A8FD;
     }
-    .time{
+    .time {
       position: absolute;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #999999;
       letter-spacing: 0;
-      right:0.63rem;
-      top:0.23rem;
+      right: 0.63rem;
+      top: 0.23rem;
     }
-    .finish{
-      position:absolute;
-      right:0.63rem;
-      top:0.33rem;
+    .finish {
+      position: absolute;
+      right: 0.63rem;
+      top: 0.33rem;
       color: #55A8FD;
       font-weight: bold;
     }
-    ul{
+    ul {
       position: relative;
-      border-bottom: 0.5px solid #E3E3E3;
+      /*border-bottom: 0.5px solid #E3E3E3;*/
       border-top: 0.5px solid #E3E3E3;
       background: #FFFFFF;
     }
     .top-ul {
-      margin-top:0.266rem;
+      margin-top: 0.266rem;
     }
-    .sec{
+    .sec {
       margin-top: 0.373rem;
     }
-
-    span{
+    span {
       /*line-height: 1.112rem;*/
-      display:block;
+      display: block;
       margin-left: 0.45rem;
-
     }
-    li{
+    li {
       position: relative;
-      padding:5px;
+      padding: 5px;
       line-height: 0.912rem;
       height: 0.912rem;
       border-bottom: 1px solid #E3E3E3;
@@ -79,8 +77,8 @@
       font-size: 17px;
       color: #3D3D3D;
     }
-    li:last-child{
-      border:none;
+    li:last-child {
+      border: none;
     }
   }
 </style>

@@ -226,5 +226,30 @@ export default {
           reject(err)
         })
     })
+  },
+  fetchUsers () {
+    return new Promise((resolve, reject) => {
+      var path = mapping.GET_USER
+      Vue.http.get(path)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  sendMessage (props) {
+    alert(JSON.stringify(props))
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.REMIND, props)
+        .then(res => {
+          alert('请求返回')
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
   }
 }

@@ -27,6 +27,8 @@ import RemindWindow from 'com/pub/RemindWindow'
 import NoPermission from 'com/pub/NoPermission'
 import CheckFailure from 'com/pub/CheckFailure'
 import pcEnd from 'com/me/pcEnd'
+import MemberList from 'com/pub/MemberList'
+import MemberEdit from 'com/pub/MemberEdit'
 // import test from 'com/demo/test'
 Vue.use(Router)
 
@@ -36,6 +38,10 @@ const router = new Router({
       path: '/',
       redirect: '/sche'
     },
+    // {
+    //   path: '/',
+    //   redirect: '/inbox'
+    // },
     {
       path: '/sche',
       name: 'sche',
@@ -80,6 +86,18 @@ const router = new Router({
       path: '/pub/CheckFailure',
       name: 'CheckFailure',
       component: CheckFailure,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/pub/MemberEdit',
+      name: 'MemberEdit',
+      component: MemberEdit,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/pub/MemberList',
+      name: 'MemberList',
+      component: MemberList,
       meta: {requireAuth: true}
     },
     {

@@ -116,43 +116,45 @@ rsqAdapterManager.register({
 
     //--------------------------------------------------------
 
-    // // 先取签名
-    // rsqadmg.execute('sign', {
-    //     success: function(res){
-    //       // var json = JSON.stringify(res);
-    //       // 再进行jssdk初始化
-    //       // alert('进来execute了' + JSON.stringify(res))
-    //       rsqadmg.execute('init', {
-    //         appId: res.appId,
-    //         "timeStamp": res.timeStamp,
-    //         "nonceStr": res.nonceStr,
-    //         "signature": res.signature,
-    //         success: function(authUser){
-    //           // var authUser = authResult.user;
-    //           // alert(authUser)
-    //           //  从authServer获取到用户数据后进行登录
-    //           rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-    //             j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
-    //           }, function(result){
-    //             var resJson = JSON.parse(result);
-    //             if(resJson.success){
-    //               rsqChk(params.success, [resJson, authUser]);
-    //             }else{
-    //               rsqChk(params.error, [resJson]);
-    //             }
-    //           });
-    //         },
-    //         error: function(authResult){
-    //           rsqChk(params.error, [authResult]);
-    //         }
-    //       });
-    //     }
-    //   }
-    // );
+    //先取签名
+    rsqadmg.execute('sign', {
+        success: function(res){
+          // var json = JSON.stringify(res);
+          // 再进行jssdk初始化
+          // alert('进来execute了' + JSON.stringify(res))
+          rsqadmg.execute('init', {
+            appId: res.appId,
+            "timeStamp": res.timeStamp,
+            "nonceStr": res.nonceStr,
+            "signature": res.signature,
+            success: function(authUser){
+              // var authUser = authResult.user;
+              // alert(authUser)
+              //  从authServer获取到用户数据后进行登录
+              // alert('init-success')
+              rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
+                j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
+              }, function(result){
+                var resJson = JSON.parse(result);
+                if(resJson.success){
+                  rsqChk(params.success, [resJson, authUser]);
+                }else{
+                  rsqChk(params.error, [resJson]);
+                }
+              });
+            },
+            error: function(authResult){
+              rsqChk(params.error, [authResult]);
+            }
+          });
+        }
+      }
+    );
     //---------------------------------------------
   },
   sign: function(params){
     var currentUrl = window.location.href.split('#')[0];
+    // alert('url' + currentUrl)
     var pa = rsqadmg.store.app;
     rsqAdapterManager.ajax.get(rsqConfig.authServer + 'get_js_config', {
       url: currentUrl,
@@ -160,6 +162,7 @@ rsqAdapterManager.register({
       agentId: pa.agentid
     }, function(resSign){
       var resJson = JSON.parse(resSign);
+      // alert('resJson' + resJson)
       rsqChk(params.success, [resJson]);
     });
     // rsqChk(params.success, [{}]);
@@ -173,7 +176,7 @@ rsqAdapterManager.register({
       nonceStr: params.nonceStr,  // 必填，生成签名的随机串
       signature: params.signature,  // 必填，签名，见[附录1](#11974)
       // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-      jsApiList: ['getNetworkType', 'hideOptionMenu']
+      jsApiList: ['getNetworkType', 'hideOptionMenu', 'selectEnterpriseContact']
     });
     wx.ready(function(res){
       var appdata = rsqadmg.store.app;
@@ -200,11 +203,12 @@ rsqAdapterManager.register({
         });
       }else{
         var oauthUrl = getOauthUrl();
-        alert(oauthUrl);
+        // alert(oauthUrl);
         window.location.href = oauthUrl;
       }
     });
     wx.error(function(err){
+      // alert('errorJinlai ' + JSON.stringify(err))
       //  如果是config:fail，那么就刷新jsapi ticket
       if(err['errMsg'] === 'config:fail'){
         alert(JSON.stringify(err));
@@ -319,23 +323,24 @@ rsqAdapterManager.register({
    * @param params.onFail
    */
   actionsheet: function(params){
+    // alert('进来了')
     weui.actionSheet([
       {
         label: params.buttonArray[0],
         onClick: function () {
-          console.log('拍照');
+          // console.log('拍照');
           rsqChk(params.success, [{buttonIndex: 0}]);
         }
       }, {
         label:  params.buttonArray[1],
         onClick: function () {
-          console.log('从相册选择');
+          // console.log('从相册选择');
           rsqChk(params.success, [{buttonIndex: 1}]);
         }
       }, {
         label: params.buttonArray[2],
         onClick: function () {
-          console.log('其他');
+          // console.log('其他');
           rsqChk(params.success, [{buttonIndex: 2}]);
         }
       }
@@ -343,7 +348,7 @@ rsqAdapterManager.register({
       {
         label: '取消',
         onClick: function () {
-          console.log('取消');
+          // console.log('取消');
           rsqChk(params.success, [{buttonIndex: 3}]);
         }
       }
@@ -367,40 +372,42 @@ rsqAdapterManager.register({
     weui.toast(params.message);
   },
   selectDeptMember: function(params){
-    alert('进来' + JSON.stringify(params))
-    wx.invoke("selectEnterpriseContact", {
-        "fromDepartmentId": -1,// 必填，-1表示打开的通讯录从自己所在部门开始展示, 0表示从最上层开始
-        "mode": "single",// 必填，选择模式，single表示单选，multi表示多选
-        "type": ["department", "user"],// 必填，选择限制类型，指定department、user中的一个或者多个
-        "selectedDepartmentIds": ["2","3"],// 非必填，已选部门ID列表。用于多次选人时可重入
-        "selectedUserIds": params.selectedIds// 非必填，已选用户ID列表。用于多次选人时可重入
+    // alert('进来' + JSON.stringify(params))
+    // alert('传给后台已选人' + params.selectedIds)
+    wx.invoke('selectEnterpriseContact', {
+        'fromDepartmentId': -1,// 必填，-1表示打开的通讯录从自己所在部门开始展示, 0表示从最上层开始
+        'mode': 'multi',// 必填，选择模式，single表示单选，multi表示多选
+        'type': ['department', 'user'],// 必填，选择限制类型，指定department、user中的一个或者多个
+        'selectedDepartmentIds': [],// 非必填，已选部门ID列表。用于多次选人时可重入
+        'selectedUserIds': [params.selectedIds]// 非必填，已选用户ID列表。用于多次选人时可重入
       },function(res){
-        alert('返回来' + JSON.stringify(res))
+        // alert('返回来' + JSON.stringify(res))
         rsqChk(params.success, [res]);
-        // if (res.err_msg == "selectEnterpriseContact:ok")
-        // {
-        //   if(typeof res.result == 'string')
-        //   {
-        //     res.result = JSON.parse(res.result) //由于目前各个终端尚未完全兼容，需要开发者额外判断result类型以保证在各个终端的兼容性
-        //   }
-        //   var selectedDepartmentList = res.result.departmentList;// 已选的部门列表
-        //   for (var i = 0; i < selectedDepartmentList.length; i++)
-        //   {
-        //     var department = selectedDepartmentList[i];
-        //     var departmentId = department.id;// 已选的单个部门ID
-        //     var departemntName = department.name;// 已选的单个部门名称
-        //   }
-        //   var selectedUserList = res.result.userList; // 已选的成员列表
-        //   for (var i = 0; i < selectedUserList.length; i++)
-        //   {
-        //     var user = selectedUserList[i];
-        //     var userId = user.id; // 已选的单个成员ID
-        //     var userName = user.name;// 已选的单个成员名称
-        //     var userAvatar= user.avatar;// 已选的单个成员头像
-        //   }
-        // }
+        if (res.err_msg == "selectEnterpriseContact:ok")
+        {
+          if(typeof res.result == 'string')
+          {
+            res.result = JSON.parse(res.result) //由于目前各个终端尚未完全兼容，需要开发者额外判断result类型以保证在各个终端的兼容性
+          }
+          var selectedDepartmentList = res.result.departmentList;// 已选的部门列表
+          for (var i = 0; i < selectedDepartmentList.length; i++)
+          {
+            var department = selectedDepartmentList[i];
+            var departmentId = department.id;// 已选的单个部门ID
+            var departemntName = department.name;// 已选的单个部门名称
+          }
+          var selectedUserList = res.result.userList; // 已选的成员列表
+          for (var i = 0; i < selectedUserList.length; i++)
+          {
+            var user = selectedUserList[i];
+            var userId = user.id; // 已选的单个成员ID
+            var userName = user.name;// 已选的单个成员名称
+            var userAvatar= user.avatar;// 已选的单个成员头像
+          }
+        }
       }
     );
+    // alert('执行完毕')
   },
   selectMember: function(params){
   },

@@ -14,7 +14,7 @@
     position: relative;
     /*height:1.3rem;*/
     line-height: 1.3rem;
-    border-bottom:1px solid #E0E0E0;
+    /*border-bottom:1px solid #E0E0E0;*/
     /*border-top:1px solid #E0E0E0;*/
     background-color: white;
   }

@@ -213,11 +213,17 @@
       'avatar': Avatar
     },
     methods: {
+      fetchUsers () {
+        this.$store.dispatch('fetchUsers')
+      },
+
       showMemberEdit (e) {
         if (this.disabled) {
           window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
           return
         }
+//        this.fetchUsers()
+//        this.$router.push('/pub/MemberEdit')
         return this.isNative ? this.showNativeMemberEdit(e) : this.showWebMemberEdit(e)
       },
       showNativeMemberEdit () {
@@ -238,21 +244,25 @@
           selectedIds: selectedArray,
           disabledIds: disabledArray || [], //  不能选的人
           success (res) {
+//            alert('cuccess执行了' + JSON.stringify(res.result.userList))
 //            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
 //              that.memberList = res
             if (res.length === 0) {
               return this.$emit('member-changed', [])
             }
 //            console.log('返回来的res是' + JSON.stringify(res))
-            var idArray = util.extractProp(res, 'emplId')
-//            console.log('返回来的idarray是' + idArray)
-            window.rsqadmg.exec('showLoader')
+            var idArray = util.extractProp(res.result.userList, 'id')
+            alert('返回来的idarray是' + idArray)
+//            window.rsqadmg.exec('showLoader')
             that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
                 .then(function (idMap) {
-                  window.rsqadmg.exec('hideLoader')
+//                  alert('idMAP' + JSON.stringify(idMap))
+//                  window.rsqadmg.exec('hideLoader')
                   var userArray = util.getMapValuePropArray(idMap)
-//                  console.log('userId是' + JSON.stringify(userArray))
+//                  alert('userId是' + JSON.stringify(userArray))
                   var rsqIdArray = util.extractProp(userArray, 'rsqUserId')
+//                  alert('userArray' + JSON.stringify(userArray))
+//                  alert('rsqIdArray' + JSON.stringify(rsqIdArray))
                   that.$emit('member-changed', rsqIdArray)
                 })
           }

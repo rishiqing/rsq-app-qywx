@@ -27,6 +27,7 @@
         <p class="shouye">还没有日程，赶快去创建吧</p>
       </div>
     </r-pull-to-refresh>
+    <r-nav></r-nav>
   </div>
 </template>
 <script>
@@ -34,7 +35,7 @@
   import Pull from 'com/pub/Pull2Refresh'
   import TodoItemList from 'com/sche/TodoItemList'
   import moment from 'moment'
-
+  import nav from 'com/Nav'
   const CAL_STATE = {
     bar: {
       value: 81
@@ -84,7 +85,8 @@
     components: {
       'r-calendar': Calendar,
       'r-pull-to-refresh': Pull,
-      'r-todo-item-list': TodoItemList
+      'r-todo-item-list': TodoItemList,
+      'r-nav': nav
     },
     methods: {
       onPanMove (p) {
@@ -175,6 +177,7 @@
     },
     mounted () {
       window.rsqadmg.exec('setTitle', {title: this.formatTitleDate(this.dateSelect)})
+      document.title.style.color = 'gba(-2147483648,-2147483648,-2147483648,0.65)'
 //      var btnParams
 //      var that = this
 //      btnParams = {

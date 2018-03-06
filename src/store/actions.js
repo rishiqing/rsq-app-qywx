@@ -689,6 +689,7 @@ export default {
    * @param p.corpId
    */
   fetchRsqidFromUserid ({commit, state}, p) {
+    // alert('近来了')
     var openidsNotInCache = []
     var result = {}
     var cache = state.openidCache
@@ -703,6 +704,7 @@ export default {
     if (openidsNotInCache.length > 0) {
       promise = api.appAuth.getOpenidMap({corpId: p.corpId, idArray: openidsNotInCache})
         .then(resp => {
+          // alert('返回来' + JSON.stringify(resp))
           var mapList = resp.result
           mapList.forEach(idMap => {
             //  双向缓存
@@ -950,6 +952,20 @@ export default {
         // console.log('移动计划之后item' + JSON.stringify(item))
         commit('SAVE_RECORD', {item: item})
         return item
+      })
+  },
+  fetchUsers ({commit, state}, p) {
+    return api.todo.fetchUsers(p)
+      .then((item) => {
+        console.log('返回来的是' + JSON.stringify(item))
+        commit('SAVE_USER', {item: item})
+        return item
+      })
+  },
+  sendMessage ({commit, state}, p) {
+    return api.todo.sendMessage(p.data)
+      .then((result) => {
+        return result
       })
   }
 }

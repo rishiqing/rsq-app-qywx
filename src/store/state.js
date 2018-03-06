@@ -109,5 +109,8 @@ export default {
   dayHasTodoCache: {},
   replyId: null,
   replyName: null,
-  record: []
+  record: [],
+  userList: [],
+  memeberList: [],
+  selectedMember: []
 }

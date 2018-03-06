@@ -29,5 +29,6 @@ export default {
   'POST_TODO_COMMENT': 'task/v2/todoComment',
   'POST_RECORD_COMMENT': 'task/rsqTodoAction/saveTodoAction',
   'GET_FILE_FROM_AlI': 'task/v2/folders/file/getFileFromAli',
-  'GET_RECORD': 'task/v2/todo/getTodoActions'
+  'GET_RECORD': 'task/v2/todo/getTodoActions',
+  'REMIND': 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN'
 }

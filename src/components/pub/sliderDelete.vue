@@ -9,11 +9,11 @@
       >
         <!-- 插槽中放具体项目中需要内容         -->
         <slot></slot>
+        <v-touch @tap="deleteItem()">
         <div class="remove" ref='remove'>
-          <v-touch @tap="deleteItem">
             <span>删除</span>
-          </v-touch>
         </div>
+        </v-touch>
       </div>
     </div>
   </div>
@@ -109,7 +109,7 @@
         }
       },
       deleteItem () {
-        console.log('sliderdelete到了')
+//        console.log('sliderdelete到了')
         this.$emit('deleteItem')
       }
     }

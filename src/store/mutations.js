@@ -398,5 +398,13 @@ export default {
   },
   SAVE_RECORD (state, p) {
     state.record = p.item
+  },
+  SAVE_USER (state, p) {
+    console.log('拿到的列表' + JSON.stringify())
+    state.userList = p.item
+  },
+  SAVE_MEMBER (state, p) {
+    console.log(JSON.stringify(p))
+    state.memberList = p
   }
 }

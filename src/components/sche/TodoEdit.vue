@@ -352,6 +352,7 @@
               this.joinUserRsqIds = joinUserArray.map(obj => {
                 return obj['id'] + ''
               })
+//              alert('this.joinUserRsqIds' + this.joinUserRsqIds)
             })
           .then(() => {
             this.fetchCommentIds()
@@ -425,20 +426,22 @@
         }
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        alert('saveMember' + idArray)
         var that = this
         var compRes = util.compareList(this.joinUserRsqIds, idArray)
-//        console.log('比较之后的结果是' + JSON.stringify(compRes))
+        alert('比较之后的结果是' + JSON.stringify(compRes))
         var params = {
           receiverIds: idArray.join(','),
           addJoinUsers: compRes.addList.join(','),
           deleteJoinUsers: compRes.delList.join(',')
         }
+        alert(JSON.stringify(params))
         window.rsqadmg.execute('showLoader', {text: '保存中...'})
         this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
           this.joinUserRsqIds = idArray
           window.rsqadmg.exec('hideLoader')
           window.rsqadmg.execute('toast', {message: '保存成功'})
-//          console.log('params的addJoinUsers是' + params.addJoinUsers)
+          console.log('params的addJoinUsers是' + params.addJoinUsers)
           if (params.addJoinUsers) {
             var time = util.SendConversationTime(this.currentTodo)
             var date = util.SendConversationDate(this.currentTodo)
@@ -464,14 +467,14 @@
               }
             }
             var IDArrays = params.addJoinUsers.split(',')
-//            console.log('IDArrays是' + IDArrays)
+            console.log('IDArrays是' + IDArrays)
             var empIDArray = []
             this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
               .then(idMap => {
                 for (var i = 0; i < IDArrays.length; i++) {
                   empIDArray.push(idMap[IDArrays[i]].emplId)
                 }
-//                console.log(empIDArray)
+                console.log(empIDArray)
                 data['userid_list'] = empIDArray.toString()
                 that.$store.dispatch('sendAsyncCorpMessage', {
                   corpId: that.loginUser.authUser.corpId,
@@ -480,7 +483,7 @@
                   if (res.errcode !== 0) {
                     alert('发送失败：' + JSON.stringify(res))
                   } else {
-//                    console.log('发送成功！')
+                    console.log('发送成功！')
                   }
                 })
               })
@@ -643,7 +646,7 @@
             if (c.pContainer !== 'inbox' && !c.isCloseRepeat && isEdited) {
               var that = this
               window.rsqadmg.exec('actionsheet', {
-                buttonArray: ['仅修改此任务', '修改此任务及以后的任务', '修改所有的重复任务'],
+                buttonArray: ['仅修改此任务', '修改此任务及以后的任务', '修改所有的重复任务', '取消'],
                 success: function (res) {
                   window.rsqadmg.execute('showLoader', {text: '更新中...'})
                   var promise

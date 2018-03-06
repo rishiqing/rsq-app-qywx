@@ -11,12 +11,15 @@
       @ready-to-upload="isUploading"
       @finish-upload="finishUpload"
     ></r-upload>
-    <v-touch @tap="comentBlur(content)">
+    <v-touch @tap="comentBlur(content)" class="sendComment">
       <a href="javascript:;" class="weui-btn weui-btn_primary">发送</a>
     </v-touch>
   </div>
 </template>
 <style scoped>
+  .sendComment{
+    margin-top: 0.5rem;
+  }
   .icon-wrap{
     position: relative;
 

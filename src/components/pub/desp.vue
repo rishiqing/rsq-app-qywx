@@ -6,7 +6,7 @@
          @focus="inputFocus"
          placeholder="输入任务描述"
          @input="inputChange">输入任务描述</div>
-    <v-touch @tap="inputBlur()">
+    <v-touch @tap="inputBlur()" class="despSubmit">
       <a href="javascript:;" class="weui-btn weui-btn_primary">提交</a>
     </v-touch>
   </div>
@@ -99,6 +99,9 @@
   }
 </script>
 <style>
+  .despSubmit{
+    margin-top: 0.5rem;
+  }
   .descrip{
     border-top: 1px solid #E0E0E0;
     margin-top: 10px;

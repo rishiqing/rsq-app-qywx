@@ -15,6 +15,7 @@ export default {
     return new Promise((resolve, reject) => {
       var request = url.resolve(window.rsqConfig.authServer, mapping.AUTH_TO_RSQID) + '?corpid=' + props.corpId
       var params = props.idArray
+      // alert('request' + request)
       Vue.http.post(request, JSON.stringify(params))
         .then(res => {
           resolve(res.json())

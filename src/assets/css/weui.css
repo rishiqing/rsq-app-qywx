@@ -1680,14 +1680,14 @@ a.weui-media-box:active {
   overflow: hidden;
 }
 .weui-dialog__hd {
-  padding: 1.3em 1.6em 0.5em;
+  /*padding: 1.3em 1.6em 0.5em;*/
 }
 .weui-dialog__title {
   font-weight: 400;
   font-size: 18px;
 }
 .weui-dialog__bd {
-  padding: 0 1.6em 0.8em;
+  /*padding: 0 1.6em 0.8em;*/
   min-height: 40px;
   font-size: 15px;
   line-height: 1.3;
@@ -1765,11 +1765,11 @@ a.weui-media-box:active {
   font-size: 21px;
 }
 .weui-skin_android .weui-dialog__hd {
-  text-align: left;
+  /*text-align: left;*/
 }
 .weui-skin_android .weui-dialog__bd {
   color: #999999;
-  padding: 0.25em 1.6em 2em;
+  /*padding: 0.25em 1.6em 2em;*/
   font-size: 17px;
   text-align: left;
 }
@@ -1779,7 +1779,7 @@ a.weui-media-box:active {
 }
 .weui-skin_android .weui-dialog__ft {
   display: block;
-  text-align: right;
+  /*text-align: right;*/
   line-height: 42px;
   font-size: 16px;
   padding: 0 1.6em 0.7em;
@@ -1790,7 +1790,7 @@ a.weui-media-box:active {
 .weui-skin_android .weui-dialog__btn {
   display: inline-block;
   vertical-align: top;
-  padding: 0 .8em;
+  padding: 0 2.8em;
 }
 .weui-skin_android .weui-dialog__btn:after {
   display: none;

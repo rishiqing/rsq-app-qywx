@@ -30,7 +30,7 @@
   .receive{
     border: 1px solid #55A8FD;
     border-radius: 2px;
-    width: 1.513rem;
+    width: 1.55rem;
     height: 0.594rem;
     font-family: PingFangSC-Regular;
     font-size: 12px;
@@ -38,7 +38,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 0.405rem;
+    margin-right: -0.405rem;
   }
   .contain-tag {position:absolute;left:0;height:20px;width:2px;top:50%;margin-top:-10px;}
   .title-todo{
@@ -114,7 +114,7 @@
     /*<!--top:50%;-->*/
     /*<!--margin-top: -0.22rem;-->*/
     /*left:0.2rem;*/
-    background: #FFFFFF;
+    /*background: #FFFFFF;*/
     border-radius: 1px;
   }
   .todo-checkbox {
@@ -128,7 +128,7 @@
 <script>
   import dateUtil from 'ut/dateUtil'
   import sliderDelete from 'com/pub/sliderDelete'
-  import bus from 'com/bus'
+//  import bus from 'com/bus'
   export default {
     name: 'TodoItem',
     data () {
@@ -209,8 +209,9 @@
         }
       },
       deleteItem () {
-        console.log('todoitem到了')
-        bus.$emit('deleteItemList')
+//        console.log('todoitem到了')
+//        bus.$emit('deleteItemList')
+//        e.stopPropagation()
         var that = this
         this.$store.dispatch('setCurrentTodo', this.item).then(
           () => {

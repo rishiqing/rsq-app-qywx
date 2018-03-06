@@ -1,16 +1,22 @@
 <template>
   <v-touch class="outertime" @tap="gotoTodoTime" :class="{'hasPadding':newItem}">
-    <span class="date">时间</span>
-    <span class="now" :class="{'edit-padding-left':editTime,'new-padding-right':newItem}">{{timeValue}}</span>
-    <i class="icon2-arrow-right-small arrow"></i>
+    <div class="inner-border">
+      <span class="date">时间</span>
+      <span class="now" :class="{'edit-padding-left':editTime,'new-padding-right':newItem}">{{timeValue}}</span>
+      <i class="icon2-arrow-right-small arrow"></i>
+    </div>
   </v-touch>
 </template>
 <style lang="" scoped>
+  .inner-border{
+    border-top: 1px solid #E3E3E3;
+  }
   .outertime{
     position: relative;
     /*height:1.3rem;*/
     line-height: 1.3rem;
     background-color: white;
+    /*border-top: 1px solid  #E3E3E3;*/
   }
   .hasPadding{
     padding-left:3% ;

@@ -14,10 +14,10 @@
         </div>
         <div class="bottom">
           <div class="comentContent" v-if="IfReplyComment">
-            <span class="replyComment">{{item.commentContent.substring(0,IndexOfBlank)}}</span>
-            <span class="comentContent">{{item.commentContent.substr(IndexOfBlank + 1)}}</span>
+            <span class="replyComment" v-html="item.commentContent">{{item.commentContent}}</span>
+            <!--<span class="comentContent">{{item.commentContent.substr(IndexOfBlank + 1)}}</span>-->
           </div>
-          <div class="comentContent" v-else>{{item.commentContent}}</div>
+          <div class="comentContent" v-else v-html="item.commentContent">{{item.commentContent}}</div>
           <v-touch class="coment-item-picture file-touch" v-for="file in item.fileList" :key="file.id" @tap="fileTouch(file)">
             <template v-if="(file.contentType.toUpperCase() === 'PNG'||file.contentType.toUpperCase() === 'JPEG'|| file.contentType.toUpperCase() === 'JPG')">
               <img class="comment-photo file-touch" :src="file.realPath"  alt="">

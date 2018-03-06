@@ -5,13 +5,21 @@ var ip = require('ip')
 var devPort = 8090
 var stsPort = 8300
 
+//  为了防止jenkins构建错误，需要在这里做处理
+var devIp
+try {
+  devIp = ip.address('WLAN', 'ipv4')
+} catch(e){
+  devIp = ip.address()
+}
+
 module.exports = {
   build: {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: './',
-    assetsPublicPath: '/dingtalk/',
+    assetsPublicPath: './',
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.
@@ -25,13 +33,13 @@ module.exports = {
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report,
     // 日事清api的后台地址
-    apiServer: 'https://ding.rishiqing.com/',
+    apiServer: 'http://fronttest.qywx.etoutiao.cn/',
     // apiServer: 'http://dd.rsq.etoutiao.cn/',
     // 日事清-portlet的权限认证后台地址
-    authServer: 'https://ding.rishiqing.com/',
+    authServer: 'http://fronttest.qywx.etoutiao.cn/',
     // authServer: 'http://dd.rsq.etoutiao.cn/rsqauth/',
     // 日事清前端文件地址
-    frontServer: 'https://rishiqing-front.oss-cn-beijing.aliyuncs.com',
+    frontServer: 'http://fronttest.qywx.etoutiao.cn',
     // 阿里云OSS STS认证的server地址，临时！！！！注意更新
     stsServer: 'https://stsserver.hz.taeapp.com/sts/',
     // stsServer: 'http://182.92.222.40:8300/sts/',
@@ -61,7 +69,7 @@ module.exports = {
     // 日事清-portlet的权限认证后台地址
     authServer: 'http://qywx.rsq.etoutiao.cn/qywxauth/',
     // 日事清前端文件地址
-    frontServer: 'http://' + ip.address('WLAN', 'ipv4') + ':' + (process.env.PORT || devPort) + '/',
+    frontServer: 'http://' + devIp + ':' + (process.env.PORT || devPort) + '/',
     // 阿里云OSS STS认证的server地址
     // stsServer: 'http://' + ip.address() + ':' + (process.env.STS_PORT || stsPort) + '/sts/'
     stsServer: 'http://182.92.222.40:8300/sts/',

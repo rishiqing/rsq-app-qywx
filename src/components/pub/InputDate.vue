@@ -1,6 +1,6 @@
 <template>
   <v-touch class="" @tap="gotoDate">
-    <div class="outer-date":class="{'hasPadding':newItem}">
+    <div class="outer-date":class="{'hasPadding':newItem, 'isInbox': fromInbox}">
       <span class="date">日期</span>
       <span class="now" :class="{'edit-padding-left':editTime}">{{ dateString }}</span>
       <i class="icon2-arrow-right-small arrow"></i>
@@ -8,6 +8,9 @@
   </v-touch>
 </template>
 <style lang="" scoped>
+  .isInbox{
+    border-bottom: 1px solid #E3E3E3;
+  }
   .outer-date{
     display: flex;
     align-items: center;
@@ -81,6 +84,9 @@
           var newTime = time.getMonth() + 1 + '月' + time.getDate() + '日'
           return newTime === result ? '今天' : result
         }
+      },
+      fromInbox () {
+        return this.item.pContainer === 'inbox'
       }
     },
     methods: {

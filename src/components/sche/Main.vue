@@ -27,6 +27,9 @@
         <p class="shouye">还没有日程，赶快去创建吧</p>
       </div>
     </r-pull-to-refresh>
+    <v-touch @tap="toInbox">
+      <img src="../../assets/img/main_inbox.png" alt="" class="main_inbox">
+    </v-touch>
     <r-nav></r-nav>
   </div>
 </template>
@@ -89,6 +92,9 @@
       'r-nav': nav
     },
     methods: {
+      toInbox () {
+        this.$router.push('/inbox')
+      },
       onPanMove (p) {
         this.paddingTop = CAL_STATE[p.type].value + p.deltaY
       },
@@ -202,6 +208,13 @@
   }
 </script>
 <style scoped>
+  .main_inbox{
+    position: fixed;
+    bottom: 1.6rem;
+    right: 0.5rem;
+    width: 1.2rem;
+    height: 1.2rem;
+  }
   .calendar {
     overflow-y: auto;
   }

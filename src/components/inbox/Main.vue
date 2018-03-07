@@ -58,6 +58,10 @@
   }
 </script>
 <style scoped>
+  .InboxItem{
+    background-color: white;
+    border-bottom:1px solid #E3E3E3 ;
+  }
   .wrap{
     position: fixed;
     height: 1.45rem;

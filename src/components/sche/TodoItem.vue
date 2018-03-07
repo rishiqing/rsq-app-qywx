@@ -25,7 +25,6 @@
     display: none;
   }
   .todo-checkbox{
-
   }
   .receive{
     border: 1px solid #55A8FD;
@@ -99,9 +98,15 @@
     position: relative;
     border-bottom:1px solid #E0E0E0 ;
   }
+  li:last-child{
+    border-bottom: none;
+  }
   .todoItem{
     width: 70%;
     /*display: inline-block;*/
+  }
+  .todoItem:last-child{
+    border-bottom: none;
   }
   .item-title{}
   .select{

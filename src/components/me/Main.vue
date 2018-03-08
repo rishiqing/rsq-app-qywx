@@ -87,7 +87,7 @@
   .top{
     text-align: center;
     height:5.33rem;
-    background-color:#3E86D6;
+    background-color:#4F77AA;
   }
   .top p{
     margin-top:5px;
@@ -124,7 +124,7 @@
     position: absolute;
     font-family: PingFangSC-Regular;
     font-size: 15px;
-    color: #55A8FD;
+    color: #4F77AA;
     letter-spacing: -0.36px;
     right: 0.4rem;
     top: 0.19rem;

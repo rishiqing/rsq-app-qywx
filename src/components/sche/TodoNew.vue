@@ -223,7 +223,7 @@
       },
       saveMember (idArray) {
 //        alert('saveMember' + idArray)
-        idArray.push(this.userId)
+//        idArray.push(this.userId)
 //        alert(idArray)
         this.joinUserRsqIds = idArray
 //        alert(this.joinUserRsqIds)

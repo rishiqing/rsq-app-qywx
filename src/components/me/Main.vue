@@ -9,28 +9,28 @@
     <p class="xingming">{{loginUser.authUser.name}}</p>
   </div>
   <div class="bottom">
-    <div>
-      <v-touch @tap="SwitchToIntroduction" class="me-list">
-        <p>更新说明</p>
-        <i class="icon2-arrow-right-small arow"></i>
-      </v-touch>
-    </div>
+    <!--<div>-->
+      <!--<v-touch @tap="SwitchToIntroduction" class="me-list">-->
+        <!--<p>更新说明</p>-->
+        <!--<i class="icon2-arrow-right-small arow"></i>-->
+      <!--</v-touch>-->
+    <!--</div>-->
     <div class="me-list">
         <p>联系我们</p>
         <span class="tel">010-57294778</span>
     </div>
-    <div>
-      <v-touch  @tap="gotokefu" :class="{'is-active': '/me' == currentPath}" class="me-list">
-      <p>在线客服</p>
-        <i class="icon2-arrow-right-small arow"></i>
-      </v-touch>
-    </div>
-    <div>
-      <v-touch @tap="gotoPC" class="me-list">
-        <p>登录日事清PC端</p>
-        <i class="icon2-arrow-right-small arow"></i>
-      </v-touch>
-    </div>
+    <!--<div>-->
+      <!--<v-touch  @tap="gotokefu" :class="{'is-active': '/me' == currentPath}" class="me-list">-->
+      <!--<p>在线客服</p>-->
+        <!--<i class="icon2-arrow-right-small arow"></i>-->
+      <!--</v-touch>-->
+    <!--</div>-->
+    <!--<div>-->
+      <!--<v-touch @tap="gotoPC" class="me-list">-->
+        <!--<p>登录日事清PC端</p>-->
+        <!--<i class="icon2-arrow-right-small arow"></i>-->
+      <!--</v-touch>-->
+    <!--</div>-->
   </div>
   </div>
 </template>

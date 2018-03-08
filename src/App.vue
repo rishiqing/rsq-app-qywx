@@ -2,7 +2,7 @@
   <div id="app" class="rsq-webview">
     <router-view></router-view>
     <r-nav v-if="isAddNav" v-show="isShowNav"></r-nav>
-    <r-guide v-if="isShowGuide"></r-guide>
+    <!--<r-guide v-if="isShowGuide"></r-guide>-->
   </div>
 </template>
 <script>

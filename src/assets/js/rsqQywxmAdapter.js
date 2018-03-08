@@ -379,7 +379,7 @@ rsqAdapterManager.register({
         'mode': 'multi',// 必填，选择模式，single表示单选，multi表示多选
         'type': ['department', 'user'],// 必填，选择限制类型，指定department、user中的一个或者多个
         'selectedDepartmentIds': [],// 非必填，已选部门ID列表。用于多次选人时可重入
-        'selectedUserIds': [params.selectedIds]// 非必填，已选用户ID列表。用于多次选人时可重入
+        'selectedUserIds': params.selectedIds// 非必填，已选用户ID列表。用于多次选人时可重入
       },function(res){
         // alert('返回来' + JSON.stringify(res))
         rsqChk(params.success, [res]);

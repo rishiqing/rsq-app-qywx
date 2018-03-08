@@ -6,7 +6,7 @@
               :username="loginUser.authUser.name"
               :size="73"></avatar>
     </div>
-    <p class="xingming">{{loginUser.authUser.name}}</p>
+    <p class="xingming">{{loginUser.authUser.rsqUsername}}</p>
   </div>
   <div class="bottom">
     <div>
@@ -66,6 +66,7 @@
       window.rsqadmg.exec('setTitle', {title: this.titleName})
       window.rsqadmg.exec('setOptionButtons', {hide: true})
       this.$store.dispatch('setNav', {isShow: true})
+      alert(JSON.stringify(this.loginUser.authUser))
     }
 }
 </script>

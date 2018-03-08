@@ -240,7 +240,7 @@ export default {
     })
   },
   sendMessage (props) {
-    alert(JSON.stringify(props))
+    // alert(JSON.stringify(props))
     return new Promise((resolve, reject) => {
       Vue.http.post(mapping.REMIND, props)
         .then(res => {

@@ -289,20 +289,20 @@
               var empIDArray = []
               this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
                 .then(idMap => {
-                  alert('idmap' + JSON.stringify(idMap))
+//                  alert('idmap' + JSON.stringify(idMap))
                   for (var i = 0; i < IDArrays.length; i++) {
                     empIDArray.push(idMap[IDArrays[i]].userId)
                   }
-                  alert('发送的id' + JSON.stringify(empIDArray))
-                  alert(empIDArray.toString().split(',').join('|'))
+//                  alert('发送的id' + JSON.stringify(empIDArray))
+//                  alert(empIDArray.toString().split(',').join('|'))
                   data['touser'] = empIDArray.toString().split(',').join('|')
                   that.$store.dispatch('sendMessage', {
                     corpId: that.loginUser.authUser.corpId,
                     data: data
                   }).then(res => {
-                    alert(JSON.stringify(res))
+//                    alert(JSON.stringify(res))
                     if (res.errcode !== 0) {
-                      alert('发送失败：' + JSON.stringify(res))
+//                      alert('发送失败：' + JSON.stringify(res))
                     } else {
                       console.log('发送成功！')
                     }

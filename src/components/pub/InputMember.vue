@@ -252,7 +252,7 @@
             }
 //            console.log('返回来的res是' + JSON.stringify(res))
             var idArray = util.extractProp(res.result.userList, 'id')
-            alert('返回来的idarray是' + idArray)
+//            alert('返回来的idarray是' + idArray)
 //            window.rsqadmg.exec('showLoader')
             that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
                 .then(function (idMap) {

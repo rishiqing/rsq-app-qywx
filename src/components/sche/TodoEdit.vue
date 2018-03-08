@@ -426,16 +426,16 @@
         }
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
-        alert('saveMember' + idArray)
+//        alert('saveMember' + idArray)
         var that = this
         var compRes = util.compareList(this.joinUserRsqIds, idArray)
-        alert('比较之后的结果是' + JSON.stringify(compRes))
+//        alert('比较之后的结果是' + JSON.stringify(compRes))
         var params = {
           receiverIds: idArray.join(','),
           addJoinUsers: compRes.addList.join(','),
           deleteJoinUsers: compRes.delList.join(',')
         }
-        alert(JSON.stringify(params))
+//        alert(JSON.stringify(params))
         window.rsqadmg.execute('showLoader', {text: '保存中...'})
         this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
           this.joinUserRsqIds = idArray

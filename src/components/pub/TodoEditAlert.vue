@@ -81,6 +81,9 @@
       border: none;
     }
   }
+  ul.sec .defineAlert{
+    border-bottom: 1px solid #E3E3E3;
+  }
 </style>
 <script>
   import jsUtil from 'ut/jsUtil'

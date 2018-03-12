@@ -362,11 +362,11 @@
           })
           .catch(err => {
             window.rsqadmg.exec('hideLoader')
-            if (err.code === 400320) {
-              this.$router.push('/pub/CheckFailure')
-            } else if (err.code === 400318) {
-              this.$router.push('/pub/noPermission')
-            }
+//            if (err.code === 400320) {
+//              this.$router.push('/pub/CheckFailure')
+//            } else if (err.code === 400318) {
+//              this.$router.push('/pub/noPermission')
+//            }
           })
       },
       fetchCommentIds () {

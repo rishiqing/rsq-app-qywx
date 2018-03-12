@@ -94,6 +94,7 @@ export default {
     return urllib.request(stsServer + data.pathId, {
       method: 'GET'
     }).then(function (result) {
+      // alert('--')
       var credential = JSON.parse(result.data)
       return new OSS({
         secure: true,  //  https

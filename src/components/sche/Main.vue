@@ -194,7 +194,7 @@
 //          }
 //        }
 //      }
-      window.rsqadmg.execute('setOptionButtons')
+      window.rsqadmg.execute('setOptionButtons', {hide: true})
       this.$store.dispatch('setNav', {isShow: true})
 
       var main = document.getElementById('calMain')

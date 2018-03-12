@@ -74,7 +74,7 @@
               :id="currentTodo.id"
               ></r-comment-list>
             <v-touch  class="deleteTask" >
-              <a  @click="prepareDelete($event)" href="javascript:;" class="weui-btn weui-btn_primary" style="font-size: 20px;margin-top:-3rem">删除任务</a>
+              <a  @click="prepareDelete($event)" href="javascript:;" class="weui-btn weui-btn_primary" style="font-size: 20px">删除任务</a>
             </v-touch>
             <div class="bottom">
               <v-touch @tap="SwitchToComent">
@@ -89,7 +89,9 @@
 </template>
 <style scoped>
   .deleteTask{
-    margin-bottom: 2.9rem;
+    margin-top: 0.7rem;
+    padding-bottom: 2rem;
+    background-color: #f6f6f6;
   }
   .remindColor{
     color: #A5A5A5;

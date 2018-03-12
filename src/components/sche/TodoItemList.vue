@@ -12,7 +12,7 @@
 </template>
 <style lang="scss" scoped>
   .sche-list{
-    /*background-color: white;*/
+    background-color: white;
     /*border-bottom:1px solid #E3E3E3 ;*/
     border-top:1px solid #DADADA ;
     padding-left: 3%;
@@ -24,7 +24,7 @@
   }
   .itemList{
     padding-bottom:1.306rem;
-    height: 12.6rem;
+    /*height: 12.6rem;*/
   }
   /*li:last-child{*/
     /*border-bottom: none;*/

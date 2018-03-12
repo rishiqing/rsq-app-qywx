@@ -343,16 +343,15 @@ rsqAdapterManager.register({
           // console.log('其他');
           rsqChk(params.success, [{buttonIndex: 2}]);
         }
-      }
-    ], [
-      {
-        label: '取消',
-        onClick: function () {
-          // console.log('取消');
-          rsqChk(params.success, [{buttonIndex: 3}]);
+      },  {
+          label: '取消',
+          onClick: function () {
+            // console.log('取消');
+            // rsqChk(params.success, [{buttonIndex: 3}]);
+          }
         }
-      }
-    ],{
+    ],
+    {
       className: 'custom-classname',
       onClose: function(){
         console.log('关闭');
@@ -381,7 +380,7 @@ rsqAdapterManager.register({
         'selectedDepartmentIds': [],// 非必填，已选部门ID列表。用于多次选人时可重入
         'selectedUserIds': params.selectedIds// 非必填，已选用户ID列表。用于多次选人时可重入
       },function(res){
-        // alert('返回来' + JSON.stringify(res))
+        alert('返回来' + JSON.stringify(res))
         rsqChk(params.success, [res]);
         if (res.err_msg == "selectEnterpriseContact:ok")
         {

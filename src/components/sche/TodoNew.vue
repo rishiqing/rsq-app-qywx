@@ -56,6 +56,7 @@
   }
   .router-view{
     height: 100%;
+    background-color: #f6f6f6;
   }
   .content{
     height: 100%;

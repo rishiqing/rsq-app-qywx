@@ -207,12 +207,13 @@ export default {
    */
   createSingleScheduleItem ({commit, state, dispatch}, {newItem, dateStruct}) {
     var strDate = moment(dateStruct.dateResult[0]).format('YYYY-MM-DD')
-    console.log('strdate是' + strDate)
+    // console.log('strdate是' + strDate)
     var itemCache = state.dateTodosCache
     //  读取顺序号
     return dispatch('fetchScheduleItems', {strDate})
       .then(() => {
         newItem['pDisplayOrder'] = util.getNextOrder(itemCache[strDate], 'pDisplayOrder')
+        alert(JSON.stringify(newItem))
         return api.todo.postNewTodo(newItem)
           .then(item => {
             commit('SCH_TODO_CREATED', {item: item, list: itemCache[strDate]})

@@ -297,17 +297,17 @@
 //                  alert('发送的id' + JSON.stringify(empIDArray))
 //                  alert(empIDArray.toString().split(',').join('|'))
                   data['touser'] = empIDArray.toString().split(',').join('|')
-                  that.$store.dispatch('sendMessage', {
-                    corpId: that.loginUser.authUser.corpId,
-                    data: data
-                  }).then(res => {
+//                  that.$store.dispatch('sendMessage', {
+//                    corpId: that.loginUser.authUser.corpId,
+//                    data: data
+//                  }).then(res => {
 //                    alert(JSON.stringify(res))
-                    if (res.errcode !== 0) {
+//                    if (res.errcode !== 0) {
 //                      alert('发送失败：' + JSON.stringify(res))
-                    } else {
-                      console.log('发送成功！')
-                    }
-                  })
+//                    } else {
+//                      console.log('发送成功！')
+//                    }
+//                  })
                 })
             }
             this.$router.replace('/sche')

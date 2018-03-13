@@ -345,7 +345,7 @@
         window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getTodo', {todo: {id: this.dynamicId}})
             .then(item => {
-              alert('拿到的item' + JSON.stringify(item))
+//              alert('拿到的item' + JSON.stringify(item))
               util.extendObject(this.editItem, item)
               var noteElement = document.getElementById('noteEditable')
               if (this.pNote !== null) {

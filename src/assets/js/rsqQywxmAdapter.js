@@ -103,16 +103,16 @@ rsqAdapterManager.register({
   //     "status":1,
   //     "userId":"0002"
   // }
-    rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-      j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
-    }, function(result){
-      var resJson = JSON.parse(result);
-      if(resJson.success){
-        rsqChk(params.success, [resJson, authUser]);
-      }else{
-        rsqChk(params.error, [resJson]);
-      }
-    });
+  //   rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
+  //     j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
+  //   }, function(result){
+  //     var resJson = JSON.parse(result);
+  //     if(resJson.success){
+  //       rsqChk(params.success, [resJson, authUser]);
+  //     }else{
+  //       rsqChk(params.error, [resJson]);
+  //     }
+  //   });
 
     //--------------------------------------------------------
 

@@ -213,7 +213,7 @@ export default {
     return dispatch('fetchScheduleItems', {strDate})
       .then(() => {
         newItem['pDisplayOrder'] = util.getNextOrder(itemCache[strDate], 'pDisplayOrder')
-        alert(JSON.stringify(newItem))
+        // alert(JSON.stringify(newItem))
         return api.todo.postNewTodo(newItem)
           .then(item => {
             commit('SCH_TODO_CREATED', {item: item, list: itemCache[strDate]})

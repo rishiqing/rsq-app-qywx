@@ -129,13 +129,14 @@ rsqAdapterManager.register({
             "signature": res.signature,
             success: function(authUser){
               // var authUser = authResult.user;
-              // alert(authUser)
+              // alert('authuere' + JSON.stringify(authUser))
               //  从authServer获取到用户数据后进行登录
               // alert('init-success')
               rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
                 j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
               }, function(result){
                 var resJson = JSON.parse(result);
+                // alert('resjson' + JSON.stringify(resJson))
                 if(resJson.success){
                   rsqChk(params.success, [resJson, authUser]);
                 }else{
@@ -162,7 +163,7 @@ rsqAdapterManager.register({
       agentId: pa.agentid
     }, function(resSign){
       var resJson = JSON.parse(resSign);
-      // alert('resJson' + resJson)
+      // alert('resJson' + JSON.stringify(resJson))
       rsqChk(params.success, [resJson]);
     });
     // rsqChk(params.success, [{}]);
@@ -211,7 +212,7 @@ rsqAdapterManager.register({
       // alert('errorJinlai ' + JSON.stringify(err))
       //  如果是config:fail，那么就刷新jsapi ticket
       if(err['errMsg'] === 'config:fail'){
-        alert(JSON.stringify(err));
+        // alert(JSON.stringify(err));
         var pa = rsqadmg.store.app;
         rsqAdapterManager.ajax.get(rsqConfig.authServer + 'refresh_js_ticket', {
           corpId: pa.corpid,
@@ -219,6 +220,7 @@ rsqAdapterManager.register({
         }, function(resSign){
           var resJson = JSON.parse(resSign);
           if(!resJson.errcode){
+            // alert('------')
             window.location.reload();
           }
         });

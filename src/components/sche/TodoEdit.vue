@@ -444,7 +444,7 @@
           this.joinUserRsqIds = idArray
           window.rsqadmg.exec('hideLoader')
           window.rsqadmg.execute('toast', {message: '保存成功'})
-          console.log('params的addJoinUsers是' + params.addJoinUsers)
+//          console.log('params的addJoinUsers是' + params.addJoinUsers)
           if (params.addJoinUsers) {
             var time = util.SendConversationTime(this.currentTodo)
             var date = util.SendConversationDate(this.currentTodo)
@@ -470,14 +470,14 @@
               }
             }
             var IDArrays = params.addJoinUsers.split(',')
-            console.log('IDArrays是' + IDArrays)
+//            console.log('IDArrays是' + IDArrays)
             var empIDArray = []
             this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
               .then(idMap => {
                 for (var i = 0; i < IDArrays.length; i++) {
                   empIDArray.push(idMap[IDArrays[i]].emplId)
                 }
-                console.log(empIDArray)
+//                console.log(empIDArray)
                 data['userid_list'] = empIDArray.toString()
                 that.$store.dispatch('sendAsyncCorpMessage', {
                   corpId: that.loginUser.authUser.corpId,

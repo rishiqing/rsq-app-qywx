@@ -191,6 +191,10 @@ rsqAdapterManager.register({
       var userCookie = getCookie(cookieName);
       //  从cookie中获取
       if(userCookie){
+        alert('userId: ' + userCookie)
+        alert('corpId: ' + appdata.corpid)
+        alert('agentId: ' + appdata.agentid)
+        alert('rsqConfig.authServer: ' + rsqConfig.authServer)
         //  直接从authServer获取到用户数据
         rsqAdapterManager.ajax.get(rsqConfig.authServer + 'corp/staff', {
           corpId: appdata.corpid, agentId: appdata.agentid, userId: userCookie

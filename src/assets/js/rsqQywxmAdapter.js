@@ -132,9 +132,12 @@ rsqAdapterManager.register({
               alert('authuere' + JSON.stringify(authUser))
               //  从authServer获取到用户数据后进行登录
               // alert('init-success')
+              alert('authUser.rsqUsername: ' + authUser.rsqUsername)
+              alert('authUser.rsqPassword: ' + authUser.rsqPassword)
               rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
                 j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
               }, function(result){
+                alert('result:====' + result)
                 var resJson = JSON.parse(result);
                 alert('resjson' + JSON.stringify(resJson))
                 if(resJson.success){

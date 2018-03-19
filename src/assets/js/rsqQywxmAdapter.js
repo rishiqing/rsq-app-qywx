@@ -199,6 +199,7 @@ rsqAdapterManager.register({
         rsqAdapterManager.ajax.get(rsqConfig.authServer + 'corp/staff', {
           corpId: appdata.corpid, agentId: appdata.agentid, userId: userCookie
         }, function(result){
+          alert('result after get corp staff: ' + result)
           var resJson = JSON.parse(result);
           if(resJson.errcode && resJson.errcode != '0'){
             rsqChk(params.error, [resJson]);

@@ -132,9 +132,12 @@ rsqAdapterManager.register({
               // alert('authuere' + JSON.stringify(authUser))
               //  从authServer获取到用户数据后进行登录
               // alert('init-success')
+              alert('authUser.rsqUsername: ' + authUser.rsqUsername)
+              alert('authUser.rsqPassword: ' + authUser.rsqPassword)
               rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
                 j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
               }, function(result){
+                alert('result:====' + result)
                 var resJson = JSON.parse(result);
                 // alert('resjson' + JSON.stringify(resJson))
                 if(resJson.success){
@@ -191,15 +194,10 @@ rsqAdapterManager.register({
       var userCookie = getCookie(cookieName);
       //  从cookie中获取
       if(userCookie){
-        alert('userId: ' + userCookie)
-        alert('corpId: ' + appdata.corpid)
-        alert('agentId: ' + appdata.agentid)
-        alert('rsqConfig.authServer: ' + rsqConfig.authServer)
         //  直接从authServer获取到用户数据
         rsqAdapterManager.ajax.get(rsqConfig.authServer + 'corp/staff', {
           corpId: appdata.corpid, agentId: appdata.agentid, userId: userCookie
         }, function(result){
-          alert('result after get corp staff: ' + result)
           var resJson = JSON.parse(result);
           if(resJson.errcode && resJson.errcode != '0'){
             rsqChk(params.error, [resJson]);

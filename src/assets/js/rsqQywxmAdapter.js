@@ -243,7 +243,6 @@ rsqAdapterManager.register({
     wx.showOptionMenu();
   },
   hideOptionButtons: function(params){
-    console.log('进来隐藏了')
     wx.hideOptionMenu()
   },
 

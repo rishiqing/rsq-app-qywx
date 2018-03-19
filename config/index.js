@@ -33,10 +33,10 @@ module.exports = {
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report,
     // 日事清api的后台地址
-    apiServer: 'http://qywxbeta.rsq.etoutiao.cn/',
+    apiServer: 'https://qywx.rishiqing.com/',
     // apiServer: 'http://dd.rsq.etoutiao.cn/',
     // 日事清-portlet的权限认证后台地址
-    authServer: 'http://qywxbeta.rsq.etoutiao.cn/qywxbackauth/',
+    authServer: 'https://qywx.rishiqing.com/qywxbackauth/',
     // authServer: 'http://dd.rsq.etoutiao.cn/rsqauth/',
     // 日事清前端文件地址
     frontServer: 'https://rishiqing-front.oss-cn-beijing.aliyuncs.com/dingtalk/qywxbackwebapp/',

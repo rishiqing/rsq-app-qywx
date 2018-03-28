@@ -86,33 +86,34 @@ rsqAdapterManager.register({
 
     //------------------------------------------------------------
 
-  //   var authUser = {
-  //     "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
-  //     "corpId":"wxec002534a59ea2e7",
-  //     "department":"[8]",
-  //     "englishName":"",
-  //     "gender":"1",
-  //     "id":14,
-  //     "isLeaderInDepts":"0",
-  //     "name":"毛文强",
-  //     "orderInDepts":"[0]",
-  //     "position":"",
-  //     "rsqPassword":"123456",
-  //     "rsqUserId":"285",
-  //     "rsqUsername":"maowenqiang0752@sina.com",
-  //     "status":1,
-  //     "userId":"0002"
-  // }
-  //   rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-  //     j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
-  //   }, function(result){
-  //     var resJson = JSON.parse(result);
-  //     if(resJson.success){
-  //       rsqChk(params.success, [resJson, authUser]);
-  //     }else{
-  //       rsqChk(params.error, [resJson]);
-  //     }
-  //   });
+    var authUser = {
+      "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
+      "corpId":"wxec002534a59ea2e7",
+      "department":"[8]",
+      "englishName":"",
+      "gender":"1",
+      "id":14,
+      "isLeaderInDepts":"0",
+      "name":"毛文强",
+      "orderInDepts":"[0]",
+      "position":"",
+      "rsqPassword":"123456",
+      "rsqUserId":"285",
+      "rsqUsername":"maowenqiang0752@sina.com",
+      "status":1,
+      "userId":"0002"
+  }
+    rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
+      j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
+    }, function(result){
+      var resJson = JSON.parse(result);
+      if(resJson.success){
+        rsqChk(params.success, [resJson, authUser]);
+      }else{
+        rsqChk(params.error, [resJson]);
+      }
+    });
+    return
 
     //--------------------------------------------------------
 
@@ -332,39 +333,69 @@ rsqAdapterManager.register({
    */
   actionsheet: function(params){
     // alert('进来了')
-    weui.actionSheet([
-      {
-        label: params.buttonArray[0],
-        onClick: function () {
-          // console.log('拍照');
-          rsqChk(params.success, [{buttonIndex: 0}]);
-        }
-      }, {
-        label:  params.buttonArray[1],
-        onClick: function () {
-          // console.log('从相册选择');
-          rsqChk(params.success, [{buttonIndex: 1}]);
-        }
-      }, {
-        label: params.buttonArray[2],
-        onClick: function () {
-          // console.log('其他');
-          rsqChk(params.success, [{buttonIndex: 2}]);
-        }
-      },  {
-          label: '取消',
-          onClick: function () {
-            // console.log('取消');
-            // rsqChk(params.success, [{buttonIndex: 3}]);
+    if (params.buttonArray.length === 3) {
+      weui.actionSheet([
+          {
+            label: params.buttonArray[0],
+            onClick: function () {
+              // console.log('拍照');
+              rsqChk(params.success, [{buttonIndex: 0}]);
+            }
+          }, {
+            label:  params.buttonArray[1],
+            onClick: function () {
+              // console.log('从相册选择');
+              rsqChk(params.success, [{buttonIndex: 1}]);
+            }
+          }, {
+            label: params.buttonArray[2],
+            onClick: function () {
+              // console.log('其他');
+              rsqChk(params.success, [{buttonIndex: 2}]);
+            }
+          },  {
+            label: '取消',
+            onClick: function () {
+              // console.log('取消');
+              // rsqChk(params.success, [{buttonIndex: 3}]);
+            }
           }
-        }
-    ],
-    {
-      className: 'custom-classname',
-      onClose: function(){
-        console.log('关闭');
-      }
-    });
+        ],
+        {
+          className: 'custom-classname',
+          onClose: function(){
+            console.log('关闭');
+          }
+        });
+    } else {
+      weui.actionSheet([
+          {
+            label: params.buttonArray[0],
+            onClick: function () {
+              // console.log('拍照');
+              rsqChk(params.success, [{buttonIndex: 0}]);
+            }
+          }, {
+            label:  params.buttonArray[1],
+            onClick: function () {
+              // console.log('从相册选择');
+              rsqChk(params.success, [{buttonIndex: 1}]);
+            }
+          }, {
+            label: '取消',
+            onClick: function () {
+              // console.log('取消');
+              // rsqChk(params.success, [{buttonIndex: 3}]);
+            }
+          }
+        ],
+        {
+          className: 'custom-classname',
+          onClose: function(){
+            console.log('关闭');
+          }
+        });
+    }
   },
   /**
    * toast

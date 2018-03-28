@@ -197,7 +197,7 @@
        */
       initData () {
         //  检查pub区是否有缓存，有缓存则读缓存，否则从currentTodo上读取
-        console.log('进来一次')
+//        console.log('进来一次')
         jsUtil.extendObject(this.clock, this.todoTime.clock)
         this.isAllDay = !this.clock.startTime
         this.isChecked = this.isAllDay
@@ -237,7 +237,7 @@
       },
       empty () {},
       toggleAllDay (e) {
-        console.log('toggleAllDay是' + JSON.stringify(this.clock))
+//        console.log('toggleAllDay是' + JSON.stringify(this.clock))
         this.isAllDay = !this.isAllDay
         this.isChecked = this.isAllDay
       },

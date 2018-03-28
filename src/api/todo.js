@@ -251,5 +251,214 @@ export default {
           reject(err)
         })
     })
+  },
+  postPlan (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.POST_PLAN, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  getPlan () {
+    return new Promise((resolve, reject) => {
+      Vue.http.get(mapping.GET_PLAN)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  getChildKanbanList (props) {
+    var path = util.replaceUrlParams(mapping.GET_CHILD_PLAN, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.get(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  getCardList (props) {
+    var path = util.replaceUrlParams(mapping.GET_CARD, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.get(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  postSubPlan (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.POST_SUB_PLAN, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  postCard (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.POST_CARD, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  deleteChildPlan (props) {
+    var path = util.replaceUrlParams(mapping.DELETE_CHILD_PLAN, props)
+    alert(path)
+    return new Promise((resolve, reject) => {
+      Vue.http.delete(path)
+        .then(res => {
+          alert('成功')
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  updateName (props) {
+    var path = util.replaceUrlParams(mapping.DELETE_CHILD_PLAN, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.put(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  cancelStar (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.put(mapping.CANCEL_STAR, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  saveStar (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.put(mapping.SAVE_STAR, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  deletePlan (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.delete(mapping.DELETE_PLAN, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  quitPlan (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.put(mapping.QUIT_PLAN, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  finishCardItem (props) {
+    var path = util.replaceUrlParams(mapping.FINISH_CARD_ITEM, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.put(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  submitKanbanItem (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.POST_KANBAN_ITEM, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  updateCardName (props) {
+    var path = util.replaceUrlParams(mapping.FINISH_CARD_ITEM, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.put(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  deleteCard (props) {
+    var path = util.replaceUrlParams(mapping.UPDATE_CARD_NAME, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.delete(path)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  updatePlanName (props) {
+    var path = util.replaceUrlParams(mapping.GET_CHILD_PLAN, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.put(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  getLabels (props) {
+    var path = util.replaceUrlParams(mapping.GET_LABLES, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.get(path)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
   }
 }

@@ -968,5 +968,115 @@ export default {
       .then((result) => {
         return result
       })
+  },
+  postPlan ({commit, state}, p) {
+    return api.todo.postPlan(p)
+      .then((result) => {
+        return result
+      })
+  },
+  getPlan ({commit, state}, p) {
+    return api.todo.getPlan(p)
+      .then((result) => {
+        return result
+      })
+  },
+  getChildKanbanList ({commit, state}, p) {
+    return api.todo.getChildKanbanList(p)
+      .then((result) => {
+        return result
+      })
+  },
+  getCardList ({commit, state}, p) {
+    return api.todo.getCardList(p)
+      .then((result) => {
+        return result
+      })
+  },
+  postSubPlan ({commit, state}, p) {
+    return api.todo.postSubPlan(p)
+      .then((result) => {
+        return result
+      })
+  },
+  postCard ({commit, state}, p) {
+    return api.todo.postCard(p)
+      .then((result) => {
+        return result
+      })
+  },
+  deleteChildPlan ({commit, state}, p) {
+    return api.todo.deleteChildPlan(p)
+      .then(() => {
+        alert('删除返回')
+        commit('DELETE_CHILD_PLAN', p)
+      })
+  },
+  updateName ({commit, state}, p) {
+    return api.todo.updateName(p)
+      .then((res) => {
+        return res
+      })
+  },
+  cancelStar ({commit, state}, p) {
+    return api.todo.cancelStar(p)
+      .then((res) => {
+        commit('CANCEL_STAR', p)
+      })
+  },
+  saveStar  ({commit, state}, p) {
+    return api.todo.saveStar(p)
+      .then((res) => {
+        commit('SAVE_STAR', p)
+      })
+  },
+  deletePlan  ({commit, state}, p) {
+    return api.todo.deletePlan(p)
+      .then((res) => {
+        // commit('DELETE_PLAN', p)
+      })
+  },
+  quitPlan ({commit, state}, p) {
+    return api.todo.quitPlan(p)
+      .then((res) => {
+        // commit('QUIT_PLAN', p) // 这里用不用该前端的参与人呢？
+      })
+  },
+  finishCardItem ({commit, state}, p) {
+    return api.todo.finishCardItem(p)
+      .then((res) => {
+        // commit('QUIT_PLAN', p) // 这里用不用该前端的参与人呢？
+      })
+  },
+  submitKanbanItem ({commit, state}, p) {
+    return api.todo.submitKanbanItem(p)
+      .then((res) => {
+        return res
+      })
+  },
+  updateCardName ({commit, state}, p) {
+    return api.todo.updateCardName(p)
+      .then((res) => {
+        return res
+      })
+  },
+  deleteCard  ({commit, state}, p) {
+    return api.todo.deleteCard(p)
+      .then((res) => {
+        commit('DELETE_CARD', p)
+      })
+  },
+  updatePlanName ({commit, state}, p) {
+    return api.todo.updatePlanName(p)
+      .then((res) => {
+        commit('DELETE_CARD', p)
+      })
+  },
+  getLabels ({commit, state}, p) {
+    return api.todo.getLabels(p)
+      .then((result) => {
+        // commit('SAVE_LABELS', result)
+        return result
+      })
   }
 }

@@ -183,6 +183,12 @@
       },
       corpId () {
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
+      },
+      kanbanCardId () {
+        return this.$store.state.kanbanCardId
+      },
+      cardItemLength () {
+        return this.$store.state.cardItemLength
       }
     },
     components: {
@@ -260,43 +266,56 @@
         var todoType = this.isInbox ? 'inbox' : 'schedule'
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
+//        debugger
         var clockAlert = JSON.parse(JSON.stringify(this.currentTodo.clock.alert || null))
         var that = this
-        this.$store.dispatch('submitCreateTodoItem', {newItem: this.currentTodo, todoType: todoType})
-          .then(item => {
-            if (this.currentTodo.clock && this.currentTodo.clock.startTime) {
-              item.clock.alert = clockAlert
-              return this.$store.dispatch('handleRemind', {item})
-            } else {
-              return item
-            }
+//        console.log(this.kanbanCardId)
+//        debugger
+        if (this.kanbanCardId) {
+          var params = {
+            name: this.currentTodo.pTitle,
+            kanbanCard: this.kanbanCardId,
+            displayOrder: 65535 - this.cardItemLength
+          } // 后期加上日期和选人参数
+          this.$store.dispatch('submitKanbanItem', params).then(() => {
+            that.$router.replace(window.history.back())
           })
-          .then(item => {
-            window.rsqadmg.execute('toast', {message: '创建成功'})
-            if (item.receiverIds) {
-              var url = window.location.href.split('#')
-              var note = this.editItem.pNote
-              var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
-              var data = {
-                'msgtype': 'textcard',
-                'agentid': this.corpId,
-                'textcard': {
-                  'title': item.pTitle,
-                  'description': newnote,
-                  'url': url[0] + '#' + '/todo/' + item.id
-                }
+        } else {
+          this.$store.dispatch('submitCreateTodoItem', {newItem: this.currentTodo, todoType: todoType})
+            .then(item => {
+              if (this.currentTodo.clock && this.currentTodo.clock.startTime) {
+                item.clock.alert = clockAlert
+                return this.$store.dispatch('handleRemind', {item})
+              } else {
+                return item
               }
-              var IDArrays = item.receiverIds.split(',')
-              var empIDArray = []
-              this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
-                .then(idMap => {
-//                  alert('idmap' + JSON.stringify(idMap))
-                  for (var i = 0; i < IDArrays.length; i++) {
-                    empIDArray.push(idMap[IDArrays[i]].userId)
+            })
+            .then(item => {
+              window.rsqadmg.execute('toast', {message: '创建成功'})
+              if (item.receiverIds) {
+                var url = window.location.href.split('#')
+                var note = this.editItem.pNote
+                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
+                var data = {
+                  'msgtype': 'textcard',
+                  'agentid': this.corpId,
+                  'textcard': {
+                    'title': item.pTitle,
+                    'description': newnote,
+                    'url': url[0] + '#' + '/todo/' + item.id
                   }
+                }
+                var IDArrays = item.receiverIds.split(',')
+                var empIDArray = []
+                this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
+                  .then(idMap => {
+//                  alert('idmap' + JSON.stringify(idMap))
+                    for (var i = 0; i < IDArrays.length; i++) {
+                      empIDArray.push(idMap[IDArrays[i]].userId)
+                    }
 //                  alert('发送的id' + JSON.stringify(empIDArray))
 //                  alert(empIDArray.toString().split(',').join('|'))
-                  data['touser'] = empIDArray.toString().split(',').join('|')
+                    data['touser'] = empIDArray.toString().split(',').join('|')
 //                  that.$store.dispatch('sendMessage', {
 //                    corpId: that.loginUser.authUser.corpId,
 //                    data: data
@@ -308,10 +327,11 @@
 //                      console.log('发送成功！')
 //                    }
 //                  })
-                })
-            }
-            this.$router.replace('/sche')
-          })
+                  })
+              }
+              this.$router.replace('/sche')
+            })
+        }
       }
     },
     created () {

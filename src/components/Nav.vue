@@ -12,9 +12,9 @@
         </v-touch>
       </div>
       <div class="right">
-        <v-touch class="right-me" @tap="reload('/me')" :class="{'is-active': '/me' == currentPath}">
-          <i class="icon2-member me" :class="{'is-active': '/me' == currentPath}"></i>
-          <p class="my" :class="{'is-active': '/me' == currentPath}">我</p>
+        <v-touch class="right-me" @tap="reload('/plan/PlanList')" :class="{'is-active': '/plan/PlanList' == currentPath}">
+          <i class="icon2-member me" :class="{'is-active': '/plan/PlanList' == currentPath}"></i>
+          <p class="my" :class="{'is-active': '/plan/PlanList' == currentPath}">计划</p>
         </v-touch>
       </div>
     </div>
@@ -48,8 +48,12 @@
           return window.rsqadmg.exec('topTips', {message: '过去的日期不能创建日程'})
 //          return window.rsqadmg.exec('toast', {message: '过去的日期不能创建日程'})
         }
-        this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
-        this.$router.push('/todo/new/schedule')
+        if (this.currentPath === '/plan/PlanList') {
+          this.$router.push('/plan/Main')
+        } else {
+          this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
+          this.$router.push('/todo/new/schedule')
+        }
       }
     }
   }

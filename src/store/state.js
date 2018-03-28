@@ -112,5 +112,14 @@ export default {
   record: [],
   userList: [],
   memeberList: [],
-  selectedMember: []
+  selectedMember: [],
+  planlist: [],
+  currentPlan: '',
+  childPlanlist: [],
+  cardList: [],
+  kanbanCardId: '',
+  currentSubPlan: '',
+  pos: '',
+  num: '',
+  labels: []
 }

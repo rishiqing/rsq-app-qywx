@@ -20,6 +20,7 @@ import weui from 'vue-weui'
 //  sentry相关
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
+import ElementUI from 'element-ui'
 //  正式环境下配置sentry
 if (window.rsqConfig.env === 'prod') {
   Raven
@@ -31,7 +32,7 @@ if (window.rsqConfig.env === 'prod') {
 Vue.use(VueTouch)
 Vue.use(weui)
 Vue.config.productionTip = false
-
+Vue.use(ElementUI)
 window.rsqadmg.exec('auth', {
   success: function (rsqUser, authUser) {
     store.state.loginUser = {

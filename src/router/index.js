@@ -24,12 +24,17 @@ import desp from 'com/pub/desp'
 import Explain from 'com/pub/Explain'
 import CreateSubTodo from 'com/pub/CreateSubTodo'
 import RemindWindow from 'com/pub/RemindWindow'
-import NoPermission from 'com/pub/NoPermission'
+// import NoPermission from 'com/pub/NoPermission'
 import CheckFailure from 'com/pub/CheckFailure'
 import pcEnd from 'com/me/pcEnd'
 import MemberList from 'com/pub/MemberList'
 import MemberEdit from 'com/pub/MemberEdit'
-// import test from 'com/demo/test'
+import Plan from 'com/plan/Plan'
+import PlanList from 'com/plan/PlanList'
+import Main from 'com/plan/Main'
+import childPlan from 'com/plan/childPlan'
+import createSubplan from 'com/plan/createSubplan'
+import setPlan from 'com/plan/setPlan'
 Vue.use(Router)
 
 const router = new Router({
@@ -40,7 +45,11 @@ const router = new Router({
     },
     // {
     //   path: '/',
-    //   redirect: '/inbox'
+    //   redirect: '/sche/test'
+    // },
+    // {
+    //   path: '/',
+    //   redirect: '/plan/PlanList'
     // },
     {
       path: '/sche',
@@ -65,9 +74,39 @@ const router = new Router({
       }
     },
     {
-      path: '/pub/noPermission',
-      name: 'noPermission',
-      component: NoPermission,
+      path: '/plan/setPlan',
+      name: 'setPlan',
+      component: setPlan,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/plan/childPlan',
+      name: 'childPlan',
+      component: childPlan,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/plan/createSubplan',
+      name: 'createSubplan',
+      component: createSubplan,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/plan/Plan',
+      name: 'Plan',
+      component: Plan,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/plan/PlanList',
+      name: 'PlanList',
+      component: PlanList,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/plan/Main',
+      name: 'Main',
+      component: Main,
       meta: {requireAuth: true}
     },
     // {

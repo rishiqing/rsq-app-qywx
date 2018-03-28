@@ -183,7 +183,7 @@
     },
     mounted () {
       window.rsqadmg.exec('setTitle', {title: this.formatTitleDate(this.dateSelect)})
-      document.title.style.color = 'gba(-2147483648,-2147483648,-2147483648,0.65)'
+//      document.title.style.color = 'gba(-2147483648,-2147483648,-2147483648,0.65)'
 //      var btnParams
 //      var that = this
 //      btnParams = {

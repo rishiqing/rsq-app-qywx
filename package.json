@@ -17,6 +17,7 @@
     "beta-upload": "node build/ssh-uploader.js ./dist/ 182.92.222.40 22 root \"C:\\Users\\czip\\.ssh\\id_rsa\" \"/home/wwwroot/dingtalk/rsqddmdevapp/\""
   },
   "dependencies": {
+    "element-ui": "^2.2.2",
     "es6-promise": "^4.1.0",
     "moment": "^2.18.1",
     "raven-js": "^3.18.1",

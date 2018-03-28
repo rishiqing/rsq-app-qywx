@@ -400,11 +400,83 @@ export default {
     state.record = p.item
   },
   SAVE_USER (state, p) {
-    console.log('拿到的列表' + JSON.stringify())
     state.userList = p.item
   },
   SAVE_MEMBER (state, p) {
-    console.log(JSON.stringify(p))
     state.memberList = p
+  },
+  SAVE_PLANS (state, p) {
+    state.planlist = p
+  },
+  SET_CURRENT_PLAN (state, p) {
+    state.currentPlan = p
+  },
+  SAVE_CHILD_PLAN (state, p) {
+    state.childPlanlist = p
+  },
+  SAVE_CARD (state, p) {
+    state.cardList = p
+  },
+  ADD_SUB_PLAN (state, p) {
+    state.childPlanlist.push(p)
+  },
+  ADD_CARD (state, p) {
+    state.cardList.push(p)
+  },
+  DELETE_CHILD_PLAN (state, p) {
+    alert(JSON.stringify(state.childPlanlist))
+    alert(state.childPlanlist.indexOf(p))
+    state.childPlanlist.splice(state.childPlanlist.indexOf(p), 1)
+    alert(JSON.stringify(state.childPlanlist))
+  },
+  UPDATE_SUBPLAN_NAME (state, p) {
+    for (var i = 0; i < state.childPlanlist.length; i++) {
+      if (state.childPlanlist[i].id === p.id) {
+        state.childPlanlist[i].name = p.name
+      }
+    }
+  },
+  CANCEL_STAR (state, p) {
+    for (var i = 0; i < state.planlist.length; i++) {
+      if (state.planlist[i].id === p.kanbanId) {
+        state.planlist[i].starMark = false
+      }
+    }
+  },
+  SAVE_STAR (state, p) {
+    for (var i = 0; i < state.planlist.length; i++) {
+      if (state.planlist[i].id === p.kanbanId) {
+        state.planlist[i].starMark = true
+      }
+    }
+  },
+  DELETE_PLAN (state, p) {
+    for (var i = 0; i < state.planlist.length; i++) {
+      if (state.planlist[i].id === p.id) {
+        state.planlist.splice(i, 1)
+      }
+    }
+  },
+  SAVE_CURRENT_CARD_ID (state, p) {
+    state.kanbanCardId = p.id
+    state.cardItemLength = p.kanbanItemList.length
+    state.currentCard = p
+  },
+  DELETE_CARD (state, p) {
+    for (var i = 0; i < state.cardList.length; i++) {
+      if (state.cardList[i].id === p.id) {
+        state.cardList.splice(i, 1)
+      }
+    }
+  },
+  SAVE_CURRENT_LEFT (state, p) {
+    state.pos = p.pos
+    state.num = p.num
+  },
+  SAVE_CURRENT_SUBPLAN (state, p) {
+    state.currentSubPlan = p
+  },
+  SAVE_LABELS (state, p) {
+    state.labels = p
   }
 }

@@ -30,5 +30,20 @@ export default {
   'POST_RECORD_COMMENT': 'task/rsqTodoAction/saveTodoAction',
   'GET_FILE_FROM_AlI': 'task/v2/folders/file/getFileFromAli',
   'GET_RECORD': 'task/v2/todo/getTodoActions',
-  'REMIND': 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN'
+  'REMIND': 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN',
+  'POST_PLAN': 'task/v2/kanbans',
+  'GET_PLAN': '/task/v2/kanban/kanbanList',
+  'GET_CHILD_PLAN': '/task/v2/kanbans/:id',
+  'GET_CARD': '/task/v2/kanbans/ck/:id',
+  'POST_SUB_PLAN': '/task/v2/kanbans/ck',
+  'POST_CARD': '/task/kanbanCard',
+  'DELETE_CHILD_PLAN': '/task/v2/kanbans/ck/:id',
+  'CANCEL_STAR': '/task/v2/kanbans/cancelStar',
+  'SAVE_STAR': '/task/v2/kanbans/saveStar',
+  'QUIT_PLAN': '/task/v2/kanbans/quit',
+  'DELETE_PLAN': '/task/v2/kanbans',
+  'FINISH_CARD_ITEM': '/task/kanbanItem/:id',
+  'POST_KANBAN_ITEM': '/task/kanbanItem',
+  'UPDATE_CARD_NAME': '/task/kanbanCard/:id',
+  'GET_LABLES': '/task/kanbanLabelLibrary?kanbanId=:id'
 }

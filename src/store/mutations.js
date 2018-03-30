@@ -459,7 +459,12 @@ export default {
   },
   SAVE_CURRENT_CARD_ID (state, p) {
     state.kanbanCardId = p.id
-    state.cardItemLength = p.kanbanItemList.length
+    // console.log(p.kanbanItemList)
+    if (p.kanbanItemList !== null) {
+      state.cardItemLength = p.kanbanItemList.length
+    } else {
+      state.cardItemLength = 0
+    }
     state.currentCard = p
   },
   DELETE_CARD (state, p) {
@@ -478,5 +483,8 @@ export default {
   },
   SAVE_LABELS (state, p) {
     state.labels = p
+  },
+  SET_EMPTY_CURRENT_SUB_PLAN (state, p) {
+    state.currentSubPlan = ''
   }
 }

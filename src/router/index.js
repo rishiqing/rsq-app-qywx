@@ -35,6 +35,7 @@ import Main from 'com/plan/Main'
 import childPlan from 'com/plan/childPlan'
 import createSubplan from 'com/plan/createSubplan'
 import setPlan from 'com/plan/setPlan'
+import taskMember from 'com/plan/taskMember'
 Vue.use(Router)
 
 const router = new Router({
@@ -72,6 +73,12 @@ const router = new Router({
           }
         })
       }
+    },
+    {
+      path: 'com/plan/taskMember',
+      name: 'taskMember',
+      component: taskMember,
+      meta: {requireAuth: true}
     },
     {
       path: '/plan/setPlan',

@@ -272,12 +272,17 @@
 //        console.log(this.kanbanCardId)
 //        debugger
         if (this.kanbanCardId) {
+//          alert(JSON.stringify(this.currentTodo))
           var params = {
             name: this.currentTodo.pTitle,
             kanbanCard: this.kanbanCardId,
-            displayOrder: 65535 - this.cardItemLength
+            displayOrder: 65535 - this.cardItemLength,
+            joinUser: this.editItem.receiverIds,
+            dates: this.currentTodo.dates,
+            startDate: this.currentTodo.startDate,
+            endDate: this.currentTodo.endDate
           } // 后期加上日期和选人参数
-          this.$store.dispatch('submitKanbanItem', params).then(() => {
+          this.$store.dispatch('submitKanbanItem', params).then((res) => {
             that.$router.replace(window.history.back())
           })
         } else {

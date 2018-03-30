@@ -244,7 +244,7 @@
           selectedIds: selectedArray,
           disabledIds: disabledArray || [], //  不能选的人
           success (res) {
-//            alert('cuccess执行了' + JSON.stringify(res.result.userList))
+            alert('cuccess执行了' + JSON.stringify(res.result.userList))
 //            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
 //              that.memberList = res
             if (res.length === 0) {

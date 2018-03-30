@@ -16,35 +16,47 @@
         <li v-for="item in cardList" class="cardBorder">
           <div class="wrap-cardBorder">
             <div class="card-top">
-              <span class="cardName">{{item.name}}</span>
-              <span class="finish-number" v-show="totalNumber(item) != 0">{{finishNumber(item)}}/{{totalNumber(item)}}</span>
+              <div class="wrap-left-cardName">
+                <span class="cardName">{{item.name}}</span>
+                <span class="finish-number" v-show="totalNumber(item) != 0">{{finishNumber(item)}}/{{totalNumber(item)}}</span>
+              </div>
               <v-touch @tap="editCard($event,item)">
                 <i class="icon2-other other"></i>
               </v-touch>
             </div>
             <ul class="taskBorder">
-              <li v-for="kanbanItem in item.kanbanItemList" class="cardItem" :class="{'isFinish':kanbanItem.isDone}">
+              <li v-for="kanbanItem in finishdown(item.kanbanItemList)" class="cardItem" :class="{'isFinish':kanbanItem.isDone}">
                 <div class="cardItem-left">
-                  <v-touch @tap="finish(kanbanItem)">
+                  <v-touch @tap="finish(kanbanItem)" class="selected-icon">
                     <i class="icon2-seleced-mult card-selected" v-show="kanbanItem.isDone"></i>
                   </v-touch>
-                  <v-touch @tap="finish(kanbanItem)">
+                  <v-touch @tap="finish(kanbanItem)" class="selected-icon">
                     <i class="icon2-check-box card-selected" v-show="!kanbanItem.isDone"></i>
                   </v-touch>
                 </div>
                 <div class="cardItem-right">
-                  <span class="cardItem-name" :class="{'text-grey': kanbanItem.isDone, 'text-mid-line': kanbanItem.isDone}">{{kanbanItem.name}}</span>
-                  <div class="task-right-second">
+                  <div class="cardItem-name" :class="{'text-grey': kanbanItem.isDone, 'text-mid-line': kanbanItem.isDone}">{{kanbanItem.name}}</div>
+                  <div class="task-right-second" v-show="(finalDate(kanbanItem) !== null || total(kanbanItem.subItems) !== null || kanbanItem.itemLabelIds !== null)">
                     <div class="wrap-task-time">
                       <i class="icon2-schedule task-schedule" v-show="finalDate(kanbanItem) !== null"></i>
                       <span v-show="finalDate(kanbanItem) !== null" class="kanbanItem-time">{{finalDate(kanbanItem)}}</span>
                     </div>
-                    <div class="wrap-subitem-finish">
+                    <div class="wrap-subitem-finish" v-show="total(kanbanItem.subItems) !== null" :class="{'second-margin': finalDate(kanbanItem) !== null}">
                       <img src="../../assets/img/subitem.png" alt="" class="subitem-img" v-show="total(kanbanItem.subItems) !== null">
                       <span class="subItem-finish" v-show="total(kanbanItem.subItems) !== null">{{subItemfinish(kanbanItem.subItems)}}/{{total(kanbanItem.subItems)}}</span>
                     </div>
-                    <span class="label-name">{{label(kanbanItem)}}</span>
+                    <span class="label-name" :class="{'if-has-margin': (kanbanItem.subItems !== null || finalDate(kanbanItem) !== null)}">{{label(kanbanItem)}}</span>
                   </div>
+                    <taskMember
+                     :item="kanbanItem"
+                    >
+
+                    </taskMember>
+                    <!--<avatar v-for="item in selectedItems(kanbanItem.joinUserIds)"-->
+                            <!--:key="item.rsqUserId"-->
+                            <!--:src="item.avatar"-->
+                            <!--:username="item.name">-->
+                    <!--</avatar>-->
                 </div>
               </li>
             </ul>
@@ -97,7 +109,10 @@
   </div>
 </template>
 <script>
+  import taskMember from 'com/plan/taskMember'
   import def from 'ut/defaultUtil'
+  import util from 'ut/jsUtil'
+  import Avatar from 'com/pub/TextAvatar'
   export default {
     data () {
       return {
@@ -106,8 +121,13 @@
         emptyCard: false,
         createCard: false,
         cardName: '',
-        currNum: 0
+        currNum: 0,
+        local: []
       }
+    },
+    components: {
+      'avatar': Avatar,
+      'taskMember': taskMember
     },
     computed: {
       currentPlan () {
@@ -126,13 +146,41 @@
         return this.$store.state.pos
       },
       num () {
-        return this.$store.state.currNum
+        return this.$store.state.num
       },
       labels () {
         return this.$store.state.labels
       }
     },
     methods: {
+      finishdown (items) {
+        var newItems = []
+//        console.log(JSON.stringify(items))
+        if (items !== null && items.length !== 0) {
+          for (var i = 0; i < items.length; i++) {
+            if (!items[i].isDone) {
+              newItems.push(items[i])
+            }
+          }
+          for (i = 0; i < items.length; i++) {
+            if (items[i].isDone) {
+              newItems.push(items[i])
+            }
+          }
+          return newItems
+        } else {
+          return []
+        }
+      },
+      selectedItems (ids) {
+        var corpId = this.loginUser.authUser.corpId
+        this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [ids]})
+          .then(idMap => {
+//            alert('idmap' + JSON.stringify(idMap))
+            this.local = util.getMapValuePropArray(idMap)
+//            window.rsqadmg.exec('hideLoader')
+          })
+      },
       label (item) {
 //        console.log('this.lables' + this.labels)
         if (item.itemLabelIds && this.labels) {
@@ -161,10 +209,11 @@
           return this.regularDate(item.startDate) + '-' + this.regularDate(item.endDate)
         } else if (item.dates) {
           var result = ''
-          for (var i = 0; i < item.dates - 1; i++) {
-            result += this.regularDate(item.dates[i]) + ','
+          var dates = item.dates.split(',')
+          for (var i = 0; i < dates - 1; i++) {
+            result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + ','
           }
-          return result + this.regularDate(item.dates[item.dates.length - 1])
+          return result + parseInt(dates[dates.length - 1].substring(4, 6)) + '月' + parseInt(dates[dates.length - 1].substring(6, 8)) + '日'
         } else {
           return null
         }
@@ -190,6 +239,8 @@
         }
         if (this.currentSubPlanOftask) {
           box.style.left = this.pos
+          console.log(this.num)
+          console.log('wrap' + wrap)
           this.currNum = this.num
         }
         // 初始化手指坐标点
@@ -197,38 +248,38 @@
         var startEle = 0
 //        var currNum = 0
         wrap.addEventListener('touchstart', function (e) {
-//          e.preventDefault()
-//          console.log(e)
           startPoint = e.changedTouches[0].pageX
           startEle = box.offsetLeft
         })
         wrap.addEventListener('touchmove', function (e) {
-//          e.preventDefault()
           var currPoint = e.changedTouches[0].pageX
           var disX = currPoint - startPoint
           var left = startEle + disX
-          box.style.left = left + 'px'
+          if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 20) {
+            box.style.left = left + 'px'
+          }
         })
         wrap.addEventListener('touchend', function (e) {
 //          e.preventDefault()
           var left = box.offsetLeft
 //          console.log('aLiWidth' + aLiWidth)
-//          console.log('startEle' + startEle)
-//          console.log('left' + left)
+          console.log('startEle' + startEle)
+          console.log('left' + left)
 // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
-          if (Math.abs(startEle) > Math.abs(left) && left < 0) {
+          if (Math.abs(startEle) - Math.abs(left) > 10 && left < 0) {
 //            var currNum = Math.floor(-left / aLiWidth)
             that.currNum = that.currNum - 1
-          } else if ((left < 0 && left !== startEle) || (left > 0 && left < startEle)) {
+          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 10) || (left > 0 && left < startEle)) {
 //            currNum = Math.ceil(-left / aLiWidth)
             that.currNum = that.currNum + 1
           }
 //          console.log('currNum' + that.currNum)
           that.currNum = that.currNum >= (aLi.length - 1) ? aLi.length - 1 : that.currNum
-//          console.log('currNum' + that.currNum)
+          console.log('currNum' + that.currNum)
           that.currNum = that.currNum <= 0 ? 0 : that.currNum
           box.style.left = -that.currNum * wrap.offsetWidth + 'px'
 //          console.log(box.style.left)
+//          console.log('wrap.offsetWidth' + wrap.offsetWidth)
         })
       },
       editCard (e, item) {
@@ -272,7 +323,7 @@
         var pos = document.getElementsByClassName('cardList')[0].style.left
 //        console.log(pos)
         this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
-        this.$store.commit('SAVE_CURRENT_LEFT', {'pos': pos, 'num': this.currNum})
+        this.$store.commit('SAVE_CURRENT_LEFT', {pos: pos, num: this.currNum})
         this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
         this.$router.push('/todo/new/schedule')
       },
@@ -345,6 +396,7 @@
         var that = this
         this.initialState = false
         this.currentSubPlan = item
+        window.rsqadmg.exec('showLoader', {'text': '加载中'})
         this.$store.dispatch('getCardList', item).then(
           (res) => {
             that.$store.commit('SAVE_CARD', res.kanbanCardList)
@@ -357,6 +409,7 @@
               for (var i = 0; i < aLi.length; i++) {
                 aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
               }
+              window.rsqadmg.exec('hideLoader')
             })
           })
       },
@@ -423,7 +476,6 @@
     mounted () {
       // 拿到看板列表以及看板的任务列表。。。好多数据
 //      var that = this
-//      console.log(this.currentSubPlanOftask)
       document.title = this.currentPlan.name
       var that = this
       if (this.currentSubPlanOftask) {
@@ -454,20 +506,50 @@
           })
       }
     }
+//    beforeRouteEnter (to, from, next) {
+//      next(vm => {
+//        if (from.name === 'PlanList') {
+//          vm.currentSubPlanOftask = ''
+//          alert(' this.currentSubPlanOftask' + vm.currentSubPlanOftask)
+//        }
+//      })
+//    }
   }
 </script>
 <style>
+  .wrap-left-cardName{
+    display: flex;
+    align-items: center;
+  }
+  .second-margin{
+    margin-left: 0.2rem;
+  }
+  .if-has-margin{
+    margin-left: 0.2rem;
+  }
+  .selected-icon{
+    display: flex;
+    align-items: flex-start;
+    padding-top: 0.05rem;
+  }
+  .cardItem-right .text-grey{
+    color: #9B9B9B
+  }
   .label-name{
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #FF7A7A
   }
   .wrap-subitem-finish{
-    margin-left: 0.4rem;
+    height: 0.453rem;
+    display: flex;
+    align-items: center;
   }
   .task-right-second{
     display: flex;
     align-items: center;
+    height: 0.453rem;
+    margin-top: 0.2rem;
     /*justify-content: space-around;*/
   }
   .subitem-img{
@@ -478,18 +560,25 @@
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #B1B1B1;
+    margin-left: 0.2rem;
   }
   .wrap-task-time{
     padding: 0;
     margin: 0;
+    display: flex;
+    align-items: center;
   }
   .kanbanItem-time{
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #B1B1B1;
+    margin-left: 0.2rem;
   }
   .task-schedule{
     font-size: 14px;
+    display: block;
+    margin-top: -0.1rem;
+    color: #B1B1B1;
   }
   div.currentSelected{
     background: rgba(0,0,0,0.22);
@@ -513,7 +602,7 @@
   .wrap-add-task{
     display: flex;
     align-items: center;
-    margin-top: 0.6rem;
+    margin-top: 0.2rem;
   }
   .add-task{
     font-size: 14px;
@@ -524,7 +613,8 @@
     height: 95%;
   }
   .cardList{
-    height: 95%;
+    height: 13rem;
+    /*height: 95%;*/
     /*display: flex;*/
     /*width:400%;*/
     position: relative;
@@ -533,7 +623,8 @@
   .wrap{
     position: relative;
     overflow: hidden;
-    height: 90%;
+    /*height: 90%;*/
+    /*height: 14rem;*/
   }
   .cardBorder{
     float: left;
@@ -554,6 +645,7 @@
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #4A4A4A;
+    /*color:red;*/
     margin-left: 0.2rem;
   }
   .isFinish{
@@ -561,22 +653,23 @@
   }
   .card-selected{
     font-size: 14px;
-    border: 1px solid #D8D8D8;
+    /*border: 1px solid #D8D8D8;*/
     border-radius: 1px;
+    color: #D8D8D8;
   }
   .cardItem-name{
     font-family: PingFangSC-Regular;
     font-size: 14px;
     color: #000000;
     letter-spacing: 0.96px;
-    line-height: 10px;
+    /*line-height: 10px;*/
   }
   .cardItem{
     background: #FFFFFF;
     box-shadow: 0 1px 2px 0 rgba(218,218,218,0.58);
     border-radius: 2px;
     margin-top: 0.3rem;
-    padding-left: 0.2rem;
+    padding: 0.2rem;
   }
   .cardItem:first-child{
     margin-top: 0;
@@ -598,7 +691,7 @@
     font-family: PingFangSC-Regular;
     font-size: 15px;
     color: #9B9B9B;
-    margin-right: 4.5rem;
+    margin-left: 0.2rem;
   }
   .cardList{
     background: white;
@@ -606,7 +699,7 @@
     margin: 0.4rem;
     margin-top: 0;
     margin-bottom: 0;
-    transition: 0.5s;
+    transition: 0.2s;
     /*padding: 0.3rem;*/
   }
   .wrap-button{
@@ -653,7 +746,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 90%;
+    width: 95%;
     height: 1.7rem;
     background: #F5F5F5;
     border-radius: 1px;
@@ -754,7 +847,7 @@
     z-index: 2
   }
   .taskBorder{
-    height: 12rem;
+    height: 10rem;
     overflow: auto;
     /*border: 1px solid yellow;*/
     /*background-color: white;*/

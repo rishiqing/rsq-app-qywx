@@ -1078,5 +1078,12 @@ export default {
         // commit('SAVE_LABELS', result)
         return result
       })
+  },
+  updatePlanMember ({commit, state}, p) {
+    return api.todo.updatePlanMember(p)
+      .then((result) => {
+        // commit('SAVE_LABELS', result)
+        return result
+      })
   }
 }

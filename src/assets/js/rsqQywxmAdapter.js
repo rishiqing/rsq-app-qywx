@@ -76,7 +76,7 @@ function getOauthUrl(){
   }
   return base + '?' + pArray.join('&') + '#wechat_redirect';
 }
-
+var loading
 /**
  * adapter钉钉适配，参加钉钉jssdk文档
  * @link https://open-doc.dingtalk.com/docs/doc.htm
@@ -86,34 +86,34 @@ rsqAdapterManager.register({
 
     //------------------------------------------------------------
 
-    var authUser = {
-      "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
-      "corpId":"wxec002534a59ea2e7",
-      "department":"[8]",
-      "englishName":"",
-      "gender":"1",
-      "id":14,
-      "isLeaderInDepts":"0",
-      "name":"毛文强",
-      "orderInDepts":"[0]",
-      "position":"",
-      "rsqPassword":"123456",
-      "rsqUserId":"285",
-      "rsqUsername":"maowenqiang0752@sina.com",
-      "status":1,
-      "userId":"0002"
-  }
-    rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-      j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
-    }, function(result){
-      var resJson = JSON.parse(result);
-      if(resJson.success){
-        rsqChk(params.success, [resJson, authUser]);
-      }else{
-        rsqChk(params.error, [resJson]);
-      }
-    });
-    return
+  //   var authUser = {
+  //     "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
+  //     "corpId":"wxec002534a59ea2e7",
+  //     "department":"[8]",
+  //     "englishName":"",
+  //     "gender":"1",
+  //     "id":14,
+  //     "isLeaderInDepts":"0",
+  //     "name":"毛文强",
+  //     "orderInDepts":"[0]",
+  //     "position":"",
+  //     "rsqPassword":"123456",
+  //     "rsqUserId":"285",
+  //     "rsqUsername":"maowenqiang0752@sina.com",
+  //     "status":1,
+  //     "userId":"0002"
+  // }
+  //   rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
+  //     j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
+  //   }, function(result){
+  //     var resJson = JSON.parse(result);
+  //     if(resJson.success){
+  //       rsqChk(params.success, [resJson, authUser]);
+  //     }else{
+  //       rsqChk(params.error, [resJson]);
+  //     }
+  //   });
+  //   return
 
     //--------------------------------------------------------
 
@@ -179,6 +179,7 @@ rsqAdapterManager.register({
       jsApiList: ['getNetworkType', 'hideOptionMenu', 'selectEnterpriseContact']
     });
     wx.ready(function(res){
+      // alert('ready')
       var appdata = rsqadmg.store.app;
       var cookieName = appdata.agentid + '-' + appdata.corpid + '-userId';
 
@@ -210,7 +211,7 @@ rsqAdapterManager.register({
     wx.error(function(err){
       // alert('errorJinlai ' + JSON.stringify(err))
       //  如果是config:fail，那么就刷新jsapi ticket
-      if(err['errMsg'] === 'config:fail'){
+      if(err['errMsg'] !== null){
         // alert(JSON.stringify(err));
         var pa = rsqadmg.store.app;
         rsqAdapterManager.ajax.get(rsqConfig.authServer + 'refresh_js_ticket', {
@@ -295,14 +296,14 @@ rsqAdapterManager.register({
    * @param params.onFail
    */
   showLoader: function(params){
-    var loading = weui.loading(params.text, {
+    loading = weui.loading(params.text, {
       className: 'custom-classname'
     });
-    setTimeout(function () {
-      loading.hide(function() {
-        console.log('`loading` has been hidden');
-      });
-    }, 0);
+    // setTimeout(function () {
+    //   loading.hide(function() {
+    //     console.log('`loading` has been hidden');
+    //   });
+    // }, 1000);
   },
   /**
    * 隐藏加载库
@@ -310,6 +311,9 @@ rsqAdapterManager.register({
    * @param params.onFail
    */
   hideLoader: function(params){
+    loading.hide(function() {
+      console.log('`loading` has been hidden');
+    });
   },
   topTips: function (params) {
     weui.topTips(params.message, 2000);
@@ -401,7 +405,6 @@ rsqAdapterManager.register({
     weui.toast(params.message);
   },
   selectDeptMember: function(params){
-    // alert('进来' + JSON.stringify(params))
     // alert('传给后台已选人' + params.selectedIds)
     wx.invoke('selectEnterpriseContact', {
         'fromDepartmentId': -1,// 必填，-1表示打开的通讯录从自己所在部门开始展示, 0表示从最上层开始
@@ -410,7 +413,7 @@ rsqAdapterManager.register({
         'selectedDepartmentIds': [],// 非必填，已选部门ID列表。用于多次选人时可重入
         'selectedUserIds': params.selectedIds// 非必填，已选用户ID列表。用于多次选人时可重入
       },function(res){
-        // alert('返回来' + JSON.stringify(res))
+        alert('返回来' + JSON.stringify(res))
         rsqChk(params.success, [res]);
         if (res.err_msg == "selectEnterpriseContact:ok")
         {

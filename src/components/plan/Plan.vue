@@ -18,6 +18,11 @@
     props: {
       item: Object
     },
+    computed: {
+      currentSubPlanOftask () {
+        return this.$store.state.currentSubPlan
+      }
+    },
     methods: {
       toChildPlan () {
         var that = this
@@ -28,6 +33,7 @@
             that.$store.dispatch('getLabels', this.item).then((res) => {
               that.$store.commit('SAVE_LABELS', res)
             }).then(() => {
+              this.$store.commit('SET_EMPTY_CURRENT_SUB_PLAN')
               that.$router.push('/plan/childPlan')
             })
           })

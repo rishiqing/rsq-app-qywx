@@ -154,12 +154,12 @@
             that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
               .then(function (idMap) {
                 var userArray = util.getMapValuePropArray(idMap)
-                alert('userArray' + JSON.stringify(userArray))
+//                alert('userArray' + JSON.stringify(userArray))
                 var rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-                alert('rsqIdArray' + rsqIdArray)
+//                alert('rsqIdArray' + rsqIdArray)
                 that.$store.dispatch('updatePlanMember', { id: that.currentPlan.id, accessIds: rsqIdArray.toString() }).then((res) => {
                   that.selectedLocalList = userArray
-                  alert('res.userRoles' + JSON.stringify(res.userRoles))
+//                  alert('res.userRoles' + JSON.stringify(res.userRoles))
                   that.currentPlan.userRoles = res.userRoles
                 })
 //                var params = {

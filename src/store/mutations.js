@@ -424,10 +424,10 @@ export default {
     state.cardList.push(p)
   },
   DELETE_CHILD_PLAN (state, p) {
-    alert(JSON.stringify(state.childPlanlist))
-    alert(state.childPlanlist.indexOf(p))
+    // alert(JSON.stringify(state.childPlanlist))
+    // alert(state.childPlanlist.indexOf(p))
     state.childPlanlist.splice(state.childPlanlist.indexOf(p), 1)
-    alert(JSON.stringify(state.childPlanlist))
+    // alert(JSON.stringify(state.childPlanlist))
   },
   UPDATE_SUBPLAN_NAME (state, p) {
     for (var i = 0; i < state.childPlanlist.length; i++) {

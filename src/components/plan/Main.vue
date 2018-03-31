@@ -75,7 +75,7 @@
           cover: this.imgs[this.currentIndex].addr,
           accessIds: this.rsqIdArray.toString()
         }
-        alert(JSON.stringify(params))
+//        alert(JSON.stringify(params))
         this.$store.dispatch('postPlan', params).then((res) => {
 //          alert('创建成功' + res.name)
 //          alert(JSON.stringify(res.userRoles))
@@ -111,7 +111,7 @@
           selectedIds: selectedArray,
           disabledIds: [], //  不能选的人
           success (res) {
-            alert('cuccess执行了' + JSON.stringify(res.result.userList))
+//            alert('cuccess执行了' + JSON.stringify(res.result.userList))
 //            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
 //              that.memberList = res
             if (res.length === 0) {
@@ -129,7 +129,7 @@
 //                alert('userArray' + JSON.stringify(userArray))
                 that.selectedLocalList = userArray
                 that.rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-                alert('userArray' + JSON.stringify(that.rsqIdArray))
+//                alert('userArray' + JSON.stringify(that.rsqIdArray))
 //                  alert('rsqIdArray' + JSON.stringify(rsqIdArray))
 //                that.$emit('member-changed', rsqIdArray)
               })

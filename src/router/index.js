@@ -34,7 +34,7 @@ import PlanList from 'com/plan/PlanList'
 import Main from 'com/plan/Main'
 import childPlan from 'com/plan/childPlan'
 import createSubplan from 'com/plan/createSubplan'
-import setPlan from 'com/plan/setPlan'
+import setPlan from 'com/plan/SetPlan'
 import taskMember from 'com/plan/taskMember'
 Vue.use(Router)
 

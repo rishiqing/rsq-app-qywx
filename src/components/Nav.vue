@@ -13,7 +13,9 @@
       </div>
       <div class="right">
         <v-touch class="right-me" @tap="reload('/plan/PlanList')" :class="{'is-active': '/plan/PlanList' == currentPath}">
-          <i class="icon2-member me" :class="{'is-active': '/plan/PlanList' == currentPath}"></i>
+          <img src="../assets/img/Group18.png" alt="" class="plan-icon"   v-show="'/plan/PlanList' == currentPath">
+          <img src="../assets/img/Group18Copy.png" alt="" class="plan-icon" v-show="'/plan/PlanList' !== currentPath">
+          <!--<i class="icon2-member me" :class="{'is-active': '/plan/PlanList' == currentPath}"></i>-->
           <p class="my" :class="{'is-active': '/plan/PlanList' == currentPath}">计划</p>
         </v-touch>
       </div>
@@ -59,6 +61,15 @@
   }
 </script>
 <style scoped>
+  .right-me{
+    /*padding-bottom: 0.6rem;*/
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+  }
+  .plan-icon{
+    font-size:0.586rem;
+  }
   .is-active{
     color:#55A8FD
   }
@@ -102,7 +113,7 @@
     margin: 0;
     padding:0;
     margin:0 auto;
-    margin-top:0.053rem;
+    /*margin-top:0.053rem;*/
   }
   .left{
     position: absolute;
@@ -145,9 +156,13 @@
     display: block;
     clear: both;
   }
-  img{
-    width: 1.866rem;
-    height: 1.866rem;
-    margin-top:3.653rem ;
+  .plan-icon{
+    width: 0.6rem;
+    height:0.6rem
   }
+  /*img{*/
+    /*width: 1.866rem;*/
+    /*height: 1.866rem;*/
+    /*margin-top:3.653rem ;*/
+  /*}*/
 </style>

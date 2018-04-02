@@ -5,7 +5,7 @@
         <span>全天</span>
         <v-touch class="switch-wrapper" @tap="toggleAllDay">
           <!--v-touch有bug，暂时这样处理-->
-          <input class="mui-switch" type="checkbox" :checked="isChecked" @click.prevent="empty">
+          <input class="mui-switch-time" type="checkbox" :checked="isChecked" @click.prevent="empty">
         </v-touch>
       </li>
     </ul>
@@ -50,7 +50,7 @@
       top:0.15rem;
       right:0.25rem;
     }
-    input.mui-switch {
+    input.mui-switch-time {
       display: block;
       width: 50px;
       height: 31px;
@@ -66,7 +66,7 @@
       -webkit-appearance: none;
       user-select: none;
       outline: none; }
-    input.mui-switch:before {
+    input.mui-switch-time:before {
       content: '';
       width: 29px;
       height: 30px;
@@ -80,11 +80,11 @@
       border-bottom-right-radius: 20px;
       background-color: #fff;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
-    input.mui-switch:checked {
+    input.mui-switch-time:checked {
       border-color: #67B2FE;
       box-shadow: #67B2FE 0 0 0 16px inset;
       background-color: #67B2FE; }
-    input.mui-switch:checked:before {
+    input.mui-switch-time:checked:before {
       left: 21px; }
 
     .is-text-disabled span {color: #DDDDDD;}

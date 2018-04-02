@@ -40,7 +40,7 @@ export default {
   'DELETE_CHILD_PLAN': '/task/v2/kanbans/ck/:id',
   'CANCEL_STAR': '/task/v2/kanbans/cancelStar',
   'SAVE_STAR': '/task/v2/kanbans/saveStar',
-  'QUIT_PLAN': '/task/v2/kanbans/quit',
+  'QUIT_PLAN': '/task/v2/kanbans/quit/:id',
   'DELETE_PLAN': '/task/v2/kanbans/:id',
   'FINISH_CARD_ITEM': '/task/kanbanItem/:id',
   'POST_KANBAN_ITEM': '/task/kanbanItem',

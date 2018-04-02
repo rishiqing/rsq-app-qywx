@@ -381,8 +381,9 @@ export default {
     })
   },
   quitPlan (props) {
+    var path = util.replaceUrlParams(mapping.QUIT_PLAN, props)
     return new Promise((resolve, reject) => {
-      Vue.http.put(mapping.QUIT_PLAN, props)  // 不确定是否
+      Vue.http.put(path)  // 不确定是否
         .then(res => {
           resolve(res.json())
         }, err => {
@@ -464,12 +465,12 @@ export default {
   },
   updatePlanMember (props) {
     var path = util.replaceUrlParams(mapping.GET_CHILD_PLAN, props)
-    alert(path)
-    alert('props' + JSON.stringify(props))
+    // alert(path)
+    // alert('props' + JSON.stringify(props))
     return new Promise((resolve, reject) => {
       Vue.http.put(path, props)
         .then(res => {
-          alert('RES' + res.name)
+          // alert('RES' + res.name)
           resolve(res.json())
         }, err => {
           window.rsqadmg.log(JSON.stringify(err))

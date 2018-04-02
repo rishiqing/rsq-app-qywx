@@ -18,7 +18,7 @@
 </template>
 <style scoped>
   .sendComment{
-    margin-top: 0.5rem;
+    margin-top: 1rem;
   }
   .icon-wrap{
     position: relative;
@@ -108,9 +108,9 @@
         }
       },
       comentBlur (newTitle) {
-//        if (!newTitle) {
-//          return window.rsqadmg.execute('alert', {message: '任务评论不能为空'})
-//        }
+        if (!newTitle && this.fileId.length === 0) {
+          return window.rsqadmg.execute('alert', {message: '任务评论不能为空'})
+        }
         var that = this
 //        console.log('this.currentdate是' + this.defaultTaskDate)
         this.$store.dispatch('postTodoComment', {commentContent: newTitle, fileIds: this.fileId, createTaskDate: this.defaultTaskDate})

@@ -8,8 +8,8 @@
               ref="title"
               :is-edit="true"
               :is-checkable="!isInbox"
-              :item-title="editItem.pTitle"
-              :item-checked="editItem.pIsDone"
+              :item-title="editItem.pTitle || editItem.name"
+              :item-checked="editItem.pIsDone || editItem.isDone"
               :disabled="!checkEdit()"
               @text-blur="saveTitle"
               @click-checkout="finishChecked"
@@ -274,6 +274,9 @@
       },
       pNote () {
         return this.$store.state.todo.currentTodo.pNote
+      },
+      note () {
+        return this.$store.state.todo.currentTodo.note
       },
       isInbox () {
         return this.currentTodo.pContainer === 'inbox'
@@ -685,10 +688,23 @@
           .catch(() => {
             next(false)
           })
+      },
+      initPlan () {
+        console.log('currenttodo:' + JSON.stringify(this.currentTodo))
+        util.extendObject(this.editItem, this.currentTodo)
+        console.log('this.editItem:' + JSON.stringify(this.editItem))
+        var noteElement = document.getElementById('noteEditable')
+        if (this.note) {
+          noteElement.innerHTML = this.note
+        }
+        var joinUserArray = util.getMapValuePropArray(this.editItem.receiverUser, 'joinUser')
+        this.joinUserRsqIds = joinUserArray.map(obj => {
+          return obj['id'] + ''
+        })
       }
     },
     created () {
-      this.initData()
+//      this.initData()
 //      var that = this
       window.rsqadmg.execute('setTitle', {title: '详情'})
 //      window.rsqadmg.execute('setOptionButtons', {
@@ -703,7 +719,16 @@
     mounted () {
     },
     beforeRouteEnter (to, from, next) {
-      next()
+      if (from.name === 'sche') {
+        next(vm => {
+          vm.initData()
+        })
+      } else {
+        next(vm => {
+          vm.initPlan()
+        })
+      }
+//      next()
     },
     beforeRouteLeave (to, from, next) {
       //  判断是否需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”

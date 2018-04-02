@@ -249,7 +249,7 @@
       },
       submitTodo () {
         if (!this.editItem.pTitle) {
-//          return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
+          return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
         if (!this.isInbox) {
           var planTime = this.getPlanedTime()
@@ -273,14 +273,16 @@
 //        debugger
         if (this.kanbanCardId) {
 //          alert(JSON.stringify(this.currentTodo))
+          var startDate = this.currentTodo.startDate ? this.currentTodo.startDate.split('/').join('') : null
+          var endDate = this.currentTodo.endDate ? this.currentTodo.endDate.split('/').join('') : null
           var params = {
             name: this.currentTodo.pTitle,
             kanbanCard: this.kanbanCardId,
             displayOrder: 65535 - this.cardItemLength,
             joinUser: this.editItem.receiverIds,
             dates: this.currentTodo.dates,
-            startDate: this.currentTodo.startDate,
-            endDate: this.currentTodo.endDate
+            startDate: startDate,
+            endDate: endDate
           } // 后期加上日期和选人参数
           this.$store.dispatch('submitKanbanItem', params).then((res) => {
             that.$router.replace(window.history.back())

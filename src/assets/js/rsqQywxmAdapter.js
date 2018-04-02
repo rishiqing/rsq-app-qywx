@@ -86,35 +86,35 @@ rsqAdapterManager.register({
 
     //------------------------------------------------------------
 
-  //   var authUser = {
-  //     "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
-  //     "corpId":"wxec002534a59ea2e7",
-  //     "department":"[8]",
-  //     "englishName":"",
-  //     "gender":"1",
-  //     "id":14,
-  //     "isLeaderInDepts":"0",
-  //     "name":"毛文强",
-  //     "orderInDepts":"[0]",
-  //     "position":"",
-  //     "rsqPassword":"123456",
-  //     "rsqUserId":"285",
-  //     "rsqUsername":"maowenqiang0752@sina.com",
-  //     "status":1,
-  //     "userId":"0002"
-  // }
-  //   rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-  //     j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
-  //   }, function(result){
-  //     var resJson = JSON.parse(result);
-  //     console.log(JSON.stringify(resJson))
-  //     if(resJson.success){
-  //       rsqChk(params.success, [resJson, authUser]);
-  //     }else{
-  //       rsqChk(params.error, [resJson]);
-  //     }
-  //   });
-  //   return
+    var authUser = {
+      "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
+      "corpId":"wxec002534a59ea2e7",
+      "department":"[8]",
+      "englishName":"",
+      "gender":"1",
+      "id":14,
+      "isLeaderInDepts":"0",
+      "name":"毛文强",
+      "orderInDepts":"[0]",
+      "position":"",
+      "rsqPassword":"123456",
+      "rsqUserId":"285",
+      "rsqUsername":"maowenqiang0752@sina.com",
+      "status":1,
+      "userId":"0002"
+    }
+    rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
+      j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
+    }, function(result){
+      var resJson = JSON.parse(result);
+      // console.log(JSON.stringify(resJson))
+      if(resJson.success){
+        rsqChk(params.success, [resJson, authUser]);
+      }else{
+        rsqChk(params.error, [resJson]);
+      }
+    });
+    return
 
     //--------------------------------------------------------
 
@@ -414,7 +414,7 @@ rsqAdapterManager.register({
         'selectedDepartmentIds': [],// 非必填，已选部门ID列表。用于多次选人时可重入
         'selectedUserIds': params.selectedIds// 非必填，已选用户ID列表。用于多次选人时可重入
       },function(res){
-        alert('返回来' + JSON.stringify(res))
+        // alert('返回来' + JSON.stringify(res))
         rsqChk(params.success, [res]);
         if (res.err_msg == "selectEnterpriseContact:ok")
         {

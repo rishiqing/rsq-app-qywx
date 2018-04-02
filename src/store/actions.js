@@ -1040,6 +1040,8 @@ export default {
     return api.todo.quitPlan(p)
       .then((res) => {
         // commit('QUIT_PLAN', p) // 这里用不用该前端的参与人呢？
+      }).catch((err) => {
+        return err.body
       })
   },
   finishCardItem ({commit, state}, p) {

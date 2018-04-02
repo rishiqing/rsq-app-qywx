@@ -72,7 +72,7 @@
         var that = this
         var params = {
           name: this.content,
-          cover: this.imgs[this.currentIndex].addr,
+          backgroundImage: this.imgs[this.currentIndex].addr,
           accessIds: this.rsqIdArray.toString()
         }
 //        alert(JSON.stringify(params))

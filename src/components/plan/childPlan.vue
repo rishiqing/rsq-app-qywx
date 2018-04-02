@@ -26,38 +26,40 @@
             </div>
             <ul class="taskBorder">
               <li v-for="kanbanItem in finishdown(item.kanbanItemList)" class="cardItem" :class="{'isFinish':kanbanItem.isDone}">
-                <div class="cardItem-left">
-                  <v-touch @tap="finish(kanbanItem)" class="selected-icon">
-                    <i class="icon2-seleced-mult card-selected" v-show="kanbanItem.isDone"></i>
-                  </v-touch>
-                  <v-touch @tap="finish(kanbanItem)" class="selected-icon">
-                    <i class="icon2-check-box card-selected" v-show="!kanbanItem.isDone"></i>
-                  </v-touch>
-                </div>
-                <div class="cardItem-right">
-                  <div class="cardItem-name" :class="{'text-grey': kanbanItem.isDone, 'text-mid-line': kanbanItem.isDone}">{{kanbanItem.name}}</div>
-                  <div class="task-right-second" v-show="(finalDate(kanbanItem) !== null || total(kanbanItem.subItems) !== null || kanbanItem.itemLabelIds !== null)">
-                    <div class="wrap-task-time">
-                      <i class="icon2-schedule task-schedule" v-show="finalDate(kanbanItem) !== null"></i>
-                      <span v-show="finalDate(kanbanItem) !== null" class="kanbanItem-time">{{finalDate(kanbanItem)}}</span>
-                    </div>
-                    <div class="wrap-subitem-finish" v-show="total(kanbanItem.subItems) !== null" :class="{'second-margin': finalDate(kanbanItem) !== null}">
-                      <img src="../../assets/img/subitem.png" alt="" class="subitem-img" v-show="total(kanbanItem.subItems) !== null">
-                      <span class="subItem-finish" v-show="total(kanbanItem.subItems) !== null">{{subItemfinish(kanbanItem.subItems)}}/{{total(kanbanItem.subItems)}}</span>
-                    </div>
-                    <span class="label-name" :class="{'if-has-margin': (kanbanItem.subItems !== null || finalDate(kanbanItem) !== null)}">{{label(kanbanItem)}}</span>
+                <v-touch @tap="toEdit(kanbanItem)">
+                  <div class="cardItem-left">
+                    <v-touch @tap="finish(kanbanItem)" class="selected-icon">
+                      <i class="icon2-seleced-mult card-selected" v-show="kanbanItem.isDone"></i>
+                    </v-touch>
+                    <v-touch @tap="finish(kanbanItem)" class="selected-icon">
+                      <i class="icon2-check-box card-selected" v-show="!kanbanItem.isDone"></i>
+                    </v-touch>
                   </div>
-                    <taskMember
-                     :item="kanbanItem"
-                    >
+                  <div class="cardItem-right">
+                    <div class="cardItem-name" :class="{'text-grey': kanbanItem.isDone, 'text-mid-line': kanbanItem.isDone}">{{kanbanItem.name}}</div>
+                    <div class="task-right-second" v-show="(finalDate(kanbanItem) !== null || total(kanbanItem.subItems) !== null || kanbanItem.itemLabelIds !== null)">
+                      <div class="wrap-task-time">
+                        <i class="icon2-schedule task-schedule" v-show="finalDate(kanbanItem) !== null"></i>
+                        <span v-show="finalDate(kanbanItem) !== null" class="kanbanItem-time">{{finalDate(kanbanItem)}}</span>
+                      </div>
+                      <div class="wrap-subitem-finish" v-show="total(kanbanItem.subItems) !== null" :class="{'second-margin': finalDate(kanbanItem) !== null}">
+                        <img src="../../assets/img/subitem.png" alt="" class="subitem-img" v-show="total(kanbanItem.subItems) !== null">
+                        <span class="subItem-finish" v-show="total(kanbanItem.subItems) !== null">{{subItemfinish(kanbanItem.subItems)}}/{{total(kanbanItem.subItems)}}</span>
+                      </div>
+                      <span class="label-name" :class="{'if-has-margin': (kanbanItem.subItems !== null || finalDate(kanbanItem) !== null)}">{{label(kanbanItem)}}</span>
+                    </div>
+                      <taskMember
+                       :item="kanbanItem"
+                      >
 
-                    </taskMember>
-                    <!--<avatar v-for="item in selectedItems(kanbanItem.joinUserIds)"-->
-                            <!--:key="item.rsqUserId"-->
-                            <!--:src="item.avatar"-->
-                            <!--:username="item.name">-->
-                    <!--</avatar>-->
-                </div>
+                      </taskMember>
+                      <!--<avatar v-for="item in selectedItems(kanbanItem.joinUserIds)"-->
+                              <!--:key="item.rsqUserId"-->
+                              <!--:src="item.avatar"-->
+                              <!--:username="item.name">-->
+                      <!--</avatar>-->
+                  </div>
+                </v-touch>
               </li>
             </ul>
             <v-touch @tap="addTask(item)"  class="wrap-add-task">
@@ -84,8 +86,11 @@
           </div>
         </li>
       </ul>
-      <div class="index-flag">
-        <div v-for="(item, index) in cardList" class="circle" :class="{'currentSelected': currNum === index}"></div>
+      <div class="wrap-index-flag">
+        <div class="index-flag">
+          <div v-for="(item, index) in cardList" class="circle" :class="{'currentSelected': currNum === index}"></div>
+          <div class="circle" :class="{'currentSelected': currNum === cardList.length}"></div>
+        </div>
       </div>
     </div>
     <ul class="childPlan" :class="{'showChild': initialState}">
@@ -99,7 +104,7 @@
           </v-touch>
         </li>
       <v-touch @tap="toEditPlan" class="">
-        <li class="post-sub-plan">
+        <li class="post-sub-plan" v-show="ifShowCreate">
           <img src="../../assets/img/edit.png" alt="" class="sub-plan-img">
           <div class="sub-plan-name">新建子计划</div>
         </li>
@@ -122,7 +127,8 @@
         createCard: false,
         cardName: '',
         currNum: 0,
-        local: []
+        local: [],
+        ifShowCreate: false
       }
     },
     components: {
@@ -150,9 +156,16 @@
       },
       labels () {
         return this.$store.state.labels
+      },
+      userRoles () {
+        return this.currentPlan.userRoles
       }
     },
     methods: {
+      toEdit (item) {
+        this.$store.dispatch('setCurrentTodo', item)// 设置当前todo不管是inbox的todo还是ssche的todo
+        this.$router.push('/todo/' + item.id)
+      },
       finishdown (items) {
         var newItems = []
 //        console.log(JSON.stringify(items))
@@ -476,6 +489,14 @@
     mounted () {
       // 拿到看板列表以及看板的任务列表。。。好多数据
 //      var that = this
+      var createrId = this.$store.state.loginUser.rsqUser.id
+      console.log(createrId)
+      for (var i = 0; i < this.userRoles.length; i++) {
+        if (this.userRoles[i].userId === createrId) {
+          console.log('相等了')
+          this.ifShowCreate = true
+        }
+      }
       document.title = this.currentPlan.name
       var that = this
       if (this.currentSubPlanOftask) {
@@ -517,6 +538,11 @@
   }
 </script>
 <style>
+  .wrap-index-flag{
+    width: 96%;
+    display: flex;
+    justify-content: center;
+  }
   .wrap-left-cardName{
     display: flex;
     align-items: center;

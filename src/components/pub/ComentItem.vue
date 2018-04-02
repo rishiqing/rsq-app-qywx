@@ -18,7 +18,7 @@
             <!--<span class="comentContent">{{item.commentContent.substr(IndexOfBlank + 1)}}</span>-->
           </div>
           <div class="comentContent" v-else v-html="item.commentContent">{{item.commentContent}}</div>
-          <v-touch class="coment-item-picture file-touch" v-for="file in item.fileList" :key="file.id" @tap="fileTouch(file)">
+          <v-touch class="coment-item-picture file-touch" v-for="file in item.fileList" :key="file.id" @tap="fileTouch($event, file)">
             <template v-if="(file.contentType.toUpperCase() === 'PNG'||file.contentType.toUpperCase() === 'JPEG'|| file.contentType.toUpperCase() === 'JPG')">
               <img class="comment-photo file-touch" :src="file.realPath"  alt="">
               <span class="file-name file-touch">{{getFileName(file.name)}}</span>
@@ -192,7 +192,7 @@
         } else if (fileSize > 1048576) {
           return parseInt(fileSize / (1024 * 1024)) + 'MB'
         } else {
-          return fileSize
+          return fileSize + 'B'
         }
       },
       deleteComment (item) {
@@ -221,7 +221,8 @@
           })
         }
       },
-      fileTouch (file) {
+      fileTouch (e, file) {
+        e.preventDefault()
         this.$emit('comment-file-touch', file)
       },
       triggerAndroid (e) {

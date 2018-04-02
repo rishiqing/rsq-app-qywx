@@ -86,7 +86,7 @@
     methods: {
       savePlanName () {
         this.editState = false
-        console.log(this.currentPlan.name)
+//        console.log(this.currentPlan.name)
         this.$store.dispatch('updatePlanName', {'name': this.currentPlan.name, 'id': this.currentPlan.id})
       },
       showEditName () {
@@ -108,8 +108,12 @@
             that.$router.replace('/plan/PlanList')
           })
         } else {
-          this.$store.dispatch('quitPlan', {id: this.currentPlan.id}).then(() => {
-            that.$router.replace('/plan/PlanList')
+          this.$store.dispatch('quitPlan', {id: this.currentPlan.id}).then((e) => {
+            if (e.message) {
+              window.rsqadmg.exec('alert', {message: e.message})
+            } else {
+              that.$router.replace('/plan/PlanList')
+            }
           })
         }
       },

@@ -39,10 +39,10 @@
       return {
         content: '',
         imgs: [
-          {addr: 'https://images.timetask.cn/cover/default/kanban_v1/card-default-1.png', word: '空白模板', index: 0},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660700001345312.png', word: '敏捷开发', index: 1},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660530001345312.png', word: '产品设计', index: 2},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660240001345312.png', word: '需求管理', index: 3}
+          {addr: 'https://images.timetask.cn/cover/default/kanban_v1/card-default-1.png', word: '空白模板', index: 0, id: 1295},
+          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660700001345312.png', word: '敏捷开发', index: 1, id: 263},
+          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660530001345312.png', word: '产品设计', index: 2, id: 1250},
+          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660240001345312.png', word: '需求管理', index: 3, id: 1248}
         ],
         currentIndex: 0,
         selectedLocalList: [],
@@ -70,9 +70,14 @@
     methods: {
       create () {
         var that = this
+        if (!this.content) {
+          return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
+        }
         var params = {
           name: this.content,
-          backgroundImage: this.imgs[this.currentIndex].addr,
+          cover: this.imgs[this.currentIndex].addr,
+          selectGroupId: 'all',
+          tKanbanId: this.imgs[this.currentIndex].id,
           accessIds: this.rsqIdArray.toString()
         }
 //        alert(JSON.stringify(params))
@@ -140,6 +145,9 @@
     mounted () {
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
+//      this.$store.dispatch('getTemplate').then((res) => {
+//        console.log(JSON.stringify(res))
+//      })
     }
   }
 </script>

@@ -1087,5 +1087,12 @@ export default {
         // commit('SAVE_LABELS', result)
         return result
       })
+  },
+  getTemplate ({commit, state}, p) {
+    return api.todo.getTemplate(p)
+      .then((result) => {
+        // commit('SAVE_LABELS', result)
+        return result
+      })
   }
 }

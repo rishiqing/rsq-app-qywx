@@ -477,5 +477,20 @@ export default {
           reject(err)
         })
     })
+  },
+  getTemplate (props) {
+    // var path = util.replaceUrlParams(mapping.GET_COVERLIST)
+    // alert(path)
+    // alert('props' + JSON.stringify(props))
+    return new Promise((resolve, reject) => {
+      Vue.http.get(mapping.GET_COVERLIST)
+        .then(res => {
+          // alert('RES' + res.name)
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
   }
 }

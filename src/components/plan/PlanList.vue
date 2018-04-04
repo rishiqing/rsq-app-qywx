@@ -1,16 +1,17 @@
 <template>
   <div>
-  <ul class="PlanList">
-    <Plan
-      v-for="item in planItems"
-      :item="item"
-      :key="item.id"
-    ></Plan>
-  </ul>
-  <r-nav></r-nav>
-    <!--<v-touch @tap="toCreate">-->
-   <!--<div>去新建</div>-->
-    <!--</v-touch>-->
+    <v-touch class="wrap-empty-plan"  @tap="toCreate" v-show="planItems.length === 0">
+      <img src="../../assets/img/plan-empty.png" alt="" class="plan-empty">
+      <span class="post-new-plan">新建计划</span>
+    </v-touch>
+    <ul class="PlanList" v-show="planItems.length > 0">
+      <Plan
+        v-for="item in planItems"
+        :item="item"
+        :key="item.id"
+      ></Plan>
+    </ul>
+    <r-nav></r-nav>
   </div>
 </template>
 <script>
@@ -47,6 +48,21 @@
   }
 </script>
 <style>
+  .post-new-plan{
+    font-size: 18px;
+    font-family: PingFangSC-Medium;
+    margin-left: 0.2rem;
+  }
+  .wrap-empty-plan{
+    display: flex;
+    align-items: center;
+    padding: 0.3rem;
+    border: 1px solid lightgray;
+  }
+  .plan-empty{
+    width: 1rem;
+    height: 1rem;
+  }
   .PlanList{
     background-color: white;
     padding-left: 0.3rem;

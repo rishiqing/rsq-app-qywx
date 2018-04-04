@@ -46,5 +46,6 @@ export default {
   'POST_KANBAN_ITEM': '/task/kanbanItem',
   'UPDATE_CARD_NAME': '/task/kanbanCard/:id',
   'GET_LABLES': '/task/kanbanLabelLibrary?kanbanId=:id',
-  'GET_COVERLIST': 'task/v2/kanbanTemplate/getCoverList'
+  'GET_COVERLIST': 'task/v2/kanbanTemplate/getCoverList',
+  'DELETE_KANBAN_ITEM': 'task/kanbanItem/:id'
 }

@@ -113,7 +113,7 @@
     margin: 0;
     padding:0;
     margin:0 auto;
-    /*margin-top:0.053rem;*/
+    margin-top:0.053rem;
   }
   .left{
     position: absolute;

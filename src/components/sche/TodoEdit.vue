@@ -351,6 +351,7 @@
 //              alert('拿到的item' + JSON.stringify(item))
               util.extendObject(this.editItem, item)
               var noteElement = document.getElementById('noteEditable')
+              console.log('this.curent' + JSON.stringify(this.currentTodo))
               if (this.pNote !== null) {
                 noteElement.innerHTML = this.pNote
               }
@@ -411,24 +412,28 @@
           window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
           return Promise.reject()
         }
-        if (newTitle !== this.editItem.pTitle) {
+        if (this.currentTodo.kanbanId) {
+          this.$store.dispatch('updateKanbanItem', {id: this.currentTodo.id, name: newTitle})
+        } else {
+          if (newTitle !== this.editItem.pTitle) {
 //          window.rsqadmg.exec('showLoader', {text: '保存中...'})
-          var params = {pTitle: newTitle}
-          return this.$store.dispatch('updateTodo', {editItem: params})
-            .then(() => {
-              this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED', params)
-            })
-            .then(() => {
-              return this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: newTitle, type: 9}})
-            })
-            .then(() => {
-              this.editItem.pTitle = newTitle
+            var params = {pTitle: newTitle}
+            return this.$store.dispatch('updateTodo', {editItem: params})
+              .then(() => {
+                this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED', params)
+              })
+              .then(() => {
+                return this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: newTitle, type: 9}})
+              })
+              .then(() => {
+                this.editItem.pTitle = newTitle
 //              this.editItem.pTitle = newTitle
 //              window.rsqadmg.exec('hideLoader')
 //              window.rsqadmg.execute('toast', {message: '保存成功'})
-            })
-        } else {
-          return Promise.resolve()
+              })
+          } else {
+            return Promise.resolve()
+          }
         }
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
@@ -516,47 +521,53 @@
 //        console.log(e)
 //        if (e.target.innerText === '删除任务') {
         var that = this
-        if (that.currentTodo.isCloseRepeat) {
-          window.rsqadmg.exec('confirm', {
-            message: '确定要删除此任务？',
-            success () {
-//              window.rsqadmg.execute('showLoader', {text: '删除中...'})
-              that.deleteCurrentTodo({todo: that.currentTodo})
-                .then(() => {
-                  //                  window.rsqadmg.exec('hideLoader')
-                  window.rsqadmg.execute('toast', {message: '删除成功'})
-                  that.$router.replace(window.history.back())
-                })
-            }
+        if (this.currentTodo.kanbanId) {
+          this.$store.dispatch('deleteKanbanItem', {id: this.currentTodo.id}).then(() => {
+            this.$router.replace(window.history.back())
           })
         } else {
-          if (e.target.innerText === '删除任务') {
-            window.rsqadmg.exec('actionsheet', {
-              buttonArray: ['仅删除此任务', '删除此任务及以后的任务', '删除所有的重复任务'],
-              success: function (res) {
-                //              console.log(JSON.stringify(res))
-//                window.rsqadmg.execute('showLoader', {text: '删除中...'})
-                var promise
-                switch (res.buttonIndex) {
-                  case 0:
-                    promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'today'})
-                    break
-                  case 1:
-                    promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'after'})
-                    break
-                  case 2:
-                    promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'all'})
-                    break
-                  default:
-                    break
-                }
-                promise.then(() => {
-                  window.rsqadmg.exec('hideLoader')
-                  window.rsqadmg.execute('toast', {message: '删除成功'})
-                  that.$router.replace(window.history.back())
-                })
+          if (that.currentTodo.isCloseRepeat) {
+            window.rsqadmg.exec('confirm', {
+              message: '确定要删除此任务？',
+              success () {
+//              window.rsqadmg.execute('showLoader', {text: '删除中...'})
+                that.deleteCurrentTodo({todo: that.currentTodo})
+                  .then(() => {
+                    //                  window.rsqadmg.exec('hideLoader')
+                    window.rsqadmg.execute('toast', {message: '删除成功'})
+                    that.$router.replace(window.history.back())
+                  })
               }
             })
+          } else {
+            if (e.target.innerText === '删除任务') {
+              window.rsqadmg.exec('actionsheet', {
+                buttonArray: ['仅删除此任务', '删除此任务及以后的任务', '删除所有的重复任务'],
+                success: function (res) {
+                  //              console.log(JSON.stringify(res))
+//                window.rsqadmg.execute('showLoader', {text: '删除中...'})
+                  var promise
+                  switch (res.buttonIndex) {
+                    case 0:
+                      promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'today'})
+                      break
+                    case 1:
+                      promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'after'})
+                      break
+                    case 2:
+                      promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'all'})
+                      break
+                    default:
+                      break
+                  }
+                  promise.then(() => {
+                    window.rsqadmg.exec('hideLoader')
+                    window.rsqadmg.execute('toast', {message: '删除成功'})
+                    that.$router.replace(window.history.back())
+                  })
+                }
+              })
+            }
           }
         }
       },
@@ -690,9 +701,10 @@
           })
       },
       initPlan () {
+        // 只用cvurrenttodo不行还得去后台拿
         console.log('currenttodo:' + JSON.stringify(this.currentTodo))
         util.extendObject(this.editItem, this.currentTodo)
-        console.log('this.editItem:' + JSON.stringify(this.editItem))
+//        console.log('this.editItem:' + JSON.stringify(this.editItem))
         var noteElement = document.getElementById('noteEditable')
         if (this.note) {
           noteElement.innerHTML = this.note

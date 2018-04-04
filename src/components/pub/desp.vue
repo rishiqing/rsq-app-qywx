@@ -26,6 +26,9 @@
       pNote () {
         return this.$store.state.todo.currentTodo.pNote
       },
+      currentTodo () {
+        return this.$store.state.todo.currentTodo
+      },
       remindColor () {
         var noteElement = document.getElementById('noteEditable')
         if (noteElement.innerHTML === '输入任务描述') {
@@ -61,10 +64,19 @@
         }
         var that = this
         var params = {pNote: this.newItemNote}
-        this.$store.dispatch('postdesp', params).then(() => {
-          that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED', params)
-          that.$router.replace(window.history.back())
-        })
+        if (this.currentTodo.kanbanId) {
+          var newParams = {note: this.newItemNote, id: this.currentTodo.id}
+          this.$store.dispatch('postKanbanItemDesp', newParams).then(() => {
+            this.currentTodo.note = this.newItemNote
+//            that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED', params)
+            that.$router.replace(window.history.back())
+          })
+        } else {
+          this.$store.dispatch('postdesp', params).then(() => {
+            that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED', params)
+            that.$router.replace(window.history.back())
+          })
+        }
       }
     },
     watch: {

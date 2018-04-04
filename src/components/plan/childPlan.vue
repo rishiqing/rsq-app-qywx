@@ -298,28 +298,45 @@
       editCard (e, item) {
         e.preventDefault()
 //        e.cancelBubble()
-        console.log('卡片进来了' + JSON.stringify(e))
         var that = this
         window.rsqadmg.exec('actionsheet', {
           buttonArray: ['编辑卡片名称', '删除卡片'],
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
-                var name = prompt('请输入卡片名称', item.name)
-                if (name) {
+                that.$prompt('请输入卡片名称', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消'
+                }).then(({ value }) => {
                   var params = {
-                    name: name,
+                    name: value,
                     id: item.id
                   }
-//                  var that = this
                   that.$store.dispatch('updateCardName', params).then((res) => {
-                    item.name = name
-//                    that.$store.commit('UPDATE_SUBPLAN_NAME', res)
+                    item.name = value
+                    that.$store.commit('UPDATE_SUBPLAN_NAME', res)
                   })
-                }
+                }).catch(() => {
+                  this.$message({
+                    type: 'info',
+                    message: '取消输入'
+                  })
+                })
+//                var name = prompt('请输入卡片名称', item.name)
+//                if (name) {
+//                  var params = {
+//                    name: name,
+//                    id: item.id
+//                  }
+//                  var that = this
+//                  that.$store.dispatch('updateCardName', params).then((res) => {
+//                    item.name = name
+//                    that.$store.commit('UPDATE_SUBPLAN_NAME', res)
+//                  })
+//                }
                 break
               case 1:
-                params = {
+                var params = {
                   name: name,
                   id: item.id
                 }
@@ -366,17 +383,21 @@
                 that.$router.push('/plan/setPlan')
                 break
               case 1:
-                var name = prompt('请输入子计划名称', that.currentSubPlan.name)
-                if (name) {
+                that.$prompt('请输入子计划名称', '提示', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消'
+                }).then(({ value }) => {
+//                var name = prompt('请输入子计划名称', that.currentSubPlan.name)
+//                if (name) {
                   var params = {
-                    name: name,
+                    name: value,
                     id: that.currentSubPlan.id
                   }
 //                  var that = this
                   that.$store.dispatch('updateName', params).then((res) => {
                     that.$store.commit('UPDATE_SUBPLAN_NAME', res)
                   })
-                }
+                })
                 break
               case 2:
                 that.$store.dispatch('deleteChildPlan', that.currentSubPlan).then(() => {
@@ -490,10 +511,8 @@
       // 拿到看板列表以及看板的任务列表。。。好多数据
 //      var that = this
       var createrId = this.$store.state.loginUser.rsqUser.id
-      console.log(createrId)
       for (var i = 0; i < this.userRoles.length; i++) {
         if (this.userRoles[i].userId === createrId) {
-          console.log('相等了')
           this.ifShowCreate = true
         }
       }
@@ -538,6 +557,13 @@
   }
 </script>
 <style>
+  .el-input__inner:focus{
+    border: 1px solid #dcdfe6
+  }
+  .el-message-box{
+    width: 8rem;
+    height: 6rem;
+  }
   .wrap-index-flag{
     width: 96%;
     display: flex;

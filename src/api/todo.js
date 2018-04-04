@@ -492,5 +492,41 @@ export default {
           reject(err)
         })
     })
+  },
+  deleteKanbanItem (props) {
+    var path = util.replaceUrlParams(mapping.DELETE_KANBAN_ITEM, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.delete(path)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  updateKanbanItem (props) {
+    var path = util.replaceUrlParams(mapping.DELETE_KANBAN_ITEM, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.put(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  postKanbanItemDesp (props) {
+    var path = util.replaceUrlParams(mapping.DELETE_KANBAN_ITEM, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.put(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
   }
 }

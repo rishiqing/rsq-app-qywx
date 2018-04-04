@@ -435,7 +435,7 @@ export default {
         state.childPlanlist[i].name = p.name
       }
     }
-  },
+  }, // 其实直接更改当前的item不就行了，有必要去列表里面去找吗
   CANCEL_STAR (state, p) {
     for (var i = 0; i < state.planlist.length; i++) {
       if (state.planlist[i].id === p.kanbanId) {

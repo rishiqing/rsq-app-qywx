@@ -1094,5 +1094,23 @@ export default {
         // commit('SAVE_LABELS', result)
         return result
       })
+  },
+  deleteKanbanItem ({commit, state}, p) {
+    return api.todo.deleteKanbanItem(p)
+      .then((res) => {
+        // commit('DELETE_CARD', p)
+      })
+  },
+  updateKanbanItem  ({commit, state}, p) {
+    return api.todo.updateKanbanItem(p)
+      .then((res) => {
+        // commit('DELETE_CARD', p)
+      })
+  },
+  postKanbanItemDesp  ({commit, state}, p) {
+    return api.todo.postKanbanItemDesp(p)
+      .then((res) => {
+        // commit('DELETE_CARD', p)
+      })
   }
 }

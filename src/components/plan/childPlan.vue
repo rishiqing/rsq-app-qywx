@@ -110,7 +110,9 @@
         </li>
       </v-touch>
     </ul>
-    <div class="mask" v-show="initialState"></div>
+    <v-touch @tap="hideMask">
+      <div class="mask" v-show="initialState"></div>
+    </v-touch>
   </div>
 </template>
 <script>
@@ -162,6 +164,9 @@
       }
     },
     methods: {
+      hideMask () {
+        this.initialState = false
+      },
       toEdit (item) {
         this.$store.dispatch('setCurrentTodo', item)// 设置当前todo不管是inbox的todo还是ssche的todo
         this.$router.push('/todo/' + item.id)
@@ -448,27 +453,31 @@
           })
       },
       toEditPlan () {
-//        this.$prompt('请输入邮箱', '提示', {
-//          confirmButtonText: '确定',
-//          cancelButtonText: '取消'
-//        }).then(({ value }) => {
-//          this.$message({
-//            type: 'success',
-//            message: '你的邮箱是: ' + value
-//          })
-//        })
-        var name = prompt('请输入子计划名称', '')
-        if (name) {
+        this.$prompt('请输入新建子计划名称', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消'
+        }).then(({ value }) => {
           var params = {
-            name: name,
+            name: value,
             kanbanId: this.currentPlan.id
           }
           var that = this
           this.$store.dispatch('postSubPlan', params).then((res) => {
             that.$store.commit('ADD_SUB_PLAN', res)
           })
-        } else {
-        }
+        })
+//        var name = prompt('请输入子计划名称', '')
+//        if (name) {
+//          var params = {
+//            name: name,
+//            kanbanId: this.currentPlan.id
+//          }
+//          var that = this
+//          this.$store.dispatch('postSubPlan', params).then((res) => {
+//            that.$store.commit('ADD_SUB_PLAN', res)
+//          })
+//        } else {
+//        }
 //        this.$router.push('/plan/createSubplan')
       },
       postCard () {

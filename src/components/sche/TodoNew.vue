@@ -210,11 +210,7 @@
        * 初始化数据，从state的currentTodo复制到local的editItem
        */
       initData () {
-//        console.log('this.currentTodo是' + JSON.stringify(this.currentTodo))
-//        console.log('this.JOINuserid' + [this.editItem.receiverIds])
         jsUtil.extendObject(this.editItem, this.currentTodo)
-//        console.log('this.edititem' + JSON.stringify(this.editItem))
-//        this.editItem.receiverIds = [this.editItem.receiverIds]
       },
       /**
        * 从startDate endDate dates三个字段中转换成用户前台显示的date结构
@@ -229,15 +225,9 @@
         this.$store.commit('TD_TODO_UPDATED', {todo: {pTitle: newTitle}})
       },
       saveMember (idArray) {
-//        alert('saveMember' + idArray)
-//        idArray.push(this.userId)
-//        alert(idArray)
         this.joinUserRsqIds = idArray
-//        alert(this.joinUserRsqIds)
         var ids = idArray.join(',')
         this.editItem.receiverIds = ids
-//        console.log(this.editItem.receiverIds)
-//        console.log('此时id是' + this.joinUserRsqIds)
         this.$store.commit('TD_TODO_UPDATED', {todo: {receiverIds: ids}})
 //        this.editItem.receiverIds = idArray
       }, // 注意这里没有和后台打交道，在提交新建的时候才打交道
@@ -269,10 +259,7 @@
 //        debugger
         var clockAlert = JSON.parse(JSON.stringify(this.currentTodo.clock.alert || null))
         var that = this
-//        console.log(this.kanbanCardId)
-//        debugger
         if (this.kanbanCardId) {
-//          alert(JSON.stringify(this.currentTodo))
           var startDate = this.currentTodo.startDate ? this.currentTodo.startDate.split('/').join('') : null
           var endDate = this.currentTodo.endDate ? this.currentTodo.endDate.split('/').join('') : null
           var params = {
@@ -292,37 +279,37 @@
             .then(item => {
               if (this.currentTodo.clock && this.currentTodo.clock.startTime) {
                 item.clock.alert = clockAlert
-                return this.$store.dispatch('handleRemind', {item})
+//                return this.$store.dispatch('handleRemind', {item})
               } else {
                 return item
               }
             })
             .then(item => {
               window.rsqadmg.execute('toast', {message: '创建成功'})
-              if (item.receiverIds) {
-                var url = window.location.href.split('#')
-                var note = this.editItem.pNote
-                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
-                var data = {
-                  'msgtype': 'textcard',
-                  'agentid': this.corpId,
-                  'textcard': {
-                    'title': item.pTitle,
-                    'description': newnote,
-                    'url': url[0] + '#' + '/todo/' + item.id
-                  }
-                }
-                var IDArrays = item.receiverIds.split(',')
-                var empIDArray = []
-                this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
-                  .then(idMap => {
+//              if (item.receiverIds) {
+//                var url = window.location.href.split('#')
+//                var note = this.editItem.pNote
+//                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
+//                var data = {
+//                  'msgtype': 'textcard',
+//                  'agentid': this.corpId,
+//                  'textcard': {
+//                    'title': item.pTitle,
+//                    'description': newnote,
+//                    'url': url[0] + '#' + '/todo/' + item.id
+//                  }
+//                }
+//                var IDArrays = item.receiverIds.split(',')
+//                var empIDArray = []
+//                this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
+//                  .then(idMap => {
 //                  alert('idmap' + JSON.stringify(idMap))
-                    for (var i = 0; i < IDArrays.length; i++) {
-                      empIDArray.push(idMap[IDArrays[i]].userId)
-                    }
+//                    for (var i = 0; i < IDArrays.length; i++) {
+//                      empIDArray.push(idMap[IDArrays[i]].userId)
+//                    }
 //                  alert('发送的id' + JSON.stringify(empIDArray))
 //                  alert(empIDArray.toString().split(',').join('|'))
-                    data['touser'] = empIDArray.toString().split(',').join('|')
+//                    data['touser'] = empIDArray.toString().split(',').join('|')
 //                  that.$store.dispatch('sendMessage', {
 //                    corpId: that.loginUser.authUser.corpId,
 //                    data: data
@@ -334,8 +321,8 @@
 //                      console.log('发送成功！')
 //                    }
 //                  })
-                  })
-              }
+//                  })
+//              }
               this.$router.replace('/sche')
             })
         }
@@ -343,22 +330,9 @@
     },
     created () {
       this.initData()
-//      window.rsqadmg.execute('setTitle', {title: '新建任务'})
-//      var btnParams
-//      var that = this
-//      btnParams = {
-//        btns: [{key: 'submitTodo', name: '完成'}],
-//        success: function (res) {
-//          if (res.key === 'submitTodo') {
-//            that.submitTodo()
-//          }
-//        }
-//      }
-//      window.rsqadmg.execute('setOptionButtons', btnParams)
     },
     mounted () {
       this.joinUserRsqIds = [this.$store.state.loginUser.rsqUser.id]
-//      alert(JSON.stringify(this.joinUserRsqIds))
       if (this.editItem.receiverIds !== null) {
         var idArray = this.editItem.receiverIds.split(',')
         this.joinUserRsqIds = []
@@ -366,7 +340,6 @@
           this.joinUserRsqIds.push(idArray[i])
         }
       }
-//      alert(this.joinUserRsqIds.length)
     }
   }
 </script>

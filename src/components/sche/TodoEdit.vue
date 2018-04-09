@@ -351,7 +351,7 @@
 //              alert('拿到的item' + JSON.stringify(item))
               util.extendObject(this.editItem, item)
               var noteElement = document.getElementById('noteEditable')
-              console.log('this.curent' + JSON.stringify(this.currentTodo))
+//              console.log('this.curent' + JSON.stringify(this.currentTodo))
               if (this.pNote !== null) {
                 noteElement.innerHTML = this.pNote
               }
@@ -703,16 +703,20 @@
       initPlan () {
         // 只用cvurrenttodo不行还得去后台拿
         console.log('currenttodo:' + JSON.stringify(this.currentTodo))
-        util.extendObject(this.editItem, this.currentTodo)
+        return this.$store.dispatch('getKanbanItem', {todo: {id: this.currentTodo.id}})
+          .then(item => {
+
+          })
+//        util.extendObject(this.editItem, this.currentTodo)
 //        console.log('this.editItem:' + JSON.stringify(this.editItem))
-        var noteElement = document.getElementById('noteEditable')
-        if (this.note) {
-          noteElement.innerHTML = this.note
-        }
-        var joinUserArray = util.getMapValuePropArray(this.editItem.receiverUser, 'joinUser')
-        this.joinUserRsqIds = joinUserArray.map(obj => {
-          return obj['id'] + ''
-        })
+//        var noteElement = document.getElementById('noteEditable')
+//        if (this.note) {
+//          noteElement.innerHTML = this.note
+//        }
+//        var joinUserArray = util.getMapValuePropArray(this.editItem.receiverUser, 'joinUser')
+//        this.joinUserRsqIds = joinUserArray.map(obj => {
+//          return obj['id'] + ''
+//        })
       }
     },
     created () {

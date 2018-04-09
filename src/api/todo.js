@@ -244,7 +244,7 @@ export default {
     return new Promise((resolve, reject) => {
       Vue.http.post(mapping.REMIND, props)
         .then(res => {
-          alert('请求返回')
+          // alert('请求返回')
           resolve(res.json())
         }, err => {
           window.rsqadmg.log(JSON.stringify(err))

@@ -1112,5 +1112,12 @@ export default {
       .then((res) => {
         // commit('DELETE_CARD', p)
       })
+  },
+  getKanbanItem ({commit, state}, p) {
+    return api.todo.getTemplate(p)
+      .then((result) => {
+        // commit('SAVE_LABELS', result)
+        return result
+      })
   }
 }

@@ -72,11 +72,14 @@
     },
     computed: {
       dateString () {
+        console.log('进来了')
         if (this.item.pContainer === 'inbox') {
           return '添至日程'
+        } else if (this.item.startDate === null && this.item.endDate === null && this.item.dates === null) {
+          return '今天'
         } else {
           var result = dateUtil.repeatDate2Text(this.item)
-//          console.log(result.length)
+          console.log(result)
           if (result.length > 20) {
             result = result.substring(0, 21)
           }
@@ -122,6 +125,9 @@
 //          }
 //        })
       }
+    },
+    mounted () {
+      console.log('传过来的item' + JSON.stringify(this.item))
     }
   }
 </script>

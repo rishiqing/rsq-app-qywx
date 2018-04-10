@@ -15,7 +15,7 @@
     </div>
     <div class="margin-block"></div>
     <ul class="sublist" :class="{hasborder:!haschild}">
-      <li v-for="item in items" v-if="items" class="sublistItem">
+      <li v-for="item in subItems" v-if="subItems" class="sublistItem">
         <v-touch class="wrap-sub-icon" v-if="" @tap="clickCheckOut(item)">
           <i class="icon2-check-box select-sub"></i>
           <div class="hide" :class="{'for-hide-sub':item.isDone}"></div>
@@ -45,11 +45,22 @@
       items () {
         return this.$store.state.todo.currentTodo.subTodos// 其实有没有必要写这个呢，因为currenttodo是动态变化的，只要重新和后台打交道setcurrent以后自然可以变化
       },
+      subItems () {
+        return this.$store.state.todo.currentTodo.subItems
+      },
+      finalItems () {
+        return this.items ? this.items : this.subItems
+      },
       todoid () {
         return this.$store.state.todo.currentTodo.id
       },
+      currentTodo () {
+        return this.$store.state.todo.currentTodo
+      },
       haschild () {
-        return this.$store.state.todo.currentTodo.subTodos.length === 0
+        if (this.$store.state.todo.currentTodo.subTodos) {
+          return this.$store.state.todo.currentTodo.subTodos.length === 0
+        }
       }
     },
     components: {
@@ -102,19 +113,27 @@
       },
       saveTodo () {
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
-        this.$store.dispatch('createSubTodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoid})
-          .then(() => {
-            //  触发标记重复修改
-//            console.log('创建完成了')
-            this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
-//            this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: this.inputTitle, type: 7}})
-//              .then(() => {
-//                console.log('saveTodoAction资格行完成')
-//              })
+        if (this.currentTodo.kanbanId) {
+          this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.todoid}).then(() => {
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
+        } else {
+          this.$store.dispatch('createSubTodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoid})
+            .then(() => {
+              //  触发标记重复修改
+//            console.log('创建完成了')
+              this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
+//            this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: this.inputTitle, type: 7}})
+//              .then(() => {
+//                console.log('saveTodoAction资格行完成')
+//              })
+              this.inputTitle = ''
+              window.rsqadmg.exec('hideLoader')
+              window.rsqadmg.execute('toast', {message: '创建成功'})
+            })
+        }
       },
       clickCheckOut (item) {
         this.$store.dispatch('submitSubTodoFinish', {item: item, status: !item.isDone})

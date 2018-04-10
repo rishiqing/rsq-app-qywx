@@ -478,7 +478,6 @@
             window.rsqadmg.exec('showLoader', {text: '保存中...'})
           }
           var editItem = this.getSubmitResult()
-          console.log('submitTodo的editItem是' + editItem)
           //  如果日期均为空，则容器为收纳箱
           if (!editItem.startDate && !editItem.endDate && !editItem.dates) {
             editItem['pContainer'] = 'inbox'

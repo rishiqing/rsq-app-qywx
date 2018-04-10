@@ -4,7 +4,7 @@
       <img src="../../assets/img/plan-empty.png" alt="" class="plan-empty">
       <span class="post-new-plan">新建计划</span>
     </v-touch>
-    <ul class="PlanList" v-show="planItems.length > 0">
+    <ul class="PlanList" v-show="planItems.length > 0" :class="{'planCount': planCount}">
       <Plan
         v-for="item in planItems"
         :item="item"
@@ -29,6 +29,9 @@
     computed: {
       planItems () {
         return this.$store.state.planlist
+      },
+      planCount () {
+        return this.planItems.length > 8
       }
     },
 //    props: {
@@ -48,6 +51,9 @@
   }
 </script>
 <style>
+  .planCount{
+    padding-bottom: 1.5rem;
+  }
   .post-new-plan{
     font-size: 18px;
     font-family: PingFangSC-Medium;
@@ -66,7 +72,8 @@
   .PlanList{
     background-color: white;
     padding-left: 0.3rem;
+    /*padding-bottom: 1.5rem;*/
     margin-top: 0.1rem;
-    margin-bottom: 1.5rem;
+    /*margin-bottom: 2.9rem;*/
   }
 </style>

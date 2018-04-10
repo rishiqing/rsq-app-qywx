@@ -47,5 +47,6 @@ export default {
   'UPDATE_CARD_NAME': '/task/kanbanCard/:id',
   'GET_LABLES': '/task/kanbanLabelLibrary?kanbanId=:id',
   'GET_COVERLIST': 'task/v2/kanbanTemplate/getCoverList',
-  'DELETE_KANBAN_ITEM': 'task/kanbanItem/:id'
+  'DELETE_KANBAN_ITEM': 'task/kanbanItem/:id',
+  'KANBAN_SUBTODO': 'task/kanbanSubItem'
 }

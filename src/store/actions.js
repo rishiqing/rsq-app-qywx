@@ -1114,7 +1114,14 @@ export default {
       })
   },
   getKanbanItem ({commit, state}, p) {
-    return api.todo.getTemplate(p)
+    return api.todo.getKanbanItem(p)
+      .then((result) => {
+        // commit('SAVE_LABELS', result)
+        return result
+      })
+  },
+  createKanbanSubtodo ({commit, state}, p) {
+    return api.todo.createKanbanSubtodo(p)
       .then((result) => {
         // commit('SAVE_LABELS', result)
         return result

@@ -702,25 +702,29 @@
       },
       initPlan () {
         // 只用cvurrenttodo不行还得去后台拿
-        console.log('currenttodo:' + JSON.stringify(this.currentTodo))
-        return this.$store.dispatch('getKanbanItem', {todo: {id: this.currentTodo.id}})
+//        console.log('currenttodo:' + JSON.stringify(this.currentTodo))
+        return this.$store.dispatch('getKanbanItem', {id: this.currentTodo.id})
           .then(item => {
-
+//            console.log('拿到的item' + JSON.stringify(item))
+            util.extendObject(this.editItem, item)
+//            console.log('this.edititem' + JSON.stringify(this.editItem))
+            var noteElement = document.getElementById('noteEditable')
+            if (this.note) {
+              noteElement.innerHTML = this.note
+            }
+            var joinUserArray = util.getMapValuePropArray(this.editItem.receiverUser, 'joinUser')
+            this.joinUserRsqIds = joinUserArray.map(obj => {
+              return obj['id'] + ''
+            })
           })
-//        util.extendObject(this.editItem, this.currentTodo)
-//        console.log('this.editItem:' + JSON.stringify(this.editItem))
-//        var noteElement = document.getElementById('noteEditable')
-//        if (this.note) {
-//          noteElement.innerHTML = this.note
-//        }
-//        var joinUserArray = util.getMapValuePropArray(this.editItem.receiverUser, 'joinUser')
-//        this.joinUserRsqIds = joinUserArray.map(obj => {
-//          return obj['id'] + ''
-//        })
       }
     },
     created () {
-//      this.initData()
+      if (this.currentTodo.kanbanId) {
+        this.initPlan()
+      } else {
+        this.initData()
+      }
 //      var that = this
       window.rsqadmg.execute('setTitle', {title: '详情'})
 //      window.rsqadmg.execute('setOptionButtons', {
@@ -733,19 +737,20 @@
 //      })
     },
     mounted () {
+      document.body.scrollTop = document.documentElement.scrollTop = 0
     },
-    beforeRouteEnter (to, from, next) {
-      if (from.name === 'sche') {
-        next(vm => {
-          vm.initData()
-        })
-      } else {
-        next(vm => {
-          vm.initPlan()
-        })
-      }
+//    beforeRouteEnter (to, from, next) {
+//      if (from.name === 'sche' || from.name === 'inbox') {
+//        next(vm => {
+//          vm.initData()
+//        })
+//      } else {
+//        next(vm => {
+//          vm.initPlan()
+//        })
+//      }
 //      next()
-    },
+//    },
     beforeRouteLeave (to, from, next) {
       //  判断是否需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
       if (to.name === 'sche') {

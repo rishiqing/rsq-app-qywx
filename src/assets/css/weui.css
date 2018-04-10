@@ -1819,7 +1819,7 @@ a.weui-media-box:active {
   height: 100px;
   margin-top:-50px;
   top: 50%;
-  left: 50%;
+  left: 47%;
   margin-left: -35px;
   background: rgba(17, 17, 17, 0.7);
   text-align: center;
@@ -1860,6 +1860,8 @@ a.weui-media-box:active {
   right: 0;
   left: 0;
   bottom: 0;
+  background-color: white;
+  /*opacity: 0.4;*/
 }
 .weui-actionsheet {
   position: fixed;

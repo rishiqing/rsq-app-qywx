@@ -2,7 +2,7 @@
   <div class="child-plan-main">
     <v-touch class="topChild">
       <div class="top-sub">
-        <v-touch class="top-subPlan"  @tap="changeState" >
+        <v-touch class="top-subPlan"  @tap="changeState($event)" >
           <span class="top-subPlan-name">{{currentSubPlan.name}}</span>
           <i class="icon2-arrow-down arrow-down"></i>
         </v-touch>
@@ -103,7 +103,7 @@
             <i class="icon2-selected selected-icon" v-show="item.name === currentSubPlan.name"></i>
           </v-touch>
         </li>
-      <v-touch @tap="toEditPlan" class="">
+      <v-touch @tap="toEditPlan($event)" class="">
         <li class="post-sub-plan" v-show="ifShowCreate">
           <img src="../../assets/img/edit.png" alt="" class="sub-plan-img">
           <div class="sub-plan-name">新建子计划</div>
@@ -165,7 +165,8 @@
     },
     methods: {
       hideMask () {
-        this.initialState = false
+//        this.initialState = false
+//        alert('被触发了')
       },
       toEdit (item) {
         this.$store.dispatch('setCurrentTodo', item)// 设置当前todo不管是inbox的todo还是ssche的todo
@@ -180,6 +181,9 @@
               newItems.push(items[i])
             }
           }
+          newItems.sort(function (item1, item2) {
+            return item1.displayOrder - item2.displayOrder > 0
+          })
           for (i = 0; i < items.length; i++) {
             if (items[i].isDone) {
               newItems.push(items[i])
@@ -257,8 +261,8 @@
         }
         if (this.currentSubPlanOftask) {
           box.style.left = this.pos
-          console.log(this.num)
-          console.log('wrap' + wrap)
+//          console.log(this.num)
+//          console.log('wrap' + wrap)
           this.currNum = this.num
         }
         // 初始化手指坐标点
@@ -428,7 +432,8 @@
         this.emptyCard = false
         this.createCard = true
       },
-      changeState () {
+      changeState (e) {
+        e.preventDefault()
         this.initialState = !this.initialState
       },
       getCardList (item) {
@@ -452,7 +457,9 @@
             })
           })
       },
-      toEditPlan () {
+      toEditPlan (e) {
+        e.preventDefault()
+        this.initialState = !this.initialState
         this.$prompt('请输入新建子计划名称', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消'
@@ -648,7 +655,7 @@
   .index-flag{
     display: flex;
     align-items: center;
-    width: 4rem;
+    /*width: 4rem;*/
     height: 20px;
     margin: 0 auto;
     justify-content: space-around;
@@ -659,6 +666,7 @@
     border-radius: 50%;
     background-color: white;
     border: 1px solid rgba(0,0,0,0.22);
+    margin-left: 0.2rem;
   }
   .wrap-add-task{
     display: flex;
@@ -671,10 +679,11 @@
   .wrap-cardBorder{
     background-color: #F7F7F7;
     padding: 0.3rem;
-    height: 95%;
+    /*height: 95%;*/
   }
   .cardList{
-    height: 13rem;
+    /*height: 13rem;*/
+    /*height: 80vh;*/
     /*height: 95%;*/
     /*display: flex;*/
     /*width:400%;*/
@@ -684,13 +693,13 @@
   .wrap{
     position: relative;
     overflow: hidden;
-    /*height: 90%;*/
+    height: 98%;
     /*height: 14rem;*/
   }
   .cardBorder{
     float: left;
     box-sizing: border-box;
-    height: 100%;
+    /*height: 100%;*/
     position: relative;
     /*margin: 0.6rem;*/
     /*width: 25%;*/
@@ -723,6 +732,7 @@
     font-size: 14px;
     color: #000000;
     letter-spacing: 0.96px;
+    word-break: break-all;
     /*line-height: 10px;*/
   }
   .cardItem{
@@ -760,7 +770,7 @@
     margin: 0.4rem;
     margin-top: 0;
     margin-bottom: 0;
-    transition: 0.2s;
+    transition: 0.1s;
     /*padding: 0.3rem;*/
   }
   .wrap-button{
@@ -801,7 +811,8 @@
   }
   .child-plan-main{
     background-color: white;
-    height: 100%;
+    overflow-y: hidden;
+    height: 98%;
   }
   .wrap-post-card{
     display: flex;
@@ -908,7 +919,8 @@
     z-index: 2
   }
   .taskBorder{
-    height: 10rem;
+    /*height: 10rem;*/
+    height: 67vh;
     overflow: auto;
     /*border: 1px solid yellow;*/
     /*background-color: white;*/

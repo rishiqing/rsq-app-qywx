@@ -528,5 +528,30 @@ export default {
           reject(err)
         })
     })
+  },
+  getKanbanItem (props) {
+    var path = util.replaceUrlParams(mapping.FINISH_CARD_ITEM, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.get(path)
+        .then(res => {
+          // alert('RES' + res.name)
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  createKanbanSubtodo (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.KANBAN_SUBTODO, props)
+        .then(res => {
+          // alert('RES' + res.name)
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.log(JSON.stringify(err))
+          reject(err)
+        })
+    })
   }
 }

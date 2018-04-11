@@ -911,20 +911,11 @@ export default {
         mills_array: millsArray,
         remind_array: remindArray,
         userid_list: state.loginUser.authUser.userId,
-        msgtype: 'oa',
+        msgtype: 'textcard',
         msgcontent: {
-          message_url: url[0] + '#' + '/todo/' + item.id,
-          head: {
-            text: '日事清',
-            bgcolor: 'FF55A8FD'
-          },
-          body: {
-            title: '任务提醒',
-            form: [
-              {key: '任务名称：', value: item.pTitle},
-              {key: '时间：', value: c.startTime + '-' + c.endTime}
-            ]
-          }
+          url: url[0] + '#' + '/todo/' + item.id,
+          title: item.pTitle,
+          description: '日程提醒'
         }
       }
       promise = dispatch('sendRemind', {corpId: state.loginUser.authUser.corpId, data: data})
@@ -937,10 +928,10 @@ export default {
     })
   },
   sendRemind ({commit, state}, p) {
-    var appId = state.sys.appId
+    // var appId = state.sys.appId
     var urlParams = {
-      corpid: p.corpId,
-      appid: appId
+      corpid: p.corpId
+      // appid: appId
     }
     return api.appAuth.sendRemind({
       urlParams,
@@ -964,7 +955,7 @@ export default {
       })
   },
   sendMessage ({commit, state}, p) {
-    return api.todo.sendMessage(p.data)
+    return api.todo.sendMessage(p)
       .then((result) => {
         return result
       })

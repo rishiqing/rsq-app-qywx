@@ -125,6 +125,7 @@
     /*margin-top: -0.453rem;*/
     display: flex;
     align-items: center;
+    text-align: center;
     /*justify-content: center;*/
   }
   .right{

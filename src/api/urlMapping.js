@@ -5,7 +5,8 @@ export default {
   'SEND_TO_CONV': 'msg/sendtoconversation',
   'SEND_TO_CORP_CONV': 'msg/sendasynccorpmessage',
   'SEND_REMIND': 'msg/remind',
-
+  'SEND_NOTIFY': 'msg/sendNotification',
+  'SEND_QYWX_REMIND': 'alert/set',
   'AVATAR_CDN': 'https://rishiqing-avatar.oss-cn-beijing.aliyuncs.com/',
   'SYS_AVATAR_CDN': 'https://rishiqing-images.oss-cn-beijing.aliyuncs.com/avatar/',
   'CHECK_AUTH': 'task/login/authAjax',

@@ -693,7 +693,9 @@
   .wrap{
     position: relative;
     overflow: hidden;
-    height: 98%;
+    /*height: 97%;*/
+    height: 92vh;
+    background-color: white;
     /*height: 14rem;*/
   }
   .cardBorder{
@@ -771,6 +773,7 @@
     margin-top: 0;
     margin-bottom: 0;
     transition: 0.1s;
+    overflow: hidden;
     /*padding: 0.3rem;*/
   }
   .wrap-button{
@@ -811,8 +814,8 @@
   }
   .child-plan-main{
     background-color: white;
-    overflow-y: hidden;
-    height: 98%;
+    /*overflow: hidden;*/
+    height: 100vh;
   }
   .wrap-post-card{
     display: flex;
@@ -917,6 +920,9 @@
   .card{
     position: relative;
     z-index: 2
+  }
+  .cardList:after{
+    clear: both;
   }
   .taskBorder{
     /*height: 10rem;*/

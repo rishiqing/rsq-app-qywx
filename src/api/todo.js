@@ -240,9 +240,9 @@ export default {
     })
   },
   sendMessage (props) {
-    // alert(JSON.stringify(props))
+    var url = mapping.REMIND + '?corpid=' + props.corpId
     return new Promise((resolve, reject) => {
-      Vue.http.post(mapping.REMIND, props)
+      Vue.http.post(url, props.data)
         .then(res => {
           // alert('请求返回')
           resolve(res.json())

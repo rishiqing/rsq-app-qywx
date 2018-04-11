@@ -350,7 +350,7 @@
         return this.$store.dispatch('updateTodoTime', {clock: this.clockData})
           .then(item => {
             jsUtil.extendObject(item.clock, clockObject)
-//            return this.$store.dispatch('handleRemind', {item})   这里有报错，以后在做这个功能
+            return this.$store.dispatch('handleRemind', {item})
           })
           .then(() => {
             this.$store.commit('PUB_TODO_TIME_DELETE')

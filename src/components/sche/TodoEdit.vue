@@ -359,7 +359,7 @@
               this.joinUserRsqIds = joinUserArray.map(obj => {
                 return obj['id'] + ''
               })
-              alert('this.joinUserRsqIds' + this.joinUserRsqIds)
+//              alert('this.joinUserRsqIds' + this.joinUserRsqIds)
             })
           .then(() => {
             this.fetchCommentIds()

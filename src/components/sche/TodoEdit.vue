@@ -359,7 +359,7 @@
               this.joinUserRsqIds = joinUserArray.map(obj => {
                 return obj['id'] + ''
               })
-//              alert('this.joinUserRsqIds' + this.joinUserRsqIds)
+              alert('this.joinUserRsqIds' + this.joinUserRsqIds)
             })
           .then(() => {
             this.fetchCommentIds()
@@ -712,10 +712,12 @@
             if (this.note) {
               noteElement.innerHTML = this.note
             }
-            var joinUserArray = util.getMapValuePropArray(this.editItem.receiverUser, 'joinUser')
-            this.joinUserRsqIds = joinUserArray.map(obj => {
-              return obj['id'] + ''
-            })
+            this.joinUserRsqIds = this.editItem.joinUserIds
+//            alert('this.joinUserRsqIds' + this.joinUserRsqIds)
+//            var joinUserArray = util.getMapValuePropArray(this.editItem.joinUserIds, 'joinUser')
+//            this.joinUserRsqIds = joinUserArray.map(obj => {
+//              return obj['id'] + ''
+//            })
           })
       }
     },

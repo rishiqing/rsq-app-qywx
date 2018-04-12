@@ -59,13 +59,13 @@ export default {
     return new Promise((resolve, reject) => {
       var request = window.rsqConfig.authServer + mapping.SEND_NOTIFY + '?' + util.combineUrlParams(props.urlParams)
       // var request = url.resolve(window.rsqConfig.authServer, mapping.SEND_NOTIFY) + '?' + util.combineUrlParams(props.urlParams)
-      alert('data' + JSON.stringify(props.data))
+      // alert('data' + JSON.stringify(props.data))
       Vue.http.post(request, JSON.stringify(props.data))
         .then(res => {
-          alert('成功' + JSON.stringify(res))
+          // alert('成功' + JSON.stringify(res))
           resolve(res.json())
         }, err => {
-          alert('失败' + JSON.stringify(err))
+          // alert('失败' + JSON.stringify(err))
           window.rsqadmg.log(JSON.stringify(err))
           reject(err)
         })
@@ -75,13 +75,12 @@ export default {
     return new Promise((resolve, reject) => {
       var request = window.rsqConfig.authServer + mapping.SEND_QYWX_REMIND + '?' + util.combineUrlParams(props.urlParams)
       // var request = url.resolve(window.rsqConfig.authServer, mapping.SEND_QYWX_REMIND) + '?' + util.combineUrlParams(props.urlParams)
-      alert('data' + JSON.stringify(props.data))
       Vue.http.post(request, JSON.stringify(props.data))
         .then(res => {
-          alert('成功' + JSON.stringify(res))
+          // alert('成功' + JSON.stringify(res))
           resolve(res.json())
         }, err => {
-          alert('失败' + JSON.stringify(err))
+          // alert('失败' + JSON.stringify(err))
           window.rsqadmg.log(JSON.stringify(err))
           reject(err)
         })

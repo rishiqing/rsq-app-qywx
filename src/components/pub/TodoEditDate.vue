@@ -19,11 +19,11 @@
         <!--<v-touch class="dp-title-tag u-pull-right" @tap="tapBackToday($event)">今</v-touch>-->
         <v-touch tag="i" class="icon icon-keyboard_arrow_left u-pull-left"
                  @tap="tapChangeMonth($event, -1)"></v-touch>
-        <v-touch tag="i" class="icon icon-keyboard_arrow_right u-pull-right"
-                 @tap="tapChangeMonth($event, 1)"></v-touch>
         <div class="dp-title-text">
           {{focusDate.getFullYear()}}年{{focusDate.getMonth() + 1}}月
         </div>
+        <v-touch tag="i" class="icon icon-keyboard_arrow_right u-pull-right"
+                 @tap="tapChangeMonth($event, 1)"></v-touch>
         <v-touch @tap="backToToday">
           <span class="backToday">今</span>
         </v-touch>
@@ -74,9 +74,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 2rem;
-    left:8rem
+    /*position: absolute;*/
+    /*top: 2rem;*/
+    /*left:8rem*/
     /*display: block;*/
   }
   .dp-content .dp-table .is-today{
@@ -96,7 +96,10 @@
       font-size: 19px;
       color: #000000;
       letter-spacing: -0.46px;
-      padding: 0 2.4rem;
+      padding: 0 2rem;
+      padding-left: 2.5rem;
+      display: flex;
+      align-items: center;
     }
     .dp-title-text {
       text-align: center;

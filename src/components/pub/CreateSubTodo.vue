@@ -15,7 +15,7 @@
     </div>
     <div class="margin-block"></div>
     <ul class="sublist" :class="{hasborder:!haschild}">
-      <li v-for="item in subItems" v-if="subItems" class="sublistItem">
+      <li v-for="item in finalItems" v-if="finalItems" class="sublistItem">
         <v-touch class="wrap-sub-icon" v-if="" @tap="clickCheckOut(item)">
           <i class="icon2-check-box select-sub"></i>
           <div class="hide" :class="{'for-hide-sub':item.isDone}"></div>

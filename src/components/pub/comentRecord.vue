@@ -100,7 +100,7 @@
   }
   .content{
     margin-left: 3px;
-    width:6.16rem;
+    width:6rem;
   }
   .icon{
     width: 30px;
@@ -109,10 +109,10 @@
     color:#ACACAC;
   }
   .time{
-    font-size: 0.34rem;
+    font-size: 13px;
     color:#999999;
     display: inline-block;
-    width: 2.133rem;
+    /*width: 2.133rem;*/
   }
 </style>
 <script>

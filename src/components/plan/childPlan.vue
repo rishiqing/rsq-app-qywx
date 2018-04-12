@@ -1,6 +1,6 @@
 <template>
   <div class="child-plan-main">
-    <v-touch class="topChild">
+    <div class="topChild">
       <div class="top-sub">
         <v-touch class="top-subPlan"  @tap="changeState($event)" >
           <span class="top-subPlan-name">{{currentSubPlan.name}}</span>
@@ -10,7 +10,7 @@
           <i class="icon2-set set"></i>
         </v-touch>
       </div>
-    </v-touch>
+    </div>
     <div class="wrap">
       <ul class="cardList">
         <li v-for="item in cardList" class="cardBorder">
@@ -110,9 +110,7 @@
         </li>
       </v-touch>
     </ul>
-    <v-touch @tap="hideMask">
-      <div class="mask" v-show="initialState"></div>
-    </v-touch>
+    <div class="mask" v-show="initialState"></div>
   </div>
 </template>
 <script>
@@ -164,10 +162,6 @@
       }
     },
     methods: {
-      hideMask () {
-//        this.initialState = false
-//        alert('被触发了')
-      },
       toEdit (item) {
         this.$store.dispatch('setCurrentTodo', item)// 设置当前todo不管是inbox的todo还是ssche的todo
         this.$router.push('/todo/' + item.id)
@@ -270,6 +264,8 @@
         var startEle = 0
 //        var currNum = 0
         wrap.addEventListener('touchstart', function (e) {
+          e.preventDefault()
+          console.log('触发了')
           startPoint = e.changedTouches[0].pageX
           startEle = box.offsetLeft
         })
@@ -282,7 +278,7 @@
           }
         })
         wrap.addEventListener('touchend', function (e) {
-//          e.preventDefault()
+          e.preventDefault()
           var left = box.offsetLeft
 //          console.log('aLiWidth' + aLiWidth)
           console.log('startEle' + startEle)
@@ -305,6 +301,7 @@
         })
       },
       editCard (e, item) {
+        console.log(e)
         e.preventDefault()
 //        e.cancelBubble()
         var that = this
@@ -383,6 +380,7 @@
       },
       setPlan (e) {
         e.preventDefault()
+        console.log(e)
         var that = this
         window.rsqadmg.exec('actionsheet', {
           buttonArray: ['计划设置', '重命名当前子计划', '删除当前子计划', '取消'],
@@ -664,6 +662,8 @@
     width: 0.1rem;
     height: 0.1rem;
     border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
     background-color: white;
     border: 1px solid rgba(0,0,0,0.22);
     margin-left: 0.2rem;

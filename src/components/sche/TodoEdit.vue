@@ -170,7 +170,7 @@
   }
   .bot{
     padding-left: 2%;
-    width:9.2rem;
+    width:8.6rem;
     height:0.945rem ;
     border:1px solid #E0E0E0 ;
     border-radius: 4px;

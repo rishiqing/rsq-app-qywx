@@ -65,6 +65,8 @@
     margin-bottom: 0.54rem;
     line-height: 0.7rem;
     border-bottom: none;
+    display: flex;
+    align-items: center;
   }
   .comment:last-child{
     margin-bottom: 1rem;
@@ -106,11 +108,11 @@
     clear: both;
   }
   .time{
-    font-size: 0.32rem;
+    font-size:13px;
     color:#8C8C8C ;
-    width: 2.186rem;
-    position: absolute;
-    right:0.26rem;
+    /*width: 2.186rem;*/
+    /*position: absolute;*/
+    /*right:0.26rem;*/
     font-family: PingFangSC-Regular;
   }
   .left{
@@ -120,15 +122,16 @@
   }
   .right{
     padding: 0;
-    width: calc(100% - 52px);
-    float: left;
+    /*width: calc(100% - 52px);*/
+    /*float: left;*/
     border: none;
   }
   .top{
     display: flex;
     align-items: center;
-    padding-right: 0.3rem;
+    /*padding-right: 0.3rem;*/
     margin-top: -4px;
+    justify-content: space-between;
   }
   .author{
     width: 5.733rem;

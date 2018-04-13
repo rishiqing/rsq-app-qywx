@@ -80,9 +80,7 @@
           tKanbanId: this.imgs[this.currentIndex].id,
           accessIds: this.rsqIdArray.toString()
         }
-        alert(JSON.stringify(params))
         this.$store.dispatch('postPlan', params).then((res) => {
-          alert('创建成功' + res.name)
 //          alert(JSON.stringify(res.userRoles))
 //          console.log('返回' + JSON.stringify(res))
           that.$router.replace(window.history.back())
@@ -145,27 +143,6 @@
     mounted () {
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
-//      alert('进来了')
-//      this.$store.dispatch('getTemplate').then((res) => {
-//        console.log(JSON.stringify(res))
-//        var obj = {}
-//        for (var i = 0; i < res.t1.length; i++) {
-//          if (res.t1[i].name === '敏捷开发') {
-//            alert(res.t1[i].name + ':' + res.t1[i].tKanbanId)
-//            obj['敏捷开发'] = res.t1[i].tKanbanId
-//          } else if (res.t1[i].name === '产品设计') {
-//            alert(res.t1[i].name + ':' + res.t1[i].tKanbanId)
-//            obj['产品设计'] = res.t1[i].tKanbanId
-//          } if (res.t1[i].name === '需求管理') {
-//            alert(res.t1[i].name + ':' + res.t1[i].tKanbanId)
-//            obj['需求管理'] = res.t1[i].tKanbanId
-//          } if (res.t1[i].name === '空白模板') {
-//            alert(res.t1[i].name + ':' + res.t1[i].tKanbanId)
-//            obj['空白模板'] = res.t1[i].tKanbanId
-//          }
-//        }
-//        console.log(JSON.stringify(obj))
-//      })
     }
   }
 </script>

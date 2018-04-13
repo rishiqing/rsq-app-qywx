@@ -93,7 +93,7 @@
         return this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: id})
           .then(idMap => {
             this.selectedLocalList = util.getMapValuePropArray(idMap)
-            alert(JSON.stringify(this.selectedLocalList))
+//            alert(JSON.stringify(this.selectedLocalList))
 //            window.rsqadmg.exec('hideLoader')
           })
       },

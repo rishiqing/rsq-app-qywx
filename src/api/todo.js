@@ -256,8 +256,10 @@ export default {
     return new Promise((resolve, reject) => {
       Vue.http.post(mapping.POST_PLAN, props)
         .then(res => {
+          alert('res成功')
           resolve(res.json())
         }, err => {
+          alert('res失败' + JSON.stringify(err))
           window.rsqadmg.log(JSON.stringify(err))
           reject(err)
         })

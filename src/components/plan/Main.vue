@@ -144,11 +144,8 @@
       }
     },
     mounted () {
-      alert('第一个')
       var createrId = [this.$store.state.loginUser.rsqUser.id]
-      alert('mount')
       this.getMember(createrId)
-      alert('执行完毕')
 //      this.$store.dispatch('getTemplate').then((res) => {
 //        console.log(JSON.stringify(res))
 //      })

@@ -80,9 +80,9 @@
           tKanbanId: this.imgs[this.currentIndex].id,
           accessIds: this.rsqIdArray.toString()
         }
-//        alert(JSON.stringify(params))
+        alert(JSON.stringify(params))
         this.$store.dispatch('postPlan', params).then((res) => {
-//          alert('创建成功' + res.name)
+          alert('创建成功' + res.name)
 //          alert(JSON.stringify(res.userRoles))
 //          console.log('返回' + JSON.stringify(res))
           that.$router.replace(window.history.back())
@@ -230,6 +230,7 @@
     display: flex;
     align-items: center;
     margin-top: 0.6rem;
+    overflow-x: hidden;
   }
   .wrap-muban{
     position: relative;

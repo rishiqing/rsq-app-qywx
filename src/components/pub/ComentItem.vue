@@ -66,7 +66,7 @@
     line-height: 0.7rem;
     border-bottom: none;
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
   }
   .comment:last-child{
     margin-bottom: 1rem;

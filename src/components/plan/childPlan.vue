@@ -74,7 +74,7 @@
             <div v-show=!createCard class="post-card">新建任务列表</div>
           </v-touch>
           <div v-show="createCard" class="post-card-input-main">
-            <input type="text" placeholder="输入列表名称" v-model="cardName" class="post-card-input">
+            <input type="text" placeholder="输入列表名称" v-model="cardName" class="post-card-input" ref="textareaComment">
             <div class="wrap-button">
               <v-touch @tap="showEmpty">
                 <span class="card-input-btn no">取消</span>
@@ -379,6 +379,7 @@
         return item.kanbanItemList ? item.kanbanItemList.length : 0
       },
       setPlan (e) {
+        debugger
         e.preventDefault()
         console.log(e)
         var that = this
@@ -429,6 +430,9 @@
       showCreate () {
         this.emptyCard = false
         this.createCard = true
+        this.$nextTick(() => {
+          this.$refs.textareaComment.focus()
+        }) //
       },
       changeState (e) {
         e.preventDefault()

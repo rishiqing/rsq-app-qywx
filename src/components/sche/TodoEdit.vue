@@ -712,7 +712,7 @@
             if (this.note) {
               noteElement.innerHTML = this.note
             }
-            this.joinUserRsqIds = this.editItem.joinUserIds
+            this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
 //            alert('this.joinUserRsqIds' + this.joinUserRsqIds)
 //            var joinUserArray = util.getMapValuePropArray(this.editItem.joinUserIds, 'joinUser')
 //            this.joinUserRsqIds = joinUserArray.map(obj => {

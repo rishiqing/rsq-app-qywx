@@ -95,7 +95,7 @@
     </div>
     <ul class="childPlan" :class="{'showChild': initialState}">
         <li v-for="item in childPlanlist">
-          <v-touch @tap="getCardList(item)" class="childPlan-item">
+          <v-touch @tap="getCardList($event,item)" class="childPlan-item">
             <div class="sub-plan-forward">
               <img src="../../assets/img/subplan.png" alt="" class="sub-plan-img">
               <div class="sub-plan-name">{{item.name}}</div>
@@ -438,7 +438,8 @@
         e.preventDefault()
         this.initialState = !this.initialState
       },
-      getCardList (item) {
+      getCardList (e, item) {
+        e.preventDefault()
         var that = this
         this.initialState = false
         this.currentSubPlan = item

@@ -144,6 +144,7 @@
       }
     },
     mounted () {
+      alert('第一个')
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       alert('mount')
       this.getMember(createrId)

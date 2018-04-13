@@ -487,23 +487,6 @@ export default {
     return new Promise((resolve, reject) => {
       Vue.http.get(mapping.GET_COVERLIST)
         .then(res => {
-          var obj = {}
-          for (var i = 0; i < res.length; i++) {
-            if (res[i].name === '敏捷开发') {
-              alert(res[i].name + ':' + res[i].tKanbanId)
-              obj['敏捷开发'] = res[i].tKanbanId
-            } else if (res[i].name === '产品设计') {
-              alert(res[i].name + ':' + res[i].tKanbanId)
-              obj['产品设计'] = res[i].tKanbanId
-            } if (res[i].name === '需求管理') {
-              alert(res[i].name + ':' + res[i].tKanbanId)
-              obj['需求管理'] = res[i].tKanbanId
-            } if (res[i].name === '空白模板') {
-              alert(res[i].name + ':' + res[i].tKanbanId)
-              obj['空白模板'] = res[i].tKanbanId
-            }
-          }
-          alert('obj' + JSON.stringify(obj))
           resolve(res.json())
         }, err => {
           window.rsqadmg.log(JSON.stringify(err))

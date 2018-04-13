@@ -39,10 +39,10 @@
       return {
         content: '',
         imgs: [
-          {addr: 'https://images.timetask.cn/cover/default/kanban_v1/card-default-1.png', word: '空白模板', index: 0, id: 1295},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660700001345312.png', word: '敏捷开发', index: 1, id: 263},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660530001345312.png', word: '产品设计', index: 2, id: 1250},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660240001345312.png', word: '需求管理', index: 3, id: 1248}
+          {addr: 'https://images.timetask.cn/cover/default/kanban_v1/card-default-1.png', word: '空白模板', index: 0, id: 2137},
+          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660700001345312.png', word: '敏捷开发', index: 1, id: 2089},
+          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660530001345312.png', word: '产品设计', index: 2, id: 2092},
+          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660240001345312.png', word: '需求管理', index: 3, id: 2090}
         ],
         currentIndex: 0,
         selectedLocalList: [],
@@ -145,10 +145,27 @@
     mounted () {
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
-      alert('进来了')
-      this.$store.dispatch('getTemplate').then((res) => {
-//        alert(JSON.stringify(res))
-      })
+//      alert('进来了')
+//      this.$store.dispatch('getTemplate').then((res) => {
+//        console.log(JSON.stringify(res))
+//        var obj = {}
+//        for (var i = 0; i < res.t1.length; i++) {
+//          if (res.t1[i].name === '敏捷开发') {
+//            alert(res.t1[i].name + ':' + res.t1[i].tKanbanId)
+//            obj['敏捷开发'] = res.t1[i].tKanbanId
+//          } else if (res.t1[i].name === '产品设计') {
+//            alert(res.t1[i].name + ':' + res.t1[i].tKanbanId)
+//            obj['产品设计'] = res.t1[i].tKanbanId
+//          } if (res.t1[i].name === '需求管理') {
+//            alert(res.t1[i].name + ':' + res.t1[i].tKanbanId)
+//            obj['需求管理'] = res.t1[i].tKanbanId
+//          } if (res.t1[i].name === '空白模板') {
+//            alert(res.t1[i].name + ':' + res.t1[i].tKanbanId)
+//            obj['空白模板'] = res.t1[i].tKanbanId
+//          }
+//        }
+//        console.log(JSON.stringify(obj))
+//      })
     }
   }
 </script>

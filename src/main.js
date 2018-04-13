@@ -21,6 +21,10 @@ import weui from 'vue-weui'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import ElementUI from 'element-ui'
+import FastClick from 'fastclick'
+window.addEventListener('load', function () {
+  FastClick.attach(document.body)
+}, false)
 //  正式环境下配置sentry
 if (window.rsqConfig.env === 'prod') {
   Raven

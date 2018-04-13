@@ -487,7 +487,7 @@ export default {
     return new Promise((resolve, reject) => {
       Vue.http.get(mapping.GET_COVERLIST)
         .then(res => {
-          // alert('RES' + res.name)
+          alert('RES' + JSON.stringify(res))
           resolve(res.json())
         }, err => {
           window.rsqadmg.log(JSON.stringify(err))

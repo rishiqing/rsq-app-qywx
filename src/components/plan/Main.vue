@@ -69,7 +69,6 @@
     },
     methods: {
       create () {
-        alert('新建计划')
         var that = this
         if (!this.content) {
           return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
@@ -146,9 +145,9 @@
     mounted () {
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
-//      this.$store.dispatch('getTemplate').then((res) => {
-//        console.log(JSON.stringify(res))
-//      })
+      this.$store.dispatch('getTemplate').then((res) => {
+        alert(JSON.stringify(res))
+      })
     }
   }
 </script>

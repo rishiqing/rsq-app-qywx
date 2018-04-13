@@ -87,15 +87,12 @@
         })
       },
       getMember (id) {
-        alert('进来了')
         var corpId = this.loginUser.authUser.corpId
         //  暂时去掉loader
 //        window.rsqadmg.exec('showLoader')
         return this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: id})
           .then(idMap => {
-            alert('idmap' + JSON.stringify(idMap))
             this.selectedLocalList = util.getMapValuePropArray(idMap)
-            alert(JSON.stringify(this.selectedLocalList))
 //            window.rsqadmg.exec('hideLoader')
           })
       },

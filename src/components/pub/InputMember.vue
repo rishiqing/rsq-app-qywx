@@ -42,7 +42,7 @@
             <div class="wrap-member">
               {{nameConcat}}
             </div>
-            <span :class="{'people':newTime,'people-left':editTime}">等{{selectedLocalList.length}}人</span>
+            <span :class="{'people':newTime,'people-left':editTime}" v-show="selectedLocalList.length > 0">等{{selectedLocalList.length}}人</span>
           </div>
           <i class="icon2-arrow-right-small arrow"></i>
         </div>

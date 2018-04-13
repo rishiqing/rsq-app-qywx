@@ -379,7 +379,6 @@
         return item.kanbanItemList ? item.kanbanItemList.length : 0
       },
       setPlan (e) {
-        debugger
         e.preventDefault()
         console.log(e)
         var that = this
@@ -439,6 +438,7 @@
         this.initialState = !this.initialState
       },
       getCardList (e, item) {
+        console.log('进来getcard')
         e.preventDefault()
         var that = this
         this.initialState = false

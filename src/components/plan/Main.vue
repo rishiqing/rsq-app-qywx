@@ -147,7 +147,7 @@
       this.getMember(createrId)
       alert('进来了')
       this.$store.dispatch('getTemplate').then((res) => {
-        alert(JSON.stringify(res))
+//        alert(JSON.stringify(res))
       })
     }
   }

@@ -9,8 +9,9 @@ LABEL name="qywx-isv-access-nginx" \
 ENV TIME_ZONE=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TIME_ZONE /etc/localtime && echo $TIME_ZONE > /etc/timezone
 
-ENV NGINX_ROOT /usr/share/nginx/html
-WORKDIR $NGINX_ROOT
+ENV HTML_ROOT /usr/share/nginx/html
+ENV CONFIG_ROOT /etc/nginx/conf.d
+WORKDIR $HTML_ROOT
 
-COPY dist/* .
-
+COPY nginx.template $CONFIG_ROOT/default.conf
+COPY dist .

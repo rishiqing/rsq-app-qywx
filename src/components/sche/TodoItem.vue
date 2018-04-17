@@ -70,8 +70,8 @@
   .isdisplay{
     display: block;
     position:absolute;
-    top:0.45rem;
-    left: 0.37rem;
+    top:0.58rem;
+    right: 0.3rem;
     font-size: 15px;
     color:#55A8FD;
   }

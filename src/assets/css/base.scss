@@ -8,6 +8,12 @@ html, body {
     display: inline-block;
   background-color: #f6f6f6
 }
+/**
+ * html中的font-size用来给rem做基准，这里设置body的font-size，用来给weui中的组件做基准
+ */
+body {
+  font-size: 16px;
+}
 *{
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }

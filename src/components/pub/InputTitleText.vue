@@ -79,9 +79,8 @@
   .isdisplay-title{
     display: block;
     position:absolute;
-    top:0.3rem;
-    /*margin-top: -0.29rem;*/
-    left: 0.46rem;
+    top:0.34rem;
+    left: 0.45rem;
     font-size: 15px;
     color:#55A8FD;
   }

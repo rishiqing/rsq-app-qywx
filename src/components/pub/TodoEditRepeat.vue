@@ -58,7 +58,7 @@
       font-size: 17px;
     }
     .user-define {
-      color:#55A8FD
+      color:#3D3D3D;
     }
     .repeat{
       margin-left: 0.2rem;

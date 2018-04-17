@@ -902,7 +902,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 1rem;
+    height: 1.3rem;
     padding-left: 0.6rem;
     padding-right: 0.6rem;
   }
@@ -963,7 +963,7 @@
     border-bottom: 1px solid #EAEAEA;
   }
   ul.showChild{
-    top: 1rem
+    top: 1.3rem
   }
   .childPlan {
     position: fixed;

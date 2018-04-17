@@ -15,7 +15,7 @@
        <span class="plan-member-word">计划成员</span>
         <div class="wrap-plan-member-count-num">
           <span class="plan-member-count-num">{{currentPlan.userRoles.length}}人</span>
-          <i class="icon2-arrow-right arrow-right-plan"></i>
+          <!--<i class="icon2-arrow-right arrow-right-plan"></i>-->
         </div>
       </div>
       <v-touch class="wrap-plan-member" @tap="showNativeMemberEdit">

@@ -24,9 +24,9 @@
         </div>
         <v-touch tag="i" class="icon icon-keyboard_arrow_right u-pull-right"
                  @tap="tapChangeMonth($event, 1)"></v-touch>
-        <v-touch @tap="backToToday">
-          <span class="backToday">今</span>
-        </v-touch>
+        <!--<v-touch @tap="backToToday">-->
+          <!--<span class="backToday">今</span>-->
+        <!--</v-touch>-->
       </div>
       <div class="dp-content">
         <table class="dp-table">
@@ -95,11 +95,10 @@
       font-family: PingFangSC-Regular;
       font-size: 19px;
       color: #000000;
-      letter-spacing: -0.46px;
       padding: 0 2rem;
-      padding-left: 2.5rem;
       display: flex;
       align-items: center;
+      justify-content: center;
     }
     .dp-title-text {
       text-align: center;

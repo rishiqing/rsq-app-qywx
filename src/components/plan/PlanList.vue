@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-touch class="wrap-empty-plan"  @tap="toCreate" v-show="planItems.length === 0">
-      <img src="../../assets/img/plan-empty.png" alt="" class="plan-empty">
-      <span class="post-new-plan">新建计划</span>
-    </v-touch>
+    <!--<v-touch class="wrap-empty-plan"  @tap="toCreate" v-show="planItems.length === 0">-->
+      <!--<img src="../../assets/img/plan-empty.png" alt="" class="plan-empty">-->
+      <!--<span class="post-new-plan">新建计划</span>-->
+    <!--</v-touch>-->
     <ul class="PlanList" v-show="planItems.length > 0" :class="{'planCount': planCount}">
       <Plan
         v-for="item in planItems"

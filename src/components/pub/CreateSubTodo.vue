@@ -221,7 +221,6 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space:nowrap;
-    padding-top: 0.08rem;
   }
   .sublistItem:last-child{
     border-bottom: none;

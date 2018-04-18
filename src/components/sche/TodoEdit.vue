@@ -387,8 +387,10 @@
             that.commonComments.forEach(c => {
               const user = idMap[c.authorId]
               if (user) {
-                that.$set(c, 'authorAvatar', user.avatar)
-                that.$set(c, 'authorName', 'dingding-' + user.name)
+                // that.$set(c, 'authorAvatar', user.avatar)
+                // that.$set(c, 'authorName', 'dingding-' + user.name)
+                that.$set(c, 'qywxShowAvatar', user.avatar)
+                that.$set(c, 'qywxShowName', user.name)
               }
             })
           })
@@ -452,41 +454,37 @@
           this.joinUserRsqIds = idArray
           window.rsqadmg.exec('hideLoader')
           window.rsqadmg.execute('toast', {message: '保存成功'})
+          //  重新获取用户头像
+          this.fetchCommentIds()
 //          console.log('params的addJoinUsers是' + params.addJoinUsers)
           if (params.addJoinUsers) {
-            var time = util.SendConversationTime(this.currentTodo)
-            var date = util.SendConversationDate(this.currentTodo)
-            var note = this.editItem.pNote
-            var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
+            // var time = util.SendConversationTime(this.currentTodo)
+            // var date = util.SendConversationDate(this.currentTodo)
+            // var note = this.editItem.pNote
+            // var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
+
+            alert(params.addJoinUsers)
+            var url = window.location.href.split('#')
             var data = {
-              msgtype: 'oa',
-              msgcontent: {
-                message_url: window.location.href,
-                head: {
-                  text: '日事清',
-                  bgcolor: 'FF55A8FD'
-                },
-                body: {
-                  title: that.currentTodo.pTitle,
-                  form: [
-                    {key: '日期：', value: date},
-                    {key: '时间：', value: time}
-                  ],
-                  content: newnote,
-                  author: that.loginUser.authUser.name// 这里要向后台要值
-                }
+              'msgtype': 'textcard',
+              'agentid': this.corpId,
+              'textcard': {
+                'title': this.currentTodo.pTitle,
+                'description': '日程通知',
+                'url': url[0] + '#' + '/todo/' + this.currentTodo.id
               }
             }
+
             var IDArrays = params.addJoinUsers.split(',')
 //            console.log('IDArrays是' + IDArrays)
             var empIDArray = []
             this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
               .then(idMap => {
                 for (var i = 0; i < IDArrays.length; i++) {
-                  empIDArray.push(idMap[IDArrays[i]].emplId)
+                  empIDArray.push(idMap[IDArrays[i]].userId)
                 }
-//                console.log(empIDArray)
-                data['userid_list'] = empIDArray.toString()
+                data['touser'] = empIDArray.toString().split(',').join('|')
+
                 that.$store.dispatch('sendAsyncCorpMessage', {
                   corpId: that.loginUser.authUser.corpId,
                   data: data

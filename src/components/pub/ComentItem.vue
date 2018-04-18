@@ -2,14 +2,14 @@
   <v-touch>
     <li class="coment" @click="triggerAndroid($event)">
       <div class="left">
-        <avatar :src="item.authorAvatar"
-                :username="item.authorName"
+        <avatar :src="item.qywxShowAvatar"
+                :username="item.qywxShowName || item.authorName"
                 :size="30">
         </avatar>
       </div>
       <div class="right">
         <div class="top">
-          <span class="author">{{item.authorName.substr(9)}}</span>
+          <span class="author">{{item.qywxShowName || item.authorName}}</span>
           <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
         </div>
         <div class="bottom">

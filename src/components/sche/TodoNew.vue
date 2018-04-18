@@ -332,6 +332,7 @@
       this.initData()
     },
     mounted () {
+      window.rsqadmg.exec('setTitle', {title: '新建任务'})
       this.joinUserRsqIds = [this.$store.state.loginUser.rsqUser.id]
       if (this.editItem.receiverIds !== null) {
         var idArray = this.editItem.receiverIds.split(',')

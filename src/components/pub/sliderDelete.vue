@@ -76,6 +76,9 @@
         }
       },
       touchMove (ev) {
+        if (!this.$refs.remove) {
+          return
+        }
         ev = ev || event
         let wd = this.$refs.remove.offsetWidth
         if (ev.touches.length === 1) {
@@ -95,6 +98,9 @@
         }
       },
       touchEnd (ev) {
+        if (!this.$refs.remove) {
+          return
+        }
         ev = ev || event
         let wd = this.$refs.remove.offsetWidth
         if (ev.changedTouches.length === 1) {

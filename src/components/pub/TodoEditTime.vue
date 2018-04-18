@@ -1,15 +1,15 @@
 <template>
   <div class="edit-time">
-    <ul class="edit-time-all-day">
-      <li>
-        <span>全天</span>
-        <v-touch class="switch-wrapper" @tap="toggleAllDay">
-          <!--v-touch有bug，暂时这样处理-->
-          <input class="mui-switch-time" type="checkbox" :checked="isChecked" @click.prevent="empty">
-        </v-touch>
-      </li>
-    </ul>
-    <ul class="sec" :class="{'is-text-disabled': isAllDay}">
+    <!--<ul class="edit-time-all-day">-->
+      <!--<li>-->
+        <!--<span>全天</span>-->
+        <!--<v-touch class="switch-wrapper" @tap="toggleAllDay">-->
+          <!--&lt;!&ndash;v-touch有bug，暂时这样处理&ndash;&gt;-->
+          <!--<input class="mui-switch-time" type="checkbox" :checked="isChecked" @click.prevent="empty">-->
+        <!--</v-touch>-->
+      <!--</li>-->
+    <!--</ul>-->
+    <ul class="sec">
       <v-touch tag="li">
         <div @click="setStartTime">
           <span class="list-key">开始时间</span>
@@ -25,7 +25,7 @@
         </div>
       </v-touch>
     </ul>
-    <ul class="last" :class="{'is-text-disabled': isAllDay}">
+    <ul class="last">
       <v-touch tag="li" @tap="gotoAlert">
         <span class="list-key">提醒</span>
         <span class="list-value">{{alertText}}</span>
@@ -156,8 +156,8 @@
       return {
         autoStart: true,
         autoEnd: true,
-        isChecked: true,
-        isAllDay: true,
+        // isChecked: true,
+        // isAllDay: true,
         clock: {
           startTime: '',
           endTime: ''
@@ -168,6 +168,9 @@
       currentTodo () {
         return this.$store.state.todo.currentTodo
       },
+      // isAllDay () {
+      //   return !(this.clock.startTime && this.clock.endTime)
+      // },
       isEdit () {
         return !!this.currentTodo.id
       },
@@ -175,7 +178,7 @@
         return this.$store.state.pub.currentTodoTime
       },
       clockData () {
-        if (this.isAllDay) return {}
+        // if (this.isAllDay) return {}
         return this.clock
       },
       alertText () {
@@ -203,16 +206,16 @@
         //  检查pub区是否有缓存，有缓存则读缓存，否则从currentTodo上读取
 //        console.log('进来一次')
         jsUtil.extendObject(this.clock, this.todoTime.clock)
-        this.isAllDay = !this.clock.startTime
-        this.isChecked = this.isAllDay
+        // this.isAllDay = !this.clock.startTime
+        // this.isChecked = this.isAllDay
 
         //  todoTime.startTime存在，说明之前设置过提醒，不再自动设置
-        if (!this.isAllDay) {
+        if (this.clock.startTime && this.clock.endTime) {
           this.autoStart = false
           this.autoEnd = false
         }
         //  自动调整时间
-        this.autoChangeTime()
+        // this.autoChangeTime()
       },
       /**
        * 在用户修改具体时间前自动调整起止时间间隔1小时
@@ -239,23 +242,22 @@
         }
         console.log('autoChangeTime的clock是' + JSON.stringify(this.clock))
       },
-      empty () {},
-      toggleAllDay (e) {
-//        console.log('toggleAllDay是' + JSON.stringify(this.clock))
-        this.isAllDay = !this.isAllDay
-        this.isChecked = this.isAllDay
-      },
+      // empty () {},
+      // toggleAllDay (e) {
+      //   this.isAllDay = !this.isAllDay
+      //   this.isChecked = this.isAllDay
+      // },
       /**
        * 设置开始时间
        */
       setStartTime () {
-        if (this.isAllDay) return
         var that = this
+        const defStartTime = that.clock.startTime ? that.clock.startTime : moment().format('HH:mm')
         window.rsqadmg.exec('timePicker', {
-          strInit: that.clock.startTime,
+          strInit: defStartTime,
           success (result) {
-            if (result.value > that.clock.endTime) {
-              alert('开始时间不能晚于结束时间')
+            if (that.clock.endTime && moment(result.value, 'HH:mm').isAfter(moment(that.clock.endTime, 'HH:mm'))) {
+              window.rsqadmg.exec('alert', {message: '开始时间不能晚于结束时间'})
             } else {
               that.clock.startTime = result.value
               that.autoStart = false
@@ -268,14 +270,13 @@
        * 设置结束时间
        */
       setEndTime () {
-        if (this.isAllDay) return
         var that = this
+        const defEndTime = that.clock.endTime ? that.clock.endTime : moment().format('HH:mm')
         window.rsqadmg.exec('timePicker', {
-          strInit: that.clock.endTime,
+          strInit: defEndTime,
           success (result) {
-            console.log(result.value + '\\' + that.clock.startTime)
-            if (result.value < that.clock.startTime) {
-              alert('结束时间不能早于开始时间')
+            if (that.clock.startTime && moment(result.value, 'HH:mm').isBefore(moment(that.clock.startTime, 'HH:mm'))) {
+              window.rsqadmg.exec('alert', {message: '结束时间不能早于开始时间'})
             } else {
               that.clock.endTime = result.value
               that.autoEnd = false
@@ -288,16 +289,27 @@
        * 保存当前todoTime的数据并跳转到提醒页面
        */
       gotoAlert () {
-        if (this.isAllDay) return
+        if (!this.checkTimeValid()) {
+          window.rsqadmg.exec('alert', {message: '必须设置合理的时间才能使用提醒功能'})
+          return
+        }
         this.saveTodoTimeState()
         this.$router.push('/todoEdit/alert')
       },
       /**
-       * 检查是提醒时间是否早于当前时间
+       * 检查开始时间和结束时间设置的是否正确，需要满足一下两个条件：
+       * 1  开始时间和结束时间都不能为空；
+       * 2  开始时间不能晚于结束时间；
+       */
+      checkTimeValid () {
+        return this.clock && this.clock.startTime && this.clock.endTime &&
+          moment(this.clock.startTime, 'HH:mm').isBefore(moment(this.clock.endTime, 'HH:mm'))
+      },
+      /**
+       * 当设置提醒的时候开始时间不能早于当前时间
        */
       checkWarn () {
-        if (!this.isAllDay &&
-          this.clockData.alert &&
+        if (this.clockData.alert &&
           this.clockData.alert.length > 0 &&
           moment().isAfter(moment(this.clock.startTime, 'HH:mm'))) {
           return '提醒时间早于当前时间，可能不会收到提醒!'
@@ -309,13 +321,13 @@
        * currentTodo.id存在（更新）：比对localTodoTime和todoTime的每一项是否都一样
        */
       isModified () {
-        return !jsUtil.objectEqual(this.clockData, (this.currentTodo.clock || {}))
+        return !jsUtil.objectEqual(this.clock, (this.currentTodo.clock || {}))
       },
       /**
        * 保存todoTime的状态到state中
        */
       saveTodoTimeState () {
-        this.$store.commit('PUB_TODO_TIME_SET', {data: {clock: this.clockData}})
+        this.$store.commit('PUB_TODO_TIME_SET', {data: {clock: this.clock}})
       },
       beforeSubmitTodo (next) {
         if (this.isModified()) {
@@ -349,12 +361,16 @@
           window.rsqadmg.exec('showLoader', {text: '保存中'})
         }
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
-        var clockObject = JSON.parse(JSON.stringify(this.clockData || {}))
+        var clockObject = JSON.parse(JSON.stringify(this.clock || {}))
 
-        return this.$store.dispatch('updateTodoTime', {clock: this.clockData})
+        return this.$store.dispatch('updateTodoTime', {clock: this.clock})
           .then(item => {
-            jsUtil.extendObject(item.clock, clockObject)
-            return this.$store.dispatch('handleRemind', {item})
+            if (item.clock && item.clock.alert) {
+              jsUtil.extendObject(item.clock, clockObject)
+              return this.$store.dispatch('handleRemind', {item})
+            } else {
+              return item
+            }
           })
           .then(() => {
             this.$store.commit('PUB_TODO_TIME_DELETE')

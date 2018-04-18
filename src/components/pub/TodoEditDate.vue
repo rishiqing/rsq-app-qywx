@@ -60,7 +60,7 @@
       <i class="icon2-arrow-right arrow u-pull-right light-color"></i>
       <span class="list-value u-pull-right light-color">{{repeatText}}</span>
     </v-touch>
-    <v-touch tag="p" class="date-clear" @tap="tapEmpty">清除日期放入收纳箱</v-touch>
+    <v-touch tag="p" class="date-clear" @tap="tapEmpty">清除日期</v-touch>
   </div>
 </template>
 <style lang="scss">
@@ -192,10 +192,13 @@
       line-height: 1.2rem;
     }
     .date-clear {
-      color: #A3B2C2;
       text-align: center;
-      line-height: 1.8rem;
+      line-height: 1.2rem;
       font-size: 0.4rem;
+      background-color: #FFF;
+      position: absolute;
+      width: 100%;
+      bottom: 0;
     }
   }
 </style>
@@ -491,7 +494,7 @@
               this.$store.commit('PUB_TODO_DATE_DELETE')
               if (this.isEdit) {
                 window.rsqadmg.exec('hideLoader')
-                window.rsqadmg.execute('toast', {message: '保存成功'})
+                // window.rsqadmg.execute('toast', {message: '保存成功'})
               }
               next()
             })

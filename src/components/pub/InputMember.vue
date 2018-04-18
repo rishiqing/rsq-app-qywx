@@ -1,154 +1,56 @@
 <template>
-  <div class="outer" :class="{'hasPadding':newTime}">
-    <v-touch class="touch-memmber" @tap="showMemberEdit">
-      <div class="execute">
-        {{indexTitle}}
-      </div>
-      <div class="" v-if="selectedLocalList.length <= 3 && selectedLocalList.length > 0">
-        <div v-if="newTime === true">
-          <div class="itm-icon-img-wrap-new" :class="{'edit-padding-left':editTime,'new-padding-left-less-three':newMemberlessThree,'itm-icon-img-wrap-right':newTime,'itm-icon-img-wrap-left':editTime}">
-            <avatar v-for="item in selectedLocalList"
-                    :key="item.rsqUserId"
-                    :src="item.avatar"
-                    :username="item.name"></avatar>
-          </div>
-          <span :class="{'people':newTime,'people-left':editTime}">{{selectedLocalList.length}}人</span>
-          <i class="icon2-arrow-right-small arrow"></i>
-        </div>
-        <div v-else="">
-          <div class="itm-icon-img-wrap" :class="{'edit-padding-left':editTime,'new-padding-left':newTime,'itm-icon-img-wrap-right':newTime,'itm-icon-img-wrap-left':editTime}">
-            <div class="wrap-member">
-              {{nameConcat}}
-            </div>
-            <span :class="{'people':newTime,'people-left':editTime}">{{selectedLocalList.length}}人</span>
-          </div>
-          <i class="icon2-arrow-right-small arrow"></i>
-        </div>
-      </div>
-      <div class="" v-else>
-        <div v-if="newTime === true">
-          <div class="itm-icon-img-wrap-new" :class="{'edit-padding-left':editTime,'new-padding-left-more-three':newMemberMoreThree,'itm-icon-img-wrap-right': newTime,'itm-icon-img-wrap-left':editTime}" v-if="selectedLocalList.length>3">
-            <avatar v-for="item in selectedItems"
-                    :key="item.rsqUserId"
-                    :src="item.avatar"
-                    :username="item.name">
-            </avatar>
-          </div>
-          <span :class="{'people':newTime,'people-left':editTime}">等{{selectedLocalList.length}}人</span>
-          <i class="icon2-arrow-right-small arrow"></i>
-        </div>
-        <div v-else="">
-          <div class="itm-icon-img-wrap" :class="{'edit-padding-left':editTime,'new-padding-left':newTime,'itm-icon-img-wrap-right':newTime,'itm-icon-img-wrap-left':editTime}">
-            <div class="wrap-member">
-              {{nameConcat}}
-            </div>
-            <span :class="{'people':newTime,'people-left':editTime}" v-show="selectedLocalList.length > 0">等{{selectedLocalList.length}}人</span>
-          </div>
-          <i class="icon2-arrow-right-small arrow"></i>
-        </div>
-      </div>
-    </v-touch>
-  </div>
+  <v-touch class="" @tap="showMemberEdit">
+    <div class="outer-wrap bottom-border":class="{'hasPadding':newItem}">
+      <span class="inner-key">{{indexTitle}}</span>
+      <span class="inner-value">{{nameConcat}}{{selectedLocalList.length > 3 ? '等':''}}{{selectedLocalList.length}}人</span>
+      <i class="icon2-arrow-right-small arrow"></i>
+    </div>
+  </v-touch>
 </template>
 <style scoped>
-  .itm-icon-img-wrap-new>*{
-    float: right;
-    margin-right: 0.15rem;
-  }
-  .itm-icon-img-wrap-new{
-    width: 2.5rem;
-  }
-  .touch-memmber{
+  .outer-wrap{
     display: flex;
     align-items: center;
-  }
-  .wrap-member{
-    max-width: 5.4rem;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    height:1.3rem;
-    margin-left: 0.2rem;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #999999;
-  }
-  .select-member{
-    /*font-family: PingFangSC-Regular;*/
-    /*font-size: 17px;*/
-    /*color: #999999;*/
-    letter-spacing: 0;
-    display: block;
-    /*margin-left: 2px;*/
-    /*float: left;*/
-  }
-  .execute{
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-    letter-spacing: 0;
-  }
-  .new-padding-left-more-three{
-    /*left:5.3rem*/
-    margin-left:3.7rem
-  }
-  .new-padding-left-less-three{
-    /*left:5.3rem*/
-    margin-left:4.2rem
-  }
-  .edit-padding-left{
-    /*margin-left:1.8rem*/
-  }
-  .edit-padding-left-count{
-    margin-left:4.4rem
-  }
-  /*.new-padding-left-count{*/
-    /*right:0.94rem;*/
-  /*}*/
-  .people-left{
-    float: left;
-    /* position: absolute; */
-    display: inline-block;
-    margin-left: 0;
-    color:#999999;
-    margin-right: 0.156rem;
-    /* top: 0.05rem; */
-    /*margin-top: -0.3rem;*/
-  }
-  .outer{
-    border-bottom: 1px solid #E0E0E0;
     position: relative;
-    /*height:1.3rem;*/
     line-height: 1.3rem;
     background-color: white;
   }
-  .hasPadding{
-    padding-left:3% ;
+  .inner-key{
+    display: block;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
   }
-  .people{
-    position:absolute;
-    top:0;
-    color: #999999;
+  .inner-value {
+    display: block;
+    position: absolute;
+    top:50%;
+    margin-top: -0.65rem;
+    right: 0.94rem;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #999999;
     letter-spacing: 0;
-    right:0.94rem;
-  }
-  span{
-    display: block;
-    /*margin-bottom: 5px;*/
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-    /*line-height: 1.458rem;*/
   }
   .arrow{
     color: #999999;
     font-size: 21px;
     position: absolute;
-    top:0.38rem;
+    top:50%;
+    margin-top: -0.25rem;
     right: 0.2rem;
+  }
+  .isInbox{
+    border-bottom: 1px solid #E3E3E3;
+  }
+  .hasPadding{
+    padding-left: 3%;
+  }
+  .edit-padding-left{
+    left:1.3rem
+  }
+  .bottom-border{
+    border-bottom: 1px solid #E0E0E0;
   }
 </style>
 <script>
@@ -173,7 +75,7 @@
       userRsqIds: Array,    //  可选人
       selectedRsqIds: Array,  //  当前选中的人
       disabledRsqIds: Array,   //  不可选的人
-      newTime: Boolean,
+      newItem: Boolean,
       editTime: Boolean
     },
     computed: {
@@ -192,10 +94,10 @@
         return this.selectedLocalList.length <= 3
       },
       newMemberlessThree () {
-        return this.newTime && this.memberCount
+        return this.newItem && this.memberCount
       },
       newMemberMoreThree () {
-        return this.newTime && !this.memberCount
+        return this.newItem && !this.memberCount
       }
     },
     watch: {
@@ -229,12 +131,8 @@
       showNativeMemberEdit () {
         var that = this
         var corpId = that.loginUser.authUser.corpId
-//        console.log('提取之前内容是' + JSON.stringify(this.selectedLocalList))
         var selectedArray = util.extractProp(this.selectedLocalList, 'userId')
-//        alert('提取之后内容是' + (selectedArray))
-//        console.log('提取之后内容是' + (selectedArray))
         var disabledArray = util.extractProp(this.disabledLocalList, 'userId')
-//        console.log('提取之后禁止内容是' + (selectedArray))
         window.rsqadmg.exec('selectDeptMember', {
           btnText: '确定',  //  选择器按钮文本，pc端需要的参数
           multiple: true, //  默认false，选择单人
@@ -244,7 +142,6 @@
           selectedIds: selectedArray,
           disabledIds: disabledArray || [], //  不能选的人
           success (res) {
-//            alert('cuccess执行了' + JSON.stringify(res.result.userList))
 //            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
 //              that.memberList = res
             if (res.length === 0) {

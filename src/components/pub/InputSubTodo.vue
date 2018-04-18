@@ -1,45 +1,63 @@
 <template>
-  <div class="subtodo">
-    <v-touch class="" @tap="showSubTodo">
-      <span class="date">子任务</span>
-      <span class="now" :class="{'edit-padding-left':editTime}">{{subtodoString}}</span>
+  <v-touch class="" @tap="showSubTodo">
+    <div class="outer-wrap bottom-border">
+      <span class="inner-key">子任务</span>
+      <span class="inner-value">{{subtodoString}}</span>
       <i class="icon2-arrow-right-small arrow"></i>
-    </v-touch>
-  </div>
+    </div>
+  </v-touch>
+  <!--<div class="subtodo">-->
+    <!--<v-touch class="" @tap="showSubTodo">-->
+      <!--<span class="date">子任务</span>-->
+      <!--<span class="now" :class="{'edit-padding-left':editTime}">{{subtodoString}}</span>-->
+      <!--<i class="icon2-arrow-right-small arrow"></i>-->
+    <!--</v-touch>-->
+  <!--</div>-->
 </template>
 <style lang="" scoped>
-  .subtodo{
-    background-color: white;
+  .outer-wrap{
+    display: flex;
+    align-items: center;
     position: relative;
-    /*height:1.3rem;*/
     line-height: 1.3rem;
-    /*padding-left:3% ;*/
-    /*border-bottom:1px solid #E3E3E3;*/
+    background-color: white;
   }
-  .arrow{
-    color: #999999;
-    font-size: 21px;
-    position: absolute;
-    top:0.38rem;
-    right: 0.2rem;
+  .inner-key{
+    display: block;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
   }
-  .now {
+  .inner-value {
+    display: block;
     position: absolute;
-    top:0.01rem;
-    right: 0.88rem;
+    top:50%;
+    margin-top: -0.65rem;
+    right: 0.94rem;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #999999;
     letter-spacing: 0;
   }
-  .edit-padding-left{
-    left:1.7rem
+  .arrow{
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top:50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
   }
-  span{
-    display: block;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
+  .isInbox{
+    border-bottom: 1px solid #E3E3E3;
+  }
+  .hasPadding{
+    padding-left: 3%;
+  }
+  .edit-padding-left{
+    left:1.3rem
+  }
+  .bottom-border{
+    border-bottom: 1px solid #E0E0E0;
   }
 </style>
 <script>

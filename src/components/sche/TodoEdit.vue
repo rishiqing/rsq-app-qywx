@@ -35,15 +35,13 @@
                 ></r-input-date>
               </div>
               <div class="first-date" v-show="!isInbox">
-                <div class="time-border">
-                  <i class="icon2-alarm sche"></i>
-                  <r-input-time
-                    :disabled="!checkEdit()"
-                    :item="editItem"
-                    :edit-time="true"
-                    v-if="editItem.pContainer !== 'inbox'"
-                  ></r-input-time>
-                </div>
+                <i class="icon2-alarm sche"></i>
+                <r-input-time
+                  :disabled="!checkEdit()"
+                  :item="editItem"
+                  :edit-time="true"
+                  v-if="editItem.pContainer !== 'inbox'"
+                ></r-input-time>
               </div>
               <div class="first-date">
                 <i class="icon2-member sche"></i>
@@ -463,7 +461,6 @@
             // var note = this.editItem.pNote
             // var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
 
-            alert(params.addJoinUsers)
             var url = window.location.href.split('#')
             var data = {
               'msgtype': 'textcard',

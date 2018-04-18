@@ -49,6 +49,7 @@
       position: absolute;
       top:0.15rem;
       right:0.25rem;
+      color: #333333;
     }
     input.mui-switch-time {
       display: block;
@@ -94,6 +95,7 @@
       right:0.11rem;
       top:0.31rem;
       font-size:22px;
+      color: #999999;
     }
     ul{
       background-color: white;
@@ -137,7 +139,9 @@
     }
     span.list-key {float:left;}
     span.list-value {float:right;margin-right:0.7rem;
-      max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;}
+      max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
+      color: #999999;
+    }
     .sec span{}
     .last span{}
   }

@@ -1,41 +1,29 @@
 <template>
   <v-touch class="" @tap="gotoDate">
-    <div class="outer-date":class="{'hasPadding':newItem, 'isInbox': fromInbox}">
-      <span class="date">日期</span>
-      <span class="now" :class="{'edit-padding-left':editTime}">{{ dateString }}</span>
+    <div class="outer-wrap bottom-border":class="{'hasPadding':newItem, 'isInbox': fromInbox}">
+      <span class="inner-key">日期</span>
+      <span class="inner-value">{{ dateString }}</span>
       <i class="icon2-arrow-right-small arrow"></i>
     </div>
   </v-touch>
 </template>
 <style lang="" scoped>
-  .isInbox{
-    border-bottom: 1px solid #E3E3E3;
-  }
-  .outer-date{
+  .outer-wrap{
     display: flex;
     align-items: center;
     position: relative;
-    /*height:1.3rem;*/
     line-height: 1.3rem;
-    /*border-bottom:1px solid #E0E0E0;*/
-    /*border-top:1px solid #E0E0E0;*/
     background-color: white;
   }
-  .hasPadding{
-    padding-left: 3%;
+  .inner-key{
+    display: block;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
   }
-  .arrow{
-    color: #999999;
-    font-size: 21px;
+  .inner-value {
+    display: block;
     position: absolute;
-    /*top:0.38rem;*/
-    top:50%;
-    margin-top: -0.25rem;
-    right: 0.2rem;
-  }
-  .now {
-    position: absolute;
-    /*top:0.04rem;*/
     top:50%;
     margin-top: -0.65rem;
     right: 0.94rem;
@@ -44,16 +32,25 @@
     color: #999999;
     letter-spacing: 0;
   }
+  .arrow{
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top:50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+  }
+  .isInbox{
+    border-bottom: 1px solid #E3E3E3;
+  }
+  .hasPadding{
+    padding-left: 3%;
+  }
   .edit-padding-left{
     left:1.3rem
   }
-  .date{
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-  }
-  span{
-    display: block;
+  .bottom-border{
+    border-bottom: 1px solid #E0E0E0;
   }
 </style>
 <script>

@@ -1,58 +1,56 @@
 <template>
-  <v-touch class="outertime" @tap="gotoTodoTime" :class="{'hasPadding':newItem}">
-    <div class="inner-border">
-      <span class="date">时间</span>
-      <span class="now" :class="{'edit-padding-left':editTime,'new-padding-right':newItem}">{{timeValue}}</span>
+  <v-touch class="" @tap="gotoTodoTime">
+    <div class="outer-wrap bottom-border":class="{'hasPadding':newItem}">
+      <span class="inner-key">时间</span>
+      <span class="inner-value">{{ timeValue }}</span>
       <i class="icon2-arrow-right-small arrow"></i>
     </div>
   </v-touch>
 </template>
 <style lang="" scoped>
-  .inner-border{
-    border-top: 1px solid #E3E3E3;
-  }
-  .outertime{
+  .outer-wrap{
+    display: flex;
+    align-items: center;
     position: relative;
-    /*height:1.3rem;*/
     line-height: 1.3rem;
     background-color: white;
-    /*border-top: 1px solid  #E3E3E3;*/
   }
-  .hasPadding{
-    padding-left:3% ;
+  .inner-key{
+    display: block;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
   }
-  .arrow{
-    color: #999999;
-    font-size: 21px;
+  .inner-value {
+    display: block;
     position: absolute;
-    top:0.38rem;
-    right: 0.2rem;
-  }
-  .now {
-    position: absolute;
-    /*top:0.04rem;*/
     top:50%;
     margin-top: -0.65rem;
-    /*right: 0.94rem;*/
-    /*left:0.4rem;*/
+    right: 0.94rem;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #999999;
     letter-spacing: 0;
   }
-  .new-padding-right{
-    right: 0.94rem;
+  .arrow{
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top:50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+  }
+  .isInbox{
+    border-bottom: 1px solid #E3E3E3;
+  }
+  .hasPadding{
+    padding-left: 3%;
   }
   .edit-padding-left{
     left:1.3rem
   }
-  span{
-    display: block;
-    /*margin-bottom: 5px;*/
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-    /*line-height: 1.458rem;*/
+  .bottom-border{
+    border-bottom: 1px solid #E0E0E0;
   }
 </style>
 <script>

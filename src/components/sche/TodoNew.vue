@@ -17,16 +17,16 @@
               <r-input-date
                 :item="editItem"
                 :sep="'/'"
-                :newItem="true"
+                :new-item="true"
               ></r-input-date>
               <r-input-time
                 :item="editItem"
-                :newItem="true"
+                :new-item="true"
               ></r-input-time>
             </div>
             <div class="secondGroup">
               <r-input-member
-                :new-time="true"
+                :new-item="true"
                 :is-native="true"
                 :index-title="'执行人'"
                 :select-title="'请选择成员'"

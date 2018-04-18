@@ -97,9 +97,9 @@ rsqAdapterManager.register({
     //   "name":"毛文强",
     //   "orderInDepts":"[0]",
     //   "position":"",
-    //   "rsqPassword":"123456",
-    //   "rsqUserId":"285",
-    //   "rsqUsername":"maowenqiang0752@sina.com",
+    //   "rsqPassword":"uiHbhe",
+    //   "rsqUserId":"15242",
+    //   "rsqUsername":"vjBXU_1520435764814@qywxtest.rishiqing.com",
     //   "status":1,
     //   "userId":"0002"
     // }

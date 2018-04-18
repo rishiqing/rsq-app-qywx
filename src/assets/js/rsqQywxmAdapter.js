@@ -234,7 +234,11 @@ rsqAdapterManager.register({
 
   },
   log: function(params){
-    // console.log(params.message)
+    // alert(JSON.stringify(params))
+    console.log(params.message)
+  },
+  error: function(params){
+    window.alert(JSON.stringify(params))
   },
   setTitle: function(params){
     document.title = params.title;

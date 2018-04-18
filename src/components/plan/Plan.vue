@@ -38,9 +38,6 @@
             })
           })
       }
-    },
-    mounted () {
-      document.title = '计划'
     }
   }
 </script>

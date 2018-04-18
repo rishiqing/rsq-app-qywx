@@ -13,7 +13,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -24,7 +24,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -42,7 +42,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -55,7 +55,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           // console.log('没拿到数据') 留待测试
           // console.log('上面是跳转')
           reject(err.body)
@@ -68,7 +68,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -79,7 +79,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -91,7 +91,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -103,7 +103,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -115,7 +115,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -128,7 +128,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -140,7 +140,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -153,7 +153,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -165,7 +165,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -176,7 +176,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -187,7 +187,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -199,7 +199,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -210,7 +210,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -222,7 +222,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -234,7 +234,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -247,7 +247,7 @@ export default {
           // alert('请求返回')
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -258,7 +258,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -269,7 +269,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -281,7 +281,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -293,7 +293,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -304,7 +304,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -315,7 +315,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -329,7 +329,7 @@ export default {
           alert('成功')
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -341,7 +341,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -352,7 +352,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -363,7 +363,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -375,7 +375,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -387,7 +387,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -399,7 +399,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -410,7 +410,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -422,7 +422,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -434,7 +434,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -446,7 +446,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -458,7 +458,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -473,7 +473,7 @@ export default {
           // alert('RES' + res.name)
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -487,7 +487,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -499,7 +499,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -511,7 +511,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -523,7 +523,7 @@ export default {
         .then(res => {
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -536,7 +536,7 @@ export default {
           // alert('RES' + res.name)
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })
@@ -548,7 +548,7 @@ export default {
           // alert('RES' + res.name)
           resolve(res.json())
         }, err => {
-          window.rsqadmg.log(JSON.stringify(err))
+          window.rsqadmg.error(JSON.stringify(err))
           reject(err)
         })
     })

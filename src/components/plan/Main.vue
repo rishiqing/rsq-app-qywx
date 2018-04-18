@@ -38,6 +38,8 @@
     data () {
       return {
         content: '',
+        //  TODO 好坑……这里把id改成从服务器获取的id
+        //  通过这个接口来获取v2/kanbanTemplate/getCoverList
         imgs: [
           {addr: 'https://images.timetask.cn/cover/default/kanban_v1/card-default-1.png', word: '空白模板', index: 0, id: 2137},
           {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660700001345312.png', word: '敏捷开发', index: 1, id: 2089},

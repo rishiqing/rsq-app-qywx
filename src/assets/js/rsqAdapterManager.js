@@ -5,6 +5,7 @@
       'auth', 'sign',
       'init',
       'log',
+      'error',
       'disableBounce',
       'setTitle', 'setOptionButtons','hideOptionButtons', 'selectDeptMember', 'selectMember',
       'alert',
@@ -103,6 +104,9 @@
   win.rsqadmg = win.rsqAdMg = win.rsqAdapterManager = win.rsqSpace.adapterManager = {
     log: function(message){
       rsqadmg.execute('log', {message: message});
+    },
+    error: function(message){
+      rsqadmg.execute('error', {message: message});
     },
     register: register,
     exec: execute,

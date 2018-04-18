@@ -43,6 +43,7 @@
       }
     },
     mounted () {
+      window.rsqadmg.exec('setTitle', {title: '计划'})
       this.$store.dispatch('getPlan').then((res) => {
         this.$store.commit('SAVE_PLANS', res)
 //          that.$router.replace(window.history.back())

@@ -9,7 +9,7 @@ export default {
         .then((res) => {
           resolve(res.json())
         }, (res) => {
-          window.rsqadmg.log('login error:' + JSON.stringify(res))
+          window.rsqadmg.error('login error:' + JSON.stringify(res))
           reject(res)
         })
     })
@@ -29,7 +29,7 @@ export default {
         .then((res) => {
           resolve(res.json())
         }, (res) => {
-          window.rsqadmg.log('login error:' + JSON.stringify(res))
+          window.rsqadmg.error('login error:' + JSON.stringify(res))
           reject(res)
         })
     })
@@ -38,10 +38,10 @@ export default {
     return new Promise((resolve, reject) => {
       Vue.http.get(mapping.GET_LOGOUT)
         .then((res) => {
-          window.rsqadmg.log('response.status:' + res.status)
+          window.rsqadmg.error('response.status:' + res.status)
           resolve(res)
         }, (res) => {
-          window.rsqadmg.log('login error:' + JSON.stringify(res))
+          window.rsqadmg.error('login error:' + JSON.stringify(res))
           reject(res)
         })
     })
@@ -52,7 +52,7 @@ export default {
         .then((res) => {
           resolve(res.json())
         }, (res) => {
-          window.rsqadmg.log('login error:' + JSON.stringify(res))
+          window.rsqadmg.error('login error:' + JSON.stringify(res))
           reject(res)
         })
     })
@@ -63,7 +63,7 @@ export default {
         .then((res) => {
           resolve(res.json())
         }, (res) => {
-          window.rsqadmg.log('login error:' + JSON.stringify(res))
+          window.rsqadmg.error('login error:' + JSON.stringify(res))
           reject(res)
         })
     })
@@ -80,7 +80,7 @@ export default {
         .then((res) => {
           resolve(res.json())
         }, (res) => {
-          window.rsqadmg.log('login error:' + JSON.stringify(res))
+          window.rsqadmg.error('login error:' + JSON.stringify(res))
           reject(res)
         })
     })

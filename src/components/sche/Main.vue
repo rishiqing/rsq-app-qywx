@@ -13,24 +13,26 @@
       @on-cal-pan-end="onPanEnd"
       :default-select-date="dateSelect"
     ></r-calendar>
-    <r-pull-to-refresh
-      :enabled="enablePullToRefresh"
-      @on-list-pan-move="checkScroll"
-      @on-pull-down="pullRefresh">
-      <r-todo-item-list
-        :items="items"
-        :is-checkable="true"
-        v-if="items.length!==0"
-      ></r-todo-item-list>
-      <div class="itm-lst" v-else>
-        <img src="../../assets/img/todo-empty.png" alt="">
-        <p class="shouye">还没有日程，赶快去创建吧</p>
-      </div>
-    </r-pull-to-refresh>
-    <v-touch @tap="toInbox">
-      <img src="../../assets/img/main_inbox.png" alt="" class="main_inbox">
-    </v-touch>
-    <r-nav></r-nav>
+    <div id="bounceDiv" style="width:100%;height:100%;overflow: auto;-webkit-overflow-scrolling: touch;">
+      <r-pull-to-refresh
+        :enabled="enablePullToRefresh"
+        @on-list-pan-move="checkScroll"
+        @on-pull-down="pullRefresh">
+        <r-todo-item-list
+          :items="items"
+          :is-checkable="true"
+          v-if="items.length!==0"
+        ></r-todo-item-list>
+        <div class="itm-lst" v-else>
+          <img src="../../assets/img/todo-empty.png" alt="">
+          <p class="shouye">还没有日程，赶快去创建吧</p>
+        </div>
+      </r-pull-to-refresh>
+      <v-touch @tap="toInbox">
+        <img src="../../assets/img/main_inbox.png" alt="" class="main_inbox">
+      </v-touch>
+      <r-nav></r-nav>
+    </div>
   </div>
 </template>
 <script>

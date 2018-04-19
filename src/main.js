@@ -7,6 +7,13 @@ import 'as/js/rsqQywxmAdapter.js'
 // xss漏洞
 import 'as/js/xssFilter.js'
 
+/**
+ * 解决iOS的回弹问题
+ * https://www.npmjs.com/package/inobounce
+ * All you need is an element with height or max-height, overflow: auto and -webkit-overflow-scrolling: touch
+ */
+import 'as/js/inobounce.js'
+
 // 全局添加Promise垫片，防止不支持promise的浏览器中出现bug
 import Pro from 'es6-promise'
 Pro.polyfill()

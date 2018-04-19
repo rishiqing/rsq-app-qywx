@@ -64,7 +64,8 @@
         endX: 0,
         moveX: 0,
         disX: 0,
-        deleteSlider: ''
+        deleteSlider: '',
+        threshold: 50  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
       }
     },
     methods: {
@@ -87,6 +88,9 @@
           this.disX = this.startX - this.moveX
           console.log(this.disX)
           // 如果是向右滑动或者不滑动，不改变滑块的位置
+          if (Math.abs(this.disX) <= this.threshold) {
+            return
+          }
           if (this.disX < 0 || this.disX === 0) {
             this.deleteSlider = 'transform:translateX(0px)'
           } else if (this.disX > 0) {
@@ -106,6 +110,9 @@
         if (ev.changedTouches.length === 1) {
           let endX = ev.changedTouches[0].clientX
           this.disX = this.startX - endX
+          if (Math.abs(this.disX) <= this.threshold) {
+            return
+          }
 //          console.log(this.disX)
           if ((this.disX * 5) < (wd / 2)) {
             this.deleteSlider = 'transform:translateX(0px)'

@@ -32,6 +32,7 @@
         <i class="icon2-arrow-right-small arrow"></i>
       </v-touch>
     </ul>
+    <v-touch tag="p" class="date-clear" @tap="tapEmpty">清除日期</v-touch>
   </div>
 </template>
 <style lang="scss">
@@ -92,9 +93,10 @@
     .is-text-disabled .arrow {color:#E0E0E0;}
     .arrow{
       position: absolute;
-      right:0.11rem;
-      top:0.31rem;
-      font-size:22px;
+      right: 0.2rem;
+      top: 50%;
+      margin-top: -0.25rem;
+      font-size: 21px;
       color: #999999;
     }
     ul{
@@ -119,10 +121,10 @@
       height: 1.2rem;
       border-bottom:0.5px solid #DADADA;
       box-sizing: border-box;
+      padding-left: 3%;
     }
     .sec{
       margin-top:0.231rem ;
-      padding-left:3%;
       border-bottom:0.5px solid #DADADA;
     }
     .last{
@@ -138,14 +140,22 @@
       letter-spacing: 0;
     }
     span.list-key {float:left;}
-    span.list-value {float:right;margin-right:0.7rem;
+    span.list-value {float:right;margin-right:0.94rem;
       max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
       color: #999999;
     }
     .sec span{}
     .last span{}
   }
-
+  .date-clear {
+    text-align: center;
+    line-height: 1.2rem;
+    font-size: 0.4rem;
+    background-color: #FFF;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
 </style>
 <script>
   import moment from 'moment'
@@ -285,6 +295,12 @@
           }
         })
       },
+      tapEmpty () {
+        this.clock.startTime = ''
+        this.clock.endTime = ''
+        this.autoStart = false
+        this.autoEnd = false
+      },
       /**
        * 保存当前todoTime的数据并跳转到提醒页面
        */
@@ -361,9 +377,12 @@
           window.rsqadmg.exec('showLoader', {text: '保存中'})
         }
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
-        var clockObject = JSON.parse(JSON.stringify(this.clock || {}))
+        let clockObject = {}
+        if (this.clock && this.clock.startTime && this.clock.endTime) {
+          clockObject = this.clock
+        }
 
-        return this.$store.dispatch('updateTodoTime', {clock: this.clock})
+        return this.$store.dispatch('updateTodoTime', {clock: clockObject})
           .then(item => {
             if (item.clock && item.clock.alert) {
               jsUtil.extendObject(item.clock, clockObject)
@@ -376,7 +395,6 @@
             this.$store.commit('PUB_TODO_TIME_DELETE')
             if (this.isEdit) {
               window.rsqadmg.exec('hideLoader')
-              window.rsqadmg.execute('toast', {message: '保存成功'})
             }
             next()
           })
@@ -384,7 +402,7 @@
     },
     created () {
       this.initData()
-      window.rsqadmg.exec('setTitle', {title: '设置时间'})
+      window.rsqadmg.exec('setTitle', {title: '时间和提醒'})
       window.rsqadmg.exec('setOptionButtons', {hide: true})
       this.$store.dispatch('setNav', {isShow: false})
     },

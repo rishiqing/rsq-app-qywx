@@ -451,10 +451,9 @@
         this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
           this.joinUserRsqIds = idArray
           window.rsqadmg.exec('hideLoader')
-          window.rsqadmg.execute('toast', {message: '保存成功'})
+          // window.rsqadmg.execute('toast', {message: '保存成功'})
           //  重新获取用户头像
           this.fetchCommentIds()
-//          console.log('params的addJoinUsers是' + params.addJoinUsers)
           if (params.addJoinUsers) {
             // var time = util.SendConversationTime(this.currentTodo)
             // var date = util.SendConversationDate(this.currentTodo)
@@ -473,7 +472,6 @@
             }
 
             var IDArrays = params.addJoinUsers.split(',')
-//            console.log('IDArrays是' + IDArrays)
             var empIDArray = []
             this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
               .then(idMap => {

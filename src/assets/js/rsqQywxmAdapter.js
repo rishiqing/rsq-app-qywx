@@ -85,7 +85,6 @@ rsqAdapterManager.register({
   auth: function(params){
 
     //------------------------------------------------------------
-
     // var authUser = {
     //   "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
     //   "corpId":"wxec002534a59ea2e7",
@@ -120,18 +119,12 @@ rsqAdapterManager.register({
     //先取签名
     rsqadmg.execute('sign', {
         success: function(res){
-          // var json = JSON.stringify(res);
-          // 再进行jssdk初始化
-          // alert('进来execute了' + JSON.stringify(res))
           rsqadmg.execute('init', {
             appId: res.appId,
             "timeStamp": res.timeStamp,
             "nonceStr": res.nonceStr,
             "signature": res.signature,
             success: function(authUser){
-              // var authUser = authResult.user;
-              //  从authServer获取到用户数据后进行登录
-              // alert('init-success')
               rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
                 j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
               }, function(result){
@@ -150,11 +143,9 @@ rsqAdapterManager.register({
         }
       }
     );
-    //---------------------------------------------
   },
   sign: function(params){
     var currentUrl = window.location.href.split('#')[0];
-    // alert('url' + currentUrl)
     var pa = rsqadmg.store.app;
     rsqAdapterManager.ajax.get(rsqConfig.authServer + 'get_js_config', {
       url: currentUrl,
@@ -162,10 +153,8 @@ rsqAdapterManager.register({
       agentId: pa.agentid
     }, function(resSign){
       var resJson = JSON.parse(resSign);
-      // alert('resJson' + JSON.stringify(resJson))
       rsqChk(params.success, [resJson]);
     });
-    // rsqChk(params.success, [{}]);
   },
   init: function(params){
     wx.config({
@@ -179,7 +168,6 @@ rsqAdapterManager.register({
       jsApiList: ['getNetworkType', 'hideOptionMenu', 'selectEnterpriseContact']
     });
     wx.ready(function(res){
-      // alert('ready')
       var appdata = rsqadmg.store.app;
       var cookieName = appdata.agentid + '-' + appdata.corpid + '-userId';
 
@@ -204,12 +192,10 @@ rsqAdapterManager.register({
         });
       }else{
         var oauthUrl = getOauthUrl();
-        // alert(oauthUrl);
         window.location.href = oauthUrl;
       }
     });
     wx.error(function(err){
-      // alert('errorJinlai ' + JSON.stringify(err))
       //  如果是config:fail，那么就刷新jsapi ticket
       if(err['errMsg'] !== null){
         // alert(JSON.stringify(err));
@@ -220,7 +206,6 @@ rsqAdapterManager.register({
         }, function(resSign){
           var resJson = JSON.parse(resSign);
           if(!resJson.errcode){
-            // alert('------')
             window.location.reload();
           }
         });
@@ -234,7 +219,6 @@ rsqAdapterManager.register({
 
   },
   log: function(params){
-    // alert(JSON.stringify(params))
     console.log(params.message)
   },
   error: function(params){
@@ -303,11 +287,6 @@ rsqAdapterManager.register({
     loading = weui.loading(params.text, {
       className: 'custom-classname'
     });
-    // setTimeout(function () {
-    //   loading.hide(function() {
-    //     console.log('`loading` has been hidden');
-    //   });
-    // }, 1000);
   },
   /**
    * 隐藏加载库
@@ -331,32 +310,26 @@ rsqAdapterManager.register({
    * @param params.onFail
    */
   actionsheet: function(params){
-    console.log('进来了')
-    // alert('进来了')
     if (params.buttonArray.length === 3) {
       weui.actionSheet([
           {
             label: params.buttonArray[0],
             onClick: function () {
-              // console.log('拍照');
               rsqChk(params.success, [{buttonIndex: 0}]);
             }
           }, {
             label:  params.buttonArray[1],
             onClick: function () {
-              // console.log('从相册选择');
               rsqChk(params.success, [{buttonIndex: 1}]);
             }
           }, {
             label: params.buttonArray[2],
             onClick: function () {
-              // console.log('其他');
               rsqChk(params.success, [{buttonIndex: 2}]);
             }
           },  {
             label: '取消',
             onClick: function () {
-              console.log('取消');
               // rsqChk(params.success, [{buttonIndex: 3}]);
             }
           }
@@ -372,13 +345,11 @@ rsqAdapterManager.register({
           {
             label: params.buttonArray[0],
             onClick: function () {
-              // console.log('拍照');
               rsqChk(params.success, [{buttonIndex: 0}]);
             }
           }, {
             label:  params.buttonArray[1],
             onClick: function () {
-              // console.log('从相册选择');
               rsqChk(params.success, [{buttonIndex: 1}]);
             }
           }, {
@@ -410,7 +381,6 @@ rsqAdapterManager.register({
     weui.toast(params.message);
   },
   selectDeptMember: function(params){
-    // alert('传给后台已选人' + params.selectedIds)
     wx.invoke('selectEnterpriseContact', {
         'fromDepartmentId': -1,// 必填，-1表示打开的通讯录从自己所在部门开始展示, 0表示从最上层开始
         'mode': 'multi',// 必填，选择模式，single表示单选，multi表示多选
@@ -418,7 +388,6 @@ rsqAdapterManager.register({
         'selectedDepartmentIds': [],// 非必填，已选部门ID列表。用于多次选人时可重入
         'selectedUserIds': params.selectedIds// 非必填，已选用户ID列表。用于多次选人时可重入
       },function(res){
-        // alert('返回来' + JSON.stringify(res))
         rsqChk(params.success, [res]);
         if (res.err_msg == "selectEnterpriseContact:ok")
         {
@@ -444,7 +413,6 @@ rsqAdapterManager.register({
         }
       }
     );
-    // alert('执行完毕')
   },
   selectMember: function(params){
   },
@@ -472,13 +440,13 @@ rsqAdapterManager.register({
         minites.push(minites_item);
       }
     }
+    var defString = params.strInit || '00:00';
+    var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
 
     weui.picker(hours, symbol, minites, {
-      defaultValue: params.strInit || '00:00',
+      defaultValue: defArray,
       onConfirm: function(result) {
-        // console.log(result)
         var time = result[0].label + ':' + result[2].label;
-        // console.log(time)
         var result = {value: time}
         rsqChk(params.success, [result]);
       },

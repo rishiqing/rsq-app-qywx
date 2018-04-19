@@ -12,27 +12,33 @@
         <i class="icon2-selected finish" v-show="alert.selected"></i>
       </v-touch>
     </ul>
-    <ul class="alert-list">
-      <v-touch tag="li" @tap="selectAlert(alert)" v-for="(alert, index) in displayedTimeList" :key="index">
-        <span>{{parseTimeText(alert.numTime)}}</span>
-        <i class="icon2-selected finish" v-show="alert.selected"></i>
-      </v-touch>
-    </ul>
+    <!--<ul class="alert-list">-->
+      <!--<v-touch tag="li" @tap="selectAlert(alert)" v-for="(alert, index) in displayedTimeList" :key="index">-->
+        <!--<span>{{parseTimeText(alert.numTime)}}</span>-->
+        <!--<i class="icon2-selected finish" v-show="alert.selected"></i>-->
+      <!--</v-touch>-->
+    <!--</ul>-->
     <ul class="sec">
       <v-touch tag="li" @tap="showTimePicker" class="defineAlert">
-        <span class="remind">自定义提醒时间</span>
+        <span class="list-key">自定义</span>
+        <span class="list-value">{{userDefinedAlertText}}</span>
+        <i class="icon2-arrow-right-small arrow"></i>
+        <!--<span class="remind">自定义提醒时间</span>-->
       </v-touch>
     </ul>
   </div>
 </template>
-<style>
+<style lang="scss">
   .edit-alert {
+     span.list-key {float:left;}
+     span.list-value {float:right;margin-right:0.94rem;
+        max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
+        color: #999999;}
     .remind {
       display: block;
       margin-left: 0.2rem;
       font-family: PingFangSC-Regular;
       font-size: 16px;
-      color: #55A8FD;
     }
     .time {
       position: absolute;
@@ -65,20 +71,27 @@
     span {
       /*line-height: 1.112rem;*/
       display: block;
-      margin-left: 0.45rem;
     }
     li {
       position: relative;
-      padding: 5px;
-      line-height: 0.912rem;
-      height: 0.912rem;
+      line-height: 1.2rem;
+      height: 1.2rem;
       border-bottom: 1px solid #E3E3E3;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
+      padding-left: 3%;
     }
     li:last-child {
       border: none;
+    }
+    .arrow{
+      position: absolute;
+      right: 0.2rem;
+      top: 50%;
+      margin-top: -0.25rem;
+      font-size: 21px;
+      color: #999999;
     }
   }
   ul.sec .defineAlert{
@@ -135,6 +148,11 @@
         return this.alertList.filter(a => {
           return a.isUserDefined
         })
+      },
+      userDefinedAlertText () {
+        return this.displayedTimeList.map(a => {
+          return this.parseTimeText(a.numTime)
+        }).join(',')
       }
     },
     methods: {
@@ -178,15 +196,18 @@
 //        this.displayedTimeList.push(obj)
 //        this.selectAlert(obj)
         var that = this
-        window.rsqadmg.exec('timePicker', {
-          strInit: moment().format('HH:mm'),
-          success (result) {
-            var obj = {numTime: that.getNumDateTime(result.value), selected: false}
-            that.displayedTimeList.push(obj)
-            that.selectAlert(obj)
-            console.log('selectAlert之后obj是' + obj)
-          }
-        })
+        //  延迟50ms执行，保证不会触发立即关闭
+        setTimeout(() => {
+          window.rsqadmg.exec('timePicker', {
+            strInit: moment().format('HH:mm'),
+            success (result) {
+              var obj = {numTime: that.getNumDateTime(result.value), selected: false}
+              that.displayedTimeList.push(obj)
+              that.selectAlert(obj)
+              console.log('selectAlert之后obj是' + obj)
+            }
+          })
+        }, 50)
       },
       disableAlert () {
         if (!this.noAlert) {
@@ -300,7 +321,7 @@
     },
     created () {
       this.initData()
-      window.rsqadmg.execute('setTitle', {title: '设置提醒'})
+      window.rsqadmg.execute('setTitle', {title: '提醒'})
       window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     beforeRouteLeave (to, from, next) {

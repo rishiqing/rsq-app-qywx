@@ -31,6 +31,12 @@
     font-size: 17px;
     color: #999999;
     letter-spacing: 0;
+    /* 防止溢出 */
+    max-width: 7rem;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .arrow{
     color: #999999;

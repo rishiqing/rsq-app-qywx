@@ -119,8 +119,7 @@ export default {
    * @constructor
    */
   CHILDTASK_TODO_CREATED (state, p) {
-    console.log('现在的currentTodo是' + JSON.stringify(state.todo.currentTodo))
-    state.todo.currentTodo.subTodos.unshift(p.item)
+    state.todo.currentTodo.subTodos.push(p.item)
   },
   INB_TODO_CREATED (state, p) {
     if (!state.inbox.items) {
@@ -214,6 +213,15 @@ export default {
    */
   TD_CURRENT_TODO_SET (state, p) {
     state.todo.currentTodo = p.item
+  },
+  /**
+   * 设置当前的子任务
+   * @param state
+   * @param p
+   * @constructor
+   */
+  TD_CURRENT_SUBTODO_SET (state, p) {
+    state.todo.currentSubtodo = p.item
   },
   TD_CURRENT_TODO_REPEAT_SET (state, p) {
     var i = p.item

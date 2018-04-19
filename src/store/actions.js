@@ -333,6 +333,14 @@ export default {
     commit('TD_CURRENT_TODO_UPDATE', {item})
   },
   /**
+   * 设置子任务编辑时，当前正在编辑的子任务
+   * @param commit
+   * @param item
+   */
+  setCurrentSubtodo ({commit}, item) {
+    commit('TD_CURRENT_SUBTODO_SET', {item: item})
+  },
+  /**
    * 首先检查schedule的items中是否已经获取到todo的详细信息，如果没有获取过，则请求服务器获取
    * 当获取到item的详细信息时，item会添加cDetail标记，表示已经获取过，下次将不会再获取细节信息
    * @param commit

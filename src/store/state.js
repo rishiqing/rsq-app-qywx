@@ -62,6 +62,8 @@ export default {
       subTodos: [],
       comments: []
     },
+    //  当点击子任务进入子任务编辑状态时，该字段用来存储当前的子任务
+    currentSubtodo: null,
     //  用于处理重复的任务修改时，需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
     currentTodoRepeat: {},
     //  重复相关的字段是否修改过，目前的条件是如果title/note/subTodos修改过，认为修改过

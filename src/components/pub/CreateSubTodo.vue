@@ -21,13 +21,15 @@
           <div class="hide" :class="{'for-hide-sub':item.isDone}"></div>
           <i class="icon2-selected hide" :class="{'isdisplay-sub':item.isDone}"></i>
         </v-touch>
-        <v-touch class="wrap-input">
-           <input   class="list-below" @focus="IsDisabled($event,item.isDone)" @blur="inputBlur($event.target.value, item)"  @input="inputChange($event.target.value)"
-                    ref="titleInput" :value=item.name   :class="{ 'text-grey': item.isDone, 'text-mid-line': item.isDone,'is-editable':item.isDone}">
+        <v-touch class="wrap-input" @tap="showEditSubtodo(item)">
+           <!--<input   class="list-below" @focus="IsDisabled($event,item.isDone)" @blur="inputBlur($event.target.value, item)"  @input="inputChange($event.target.value)"-->
+                    <!--ref="titleInput" :value=item.name   :class="{ 'text-grey': item.isDone, 'text-mid-line': item.isDone,'is-editable':item.isDone}">-->
+          <span class="list-below"
+                ref="titleInput"
+                :class="{ 'text-grey': item.isDone, 'text-mid-line': item.isDone}">{{item.name}}</span>
         </v-touch>
       </li>
     </ul>
-    <div class="remind-subtodo" :class="{IsDisplayRemind:haschild}">*清空标题可删除任务</div>
   </div>
 </template>
 <script>
@@ -67,6 +69,10 @@
       'r-todo-item-list': TodoItemList
     },
     methods: {
+      showEditSubtodo (item) {
+        this.$store.dispatch('setCurrentSubtodo', item)
+        this.$router.push('/todo/' + this.currentTodo.id + '/subtodo/' + item.id)
+      },
       IsDisabled (e, pIsDone) {
         if (pIsDone) {
           e.target.blur()
@@ -296,8 +302,8 @@
   .isdisplay-sub{
     display: block;
     position:absolute;
-    top:0.27rem;
-    left: 0.13rem;
+    top:0.36rem;
+    left: 0.05rem;
     font-size: 15px;
     color:#55A8FD;
   }

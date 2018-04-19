@@ -31,6 +31,7 @@ import MemberList from 'com/pub/MemberList'
 import MemberEdit from 'com/pub/MemberEdit'
 import Plan from 'com/plan/Plan'
 import PlanList from 'com/plan/PlanList'
+import PlanNameEdit from 'com/plan/PlanNameEdit'
 import Main from 'com/plan/Main'
 import childPlan from 'com/plan/childPlan'
 import createSubplan from 'com/plan/createSubplan'
@@ -102,6 +103,12 @@ const router = new Router({
       path: '/plan/Plan',
       name: 'Plan',
       component: Plan,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/plan/:planId/editName',
+      name: 'planNameEdit',
+      component: PlanNameEdit,
       meta: {requireAuth: true}
     },
     {
@@ -195,8 +202,8 @@ const router = new Router({
       meta: {requireAuth: true}
     },
     {
-      path: '/todo/SubTodoEdit',
-      name: 'SubTodoEdit',
+      path: '/todo/:todoId/subtodo/:subtodoId',
+      name: 'todoEditSubTodo',
       component: TodoEditSubTodo,
       meta: {requireAuth: true}
     },

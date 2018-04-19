@@ -17,10 +17,10 @@
       <div class="plan-templ">计划模板:</div>
       <div class="wrap-all">
           <div v-for="item in imgs">
-            <v-touch @tap=" currentIndex = item.index"  class="wrap-muban">
-              <img src="../../assets/img/selected.png" alt="" class="templ cover-img" v-show="currentIndex === item.index">
-              <img :src=item.addr alt="" class="templ">
-              <div class="templName">{{item.word}}</div>
+            <v-touch @tap=" currentTemplate = item"  class="wrap-muban">
+              <img src="../../assets/img/selected.png" alt="" class="templ cover-img" v-show="currentTemplate === item">
+              <img :src=item.cover alt="" class="templ">
+              <div class="templName">{{item.name}}</div>
             </v-touch>
           </div>
       </div>
@@ -40,13 +40,13 @@
         content: '',
         //  TODO 好坑……这里把id改成从服务器获取的id
         //  通过这个接口来获取v2/kanbanTemplate/getCoverList
-        imgs: [
-          {addr: 'https://images.timetask.cn/cover/default/kanban_v1/card-default-1.png', word: '空白模板', index: 0, id: 2137},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660700001345312.png', word: '敏捷开发', index: 1, id: 2089},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660530001345312.png', word: '产品设计', index: 2, id: 2092},
-          {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660240001345312.png', word: '需求管理', index: 3, id: 2090}
-        ],
-        currentIndex: 0,
+        // imgs: [
+        //   {addr: 'https://images.timetask.cn/cover/default/kanban_v1/card-default-1.png', word: '空白模板', index: 0, id: 2137},
+        //   {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660700001345312.png', word: '敏捷开发', index: 1, id: 2089},
+        //   {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660530001345312.png', word: '产品设计', index: 2, id: 2092},
+        //   {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660240001345312.png', word: '需求管理', index: 3, id: 2090}
+        // ],
+        currentTemplate: {},
         selectedLocalList: [],
         rsqIdArray: []
       }
@@ -67,6 +67,9 @@
       },
       selectedItems () {
         return this.selectedLocalList.length > 10 ? this.selectedLocalList.slice(0, 11) : this.selectedLocalList
+      },
+      imgs () {
+        return this.$store.state.plan.coverList
       }
     },
     methods: {
@@ -77,15 +80,13 @@
         }
         var params = {
           name: this.content,
-          cover: this.imgs[this.currentIndex].addr,
+          cover: this.currentTemplate.cover,
           selectGroupId: 'all',
-          tKanbanId: this.imgs[this.currentIndex].id,
+          tKanbanId: this.currentTemplate.id,
           accessIds: this.rsqIdArray.toString()
         }
         this.$store.dispatch('postPlan', params).then((res) => {
-//          alert(JSON.stringify(res.userRoles))
-//          console.log('返回' + JSON.stringify(res))
-          that.$router.replace(window.history.back())
+          that.$router.go(-1)
         })
       },
       getMember (id) {
@@ -138,6 +139,15 @@
 //                  alert('rsqIdArray' + JSON.stringify(rsqIdArray))
 //                that.$emit('member-changed', rsqIdArray)
               })
+          }
+        })
+      }
+    },
+    created () {
+      if (this.imgs === null) {
+        this.$store.dispatch('getTemplate').then(() => {
+          if (this.imgs.length > 0) {
+            this.currentTemplate = this.imgs[0]
           }
         })
       }

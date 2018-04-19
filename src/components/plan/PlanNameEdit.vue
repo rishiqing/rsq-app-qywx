@@ -1,13 +1,59 @@
 <template>
-    <div>hello plan name edit</div>
+    <div class="itm-edt-fields">
+      <div class="input-wrap">
+        <input type="text" placeholder="计划名称"
+               ref="titleInput" v-model="planName"/>
+      </div>
+      <div class="buttons">
+        <v-touch @tap="submitPlanName" class="button-wrap">
+          <a href="javascript:;" class="weui-btn weui-btn_primary">保存</a>
+        </v-touch>
+      </div>
+    </div>
 </template>
 
 <script>
   export default {
-    name: 'plan-name-edit'
+    name: 'plan-name-edit',
+    data () {
+      return {
+        planName: ''
+      }
+    },
+    computed: {
+      currentPlan () {
+        return this.$store.state.currentPlan
+      }
+    },
+    methods: {
+      submitPlanName () {
+        this.$store.dispatch('updatePlanName', {'name': this.planName, 'id': this.currentPlan.id})
+        this.$router.go(-1)
+      }
+    },
+    created () {
+      window.rsqadmg.exec('setTitle', {title: '编辑名称'})
+      this.planName = this.currentPlan.name
+    }
   }
 </script>
 
 <style scoped>
+  .input-wrap {
 
+  }
+  .input-wrap > input {
+    background: #FFFFFF;
+    line-height: 0.72rem;
+    padding: 0.305rem;
+    font-size: 0.506rem;
+    border-radius: 0;
+    color: #3D3D3D;
+  }
+  .buttons {
+    padding-top: 0.2rem;
+  }
+  .button-wrap {
+    margin: 0.3rem 0.3rem 0;
+  }
 </style>

@@ -70,6 +70,12 @@ export default {
     isRepeatFieldEdit: false
   },
   /**
+   * 计划相关的存储
+   */
+  plan: {
+    coverList: null
+  },
+  /**
    * 组件之间需要共享的临时数据
    */
   pub: {

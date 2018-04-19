@@ -494,5 +494,11 @@ export default {
   },
   SET_EMPTY_CURRENT_SUB_PLAN (state, p) {
     state.currentSubPlan = ''
+  },
+  PLAN_COVER_LIST_SET (state, p) {
+    state.plan.coverList = p.coverList
+  },
+  PLAN_NAME_UPDATE (state, p) {
+    state.currentPlan.name = p.name
   }
 }

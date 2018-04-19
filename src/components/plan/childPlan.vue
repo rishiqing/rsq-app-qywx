@@ -6,7 +6,7 @@
           <span class="top-subPlan-name">{{currentSubPlan.name}}</span>
           <i class="icon2-arrow-down arrow-down"></i>
         </v-touch>
-        <v-touch @tap="setPlan($event)" class="setPlan">
+        <v-touch @tap="delaySetPlan($event)" class="setPlan">
           <i class="icon2-set set"></i>
         </v-touch>
       </div>
@@ -377,6 +377,11 @@
       },
       totalNumber (item) {
         return item.kanbanItemList ? item.kanbanItemList.length : 0
+      },
+      delaySetPlan (e) {
+        window.setTimeout(() => {
+          this.setPlan(e)
+        }, 50)
       },
       setPlan (e) {
         e.preventDefault()

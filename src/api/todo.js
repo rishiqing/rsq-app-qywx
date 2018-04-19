@@ -478,7 +478,7 @@ export default {
         })
     })
   },
-  getTemplate (props) {
+  getTemplate () {
     // var path = util.replaceUrlParams(mapping.GET_COVERLIST)
     // alert(path)
     // alert('props' + JSON.stringify(props))

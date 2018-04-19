@@ -2,6 +2,7 @@ import { Promise } from 'es6-promise'
 import api from 'api/index'
 import util from 'ut/jsUtil'
 import dateUtil from 'ut/dateUtil'
+import bizUtil from 'ut/bizUtil'
 import moment from 'moment'
 
 export default {
@@ -1070,7 +1071,7 @@ export default {
   updatePlanName ({commit, state}, p) {
     return api.todo.updatePlanName(p)
       .then((res) => {
-        commit('DELETE_CARD', p)
+        commit('PLAN_NAME_UPDATE', p)
       })
   },
   getLabels ({commit, state}, p) {
@@ -1088,9 +1089,10 @@ export default {
       })
   },
   getTemplate ({commit, state}, p) {
-    return api.todo.getTemplate(p)
+    return api.todo.getTemplate()
       .then((result) => {
-        // commit('SAVE_LABELS', result)
+        //  目前在企业微信中只使用四个模板，因此这里将这四个模板取出来
+        commit('PLAN_COVER_LIST_SET', {coverList: bizUtil.extractTemplate(result)})
         return result
       })
   },

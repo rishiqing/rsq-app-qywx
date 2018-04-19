@@ -4,8 +4,13 @@
       <div class="wrap-img">
         <img :src=currentPlan.cover alt="" class="plan-set-img">
         <v-touch class="wrap-name" @tap="showEditName">
-          <input class="plan-set-name" v-model="currentPlan.name" :class="{'editState': editState}" @blur="savePlanName"/>
-          <img src="../../assets/img/set.png" alt="" class="plan-set-sec-img" v-show="!editState">
+          <!--<input class="plan-set-name" v-model="currentPlan.name" :class="{'editState': editState}" @blur="savePlanName"/>-->
+          <div class="plan-set-name">
+            <span>{{currentPlan.name}}</span>
+            <v-touch @tap="showEditPlanName" class="plan-set-sec-img">
+              <img src="../../assets/img/set.png" alt="">
+            </v-touch>
+          </div>
         </v-touch>
         <span class="creator-time">由 {{creatorName}} 于{{standardTime}}创建</span>
       </div>
@@ -84,6 +89,9 @@
       }
     },
     methods: {
+      showEditPlanName () {
+        this.$router.push('/plan/' + this.currentPlan.id + '/editName')
+      },
       savePlanName () {
         this.editState = false
 //        console.log(this.currentPlan.name)
@@ -187,6 +195,7 @@
       }
     },
     mounted () {
+      window.rsqadmg.exec('setTitle', {title: '计划设置'})
       this.getMember(this.rsqIds)
       var corpId = this.loginUser.authUser.corpId
       this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.currentPlan.creatorId]})
@@ -262,9 +271,13 @@
     align-items:center;
   }
   .plan-set-sec-img{
+    position: absolute;
     width: 0.5rem;
     height: 0.5rem;
-    margin-left: 0.1rem;
+    right: -0.6rem;
+  }
+  .plan-set-sec-img > img {
+    width: 100%;
   }
   .plan-set-bot{
     height: 1.4rem;
@@ -312,23 +325,24 @@
     margin-top: 0.3rem;
   }
   .plan-set-name{
-    outline:none;
+    position: relative;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #666666;
     opacity: 0.66;
-    /*background: #F3F3F3;*/
     border: 0 solid #E4E4E4;
     border-radius: 1px;
-    max-width:1.98rem;
     height: 0.645rem;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    /*text-overflow: ellipsis;*/
-    /*overflow: hidden;*/
-    /*white-space:nowrap;*/
+  }
+  .plan-set-name > span {
+    white-space: nowrap;
+    max-width: 7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .plan-set-img{
     width: 1.386rem;

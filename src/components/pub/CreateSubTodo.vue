@@ -1,16 +1,16 @@
 <template>
   <div class="">
     <div class="for-cover"></div>
-    <div class="topSubtodo" v-if="seen" >
-      <v-touch @tap="change">
-        <v-touch ><i class="icon2-add-circle add"></i></v-touch>
-        <span class="new-create">新建子任务</span>
-      </v-touch>
-    </div>
-    <div v-else class="anotherTop">
+    <!--<div class="topSubtodo" v-if="seen" >-->
+      <!--<v-touch @tap="change">-->
+        <!--<v-touch ><i class="icon2-add-circle add"></i></v-touch>-->
+        <!--<span class="new-create">新建子任务</span>-->
+      <!--</v-touch>-->
+    <!--</div>-->
+    <div class="wrap">
       <input class="write" type="text" placeholder="输入子任务标题" v-model="inputTitle" >
       <v-touch @tap="saveTodo" v-show="inputTitle !== ''" class="btn-create">
-        <button class="create" ><span>创建</span></button>
+        <button class="create" >创建</button>
       </v-touch>
     </div>
     <div class="margin-block"></div>
@@ -196,6 +196,14 @@
     /*right: 0;*/
     /*bottom: 0;*/
   }
+  .wrap {
+    position: fixed;
+    width: 100%;
+    top: 10px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+  }
   input::-webkit-input-placeholder { /* WebKit browsers */
     font-family: PingFangSC-Regular;
     font-size: 17px;
@@ -318,25 +326,21 @@
     border: 1px solid white;
   }
   .create{
-    -webkit-appearance: none;
-    /*display: block;*/
-    /*text-align: center;*/
-    display: flex;
-    /*align-items: center;*/
-    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
     border: 1px solid #55A8FD;
     border-radius: 2px;
-    height: 0.666rem;
-    /*line-height: 0.76rem;*/
-    width:1.4rem;
-    font-size: 0.4rem;
+    width:1.413rem;
+    height: 0.66rem;
+    line-height: 0.66rem;
+    font-size: 0.35rem;
     color:#55A8FD;
-    position: fixed;
-    top:0.57rem;
+    position: absolute;
+    top:50%;
     right:0.35rem;
+    margin-top: -0.33rem;
     z-index:2;
     background-color: white;
-    /*padding-left: 0.26rem;*/
   }
   .write{
     background: #FFFFFF;
@@ -344,7 +348,6 @@
     border-top:1px solid #E3E3E3;
     top: 0.266rem;
     padding-left:0.6rem;
-    position: fixed;
     z-index: 1;
     line-height: 0.6rem;
     padding-right: 2.432rem;

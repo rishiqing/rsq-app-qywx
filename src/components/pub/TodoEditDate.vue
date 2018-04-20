@@ -311,7 +311,7 @@
       },
       tapDay (e, day) {
         //  如果是在repeat状态下点击日期，那么清除重复，进入single状态
-        if (this.dateType === 'repeat') {
+        if (this.dateType === 'repeat' || this.dateType === 'none') {
           this.dateType = 'single'
           this.tapDay(e, day)
         }

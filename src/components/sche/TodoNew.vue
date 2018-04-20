@@ -35,10 +35,10 @@
                 :disabled-rsq-ids="[]"
                 @member-changed="saveMember"
               ></r-input-member>
-              <v-touch @tap="submitTodo" class="create-bot">
-                <a href="javascript:;" class="weui-btn weui-btn_primary">创建任务</a>
-              </v-touch>
             </div>
+            <v-touch @tap="submitTodo" class="create-bot">
+              <a href="javascript:;" class="weui-btn weui-btn_primary">创建任务</a>
+            </v-touch>
           </div>
           <!--<div class="itm-group itm&#45;&#45;edit-todo" @click="submitTodo">提交（测试）</div>-->
         </div>
@@ -63,13 +63,13 @@
   }
   .firstGroup{
     margin-top:10px;
-    border-top: 1px solid #DADADA;
-    border-bottom: 1px solid #DADADA;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
   }
   .secondGroup{
     margin-top:10px;
-    border-top: 1px solid #DADADA;
-    /*border-bottom: 1px solid #E0E0E0;*/
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
   }
   p{
     font-family: PingFangSC-Regular;

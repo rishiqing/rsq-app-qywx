@@ -1,6 +1,6 @@
 <template>
   <v-touch class="" @tap="showSubTodo">
-    <div class="outer-wrap bottom-border">
+    <div class="outer-wrap">
       <span class="inner-key">子任务</span>
       <span class="inner-value">{{subtodoString}}</span>
       <i class="icon2-arrow-right-small arrow"></i>

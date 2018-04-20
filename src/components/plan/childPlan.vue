@@ -24,7 +24,7 @@
                 <i class="icon2-other other"></i>
               </v-touch>
             </div>
-            <ul class="taskBorder">
+            <ul class="task-border">
               <li v-for="kanbanItem in finishdown(item.kanbanItemList)" class="cardItem" :class="{'isFinish':kanbanItem.isDone}">
                 <v-touch @tap="toEdit(kanbanItem)">
                   <div class="cardItem-left">
@@ -934,10 +934,11 @@
   .cardList:after{
     clear: both;
   }
-  .taskBorder{
+  .task-border{
     /*height: 10rem;*/
     height: 67vh;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     /*border: 1px solid yellow;*/
     /*background-color: white;*/
   }

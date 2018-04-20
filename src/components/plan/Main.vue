@@ -150,6 +150,8 @@
             this.currentTemplate = this.imgs[0]
           }
         })
+      } else {
+        this.currentTemplate = this.imgs[0]
       }
     },
     mounted () {

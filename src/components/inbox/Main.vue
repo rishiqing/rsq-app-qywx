@@ -4,7 +4,7 @@
     <div class="wrap">
       <input class="write" type="text" placeholder="在这里写下想法" v-model="inputTitle">
       <v-touch @tap="saveTodo" v-show="inputTitle !== ''" class="btn-create">
-        <input value="创建" class="create"/>
+        <div class="create">创建</div>
       </v-touch>
     </div>
     <div class="margin-block"></div>
@@ -86,25 +86,20 @@
     width: 100%;
   }
   .create{
-    -webkit-appearance: none;
+    box-sizing: border-box;
     display: block;
     text-align: center;
+    width:1.413rem;
+    height: 0.66rem;
+    line-height: 0.66rem;
     border: 1px solid #55A8FD;
     border-radius: 2px;
-    /*height: 0.666rem;*/
-    line-height: 0.66rem;
-    display: flex;
-    align-items: center;
-    width:1.413rem;
     font-size: 15px;
     color:#55A8FD;
     position: absolute;
-    margin-top:-0.4rem;
+    margin-top: -0.33rem;
     top: 50%;
     right:0.35rem;
-    /*margin-top: -1.34rem;*/
-    /*margin-right:0.4rem;*/
-    /*float: right;*/
     z-index: 3;
   }
   .write{
@@ -113,8 +108,6 @@
     padding-top: 0.4rem;
     border-bottom:1px solid #E3E3E3;
     border-top:1px solid #E3E3E3;
-    /*position: fixed;*/
-    /*top:10px;*/
     background: #FFFFFF;
     padding-left:0.3rem;
     padding-right: 2.432rem;

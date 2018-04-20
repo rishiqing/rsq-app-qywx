@@ -101,6 +101,9 @@
   li:last-child{
     border-bottom: none;
   }
+  .delete:last-child .slider .content li {
+    border-bottom: none;
+  }
   .todoItem{
     width: 70%;
     /*display: inline-block;*/

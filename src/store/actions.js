@@ -224,9 +224,9 @@ export default {
         alert(JSON.stringify(err))
       })
   },
-  createSubTodo ({commit, state, dispatch}, p) {
+  createSubtodo ({commit, state, dispatch}, p) {
     var name = p.newItem.pTitle
-    return api.todo.postSubTodo({name: name, todoId: p.todoId})
+    return api.todo.postSubtodo({name: name, todoId: p.todoId})
       .then(item => {
         commit('CHILDTASK_TODO_CREATED', {item: item})
       })
@@ -311,9 +311,9 @@ export default {
         commit('SCH_LIST_TODO_CHECKED', {item: p.item, status: p.status})
       })
   },
-  submitSubTodoFinish ({commit}, p) {
+  submitSubtodoFinish ({commit}, p) {
     // console.log('p,status是' + p.status)
-    return api.todo.putSubTodoProps({id: p.item.id, isDone: p.status})
+    return api.todo.putSubtodoProps({id: p.item.id, isDone: p.status})
       .then((item) => {
         // console.log('和后台拿数据回来' + JSON.stringify(item))
         commit('SCH_LIST_SUBTODO_CHECKED', {item: p.item, status: p.status})
@@ -529,7 +529,7 @@ export default {
         commit('TD_COMMENT_CREATED', {comment: record})
       })
   },
-  updateSubTodo ({commit, state}, p) {
+  updateSubtodo ({commit, state}, p) {
     //  p.todo不存在，则默认读取currentTod
     // var id = state.todo.currentTodo.subTodos[0].id
     // var id = p.item.id
@@ -539,23 +539,23 @@ export default {
     // var editItem = p.editItem
     // console.log('todo的id是' + id)
     // editItem['id'] = id
-    return api.todo.putSubTodoProps(item)
-      .then(subTodo => {
-        commit('TD_SUBTODO_UPDATED', {subTodo: subTodo, item: item})
+    return api.todo.putSubtodoProps(item)
+      .then(subtodo => {
+        commit('TD_SUBTODO_UPDATED', {subtodo: subtodo, item: item})
       })
   },
-  updateSubTodoCheck ({commit, state}, p) {
+  updateSubtodoCheck ({commit, state}, p) {
     //  p.todo不存在，则默认读取currentTodo
-    // var id = state.todo.currentTodo.subTodos[0].id
+    // var id = state.todo.currentTodo.subtodos[0].id
     // var id = p.item.id
     p.item.name = p.name
     var item = p.item
     //  如果id存在，则ajax更新
     // var editItem = p.editItem
     // editItem['id'] = id
-    return api.todo.putSubTodoProps(item)
-      .then(subTodo => {
-        commit('TD_SUBTODO_UPDATED', {subTodo: subTodo, item: item})
+    return api.todo.putSubtodoProps(item)
+      .then(subtodo => {
+        commit('TD_SUBTODO_UPDATED', {subtodo: subtodo, item: item})
       })
   },
   /**
@@ -626,10 +626,10 @@ export default {
         commit('TD_COMMENT_DELETE', {item: item})
       })
   },
-  deleteSubTodo ({commit, state, dispatch}, p) {
+  deleteSubtodo ({commit, state, dispatch}, p) {
     // var todo = p.todo || state.todo.currentTodo留待以后查看
     var item = p.item
-    return api.todo.deleteSubTodo(item)
+    return api.todo.deleteSubtodo(item)
       .then(() => {
         commit('TD_SUBTODO_DELETE', {item: item})
       })

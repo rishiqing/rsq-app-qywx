@@ -1,20 +1,28 @@
 <template>
-    <div class="itm-edt-fields">
-      <div class="input-wrap">
-        <input type="text" placeholder="计划名称"
-               ref="titleInput" v-model="planName"/>
-      </div>
-      <div class="buttons">
-        <v-touch @tap="submitPlanName" class="button-wrap">
-          <a href="javascript:;" class="weui-btn weui-btn_primary">保存</a>
-        </v-touch>
-      </div>
+  <div class="itm-edt-fields">
+    <div class="input-wrap">
+      <input
+        ref="titleInput"
+        v-model="planName"
+        type="text"
+        placeholder="计划名称">
     </div>
+    <div class="buttons">
+      <v-touch
+        class="button-wrap"
+        @tap="submitPlanName" >
+        <a
+          href="javascript:;"
+          class="weui-btn weui-btn_primary">
+          保存
+        </a>
+      </v-touch>
+    </div>
+  </div>
 </template>
-
 <script>
   export default {
-    name: 'plan-name-edit',
+    name: 'PlanNameEdit',
     data () {
       return {
         planName: ''
@@ -25,15 +33,15 @@
         return this.$store.state.currentPlan
       }
     },
+    created () {
+      window.rsqadmg.exec('setTitle', {title: '编辑名称'})
+      this.planName = this.currentPlan.name
+    },
     methods: {
       submitPlanName () {
         this.$store.dispatch('updatePlanName', {'name': this.planName, 'id': this.currentPlan.id})
         this.$router.go(-1)
       }
-    },
-    created () {
-      window.rsqadmg.exec('setTitle', {title: '编辑名称'})
-      this.planName = this.currentPlan.name
     }
   }
 </script>

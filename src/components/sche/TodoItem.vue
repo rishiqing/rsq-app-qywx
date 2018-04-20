@@ -1,21 +1,50 @@
 <template>
-  <r-slider-delete
-   @deleteItem="deleteItem"
-  >
+  <r-slider-delete @deleteItem="deleteItem">
     <li class="todoItem">
-      <v-touch class="" @tap="clickItem($event)" style="margin-left: 1rem">
-        <div class="title-todo" :class="{'margin-left':!isCheckable}">
-          <span class="todo-content-sche" :class="{'delay-width':isDelay,'common-width':!isDelay, 'text-grey': item.pIsDone, 'text-mid-line': item.pIsDone,'real-width-sche':isMaxlength(item)}">{{ item.pTitle }}</span>
-          <span class="delayer" :class="{'is-alert': isDelay}" v-show="isDelay">延期{{delayDays}}天</span>
-          <span v-if="!isCheckable" v-show="isFromSche" class="receive">我收到的</span>
-          <span v-if="!isCheckable" v-show="isFromKanban" class="receive">来自计划</span>
+      <v-touch
+        style="margin-left: 1rem"
+        @tap="clickItem($event)">
+        <div
+          :class="{'margin-left':!isCheckable}"
+          class="title-todo">
+          <span
+            :class="{'delay-width':isDelay,'common-width':!isDelay, 'text-grey': item.pIsDone, 'text-mid-line': item.pIsDone,'real-width-sche':isMaxlength(item)}"
+            class="todo-content-sche" >
+            {{ item.pTitle }}
+          </span>
+          <span
+            v-show="isDelay"
+            :class="{'is-alert': isDelay}"
+            class="delayer">
+            延期{{ delayDays }}天
+          </span>
+          <span
+            v-if="!isCheckable"
+            v-show="isFromSche"
+            class="receive">
+            我收到的
+          </span>
+          <span
+            v-if="!isCheckable"
+            v-show="isFromKanban"
+            class="receive">
+            来自计划
+          </span>
         </div>
       </v-touch>
-      <v-touch class="todo-checkbox" v-if="isCheckable" @tap="clickCheckOut">
-        <i class="icon2-check-box select"
-           :class="{'icon-check_box_outline_blank': !item.pIsDone, 'icon-check': item.pIsDone}"></i>
-        <div class="hide" :class="{'for-hide':item.pIsDone}"></div>
-        <i class="icon2-selected hide" :class="{'isdisplay':item.pIsDone}"></i>
+      <v-touch
+        v-if="isCheckable"
+        class="todo-checkbox"
+        @tap="clickCheckOut">
+        <i
+          :class="{'icon-check_box_outline_blank': !item.pIsDone, 'icon-check': item.pIsDone}"
+          class="icon2-check-box select"/>
+        <div
+          :class="{'for-hide':item.pIsDone}"
+          class="hide"/>
+        <i
+          :class="{'isdisplay':item.pIsDone}"
+          class="icon2-selected hide"/>
       </v-touch>
     </li>
   </r-slider-delete>
@@ -139,15 +168,21 @@
 //  import bus from 'com/bus'
   export default {
     name: 'TodoItem',
-    data () {
-      return {}
-    },
-    props: {
-      item: Object,
-      isCheckable: Boolean
-    },
     components: {
       'r-slider-delete': SliderDelete
+    },
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      isCheckable: {
+        type: Boolean,
+        default: true
+      }
+    },
+    data () {
+      return {}
     },
     computed: {
       currentTodo () {
@@ -241,8 +276,6 @@
         this.$emit('todo-item-check', this.item, !this.item.pIsDone)
         e.preventDefault()
       }
-    },
-    mounted () {
     }
   }
 </script>

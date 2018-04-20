@@ -1,15 +1,26 @@
 <template>
   <li class="task-list">
-    <img class="small-img" :src="previewImg" alt="task.img.name"/>
+    <img
+      :src="previewImg"
+      class="small-img"
+      alt="task.img.name">
     <div class="file-name">
-      <div class="word">{{task.img.name.substr(0,30)}}</div>
-      <div class="file-size">{{format(uploadedSize)}}/{{format(task.file.size)}}</div>
+      <div class="word">{{ task.img.name.substr(0,30) }}</div>
+      <div class="file-size">{{ format(uploadedSize) }}/{{ format(task.file.size) }}</div>
     </div>
-    <v-touch @tap="triggerDelete" class="icon-wrap">
-      <i class="icon2-error delete-comment"></i>
-      <span class="done-text" v-show="!task.isShowProgress">上传完成</span>
+    <v-touch
+      class="icon-wrap"
+      @tap="triggerDelete">
+      <i class="icon2-error delete-comment" />
+      <span
+        v-show="!task.isShowProgress"
+        class="done-text">上传完成</span>
     </v-touch>
-    <div ref="progressBar" class="progress-mask" v-show="task.isShowProgress" :style="progressStyle"></div>
+    <div
+      v-show="task.isShowProgress"
+      ref="progressBar"
+      :style="progressStyle"
+      class="progress-mask" />
   </li>
 </template>
 <style lang="scss" scoped>
@@ -71,11 +82,14 @@
   import util from 'ut/jsUtil'
 
   export default {
+    props: {
+      task: {
+        type: Object,
+        required: true
+      }
+    },
     data () {
       return {}
-    },
-    props: {
-      task: Object
     },
     computed: {
       uploadedSize () {
@@ -111,6 +125,14 @@
         }
       }
     },
+    mounted () {
+      this.$refs.progressBar.addEventListener('transitionend', this.checkProgressBar)
+      this.$refs.progressBar.addEventListener('webkitTransitionEnd', this.checkProgressBar)
+    },
+    beforeDestroy () {
+      this.$refs.progressBar.removeEventListener('transitionend', this.checkProgressBar)
+      this.$refs.progressBar.addEventListener('webkitTransitionEnd', this.checkProgressBar)
+    },
     methods: {
       format (num) {
         return util.formatUnit(num)
@@ -122,14 +144,6 @@
       checkProgressBar () {
         this.task.isShowProgress = (this.task.progress < 100)
       }
-    },
-    mounted () {
-      this.$refs.progressBar.addEventListener('transitionend', this.checkProgressBar)
-      this.$refs.progressBar.addEventListener('webkitTransitionEnd', this.checkProgressBar)
-    },
-    beforeDestroy () {
-      this.$refs.progressBar.removeEventListener('transitionend', this.checkProgressBar)
-      this.$refs.progressBar.addEventListener('webkitTransitionEnd', this.checkProgressBar)
     }
   }
 </script>

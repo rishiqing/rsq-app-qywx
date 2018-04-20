@@ -1,7 +1,12 @@
 <template>
-  <div class="start" id="splash">
+  <div
+    id="splash"
+    class="start">
     <div>
-      <img src="../../assets/img/start.png" alt="" class="start-img">
+      <img
+        src="../../assets/img/start.png"
+        alt=""
+        class="start-img">
       <p class="start-text">欢迎使用日事清 即刻开始享受工作</p>
       <!--<div class="enter-rsq" @click="enterRsq">进入日事清</div>-->
     </div>

@@ -1,19 +1,31 @@
 <template>
   <div>
-    <div id="noteEditable" contenteditable="true" class="descrip"
-         :class="{'editable-blank': isBlank,'edit-color': remindColor}"
-         name="note" rows="5"
-         @focus="inputFocus"
-         placeholder="输入任务描述"
-         @input="inputChange">输入任务描述</div>
-    <v-touch @tap="inputBlur()" class="despSubmit">
-      <a href="javascript:;" class="weui-btn weui-btn_primary">提交</a>
+    <div
+      id="noteEditable"
+      :class="{'editable-blank': isBlank,'edit-color': remindColor}"
+      class="descrip"
+      contenteditable="true"
+      name="note"
+      rows="5"
+      placeholder="输入任务描述"
+      @focus="inputFocus"
+      @input="inputChange">
+      输入任务描述
+    </div>
+    <v-touch
+      class="despSubmit"
+      @tap="inputBlur()">
+      <a
+        href="javascript:;"
+        class="weui-btn weui-btn_primary">
+        提交
+      </a>
     </v-touch>
   </div>
 </template>
 <script>
   export default {
-    name: 'note',
+    name: 'Note',
     // 定义数据
     data () {
       return {
@@ -35,7 +47,27 @@
           return true
         }
       }
-    }, // 定义事件
+    },
+    watch: {
+      'itemNote': function (newValue) {
+        if (typeof newValue === 'undefined') {
+          return
+        }
+        if (this.noteChangeTimes === 0 && newValue) {
+          this.noteChangeTimes += 1
+          var noteElement = document.getElementById('noteEditable')
+          this.newItemNote = newValue
+          noteElement.innerHTML = newValue
+          this.isBlank = false
+        }
+      }
+    },
+    mounted () {
+      var noteElement = document.getElementById('noteEditable')
+      if (this.pNote) {
+        noteElement.innerHTML = this.pNote
+      }
+    },
     methods: {
       inputFocus () {
         if (this.isBlank) {
@@ -78,35 +110,6 @@
           })
         }
       }
-    },
-    watch: {
-      'itemNote': function (newValue) {
-        if (typeof newValue === 'undefined') {
-          return
-        }
-        if (this.noteChangeTimes === 0 && newValue) {
-          this.noteChangeTimes += 1
-          var noteElement = document.getElementById('noteEditable')
-          this.newItemNote = newValue
-          noteElement.innerHTML = newValue
-          this.isBlank = false
-        }
-      }
-    },
-    mounted () {
-      var noteElement = document.getElementById('noteEditable')
-      if (this.pNote) {
-        noteElement.innerHTML = this.pNote
-      }
-//      var that = this
-//      window.rsqadmg.execute('setOptionButtons', {
-//        btns: [{key: 'sendNote', name: '确定'}],
-//        success (res) {
-//          if (res.key === 'sendNote') {
-//            that.inputBlur()
-//          }
-//        }
-//      })
     }
   }
 </script>

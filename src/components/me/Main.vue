@@ -1,43 +1,29 @@
 <template>
   <div class="">
-  <div class="top">
-    <div class="tupian">
-      <avatar :src="loginUser.authUser.avatar"
-              :username="loginUser.authUser.name"
-              :size="73"></avatar>
+    <div class="top">
+      <div class="tupian">
+        <avatar
+          :src="loginUser.authUser.avatar"
+          :username="loginUser.authUser.name"
+          :size="73"/>
+      </div>
+      <p class="xingming">{{ loginUser.authUser.name }}</p>
     </div>
-    <p class="xingming">{{loginUser.authUser.name}}</p>
-  </div>
-  <div class="bottom">
-    <!--<div>-->
-      <!--<v-touch @tap="SwitchToIntroduction" class="me-list">-->
-        <!--<p>更新说明</p>-->
-        <!--<i class="icon2-arrow-right-small arow"></i>-->
-      <!--</v-touch>-->
-    <!--</div>-->
-    <div class="me-list">
+    <div class="bottom">
+      <div class="me-list">
         <p>联系我们</p>
         <span class="tel">010-57294778</span>
+      </div>
     </div>
-    <!--<div>-->
-      <!--<v-touch  @tap="gotokefu" :class="{'is-active': '/me' == currentPath}" class="me-list">-->
-      <!--<p>在线客服</p>-->
-        <!--<i class="icon2-arrow-right-small arow"></i>-->
-      <!--</v-touch>-->
-    <!--</div>-->
-    <!--<div>-->
-      <!--<v-touch @tap="gotoPC" class="me-list">-->
-        <!--<p>登录日事清PC端</p>-->
-        <!--<i class="icon2-arrow-right-small arow"></i>-->
-      <!--</v-touch>-->
-    <!--</div>-->
-  </div>
   </div>
 </template>
 <script>
   import Avatar from 'com/pub/TextAvatar'
 
   export default {
+    components: {
+      'avatar': Avatar
+    },
     data () {
       return {
         titleName: '我'
@@ -48,8 +34,10 @@
         return this.$store.state.loginUser
       }
     },
-    components: {
-      'avatar': Avatar
+    mounted () {
+      window.rsqadmg.exec('setTitle', {title: this.titleName})
+      window.rsqadmg.exec('setOptionButtons', {hide: true})
+      this.$store.dispatch('setNav', {isShow: true})
     },
     methods: {
       SwitchToIntroduction () {
@@ -61,14 +49,8 @@
       gotoPc () {
         this.$router.push('/me/pc-end')
       }
-    },
-    mounted () {
-      window.rsqadmg.exec('setTitle', {title: this.titleName})
-      window.rsqadmg.exec('setOptionButtons', {hide: true})
-      this.$store.dispatch('setNav', {isShow: true})
-//      alert(JSON.stringify(this.loginUser.authUser))
     }
-}
+  }
 </script>
 <style scoped >
   .me-list{

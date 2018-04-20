@@ -3,20 +3,45 @@
   <div class="init-form">
     <p>发送到聊天测试</p>
     <div class="form">
-      <v-touch class="form-control" @tap="logState">
-        <input class="u-full-width" type="button" value="log state"/>
+      <v-touch
+        class="form-control"
+        @tap="logState">
+        <input
+          class="u-full-width"
+          type="button"
+          value="log state">
       </v-touch>
-      <v-touch class="form-control" @tap="showSend">
-        <input class="u-full-width" type="button" value="发送到聊天"/>
+      <v-touch
+        class="form-control"
+        @tap="showSend">
+        <input
+          class="u-full-width"
+          type="button"
+          value="发送到聊天">
       </v-touch>
-      <v-touch class="form-control" @tap="showCorpMessage">
-        <input class="u-full-width" type="button" value="发送企业消息"/>
+      <v-touch
+        class="form-control"
+        @tap="showCorpMessage">
+        <input
+          class="u-full-width"
+          type="button"
+          value="发送企业消息">
       </v-touch>
-      <v-touch class="form-control" @tap="showSendRemind(1)">
-        <input class="u-full-width" type="button" value="发送提醒（1分钟之后）"/>
+      <v-touch
+        class="form-control"
+        @tap="showSendRemind(1)">
+        <input
+          class="u-full-width"
+          type="button"
+          value="发送提醒（1分钟之后）">
       </v-touch>
-      <v-touch class="form-control" @tap="showSendRemind(3)">
-        <input class="u-full-width" type="button" value="发送提醒（3分钟之后）"/>
+      <v-touch
+        class="form-control"
+        @tap="showSendRemind(3)">
+        <input
+          class="u-full-width"
+          type="button"
+          value="发送提醒（3分钟之后）">
       </v-touch>
     </div>
   </div>
@@ -28,7 +53,6 @@
 </style>
 <script>
   import util from 'ut/jsUtil'
-
   export default {
     data () {
       return {
@@ -201,8 +225,6 @@
           }
         })
       }
-    },
-    mounted () {},
-    beforeDestroy () {}
+    }
   }
 </script>

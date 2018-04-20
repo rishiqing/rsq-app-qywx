@@ -1,32 +1,47 @@
 <template>
   <div>
-    <input type="text" v-model="content" class="createPlan" placeholder="计划名称">
-    <div class="wrapPlanMember">
+    <input
+      v-model="content"
+      type="text"
+      class="create-plan"
+      placeholder="计划名称">
+    <div class="wrap-plan-member">
       <span class="plan-member-word">计划成员</span>
-      <v-touch class="plan-member" @tap="showNativeMemberEdit">
-        <span class="people-number">{{selectedLocalList.length}}人</span>
-        <avatar v-for="item in selectedLocalList"
-                :key="item.rsqUserId"
-                :src="item.avatar"
-                :username="item.name">
-        </avatar>
-        <i class="icon2-arrow-right-small arrow-right"></i>
+      <v-touch
+        class="plan-member"
+        @tap="showNativeMemberEdit">
+        <span class="people-number">{{ selectedLocalList.length }}人</span>
+        <avatar
+          v-for="item in selectedLocalList"
+          :key="item.rsqUserId"
+          :src="item.avatar"
+          :username="item.name"/>
+        <i class="icon2-arrow-right-small arrow-right"/>
       </v-touch>
     </div>
     <div class="wrap-most">
       <div class="plan-templ">计划模板:</div>
       <div class="wrap-all">
-          <div v-for="item in imgs">
-            <v-touch @tap=" currentTemplate = item"  class="wrap-muban">
-              <img src="../../assets/img/selected.png" alt="" class="templ cover-img" v-show="currentTemplate === item">
-              <img :src=item.cover alt="" class="templ">
-              <div class="templName">{{item.name}}</div>
-            </v-touch>
-          </div>
+        <div
+          v-for="item in imgs"
+          :key="item.id">
+          <v-touch
+            class="wrap-muban"
+            @tap=" currentTemplate = item">
+            <img
+              v-show="currentTemplate === item"
+              src="../../assets/img/selected.png"
+              class="templ cover-img">
+            <img
+              :src="item.cover"
+              class="templ">
+            <div class="templName">{{ item.name }}</div>
+          </v-touch>
+        </div>
       </div>
     </div>
     <v-touch @tap="create">
-      <div class="postPlan">创建</div>
+      <div class="post-plan">创建</div>
     </v-touch>
   </div>
 </template>
@@ -35,25 +50,17 @@
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
   export default {
+    components: {
+      'PlanList': PlanList,
+      'avatar': Avatar
+    },
     data () {
       return {
         content: '',
-        //  TODO 好坑……这里把id改成从服务器获取的id
-        //  通过这个接口来获取v2/kanbanTemplate/getCoverList
-        // imgs: [
-        //   {addr: 'https://images.timetask.cn/cover/default/kanban_v1/card-default-1.png', word: '空白模板', index: 0, id: 2137},
-        //   {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660700001345312.png', word: '敏捷开发', index: 1, id: 2089},
-        //   {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660530001345312.png', word: '产品设计', index: 2, id: 2092},
-        //   {addr: 'https://images.timetask.cn/cover/custom/kanban/15168660240001345312.png', word: '需求管理', index: 3, id: 2090}
-        // ],
         currentTemplate: {},
         selectedLocalList: [],
         rsqIdArray: []
       }
-    },
-    components: {
-      'PlanList': PlanList,
-      'avatar': Avatar
     },
     computed: {
       loginUser () {
@@ -63,7 +70,7 @@
         return this.loginUser.authUser.userId ? this.loginUser.authUser.userId : 'dingtalkupload'
       },
       planItems () {
-        return this.$store.state.planlist
+        return this.$store.state.planList
       },
       selectedItems () {
         return this.selectedLocalList.length > 10 ? this.selectedLocalList.slice(0, 11) : this.selectedLocalList
@@ -71,6 +78,21 @@
       imgs () {
         return this.$store.state.plan.coverList
       }
+    },
+    created () {
+      if (this.imgs === null) {
+        this.$store.dispatch('getTemplate').then(() => {
+          if (this.imgs.length > 0) {
+            this.currentTemplate = this.imgs[0]
+          }
+        })
+      } else {
+        this.currentTemplate = this.imgs[0]
+      }
+    },
+    mounted () {
+      var createrId = [this.$store.state.loginUser.rsqUser.id]
+      this.getMember(createrId)
     },
     methods: {
       create () {
@@ -142,21 +164,6 @@
           }
         })
       }
-    },
-    created () {
-      if (this.imgs === null) {
-        this.$store.dispatch('getTemplate').then(() => {
-          if (this.imgs.length > 0) {
-            this.currentTemplate = this.imgs[0]
-          }
-        })
-      } else {
-        this.currentTemplate = this.imgs[0]
-      }
-    },
-    mounted () {
-      var createrId = [this.$store.state.loginUser.rsqUser.id]
-      this.getMember(createrId)
     }
   }
 </script>
@@ -186,7 +193,7 @@
     font-size: 17px;
     color: #666666;
   }
-  .wrapPlanMember{
+  .wrap-plan-member{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -204,7 +211,7 @@
     font-size: 20px;
     color:rgba(25,31,37,0.28);
   }
-  .postPlan{
+  .post-plan{
     width: 94%;
     height: 1.263rem;
     display: flex;
@@ -250,7 +257,7 @@
     width: 2.08rem;
     height: 1.173rem;
   }
-  .createPlan{
+  .create-plan{
     height: 1.466rem;
     background-color: white;
     padding: 0.3rem;

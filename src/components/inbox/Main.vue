@@ -1,19 +1,25 @@
 <template>
   <div class="">
-    <div class="topest"></div>
+    <div class="topest"/>
     <div class="wrap">
-      <input class="write" type="text" placeholder="在这里写下想法" v-model="inputTitle">
-      <v-touch @tap="saveTodo" v-show="inputTitle !== ''" class="btn-create">
+      <input
+        v-model="inputTitle"
+        class="write"
+        type="text"
+        placeholder="在这里写下想法">
+      <v-touch
+        v-show="inputTitle !== ''"
+        class="btn-create"
+        @tap="saveTodo">
         <div class="create">创建</div>
       </v-touch>
     </div>
-    <div class="margin-block"></div>
+    <div class="margin-block"/>
     <div class="InboxItem">
       <r-todo-item-list
-        :items="items"
-        :is-checkable="false"
         v-if="items != null && items.length > 0"
-      ></r-todo-item-list>
+        :items="items"
+        :is-checkable="false"/>
     </div>
   </div>
 </template>
@@ -21,6 +27,9 @@
   import TodoItemList from 'com/sche/TodoItemList'
 
   export default {
+    components: {
+      'r-todo-item-list': TodoItemList
+    },
     data () {
       return {
         titleName: '收纳箱',
@@ -32,8 +41,11 @@
         return this.$store.state.inbox.items
       }
     },
-    components: {
-      'r-todo-item-list': TodoItemList
+    mounted () {
+      this.fetchItems()
+      window.rsqadmg.exec('setTitle', {title: this.titleName})
+      window.rsqadmg.exec('setOptionButtons', {hide: true})
+      this.$store.dispatch('setNav', {isShow: false})
     },
     methods: {
       fetchItems () {
@@ -48,12 +60,6 @@
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
       }
-    },
-    mounted () {
-      this.fetchItems()
-      window.rsqadmg.exec('setTitle', {title: this.titleName})
-      window.rsqadmg.exec('setOptionButtons', {hide: true})
-      this.$store.dispatch('setNav', {isShow: false})
     }
   }
 </script>

@@ -1,18 +1,11 @@
 <template>
-  <v-touch class="" @tap="showSubTodo">
+  <v-touch @tap="showSubtodo">
     <div class="outer-wrap">
       <span class="inner-key">子任务</span>
-      <span class="inner-value">{{subtodoString}}</span>
-      <i class="icon2-arrow-right-small arrow"></i>
+      <span class="inner-value">{{ subtodoString }}</span>
+      <i class="icon2-arrow-right-small arrow"/>
     </div>
   </v-touch>
-  <!--<div class="subtodo">-->
-    <!--<v-touch class="" @tap="showSubTodo">-->
-      <!--<span class="date">子任务</span>-->
-      <!--<span class="now" :class="{'edit-padding-left':editTime}">{{subtodoString}}</span>-->
-      <!--<i class="icon2-arrow-right-small arrow"></i>-->
-    <!--</v-touch>-->
-  <!--</div>-->
 </template>
 <style lang="" scoped>
   .outer-wrap{
@@ -62,20 +55,29 @@
 </style>
 <script>
   export default {
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      editTime: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {}
-    },
-    props: {
-      item: Object,
-      editTime: Boolean,
-      disabled: Boolean
     },
     computed: {
       subtodoString () {
         var finishcount = 0
         var unfinishcount = 0
         var result = null
-        var subtodo = this.item.subTodos
+        var subtodo = this.item.subtodos
         // console.log('---' + subtodo + '----') // 这一行输出两次
         if (subtodo === undefined) {
           // console.log('果然相等')
@@ -98,12 +100,12 @@
       }
     },
     methods: {
-      showSubTodo () {
+      showSubtodo () {
         if (this.disabled) {
           window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
           return
         }
-        this.$router.push('/todo/' + this.item.id + '/subTodo')
+        this.$router.push('/todo/' + this.item.id + '/subtodo')
       }
     }
   }

@@ -1,15 +1,11 @@
 <template>
-  <div id="app" class="rsq-webview">
-    <!--<transition name="fade">-->
-      <!--<r-start-->
-        <!--@enter="enter"-->
-        <!--v-show="this.engine"-->
-      <!--&gt;-->
-      <!--</r-start>-->
-    <!--</transition>-->
-    <router-view></router-view>
-    <r-nav v-if="isAddNav" v-show="isShowNav"></r-nav>
-    <!--<r-guide v-if="isShowGuide"></r-guide>-->
+  <div
+    id="app"
+    class="rsq-webview">
+    <router-view />
+    <r-nav
+      v-if="isAddNav"
+      v-show="isShowNav" />
   </div>
 </template>
 <script>
@@ -17,7 +13,12 @@
   import Guide from 'com/pub/RemindWindow'
   import Start from 'com/me/Start'
   export default {
-    name: 'app',
+    name: 'App',
+    components: {
+      'r-nav': Nav,
+      'r-guide': Guide,
+      'r-start': Start
+    },
     data () {
       return {
         engine: true
@@ -33,11 +34,6 @@
       isShowGuide () {
         return this.$store.state.env.isShowGuide
       }
-    },
-    components: {
-      'r-nav': Nav,
-      'r-guide': Guide,
-      'r-start': Start
     },
     mounted () {
       var that = this

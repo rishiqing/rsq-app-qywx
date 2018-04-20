@@ -2,45 +2,62 @@
   <div>
     <div class="plan-set-top">
       <div class="wrap-img">
-        <img :src=currentPlan.cover alt="" class="plan-set-img">
-        <v-touch class="wrap-name" @tap="showEditName">
-          <!--<input class="plan-set-name" v-model="currentPlan.name" :class="{'editState': editState}" @blur="savePlanName"/>-->
+        <img
+          :src="currentPlan.cover"
+          class="plan-set-img">
+        <v-touch
+          class="wrap-name"
+          @tap="showEditName">
           <div class="plan-set-name">
-            <span>{{currentPlan.name}}</span>
-            <v-touch @tap="showEditPlanName" class="plan-set-sec-img">
-              <img src="../../assets/img/set.png" alt="">
+            <span>{{ currentPlan.name }}</span>
+            <v-touch
+              class="plan-set-sec-img"
+              @tap="showEditPlanName">
+              <img src="../../assets/img/set.png">
             </v-touch>
           </div>
         </v-touch>
-        <span class="creator-time">由 {{creatorName}} 于{{standardTime}}创建</span>
+        <span class="creator-time">由 {{ creatorName }} 于{{ standardTime }}创建</span>
       </div>
     </div>
     <div class="plan-set-second">
       <div class="plan-member-count">
-       <span class="plan-member-word">计划成员</span>
+        <span class="plan-member-word">计划成员</span>
         <div class="wrap-plan-member-count-num">
-          <span class="plan-member-count-num">{{currentPlan.userRoles.length}}人</span>
-          <!--<i class="icon2-arrow-right arrow-right-plan"></i>-->
+          <span class="plan-member-count-num">{{ currentPlan.userRoles.length }}人</span>
         </div>
       </div>
-      <v-touch class="wrap-plan-member" @tap="showNativeMemberEdit">
-        <avatar v-for="item in selectedLocalList"
-                :key="item.rsqUserId"
-                :src="item.avatar"
-                :username="item.name">
-        </avatar>
-        <i class="icon2-add add-member"></i>
+      <v-touch
+        class="wrap-plan-member"
+        @tap="showNativeMemberEdit">
+        <avatar
+          v-for="item in selectedLocalList"
+          :key="item.rsqUserId"
+          :src="item.avatar"
+          :username="item.name"/>
+        <i class="icon2-add add-member"/>
       </v-touch>
     </div>
-    <div class="setStar">
+    <div class="set-star">
       <span class="plan-set-star">设为星标计划</span>
       <v-touch @tap="toggleAllDay">
-        <input class="mui-switch" type="checkbox" :checked=isStar>
+        <input
+          :checked="isStar"
+          class="mui-switch"
+          type="checkbox">
       </v-touch>
     </div>
     <v-touch @tap="ifDelPlan">
-      <div class="plan-set-bot" v-show="isOwn">删除计划</div>
-      <div class="plan-set-bot" v-show="!isOwn">退出计划</div>
+      <div
+        v-show="isOwn"
+        class="plan-set-bot">
+        删除计划
+      </div>
+      <div
+        v-show="!isOwn"
+        class="plan-set-bot">
+        退出计划
+      </div>
     </v-touch>
   </div>
 </template>
@@ -48,6 +65,9 @@
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
   export default {
+    components: {
+      'avatar': Avatar
+    },
     data () {
       return {
         editState: false,
@@ -56,9 +76,6 @@
         isOwn: false,
         creatorName: ''
       }
-    },
-    components: {
-      'avatar': Avatar
     },
     computed: {
       currentPlan () {
@@ -88,9 +105,21 @@
         return rsqIdArray
       }
     },
+    mounted () {
+      window.rsqadmg.exec('setTitle', {title: '计划设置'})
+      this.getMember(this.rsqIds)
+      var corpId = this.loginUser.authUser.corpId
+      this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.currentPlan.creatorId]})
+        .then(idMap => {
+          this.creatorName = util.getMapValuePropArray(idMap)[0].name
+          if (parseInt(util.getMapValuePropArray(idMap)[0].userId) === parseInt(this.userId)) {
+            this.isOwn = true
+          }
+        })
+    },
     methods: {
       showEditPlanName () {
-        this.$router.push('/plan/' + this.currentPlan.id + '/editName')
+        this.$router.push('/plan/' + this.currentPlan.id + '/edit-name')
       },
       savePlanName () {
         this.editState = false
@@ -193,18 +222,6 @@
           }
         })
       }
-    },
-    mounted () {
-      window.rsqadmg.exec('setTitle', {title: '计划设置'})
-      this.getMember(this.rsqIds)
-      var corpId = this.loginUser.authUser.corpId
-      this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.currentPlan.creatorId]})
-        .then(idMap => {
-          this.creatorName = util.getMapValuePropArray(idMap)[0].name
-          if (parseInt(util.getMapValuePropArray(idMap)[0].userId) === parseInt(this.userId)) {
-            this.isOwn = true
-          }
-        })
     }
   }
 </script>
@@ -304,7 +321,7 @@
     font-size: 17px;
     color: #666666;
   }
-  .setStar{
+  .set-star{
     height: 1.52rem;
     background-color: white;
     display: flex;
@@ -348,10 +365,5 @@
     width: 1.386rem;
     height: 1.386rem;
     border-radius: 9px;
-  }
-  .setStar{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
   }
 </style>

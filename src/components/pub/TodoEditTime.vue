@@ -1,38 +1,52 @@
 <template>
   <div class="edit-time">
     <!--<ul class="edit-time-all-day">-->
-      <!--<li>-->
-        <!--<span>全天</span>-->
-        <!--<v-touch class="switch-wrapper" @tap="toggleAllDay">-->
-          <!--&lt;!&ndash;v-touch有bug，暂时这样处理&ndash;&gt;-->
-          <!--<input class="mui-switch-time" type="checkbox" :checked="isChecked" @click.prevent="empty">-->
-        <!--</v-touch>-->
-      <!--</li>-->
-    <!--</ul>-->
+    <!--<li>-->
+    <!--<span>全天</span>-->
+    <!--<v-touch class="switch-wrapper" @tap="toggleAllDay">-->
+    <!--&lt;!&ndash;v-touch有bug，暂时这样处理&ndash;&gt;-->
+    <!--<input class="mui-switch-time" type="checkbox" :checked="isChecked" @click.prevent="empty">-->
+    <!--</v-touch>-->
+    <!--</li>--><!--</ul>-->
     <ul class="sec">
       <v-touch tag="li">
         <div @click="setStartTime">
           <span class="list-key">开始时间</span>
-          <span class="list-value">{{clock.startTime}}</span>
-          <i class="icon2-arrow-right-small arrow"></i>
+          <span class="list-value">
+            {{ clock.startTime }}
+          </span>
+          <i class="icon2-arrow-right-small arrow"/>
         </div>
       </v-touch>
       <v-touch tag="li">
-        <div @click="setEndTime" class="setEndTime">
+        <div
+          class="setEndTime"
+          @click="setEndTime">
           <span class="list-key">结束时间</span>
-          <span class="list-value">{{clock.endTime}}</span>
-          <i class="icon2-arrow-right-small arrow"></i>
+          <span class="list-value">
+            {{ clock.endTime }}
+          </span>
+          <i class="icon2-arrow-right-small arrow"/>
         </div>
       </v-touch>
     </ul>
     <ul class="last">
-      <v-touch tag="li" @tap="gotoAlert">
+      <v-touch
+        tag="li"
+        @tap="gotoAlert">
         <span class="list-key">提醒</span>
-        <span class="list-value">{{alertText}}</span>
-        <i class="icon2-arrow-right-small arrow"></i>
+        <span class="list-value">
+          {{ alertText }}
+        </span>
+        <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
-    <v-touch tag="p" class="date-clear" @tap="tapEmpty">清除日期</v-touch>
+    <v-touch
+      class="date-clear"
+      tag="p"
+      @tap="tapEmpty">
+      清除日期
+    </v-touch>
   </div>
 </template>
 <style lang="scss">
@@ -208,6 +222,12 @@
         }
       }
     },
+    created () {
+      this.initData()
+      window.rsqadmg.exec('setTitle', {title: '时间和提醒'})
+      window.rsqadmg.exec('setOptionButtons', {hide: true})
+      this.$store.dispatch('setNav', {isShow: false})
+    },
     methods: {
       /**
        * 初始化数据
@@ -310,7 +330,7 @@
           return
         }
         this.saveTodoTimeState()
-        this.$router.push('/todoEdit/alert')
+        this.$router.push('/todo/alert')
       },
       /**
        * 检查开始时间和结束时间设置的是否正确，需要满足一下两个条件：
@@ -400,13 +420,6 @@
           })
       }
     },
-    created () {
-      this.initData()
-      window.rsqadmg.exec('setTitle', {title: '时间和提醒'})
-      window.rsqadmg.exec('setOptionButtons', {hide: true})
-      this.$store.dispatch('setNav', {isShow: false})
-    },
-    mounted () {},
     /**
      * vue-router hook
      * @param to

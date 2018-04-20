@@ -1,23 +1,29 @@
 <template>
   <div class="task-member">
-    <avatar v-for="item in local"
-            :key="item.rsqUserId"
-            :src="item.avatar"
-            :username="item.name">
-    </avatar>
+    <avatar
+      v-for="item in local"
+      :key="item.rsqUserId"
+      :src="item.avatar"
+      :username="item.name"/>
   </div>
 </template>
 <script>
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
   export default {
+    components: {
+      'avatar': Avatar
+    },
+    props: {
+      item: {
+        type: Object,
+        required: true
+      }
+    },
     data () {
       return {
         local: []
       }
-    },
-    props: {
-      item: Object
     },
     computed: {
       loginUser () {
@@ -26,9 +32,6 @@
       userId () {
         return this.loginUser.authUser.userId ? this.loginUser.authUser.userId : 'dingtalkupload'
       }
-    },
-    components: {
-      'avatar': Avatar
     },
     mounted () {
       var corpId = this.loginUser.authUser.corpId

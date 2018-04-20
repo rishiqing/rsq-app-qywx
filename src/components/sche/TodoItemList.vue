@@ -1,13 +1,14 @@
 <template>
-  <ul :class="{'itemList':itemcount}" class="sche-list">
+  <ul
+    :class="{'itemList':itemcount}"
+    class="sche-list">
     <r-todo-item
-        v-for="item in items"
-        :item="item"
-        :is-checkable="isCheckable"
-        @todo-item-click="showEdit"
-        @todo-item-check="checkTodo"
-        :key="item.id"
-    ></r-todo-item>
+      v-for="item in items"
+      :key="item.id"
+      :item="item"
+      :is-checkable="isCheckable"
+      @todo-item-click="showEdit"
+      @todo-item-check="checkTodo"/>
   </ul>
 </template>
 <style lang="scss" scoped>
@@ -32,23 +33,28 @@
 </style>
 <script>
   import TodoItem from 'com/sche/TodoItem'
-
   export default {
+    name: 'TodoItemList',
+    components: {
+      'r-todo-item': TodoItem
+    },
+    props: {
+      items: {
+        type: Array,
+        required: true
+      },
+      isCheckable: {
+        type: Boolean,
+        default: false
+      }    //  是否显示完成复选框
+    },
     data () {
       return {}
-    },
-    name: 'TodoItemList',
-    props: {
-      items: Array,
-      isCheckable: Boolean    //  是否显示完成复选框
     },
     computed: {
       itemcount () {
         return this.items.length >= 8 && this.isCheckable
       }
-    },
-    components: {
-      'r-todo-item': TodoItem
     },
     methods: {
       showEdit (item) {

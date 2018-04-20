@@ -1,18 +1,25 @@
 <template>
   <div>
-    <textarea type="text" v-model="content" placeholder="输入评论" >
-    </textarea>
+    <textarea
+      v-model="content"
+      type="text"
+      placeholder="输入评论" />
     <div class="icon-wrap">
-      <i class="icon-attachment upload-icon"></i>
+      <i class="icon-attachment upload-icon" />
     </div>
     <r-upload
       @get-file-id="setFileId"
       @remove-file-id="removeFileId"
       @ready-to-upload="isUploading"
-      @finish-upload="finishUpload"
-    ></r-upload>
-    <v-touch @tap="commentBlur(content)" class="sendComment">
-      <a href="javascript:;" class="weui-btn weui-btn_primary">发送</a>
+      @finish-upload="finishUpload" />
+    <v-touch
+      class="sendComment"
+      @tap="commentBlur(content)">
+      <a
+        href="javascript:;"
+        class="weui-btn weui-btn_primary">
+        发送
+      </a>
     </v-touch>
   </div>
 </template>
@@ -75,7 +82,10 @@
 <script>
   import Upload from 'com/pub/Upload'
   export default {
-    name: 'comment',
+    name: 'Comment',
+    components: {
+      'r-upload': Upload
+    },
     props: {
     },
     data () {
@@ -86,13 +96,31 @@
         uploadingFile: []
       }
     },
-    components: {
-      'r-upload': Upload
-    },
     computed: {
       defaultTaskDate () {
         return this.$store.getters.defaultTaskDate
       }
+    },
+    mounted () {
+//      var that = this
+      window.rsqadmg.execute('setTitle', {title: '评论'})
+//      window.rsqadmg.execute('setOptionButtons', {
+//        btns: [{key: 'sendComent', name: '发送'}],
+//        success (res) {
+//          if (res.key === 'sendComent') {
+//            if (that.uploadingFile.length > 0) {
+//              window.rsqadmg.exec('confirm', {
+//                message: '还有未上传完成的附件，确定发送？',
+//                success: function () {
+//                  that.comentBlur(that.content)
+//                }
+//              })
+//            } else {
+//              that.comentBlur(that.content)
+//            }
+//          }
+//        }
+//      })
     },
     methods: {
       setFileId (p) {
@@ -127,27 +155,6 @@
       finishUpload () {
         this.uploadingFile = []
       }
-    },
-    mounted () {
-//      var that = this
-      window.rsqadmg.execute('setTitle', {title: '评论'})
-//      window.rsqadmg.execute('setOptionButtons', {
-//        btns: [{key: 'sendComent', name: '发送'}],
-//        success (res) {
-//          if (res.key === 'sendComent') {
-//            if (that.uploadingFile.length > 0) {
-//              window.rsqadmg.exec('confirm', {
-//                message: '还有未上传完成的附件，确定发送？',
-//                success: function () {
-//                  that.comentBlur(that.content)
-//                }
-//              })
-//            } else {
-//              that.comentBlur(that.content)
-//            }
-//          }
-//        }
-//      })
     }
   }
 </script>

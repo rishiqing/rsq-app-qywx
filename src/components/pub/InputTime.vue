@@ -1,9 +1,11 @@
 <template>
-  <v-touch class="" @tap="gotoTodoTime">
-    <div class="outer-wrap":class="{'hasPadding':newItem, 'bottom-border': editTime}">
+  <v-touch @tap="gotoTodoTime">
+    <div
+      :class="{'hasPadding':newItem, 'bottom-border': editTime}"
+      class="outer-wrap" >
       <span class="inner-key">时间</span>
       <span class="inner-value">{{ timeValue }}</span>
-      <i class="icon2-arrow-right-small arrow"></i>
+      <i class="icon2-arrow-right-small arrow"/>
     </div>
   </v-touch>
 </template>
@@ -55,6 +57,24 @@
 </style>
 <script>
   export default {
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      newItem: {
+        type: Boolean,
+        default: true
+      },
+      editTime: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {}
     },
@@ -68,12 +88,6 @@
       timeValue () {
         return this.isAllDay ? '全天' : this.itemClock.startTime + '-' + this.itemClock.endTime
       }
-    },
-    props: {
-      item: Object,
-      editTime: Boolean,
-      disabled: Boolean,
-      newItem: Boolean
     },
     methods: {
       gotoTodoTime () {
@@ -89,9 +103,8 @@
         }
 //        console.log(JSON.stringify(timeObj))
         this.$store.commit('PUB_TODO_TIME_UPDATE', {data: timeObj})
-        this.$router.push('/todoEdit/time')
+        this.$router.push('/todo/time')
       }
-    },
-    created () {}
+    }
   }
 </script>

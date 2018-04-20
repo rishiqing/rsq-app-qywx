@@ -1,15 +1,19 @@
 <template>
-  <div class="" style="position:relative;">
-      <input class="file-input" type="file" id="imgInp" name="uploads[]" multiple="multiple" @change="addToTask"/>
-      <ul class="ul-list">
-        <r-upload-item
-          v-for="(task, index) in taskList"
-          :key="index"
-          :task="task"
-          @upload-item-delete="deleteTask"
-        ></r-upload-item>
-      </ul>
-    <!--<div @click="cancelUpload">测试</div>-->
+  <div style="position:relative;">
+    <input
+      id="imgInp"
+      class="file-input"
+      type="file"
+      name="uploads[]"
+      multiple="multiple"
+      @change="addToTask">
+    <ul class="ul-list">
+      <r-upload-item
+        v-for="(task, index) in taskList"
+        :key="index"
+        :task="task"
+        @upload-item-delete="deleteTask"/>
+    </ul>
   </div>
 </template>
 <style lang="scss">
@@ -32,8 +36,10 @@
 </style>
 <script>
   import UploadItem from 'com/pub/UploadItem'
-
   export default {
+    components: {
+      'r-upload-item': UploadItem
+    },
     data () {
       return {
         taskList: []  //  上传任务的taskList，每个task，包括image和file两个对象
@@ -60,9 +66,6 @@
           return !t.finished
         })
       }
-    },
-    components: {
-      'r-upload-item': UploadItem
     },
     methods: {
       deleteTask (task) {
@@ -138,8 +141,6 @@
           alert(1)
         })
       }
-    },
-    mounted () {},
-    beforeDestroy () {}
+    }
   }
 </script>

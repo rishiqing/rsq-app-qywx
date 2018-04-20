@@ -73,9 +73,9 @@ export default {
         })
     })
   },
-  postSubTodo (props) {
+  postSubtodo (props) {
     return new Promise((resolve, reject) => {
-      Vue.http.post(mapping.POST_SUB_TODO, props)
+      Vue.http.post(mapping.POST_SUBTODO, props)
         .then(res => {
           resolve(res.json())
         }, err => {
@@ -96,7 +96,7 @@ export default {
         })
     })
   },
-  putSubTodoProps (props) {
+  putSubtodoProps (props) {
     var path = util.replaceUrlParams(mapping.POST_SUBTODO_PROP, props)
     return new Promise((resolve, reject) => {
       Vue.http.put(path, props)
@@ -108,7 +108,7 @@ export default {
         })
     })
   },
-  putSubTodoPropsCheck (props) {
+  putSubtodoPropsCheck (props) {
     var path = util.replaceUrlParams(mapping.POST_SUBTODO_PROP, props)
     return new Promise((resolve, reject) => {
       Vue.http.put(path, props)
@@ -158,8 +158,8 @@ export default {
         })
     })
   },
-  deleteSubTodo (props) {
-    var path = util.replaceUrlParams(mapping.DELETE_SUB_TODO, props)
+  deleteSubtodo (props) {
+    var path = util.replaceUrlParams(mapping.DELETE_SUBTODO, props)
     return new Promise((resolve, reject) => {
       Vue.http.delete(path)
         .then(res => {

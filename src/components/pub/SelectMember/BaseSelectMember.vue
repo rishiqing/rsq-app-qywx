@@ -1,49 +1,72 @@
 <template>
   <div>
-    <div class="fixed-view" style="background:#fff;z-index:999;" transition="expand">
+    <div
+      class="fixed-view"
+      style="background:#fff;z-index:999;"
+      transition="expand">
       <div class="itm-outer">
         <div class="itm-inner">
           <div class="itm-title u-padding-left-40">
-            <input type="text" placeholder="请输入名称进行搜索" v-model="memberName">
+            <input
+              v-model="memberName"
+              type="text"
+              placeholder="请输入名称进行搜索">
           </div>
           <div class="itm-icons itm-front-icons u-abs-left">
-            <i class="icon icon-search"></i>
+            <i class="icon icon-search" />
           </div>
         </div>
       </div>
       <ul class="itm-lst">
-        <li class="kb-item u-cf"
-            v-for="staff in filteredUsers" :key="staff.id">
+        <li
+          v-for="staff in filteredUsers"
+          :key="staff.id"
+          class="kb-item u-cf">
           <div class="clickable itm-outer">
-            <v-touch class="itm-inner" @tap="toggleSelect(staff)">
-              <div class="itm-title u-padding-left-60">{{staff.name}}</div>
+            <v-touch
+              class="itm-inner"
+              @tap="toggleSelect(staff)">
+              <div class="itm-title u-padding-left-60">{{ staff.name }}</div>
               <div class="itm-icons u-abs-left">
                 <div class="itm-icon-img-wrap">
-                  <avatar :src="staff.avatar"
-                          :username="staff.name"></avatar>
+                  <avatar
+                    :src="staff.avatar"
+                    :username="staff.name" />
                 </div>
                 <!--<img class="itm-icon-img" :src="staff.avatar" />-->
               </div>
               <div class="itm-icons u-abs-right">
-                <i class="icon icon-check is-active" v-show="staff.isSelected"></i>
+                <i
+                  v-show="staff.isSelected"
+                  class="icon icon-check is-active" />
               </div>
             </v-touch>
           </div>
         </li>
       </ul>
-      <div style="padding-bottom: 150px;"></div>
+      <div style="padding-bottom: 150px;" />
     </div>
-    <div class="" style="position: fixed;bottom:0;left:0;right:0;padding:10px 0;background:#fff;z-index:9999;">
+    <div
+      class=""
+      style="position: fixed;bottom:0;left:0;right:0;padding:10px 0;background:#fff;z-index:9999;">
       <div class="itm-outer itm--trans-bg">
         <div class="itm-inner">
-          <v-touch tag="input" class="edt-todo-submit u-full-width btnConfirm" type="button" :value="btnText"
-                   @tap="confirmSelect"/>
+          <v-touch
+            :value="btnText"
+            tag="input"
+            class="edt-todo-submit u-full-width btnConfirm"
+            type="button"
+            @tap="confirmSelect"/>
         </div>
       </div>
       <div class="itm-outer itm--trans-bg">
         <div class="itm-inner">
-          <v-touch tag="input" class="btn-default u-full-width btnCancel" type="button" value="取消"
-                   @tap="selfClose"/>
+          <v-touch
+            tag="input"
+            class="btn-default u-full-width btnCancel"
+            type="button"
+            value="取消"
+            @tap="selfClose"/>
         </div>
       </div>
     </div>
@@ -64,6 +87,9 @@
   import Avatar from 'com/pub/TextAvatar'
 
   export default{
+    components: {
+      'avatar': Avatar
+    },
     data () {
       return {
         btnText: '',
@@ -85,9 +111,6 @@
           return staff.name.indexOf(self.memberName) !== -1
         })
       }
-    },
-    components: {
-      'avatar': Avatar
     },
     methods: {
       selfClose (e) {

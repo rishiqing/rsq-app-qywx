@@ -1,27 +1,46 @@
 <template>
   <div class="edit-repeat">
     <ul class="top-ul">
-      <v-touch tag="li" @tap="setSelected(noRepeat)">
-        <span>{{toCycle(noRepeat)}}</span>
-        <i class="icon2-selected finish" v-show="selected === noRepeat"></i>
+      <v-touch
+        tag="li"
+        @tap="setSelected(noRepeat)">
+        <span>{{ toCycle(noRepeat) }}</span>
+        <i
+          v-show="selected === noRepeat"
+          class="icon2-selected finish"/>
       </v-touch>
     </ul>
     <ul v-if="showShortcut">
-      <v-touch tag="li" v-for="repeat in repeatList"
-               :key="repeat.cid" @tap="setSelected(repeat)">
-        <span v-if="repeat.type === 'everyDay'||repeat.type === 'weekday'">{{toCycle(repeat)}}{{toText(repeat)}}</span>
-        <span v-else>{{toCycle(repeat)}}({{toText(repeat)}})</span>
-        <i class="icon2-selected finish" v-show="selected === repeat"></i>
+      <v-touch
+        v-for="repeat in repeatList"
+        :key="repeat.cid"
+        tag="li"
+        @tap="setSelected(repeat)">
+        <span v-if="repeat.type === 'everyDay'||repeat.type === 'weekday'">
+          {{ toCycle(repeat) }}{{ toText(repeat) }}
+        </span>
+        <span v-else>
+          {{ toCycle(repeat) }}({{ toText(repeat) }})
+        </span>
+        <i
+          v-show="selected === repeat"
+          class="icon2-selected finish"/>
       </v-touch>
     </ul>
-    <v-touch class="user-repeat" @tap="showUserRepeat">
-      <span class="list-key u-pull-left user-define">{{toCycle(userRepeat)}}</span>
-      <i class="icon2-arrow-right arrow u-pull-right"></i>
-      <span class="list-value u-pull-right">{{repeatText}}</span>
+    <v-touch
+      class="user-repeat"
+      @tap="showUserRepeat">
+      <span class="list-key u-pull-left user-define">
+        {{ toCycle(userRepeat) }}
+      </span>
+      <i class="icon2-arrow-right arrow u-pull-right"/>
+      <span class="list-value u-pull-right">
+        {{ repeatText }}
+      </span>
     </v-touch>
   </div>
 </template>
-<style scoped>
+<style lang="scss" scoped>
   .edit-repeat {
     .arrow{
       font-size: 17px;
@@ -180,6 +199,11 @@
         }
       }
     },
+    created () {
+      this.initData()
+      window.rsqadmg.execute('setTitle', {title: '设置重复'})
+      window.rsqadmg.exec('setOptionButtons', {hide: true})
+    },
     methods: {
       initData () {
         //  有修改缓存读修改缓存，否则从原数据读
@@ -281,11 +305,6 @@
         var res = this.getResult()
         this.$store.commit('PUB_TODO_DATE_UPDATE', {data: res})
       }
-    },
-    created () {
-      this.initData()
-      window.rsqadmg.execute('setTitle', {title: '设置重复'})
-      window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     beforeRouteLeave (to, from, next) {
       selectRepeat.close()

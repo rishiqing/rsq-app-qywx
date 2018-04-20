@@ -1,15 +1,25 @@
 <template>
-  <div class="cal-pane" :style="{'left': paneOffsetStyle}">
+  <div
+    :style="{'left': paneOffsetStyle}"
+    class="cal-pane">
     <table class="cal-table">
-      <tr v-for="week in dates">
-        <td class="cal-weekday"
-            v-for="day in week"
-            :key="day.date.getTime()"
-        >
-          <div v-if="day.isInMonth" class="cal-day-tag" :class="{'tag-active': day.showTag&&!isHighLight(day.date)}"></div>
-          <v-touch v-if="day.isInMonth" class="cal-day" @tap="calDayClick(day.date)"
-                   :class="{'cal-day--focus': isHighLight(day.date)}">
-            {{dateText(day)}}
+      <tr
+        v-for="(week, index) in dates"
+        :key="index">
+        <td
+          v-for="day in week"
+          :key="day.date.getTime()"
+          class="cal-weekday">
+          <div
+            v-if="day.isInMonth"
+            :class="{'tag-active': day.showTag&&!isHighLight(day.date)}"
+            class="cal-day-tag" />
+          <v-touch
+            v-if="day.isInMonth"
+            :class="{'cal-day--focus': isHighLight(day.date)}"
+            class="cal-day"
+            @tap="calDayClick(day.date)">
+            {{ dateText(day) }}
           </v-touch>
         </td>
       </tr>
@@ -18,21 +28,32 @@
 </template>
 <script scoped>
   export default {
+    props: {
+      dates: {
+        type: Array,
+        required: true
+      },
+      paneIndex: {
+        type: Number,
+        required: true
+      },
+      highlightDay: {
+        type: Date,
+        required: true
+      },
+      todayValue: {
+        type: Number,
+        required: true
+      }
+    },
     data () {
       return {}
-    },
-    props: {
-      dates: Array,
-      paneIndex: Number,
-      highlightDay: Date,
-      todayValue: Number
     },
     computed: {
       paneOffsetStyle () {
         return (this.paneIndex * 100) + '%'
       }
     },
-    components: {},
     methods: {
       dateText (day) {
         //  如果是当天，则显示“今”这个字

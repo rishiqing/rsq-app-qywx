@@ -1,15 +1,21 @@
 <template>
-  <div class="cal-bar" :style="{'left': barOffsetStyle}">
+  <div
+    :style="{'left': barOffsetStyle}"
+    class="cal-bar">
     <table class="cal-table">
       <tr>
-        <td class="cal-weekday"
-            v-for="day in days"
-            :key="day.date.getTime()"
-        >
-          <div class="cal-day-tag" :class="{'tag-active': day.showTag&&!isHighLight(day.date)}"></div>
-          <v-touch class="cal-day" @tap="calDayClick(day.date)"
-                   :class="{'cal-day--focus': isHighLight(day.date)}">
-            {{dateText(day)}}
+        <td
+          v-for="day in days"
+          :key="day.date.getTime()"
+          class="cal-weekday">
+          <div
+            :class="{'tag-active': day.showTag&&!isHighLight(day.date)}"
+            class="cal-day-tag" />
+          <v-touch
+            :class="{'cal-day--focus': isHighLight(day.date)}"
+            class="cal-day"
+            @tap="calDayClick(day.date)">
+            {{ dateText(day) }}
           </v-touch>
         </td>
       </tr>
@@ -18,21 +24,32 @@
 </template>
 <script scoped>
   export default {
+    props: {
+      days: {
+        type: Array,
+        required: true
+      },
+      barIndex: {
+        type: Number,
+        required: true
+      },
+      highlightDay: {
+        type: Date,
+        required: true
+      },
+      todayValue: {
+        type: Number,
+        required: true
+      }
+    },
     data () {
       return {}
-    },
-    props: {
-      days: Array,
-      barIndex: Number,
-      highlightDay: Date,
-      todayValue: Number
     },
     computed: {
       barOffsetStyle () {
         return (this.barIndex * 100) + '%'
       }
     },
-    components: {},
     methods: {
       dateText (day) {
         //  如果是当天，则显示“今”这个字

@@ -1,80 +1,140 @@
 <template>
   <div class="child-plan-main">
-    <div class="topChild">
+    <div class="top-child">
       <div class="top-sub">
-        <v-touch class="top-subPlan"  @tap="changeState($event)" >
-          <span class="top-subPlan-name">{{currentSubPlan.name}}</span>
-          <i class="icon2-arrow-down arrow-down"></i>
+        <v-touch
+          class="top-sub-plan"
+          @tap="changeState($event)" >
+          <span class="top-sub-plan-name">{{ currentSubPlan.name }}</span>
+          <i class="icon2-arrow-down arrow-down"/>
         </v-touch>
-        <v-touch @tap="delaySetPlan($event)" class="setPlan">
-          <i class="icon2-set set"></i>
+        <v-touch
+          class="set-plan"
+          @tap="delaySetPlan($event)" >
+          <i class="icon2-set set"/>
         </v-touch>
       </div>
     </div>
     <div class="wrap">
-      <ul class="cardList">
-        <li v-for="item in cardList" class="cardBorder">
-          <div class="wrap-cardBorder">
+      <ul class="card-list">
+        <li
+          v-for="item in cardList"
+          :key="item.id"
+          class="card-border">
+          <div class="wrap-card-border">
             <div class="card-top">
-              <div class="wrap-left-cardName">
-                <span class="cardName">{{item.name}}</span>
-                <span class="finish-number" v-show="totalNumber(item) != 0">{{finishNumber(item)}}/{{totalNumber(item)}}</span>
+              <div class="wrap-left-card-name">
+                <span class="card-name">{{ item.name }}</span>
+                <span
+                  v-show="totalNumber(item) !== 0"
+                  class="finish-number" >
+                  {{ finishNumber(item) }}/{{ totalNumber(item) }}
+                </span>
               </div>
               <v-touch @tap="editCard($event,item)">
-                <i class="icon2-other other"></i>
+                <i class="icon2-other other"/>
               </v-touch>
             </div>
             <ul class="task-border">
-              <li v-for="kanbanItem in finishdown(item.kanbanItemList)" class="cardItem" :class="{'isFinish':kanbanItem.isDone}">
+              <li
+                v-for="kanbanItem in finishDown(item.kanbanItemList)"
+                :key="kanbanItem.id"
+                :class="{'is-finish':kanbanItem.isDone}"
+                class="card-item" >
                 <v-touch @tap="toEdit(kanbanItem)">
-                  <div class="cardItem-left">
-                    <v-touch @tap="finish(kanbanItem)" class="selected-icon">
-                      <i class="icon2-seleced-mult card-selected" v-show="kanbanItem.isDone"></i>
+                  <div class="card-item-left">
+                    <v-touch
+                      class="selected-icon"
+                      @tap="finish(kanbanItem)" >
+                      <i
+                        v-show="kanbanItem.isDone"
+                        class="icon2-seleced-mult card-selected"/>
                     </v-touch>
-                    <v-touch @tap="finish(kanbanItem)" class="selected-icon">
-                      <i class="icon2-check-box card-selected" v-show="!kanbanItem.isDone"></i>
+                    <v-touch
+                      class="selected-icon"
+                      @tap="finish(kanbanItem)">
+                      <i
+                        v-show="!kanbanItem.isDone"
+                        class="icon2-check-box card-selected"/>
                     </v-touch>
                   </div>
-                  <div class="cardItem-right">
-                    <div class="cardItem-name" :class="{'text-grey': kanbanItem.isDone, 'text-mid-line': kanbanItem.isDone}">{{kanbanItem.name}}</div>
-                    <div class="task-right-second" v-show="(finalDate(kanbanItem) !== null || total(kanbanItem.subItems) !== null || kanbanItem.itemLabelIds !== null)">
-                      <div class="wrap-task-time">
-                        <i class="icon2-schedule task-schedule" v-show="finalDate(kanbanItem) !== null"></i>
-                        <span v-show="finalDate(kanbanItem) !== null" class="kanbanItem-time">{{finalDate(kanbanItem)}}</span>
-                      </div>
-                      <div class="wrap-subitem-finish" v-show="total(kanbanItem.subItems) !== null" :class="{'second-margin': finalDate(kanbanItem) !== null}">
-                        <img src="../../assets/img/subitem.png" alt="" class="subitem-img" v-show="total(kanbanItem.subItems) !== null">
-                        <span class="subItem-finish" v-show="total(kanbanItem.subItems) !== null">{{subItemfinish(kanbanItem.subItems)}}/{{total(kanbanItem.subItems)}}</span>
-                      </div>
-                      <span class="label-name" :class="{'if-has-margin': (kanbanItem.subItems !== null || finalDate(kanbanItem) !== null)}">{{label(kanbanItem)}}</span>
+                  <div class="card-item-right">
+                    <div
+                      :class="{'text-grey': kanbanItem.isDone, 'text-mid-line': kanbanItem.isDone}"
+                      class="card-item-name">
+                      {{ kanbanItem.name }}
                     </div>
-                      <r-task-member
-                       :item="kanbanItem"
-                      >
-
-                      </r-task-member>
-                      <!--<avatar v-for="item in selectedItems(kanbanItem.joinUserIds)"-->
-                              <!--:key="item.rsqUserId"-->
-                              <!--:src="item.avatar"-->
-                              <!--:username="item.name">-->
-                      <!--</avatar>-->
+                    <div
+                      v-show="(finalDate(kanbanItem) !== null || total(kanbanItem.subItems) !== null || kanbanItem.itemLabelIds !== null)"
+                      class="task-right-second">
+                      <div class="wrap-task-time">
+                        <i
+                          v-show="finalDate(kanbanItem) !== null"
+                          class="icon2-schedule task-schedule" />
+                        <span
+                          v-show="finalDate(kanbanItem) !== null"
+                          class="kanban-item-time">
+                          {{ finalDate(kanbanItem) }}
+                        </span>
+                      </div>
+                      <div
+                        v-show="total(kanbanItem.subItems) !== null"
+                        :class="{'second-margin': finalDate(kanbanItem) !== null}"
+                        class="wrap-sub-item-finish" >
+                        <img
+                          v-show="total(kanbanItem.subItems) !== null"
+                          src="../../assets/img/subitem.png"
+                          class="sub-item-img">
+                        <span
+                          v-show="total(kanbanItem.subItems) !== null"
+                          class="sub-item-finish" >
+                          {{ subItemfinish(kanbanItem.subItems) }}/{{ total(kanbanItem.subItems) }}
+                        </span>
+                      </div>
+                      <span
+                        :class="{'if-has-margin': (kanbanItem.subItems !== null || finalDate(kanbanItem) !== null)}"
+                        class="label-name" >
+                        {{ label(kanbanItem) }}
+                      </span>
+                    </div>
+                    <r-task-member
+                      :item="kanbanItem"/>
                   </div>
                 </v-touch>
               </li>
             </ul>
-            <v-touch @tap="addTask(item)"  class="wrap-add-task">
-              <i class="icon2-add2 add-task"></i>
+            <v-touch
+              class="wrap-add-task"
+              @tap="addTask(item)">
+              <i class="icon2-add2 add-task"/>
               <div class="post-new-task">添加任务</div>
             </v-touch>
           </div>
         </li>
-        <li class="cardBorder">
-          <v-touch @tap="showCreate" class="wrap-post-card" v-show=!createCard>
-            <img src="../../assets/img/card.png" alt="" class="card" v-show=!createCard>
-            <div v-show=!createCard class="post-card">新建任务列表</div>
+        <li class="card-border">
+          <v-touch
+            v-show="!createCard"
+            class="wrap-post-card"
+            @tap="showCreate">
+            <img
+              v-show="!createCard"
+              src="../../assets/img/card.png"
+              class="card">
+            <div
+              v-show="!createCard"
+              class="post-card">
+              新建任务列表
+            </div>
           </v-touch>
-          <div v-show="createCard" class="post-card-input-main">
-            <input type="text" placeholder="输入列表名称" v-model="cardName" class="post-card-input" ref="textareaComment">
+          <div
+            v-show="createCard"
+            \class="post-card-input-main">
+            <input
+              ref="textareaComment"
+              v-model="cardName"
+              class="post-card-input"
+              type="text"
+              placeholder="输入列表名称">
             <div class="wrap-button">
               <v-touch @tap="showEmpty">
                 <span class="card-input-btn no">取消</span>
@@ -88,29 +148,51 @@
       </ul>
       <div class="wrap-index-flag">
         <div class="index-flag">
-          <div v-for="(item, index) in cardList" class="circle" :class="{'currentSelected': currNum === index}"></div>
-          <div class="circle" :class="{'currentSelected': currNum === cardList.length}"></div>
+          <div
+            v-for="(item, index) in cardList"
+            :key="item.id"
+            :class="{'current-selected': currNum === index}"
+            class="circle"/>
+          <div
+            :class="{'current-selected': currNum === cardList.length}"
+            class="circle"/>
         </div>
       </div>
     </div>
-    <ul class="childPlan" :class="{'showChild': initialState}">
-        <li v-for="item in childPlanlist">
-          <v-touch @tap="getCardList($event,item)" class="childPlan-item">
-            <div class="sub-plan-forward">
-              <img src="../../assets/img/subplan.png" alt="" class="sub-plan-img">
-              <div class="sub-plan-name">{{item.name}}</div>
-            </div>
-            <i class="icon2-selected selected-icon" v-show="item.name === currentSubPlan.name"></i>
-          </v-touch>
-        </li>
-      <v-touch @tap="toEditPlan($event)" class="">
-        <li class="post-sub-plan" v-show="ifShowCreate">
-          <img src="../../assets/img/edit.png" alt="" class="sub-plan-img">
+    <ul
+      :class="{'show-child': initialState}"
+      class="child-plan">
+      <li
+        v-for="item in childPlanList"
+        :key="item.id">
+        <v-touch
+          class="child-plan-item"
+          @tap="getCardList($event,item)">
+          <div class="sub-plan-forward">
+            <img
+              src="../../assets/img/subplan.png"
+              class="sub-plan-img">
+            <div class="sub-plan-name">{{ item.name }}</div>
+          </div>
+          <i
+            v-show="item.name === currentSubPlan.name"
+            class="icon2-selected selected-icon"/>
+        </v-touch>
+      </li>
+      <v-touch @tap="toEditPlan($event)">
+        <li
+          v-show="ifShowCreate"
+          class="post-sub-plan">
+          <img
+            src="../../assets/img/edit.png"
+            class="sub-plan-img">
           <div class="sub-plan-name">新建子计划</div>
         </li>
       </v-touch>
     </ul>
-    <div class="mask" v-show="initialState"></div>
+    <div
+      v-show="initialState"
+      class="mask"/>
   </div>
 </template>
 <script>
@@ -119,6 +201,10 @@
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
   export default {
+    components: {
+      'avatar': Avatar,
+      'r-task-member': TaskMember
+    },
     data () {
       return {
         initialState: false,
@@ -131,21 +217,17 @@
         ifShowCreate: false
       }
     },
-    components: {
-      'avatar': Avatar,
-      'r-task-member': TaskMember
-    },
     computed: {
       currentPlan () {
         return this.$store.state.currentPlan
       },
-      childPlanlist () {
-        return this.$store.state.childPlanlist
+      childPlanList () {
+        return this.$store.state.childPlanList
       },
       cardList () {
         return this.$store.state.cardList
       },
-      currentSubPlanOftask () {
+      currentSubPlanOfTask () {
         return this.$store.state.currentSubPlan
       },
       pos () {
@@ -161,12 +243,50 @@
         return this.currentPlan.userRoles
       }
     },
+    mounted () {
+      // 拿到看板列表以及看板的任务列表。。。好多数据
+      var creatorId = this.$store.state.loginUser.rsqUser.id
+      for (var i = 0; i < this.userRoles.length; i++) {
+        if (this.userRoles[i].userId === creatorId) {
+          this.ifShowCreate = true
+        }
+      }
+      document.title = this.currentPlan.name
+      var that = this
+      if (this.currentSubPlanOfTask) {
+        this.currentSubPlan = this.currentSubPlanOfTask
+      } else if (this.childPlanList) {
+        this.currentSubPlan = this.childPlanList[0]
+      }
+      window.rsqadmg.exec('showLoader', {'text': '加载中'})
+      if (this.currentSubPlanOfTask) {
+        this.$store.dispatch('getCardList', this.currentSubPlanOfTask).then(
+          (res) => {
+            that.$store.commit('SAVE_CARD', res.kanbanCardList)
+          }).then(() => {
+            that.$nextTick(() => {
+              that.initLayout()
+              window.rsqadmg.exec('hideLoader')
+            })
+          })
+      } else {
+        this.$store.dispatch('getCardList', this.childPlanList[0]).then(
+          (res) => {
+            that.$store.commit('SAVE_CARD', res.kanbanCardList)
+          }).then(() => {
+            that.$nextTick(() => {
+              that.initLayout()
+              window.rsqadmg.exec('hideLoader')
+            })
+          })
+      }
+    },
     methods: {
       toEdit (item) {
         this.$store.dispatch('setCurrentTodo', item)// 设置当前todo不管是inbox的todo还是ssche的todo
         this.$router.push('/todo/' + item.id)
       },
-      finishdown (items) {
+      finishDown (items) {
         var newItems = []
 //        console.log(JSON.stringify(items))
         if (items !== null && items.length !== 0) {
@@ -239,8 +359,8 @@
       },
       initLayout () {
         var that = this
-        var aLi = document.getElementsByClassName('cardBorder')
-        var box = document.querySelector('.cardList')
+        var aLi = document.getElementsByClassName('card-border')
+        var box = document.querySelector('.card-list')
         var wrap = document.querySelector('.wrap')
 //        console.log(box)
 //        console.log(aLi)
@@ -253,7 +373,7 @@
         for (var i = 0; i < aLi.length; i++) {
           aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
         }
-        if (this.currentSubPlanOftask) {
+        if (this.currentSubPlanOfTask) {
           box.style.left = this.pos
 //          console.log(this.num)
 //          console.log('wrap' + wrap)
@@ -356,7 +476,7 @@
       },
       addTask (item) {
         this.$store.commit('SAVE_CURRENT_CARD_ID', item)
-        var pos = document.getElementsByClassName('cardList')[0].style.left
+        var pos = document.getElementsByClassName('card-list')[0].style.left
 //        console.log(pos)
         this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         this.$store.commit('SAVE_CURRENT_LEFT', {pos: pos, num: this.currNum})
@@ -392,7 +512,7 @@
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
-                that.$router.push('/plan/setPlan')
+                that.$router.push('/plan' + this.currentPlan.id + '/plan-setting')
                 break
               case 1:
                 that.$prompt('请输入子计划名称', '提示', {
@@ -413,8 +533,8 @@
                 break
               case 2:
                 that.$store.dispatch('deleteChildPlan', that.currentSubPlan).then(() => {
-                  that.currentSubPlan = that.childPlanlist[0]
-                  that.$store.dispatch('getCardList', that.childPlanlist[0]).then(
+                  that.currentSubPlan = that.childPlanList[0]
+                  that.$store.dispatch('getCardList', that.childPlanList[0]).then(
                     (res) => {
                       that.$store.commit('SAVE_CARD', res.kanbanCardList)
                     })
@@ -455,8 +575,8 @@
 //            that.initLayout()
           }).then(() => {
             that.$nextTick(() => {
-              var aLi = document.getElementsByClassName('cardBorder')
-              var box = document.querySelector('.cardList')
+              var aLi = document.getElementsByClassName('card-border')
+              var box = document.querySelector('.card-list')
               box.style.width = (aLi.length) * 100 + '%'
               for (var i = 0; i < aLi.length; i++) {
                 aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
@@ -506,78 +626,16 @@
           that.$store.commit('ADD_CARD', res)
         }).then(() => {
           that.$nextTick(() => {
-            var aLi = document.getElementsByClassName('cardBorder')
-            var box = document.querySelector('.cardList')
+            var aLi = document.getElementsByClassName('card-border')
+            var box = document.querySelector('.card-list')
             box.style.width = (aLi.length) * 100 + '%'
             for (var i = 0; i < aLi.length; i++) {
               aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
             }
           })
         })
-      },
-      deleteItem () {
-        var that = this
-//        that.$store.dispatch('deleteChildPlan', that.currentSubPlan).then(() => {
-//          alert('回到vue')
-//          that.currentSubPlan = that.childPlanlist[0]
-//          that.$store.dispatch('getCardList', that.childPlanlist[0]).then(
-//            (res) => {
-//              that.$store.commit('SAVE_CARD', res.kanbanCardList)
-//            })
-//        })
-        that.$router.push('/plan/setPlan')
-      }
-    },
-    created () {
-//      var that = this
-    },
-    mounted () {
-      // 拿到看板列表以及看板的任务列表。。。好多数据
-//      var that = this
-      var createrId = this.$store.state.loginUser.rsqUser.id
-      for (var i = 0; i < this.userRoles.length; i++) {
-        if (this.userRoles[i].userId === createrId) {
-          this.ifShowCreate = true
-        }
-      }
-      document.title = this.currentPlan.name
-      var that = this
-      if (this.currentSubPlanOftask) {
-        this.currentSubPlan = this.currentSubPlanOftask
-      } else if (this.childPlanlist) {
-        this.currentSubPlan = this.childPlanlist[0]
-      }
-      window.rsqadmg.exec('showLoader', {'text': '加载中'})
-      if (this.currentSubPlanOftask) {
-        this.$store.dispatch('getCardList', this.currentSubPlanOftask).then(
-          (res) => {
-            that.$store.commit('SAVE_CARD', res.kanbanCardList)
-          }).then(() => {
-            that.$nextTick(() => {
-              that.initLayout()
-              window.rsqadmg.exec('hideLoader')
-            })
-          })
-      } else {
-        this.$store.dispatch('getCardList', this.childPlanlist[0]).then(
-          (res) => {
-            that.$store.commit('SAVE_CARD', res.kanbanCardList)
-          }).then(() => {
-            that.$nextTick(() => {
-              that.initLayout()
-              window.rsqadmg.exec('hideLoader')
-            })
-          })
       }
     }
-//    beforeRouteEnter (to, from, next) {
-//      next(vm => {
-//        if (from.name === 'PlanList') {
-//          vm.currentSubPlanOftask = ''
-//          alert(' this.currentSubPlanOftask' + vm.currentSubPlanOftask)
-//        }
-//      })
-//    }
   }
 </script>
 <style>
@@ -593,7 +651,7 @@
     display: flex;
     justify-content: center;
   }
-  .wrap-left-cardName{
+  .wrap-left-card-name{
     display: flex;
     align-items: center;
   }
@@ -608,7 +666,7 @@
     align-items: flex-start;
     padding-top: 0.05rem;
   }
-  .cardItem-right .text-grey{
+  .card-item-right .text-grey{
     color: #9B9B9B
   }
   .label-name{
@@ -616,7 +674,7 @@
     font-size: 12px;
     color: #FF7A7A
   }
-  .wrap-subitem-finish{
+  .wrap-sub-item-finish{
     height: 0.453rem;
     display: flex;
     align-items: center;
@@ -628,11 +686,11 @@
     margin-top: 0.2rem;
     /*justify-content: space-around;*/
   }
-  .subitem-img{
+  .sub-item-img{
     width: 0.3rem;
     height: 0.3rem;
   }
-  .subItem-finish{
+  .sub-item-finish{
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #B1B1B1;
@@ -644,7 +702,7 @@
     display: flex;
     align-items: center;
   }
-  .kanbanItem-time{
+  .kanban-item-time{
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #B1B1B1;
@@ -656,7 +714,7 @@
     margin-top: -0.1rem;
     color: #B1B1B1;
   }
-  div.currentSelected{
+  div.current-selected{
     background: rgba(0,0,0,0.22);
     border: 1px solid rgba(255,255,255,0.32);
   }
@@ -686,19 +744,10 @@
   .add-task{
     font-size: 14px;
   }
-  .wrap-cardBorder{
+  .wrap-card-border{
     background-color: #F7F7F7;
     padding: 0.3rem;
     /*height: 95%;*/
-  }
-  .cardList{
-    /*height: 13rem;*/
-    /*height: 80vh;*/
-    /*height: 95%;*/
-    /*display: flex;*/
-    /*width:400%;*/
-    position: relative;
-    /*transition: 0.1s;*/
   }
   .wrap{
     position: relative;
@@ -708,7 +757,7 @@
     background-color: white;
     /*height: 14rem;*/
   }
-  .cardBorder{
+  .card-border{
     float: left;
     box-sizing: border-box;
     /*height: 100%;*/
@@ -716,11 +765,11 @@
     /*margin: 0.6rem;*/
     /*width: 25%;*/
   }
-  .cardItem-left{
+  .card-item-left{
     float: left;
     margin-left: 0.2rem;
   }
-  .cardItem-right{
+  .card-item-right{
     margin-left: 1rem;
   }
   .post-new-task{
@@ -730,7 +779,7 @@
     /*color:red;*/
     margin-left: 0.2rem;
   }
-  .isFinish{
+  .is-finish{
     opacity: 0.6;
   }
   .card-selected{
@@ -739,7 +788,7 @@
     border-radius: 1px;
     color: #D8D8D8;
   }
-  .cardItem-name{
+  .card-item-name{
     font-family: PingFangSC-Regular;
     font-size: 14px;
     color: #000000;
@@ -747,14 +796,14 @@
     word-break: break-all;
     /*line-height: 10px;*/
   }
-  .cardItem{
+  .card-item{
     background: #FFFFFF;
     box-shadow: 0 1px 2px 0 rgba(218,218,218,0.58);
     border-radius: 2px;
     margin-top: 0.3rem;
     padding: 0.2rem;
   }
-  .cardItem:first-child{
+  .card-item:first-child{
     margin-top: 0;
   }
   .card-top{
@@ -776,7 +825,8 @@
     color: #9B9B9B;
     margin-left: 0.2rem;
   }
-  .cardList{
+  .card-list{
+    position: relative;
     background: white;
     border-radius: 2px;
     margin: 0.4rem;
@@ -856,7 +906,7 @@
     display: flex;
     align-items: center;
   }
-  .childPlan-item{
+  .child-plan-item{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -882,7 +932,7 @@
     overflow: hidden;
     white-space: nowrap;
   }
-  .setPlan{
+  .set-plan{
     display: flex;
     align-items: center;
   }
@@ -894,7 +944,7 @@
     font-size: 14px;
     margin-left: 0.1rem;
   }
-  .top-subPlan-name{
+  .top-sub-plan-name{
     max-width: 4rem;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -911,7 +961,7 @@
     padding-left: 0.6rem;
     padding-right: 0.6rem;
   }
-  .top-subPlan{
+  .top-sub-plan{
     display: flex;
     align-items: center;
   }
@@ -931,7 +981,7 @@
     position: relative;
     z-index: 2
   }
-  .cardList:after{
+  .card-list:after{
     clear: both;
   }
   .task-border{
@@ -942,7 +992,7 @@
     /*border: 1px solid yellow;*/
     /*background-color: white;*/
   }
-  .cardBorder{
+  .card-border{
     margin-top: 0.3rem;
     padding-right: 0.7rem;
     /*background: #F7F7F7;*/
@@ -950,10 +1000,10 @@
     /*padding: 0.3rem;*/
     /*border: 3px solid blue*/
   }
-  .cardBorder:first-child{
+  .card-border:first-child{
     /*margin-left: 0.3rem;*/
   }
-  .cardName{
+  .card-name{
     font-family: PingFangSC-Medium;
     font-size: 16px;
     color: #000000;
@@ -962,16 +1012,16 @@
     overflow: hidden;
     white-space: nowrap;
   }
-  .topChild{
+  .top-child{
     z-index: 100;
     position: relative;
     background-color: white;
     border-bottom: 1px solid #EAEAEA;
   }
-  ul.showChild{
+  ul.show-child{
     top: 1.3rem
   }
-  .childPlan {
+  .child-plan {
     position: fixed;
     top:-20rem;
     transition: 0.5s;

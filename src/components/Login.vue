@@ -4,20 +4,40 @@
       <div class="form-control">
         <div class="form-label">用户名</div>
         <div class="form-field">
-          <input class="bordered" type="text" id="username" placeholder="请输入用户名" v-model="username"/>
+          <input
+            id="username"
+            v-model="username"
+            class="bordered"
+            type="text"
+            placeholder="请输入用户名">
         </div>
       </div>
       <div class="form-control">
         <div class="form-label">密码</div>
         <div class="form-field">
-          <input class="bordered" type="password" id="password" placeholder="请输入密码" v-model="password"/>
+          <input
+            id="password"
+            v-model="password"
+            class="bordered"
+            type="password"
+            placeholder="请输入密码">
         </div>
       </div>
-      <v-touch class="form-control" @tap="doLogin">
-        <input class="u-full-width" type="button" value="登录" />
+      <v-touch
+        class="form-control"
+        @tap="doLogin">
+        <input
+          class="u-full-width"
+          type="button"
+          value="登录">
       </v-touch>
-      <v-touch class="form-control" @tap="doLogout">
-        <input class="u-full-width" type="button" value="注销"/>
+      <v-touch
+        class="form-control"
+        @tap="doLogout">
+        <input
+          class="u-full-width"
+          type="button"
+          value="注销">
       </v-touch>
     </div>
   </div>
@@ -46,7 +66,6 @@
       doLogout () {
         this.$store.dispatch('logout')
       }
-    },
-    mounted () {}
+    }
   }
 </script>

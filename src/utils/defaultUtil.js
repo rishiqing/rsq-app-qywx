@@ -28,15 +28,15 @@ export default {
       kanbanItem: null,
       todoDeployId: null,
       noteFile: [],
-      allDoneSubTodosCount: 0,
-      allSubTodosCount: 0,
+      allDoneSubtodosCount: 0,
+      allSubtodosCount: 0,
       clock: {},
       receiverUser: [],
       KSLList: [],
       TSLList: [],
       allKList: [],
       allTList: [],
-      subTodos: [],
+      subtodos: [],
       comments: [],
       noteFiles: []
     }

@@ -1,53 +1,88 @@
 <template>
   <v-touch>
-    <li class="coment" @click="triggerAndroid($event)">
+    <li
+      class="coment"
+      @click="triggerAndroid($event)">
       <div class="left">
-        <avatar :src="item.qywxShowAvatar"
-                :username="item.qywxShowName || item.authorName"
-                :size="30">
-        </avatar>
+        <avatar
+          :src="item.qywxShowAvatar"
+          :username="item.qywxShowName || item.authorName"
+          :size="30" />
       </div>
       <div class="right">
         <div class="top">
-          <span class="author">{{item.qywxShowName || item.authorName}}</span>
-          <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
+          <span class="author">{{ item.qywxShowName || item.authorName }}</span>
+          <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
         </div>
         <div class="bottom">
-          <div class="comentContent" v-if="IfReplyComment">
-            <span class="replyComment" v-html="item.commentContent">{{item.commentContent}}</span>
-            <!--<span class="comentContent">{{item.commentContent.substr(IndexOfBlank + 1)}}</span>-->
+          <div
+            v-if="IfReplyComment"
+            class="comentContent">
+            <span
+              class="replyComment"
+              v-html="item.commentContent">
+              {{ item.commentContent }}
+            </span>
+            <!--<span class="comentContent">{{ item.commentContent.substr(IndexOfBlank + 1) }}</span>-->
           </div>
-          <div class="comentContent" v-else v-html="item.commentContent">{{item.commentContent}}</div>
-          <v-touch class="coment-item-picture file-touch" v-for="file in item.fileList" :key="file.id" @tap="fileTouch($event, file)">
+          <div
+            v-else
+            class="comentContent"
+            v-html="item.commentContent">
+            {{ item.commentContent }}
+          </div>
+          <v-touch
+            v-for="file in item.fileList"
+            :key="file.id"
+            class="coment-item-picture file-touch"
+            @tap="fileTouch($event, file)">
             <template v-if="(file.contentType.toUpperCase() === 'PNG'||file.contentType.toUpperCase() === 'JPEG'|| file.contentType.toUpperCase() === 'JPG')">
-              <img class="comment-photo file-touch" :src="file.realPath"  alt="">
-              <span class="file-name file-touch">{{getFileName(file.name)}}</span>
-              <span class="file-size file-touch">{{getFileSize(file.size)}}</span>
+              <img
+                :src="file.realPath"
+                class="comment-photo file-touch"
+                alt="">
+              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
             </template>
             <template v-else-if="file.contentType.toUpperCase() == 'PDF'">
-              <img class="comment-photo file-touch" src="https://res-front-cdn.timetask.cn/beta/images/pdf.692b9767b9.png"  alt="">
-              <span class="file-name file-touch">{{getFileName(file.name)}}</span>
-              <span class="file-size file-touch">{{getFileSize(file.size)}}</span>
+              <img
+                class="comment-photo file-touch"
+                src="https://res-front-cdn.timetask.cn/beta/images/pdf.692b9767b9.png"
+                alt="">
+              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
             </template>
             <template v-else-if="file.contentType.toUpperCase() === 'ZIP'">
-              <img class="comment-photo file-touch" src="https://res-front-cdn.timetask.cn/beta/images/zip.f9f2049911.png"  alt="">
-              <span class="file-name file-touch">{{getFileName(file.name)}}</span>
-              <span class="file-size file-touch">{{getFileSize(file.size)}}</span>
+              <img
+                class="comment-photo file-touch"
+                src="https://res-front-cdn.timetask.cn/beta/images/zip.f9f2049911.png"
+                alt="">
+              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
             </template>
             <template v-else-if="file.contentType.toUpperCase() === 'DOC' || file.contentType.toUpperCase() === 'DOC'">
-              <img class="comment-photo file-touch" src="https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png"  alt="">
-              <span class="file-name file-touch">{{getFileName(file.name)}}</span>
-              <span class="file-size file-touch">{{getFileSize(file.size)}}</span>
+              <img
+                class="comment-photo file-touch"
+                src="https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png"
+                alt="">
+              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
             </template>
             <template v-else-if="file.contentType.toUpperCase() === 'PPT' || file.contentType.toUpperCase() === 'PPTX'">
-              <img class="comment-photo file-touch" src="https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png"  alt="">
-              <span class="file-name file-touch">{{getFileName(file.name)}}</span>
-              <span class="file-size file-touch">{{getFileSize(file.size)}}</span>
+              <img
+                class="comment-photo file-touch"
+                src="https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png"
+                alt="">
+              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
             </template>
             <template v-else>
-              <img class="comment-photo file-touch" src="https://res-front-cdn.timetask.cn/beta/images/file.46449ccbd9.png"  alt="">
-              <span class="file-name file-touch">{{getFileName(file.name)}}</span>
-              <span class="file-size file-touch">{{getFileSize(file.size)}}</span>
+              <img
+                class="comment-photo file-touch"
+                src="https://res-front-cdn.timetask.cn/beta/images/file.46449ccbd9.png"
+                alt="">
+              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
             </template>
           </v-touch>
         </div>
@@ -152,6 +187,19 @@
 <script>
   import Avatar from 'com/pub/TextAvatar'
   export default {
+    components: {
+      'avatar': Avatar
+    },
+    props: {
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      item: {
+        type: Object,
+        required: true
+      }
+    },
     data () {
       return {
       }
@@ -174,14 +222,6 @@
           return this.item.commentContent.indexOf('&')
         }
       }
-    },
-    props: {
-      disabled: Boolean,
-      item: Object,
-      more: Boolean
-    },
-    components: {
-      'avatar': Avatar
     },
     methods: {
       getFileName (orgName) {
@@ -218,7 +258,7 @@
             success () {
               that.$store.dispatch('ReplyCommentItem', {item: item})
                 .then(() => {
-                  that.$router.push('/pub/coment')
+                  that.$router.push('/todo/comment')
                 })
             }
           })
@@ -234,7 +274,6 @@
           this.deleteComment(this.item)
         }
       }
-    },
-    mounted () {}
+    }
   }
 </script>

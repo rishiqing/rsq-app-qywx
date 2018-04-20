@@ -1,18 +1,27 @@
 <template>
   <div class="preview">
-    <div class="preview-mask"></div>
+    <div class="preview-mask" />
     <div class="preview-head">
-      <div class="preview-title">{{fileName}}</div>
-      <v-touch  @tap="closePreview">
-        <i class="icon2-error deleteComent preview-close"></i></v-touch>
+      <div class="preview-title">{{ fileName }}</div>
+      <v-touch @tap="closePreview">
+        <i class="icon2-error deleteComent preview-close" />
+      </v-touch>
     </div>
-    <div class="preview-img-wrap" v-show="previewImage.id">
-      <img class="preview-img"
-           :src="previewImage.realPath"
-           :alt="fileName">
+    <div
+      v-show="previewImage.id"
+      class="preview-img-wrap">
+      <img
+        :src="previewImage.realPath"
+        :alt="fileName"
+        class="preview-img">
     </div>
-    <div class="preview-file-wrap" v-show="previewFile.id">
-      <iframe class="preview-file" :src="fileFramePath" frameborder="0"></iframe>
+    <div
+      v-show="previewFile.id"
+      class="preview-file-wrap">
+      <iframe
+        :src="fileFramePath"
+        class="preview-file"
+        frameborder="0" />
     </div>
   </div>
 </template>
@@ -66,6 +75,13 @@
         return 'https://ow365.cn/?i=3169&furl=' + this.previewFile.realPath
       }
     },
+    mounted () {
+      var that = this
+      //  如果通过任意方式跳出页面了，那么关闭当前选择框
+      window.onpopstate = function () {
+        that.closePreview()
+      }
+    },
     methods: {
       closePreview (e) {
         this.previewImage = {}
@@ -80,13 +96,6 @@
           },
           onFail: function () {}
         })
-      }
-    },
-    mounted () {
-      var that = this
-      //  如果通过任意方式跳出页面了，那么关闭当前选择框
-      window.onpopstate = function () {
-        that.closePreview()
       }
     }
   }

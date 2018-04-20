@@ -1,59 +1,115 @@
 <template>
   <div class="modal-wrap z-index-5xl select-repeat">
-    <v-touch class="modal-shade" @tap="selfClose($event)"></v-touch>
+    <v-touch
+      class="modal-shade"
+      @tap="selfClose($event)"/>
     <div class="popup popup-bottom">
       <div class="header">
-        <v-touch tag="span" class="popup-button u-pull-left" @tap="tapCancel($event)">取消</v-touch>
-        <v-touch tag="span" class="popup-button u-pull-right" @tap="tapConfirm($event)">确定</v-touch>
+        <v-touch
+          tag="span"
+          class="popup-button u-pull-left"
+          @tap="tapCancel($event)">
+          取消
+        </v-touch>
+        <v-touch
+          tag="span"
+          class="popup-button u-pull-right"
+          @tap="tapConfirm($event)">
+          确定
+        </v-touch>
         <p class="popup-title">重复频率</p>
       </div>
       <div class="tab-panel">
-        <v-touch class="tab-bg" @tap="setTab('everyDay')">
-          <span class="tab-text" :class="{'is-tab-active': localType === 'everyDay'}">每天</span>
+        <v-touch
+          class="tab-bg"
+          @tap="setTab('everyDay')">
+          <span
+            :class="{'is-tab-active': localType === 'everyDay'}"
+            class="tab-text">
+            每天
+          </span>
         </v-touch>
-        <v-touch class="tab-bg" @tap="setTab('everyWeek')">
-          <span class="tab-text" :class="{'is-tab-active': localType === 'everyWeek'}">每周</span>
+        <v-touch
+          class="tab-bg"
+          @tap="setTab('everyWeek')">
+          <span
+            :class="{'is-tab-active': localType === 'everyWeek'}"
+            class="tab-text" >
+            每周
+          </span>
         </v-touch>
-        <v-touch class="tab-bg" @tap="setTab('everyMonth')">
-          <span class="tab-text" :class="{'is-tab-active': localType === 'everyMonth'}">每月</span>
+        <v-touch
+          class="tab-bg"
+          @tap="setTab('everyMonth')">
+          <span
+            :class="{'is-tab-active': localType === 'everyMonth'}"
+            class="tab-text" >
+            每月
+          </span>
         </v-touch>
-        <v-touch class="tab-bg" @tap="setTab('everyYear')">
-          <span class="tab-text" :class="{'is-tab-active': localType === 'everyYear'}">每年</span>
+        <v-touch
+          class="tab-bg"
+          @tap="setTab('everyYear')">
+          <span
+            :class="{'is-tab-active': localType === 'everyYear'}"
+            class="tab-text" >
+            每年
+          </span>
         </v-touch>
       </div>
       <div class="body">
-        <div class="body-img" v-show="localType === 'everyDay'">
+        <div
+          v-show="localType === 'everyDay'"
+          class="body-img">
           <img src="../../../assets/img/repeat-day.png">
         </div>
-        <div class="body-list" v-show="localType === 'everyWeek'">
+        <div
+          v-show="localType === 'everyWeek'"
+          class="body-list" >
           <ul>
-            <v-touch tag="li" v-for="d in days" :key="d.val" @tap="tapSelect(d)">
-              <span>{{d.text}}</span>
-              <i class="icon2-selected is-finish" v-show="d.selected"></i>
+            <v-touch
+              v-for="d in days"
+              :key="d.val"
+              tag="li"
+              @tap="tapSelect(d)">
+              <span>{{ d.text }}</span>
+              <i
+                v-show="d.selected"
+                class="icon2-selected is-finish"/>
             </v-touch>
           </ul>
         </div>
-        <div class="body-table" v-show="localType === 'everyMonth'">
+        <div
+          v-show="localType === 'everyMonth'"
+          class="body-table" >
           <table class="dp-table">
             <tbody>
-            <tr v-for="(weekArray, index) in calDate" :key="index">
-              <v-touch tag="td" v-for="day in weekArray" :key="day.val"
-                       @tap="tapSelect(day)">
-                <div class="dp-day"
-                     :class="{'dp-selected': day.selected, 'dp-is-last': day.isLast}">
-                  {{day.text}}
-                </div>
-              </v-touch>
-            </tr>
+              <tr
+                v-for="(weekArray, index) in calDate"
+                :key="index">
+                <v-touch
+                  v-for="day in weekArray"
+                  :key="day.val"
+                  tag="td"
+                  @tap="tapSelect(day)">
+                  <div
+                    :class="{'dp-selected': day.selected, 'dp-is-last': day.isLast}"
+                    class="dp-day">
+                    {{ day.text }}
+                  </div>
+                </v-touch>
+              </tr>
             </tbody>
           </table>
         </div>
-        <div class="body-img" v-show="localType === 'everyYear'">
+        <div
+          v-show="localType === 'everyYear'"
+          class="body-img">
           <img src="../../../assets/img/repeat-year.png">
         </div>
       </div>
       <div class="footer">
-        <p>{{selectedText}}</p>
+        <p>{{ selectedText }}</p>
       </div>
     </div>
   </div>
@@ -131,7 +187,6 @@
 </style>
 <script>
   import dateUtil from 'ut/dateUtil'
-
   export default{
     data () {
       return {
@@ -228,6 +283,9 @@
         }
         return valStr
       }
+    },
+    mounted () {
+      this.initData()
     },
     methods: {
       initData () {
@@ -354,10 +412,6 @@
           isLastDate: this.checkUseLast()
         }
       }
-    },
-    created () {},
-    mounted () {
-      this.initData()
     }
   }
 </script>

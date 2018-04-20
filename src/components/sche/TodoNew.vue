@@ -2,27 +2,27 @@
   <div class="router-view">
     <div class="itm-edt z-index-xs">
       <div class="content">
-        <div class="itm-edt-fields" style="padding-bottom: 80px;">
+        <div
+          class="itm-edt-fields"
+          style="padding-bottom: 80px;">
           <div class="itm-group input-title">
             <r-input-title
               :new-checkable="true"
               :item-title="editItem.pTitle"
-              @text-change="saveTitle"
-            ></r-input-title>
+              @text-change="saveTitle"/>
           </div>
-          <div class="itm-group itm--edit-todo" :class="{'is-hidden': !isShowNote}">
-          </div>
+          <div
+            :class="{'is-hidden': !isShowNote}"
+            class="itm-group itm--edit-todo"/>
           <div class="itm-group itm--edit-todo">
             <div class="firstGroup">
               <r-input-date
                 :item="editItem"
                 :sep="'/'"
-                :new-item="true"
-              ></r-input-date>
+                :new-item="true"/>
               <r-input-time
                 :item="editItem"
-                :new-item="true"
-              ></r-input-time>
+                :new-item="true"/>
             </div>
             <div class="secondGroup">
               <r-input-member
@@ -33,11 +33,16 @@
                 :user-rsq-ids="[]"
                 :selected-rsq-ids="joinUserRsqIds"
                 :disabled-rsq-ids="[]"
-                @member-changed="saveMember"
-              ></r-input-member>
+                @member-changed="saveMember"/>
             </div>
-            <v-touch @tap="submitTodo" class="create-bot">
-              <a href="javascript:;" class="weui-btn weui-btn_primary">创建任务</a>
+            <v-touch
+              class="create-bot"
+              @tap="submitTodo">
+              <a
+                class="weui-btn weui-btn_primary"
+                href="javascript:;">
+                创建任务
+              </a>
             </v-touch>
           </div>
           <!--<div class="itm-group itm&#45;&#45;edit-todo" @click="submitTodo">提交（测试）</div>-->
@@ -156,6 +161,12 @@
   import dateUtil from 'ut/dateUtil'
   import jsUtil from 'ut/jsUtil'
   export default {
+    components: {
+      'r-input-title': InputTitleText,
+      'r-input-date': InputDate,
+      'r-input-time': InputTime,
+      'r-input-member': InputMember
+    },
     data () {
       return {
         editItem: {
@@ -191,15 +202,23 @@
         return this.$store.state.cardItemLength
       }
     },
-    components: {
-      'r-input-title': InputTitleText,
-      'r-input-date': InputDate,
-      'r-input-time': InputTime,
-      'r-input-member': InputMember
-    },
     beforeRouteEnter (to, from, next) {
       next()
       // beforeRouteEnter中不能获取到this，因为this还没有创建，只能通过next获取
+    },
+    created () {
+      this.initData()
+    },
+    mounted () {
+      window.rsqadmg.exec('setTitle', {title: '新建任务'})
+      this.joinUserRsqIds = [this.$store.state.loginUser.rsqUser.id]
+      if (this.editItem.receiverIds !== null) {
+        var idArray = this.editItem.receiverIds.split(',')
+        this.joinUserRsqIds = []
+        for (var i = 0; i < idArray.length; i++) {
+          this.joinUserRsqIds.push(idArray[i])
+        }
+      }
     },
     methods: {
       empty () {},
@@ -326,20 +345,6 @@
               }
               this.$router.replace('/sche')
             })
-        }
-      }
-    },
-    created () {
-      this.initData()
-    },
-    mounted () {
-      window.rsqadmg.exec('setTitle', {title: '新建任务'})
-      this.joinUserRsqIds = [this.$store.state.loginUser.rsqUser.id]
-      if (this.editItem.receiverIds !== null) {
-        var idArray = this.editItem.receiverIds.split(',')
-        this.joinUserRsqIds = []
-        for (var i = 0; i < idArray.length; i++) {
-          this.joinUserRsqIds.push(idArray[i])
         }
       }
     }

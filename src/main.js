@@ -56,8 +56,8 @@ window.rsqadmg.exec('auth', {
       el: '#app',
       router,
       store,
-      template: '<App/>',
-      components: { App }
+      components: { App },
+      template: '<App/>'
     })
   },
   error: function () {

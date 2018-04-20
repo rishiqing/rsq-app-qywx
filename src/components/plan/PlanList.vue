@@ -1,62 +1,59 @@
 <template>
   <div>
-    <!--<v-touch class="wrap-empty-plan"  @tap="toCreate" v-show="planItems.length === 0">-->
-      <!--<img src="../../assets/img/plan-empty.png" alt="" class="plan-empty">-->
-      <!--<span class="post-new-plan">新建计划</span>-->
-    <!--</v-touch>-->
-    <ul class="PlanList" v-if="planItems.length > 0" :class="{'planCount': planCount}">
-      <Plan
+    <ul
+      v-if="planItems.length > 0"
+      :class="{'plan-count': planCount}"
+      class="PlanList">
+      <r-plan
         v-for="item in planItems"
-        :item="item"
         :key="item.id"
-      ></Plan>
+        :item="item"/>
     </ul>
-    <v-touch v-else class="itm-lst" @tap="toCreate">
-      <img src="../../assets/img/plan-empty.png" alt="">
+    <v-touch
+      v-else
+      class="itm-lst"
+      @tap="toCreate">
+      <img src="../../assets/img/plan-empty.png">
       <p class="shouye">还没有计划，赶快点击“+”号创建吧</p>
     </v-touch>
-    <r-nav></r-nav>
+    <r-nav/>
   </div>
 </template>
 <script>
   import Plan from 'com/plan/Plan'
-  import nav from 'com/Nav'
+  import Nav from 'com/Nav'
   export default {
+    components: {
+      'r-plan': Plan,
+      'r-nav': Nav
+    },
     data () {
       return {
       }
     },
-    components: {
-      'Plan': Plan,
-      'r-nav': nav
-    },
     computed: {
       planItems () {
-        return this.$store.state.planlist
+        return this.$store.state.planList
       },
       planCount () {
         return this.planItems.length > 8
-      }
-    },
-//    props: {
-//      planItems: Array
-//    },
-    methods: {
-      toCreate () {
-        this.$router.push('/plan/Main')
       }
     },
     mounted () {
       window.rsqadmg.exec('setTitle', {title: '计划'})
       this.$store.dispatch('getPlan').then((res) => {
         this.$store.commit('SAVE_PLANS', res)
-//          that.$router.replace(window.history.back())
       })
+    },
+    methods: {
+      toCreate () {
+        this.$router.push('/plan/create')
+      }
     }
   }
 </script>
 <style lang="scss" scoped>
-  .planCount{
+  .plan-count{
     padding-bottom: 1.5rem;
   }
   .post-new-plan{

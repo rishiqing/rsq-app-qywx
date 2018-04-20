@@ -2,24 +2,34 @@
   <v-touch @tap="toChildPlan">
     <li class="plan">
       <div class="forward-plan">
-        <img :src="item.cover" alt="" class="planImage">
-        <span class="planName">{{item.name}}</span>
+        <img
+          :src="item.cover"
+          class="plan-image">
+        <span class="plan-name">{{ item.name }}</span>
       </div>
-      <i class="icon2-star-target-2 star" v-show="item.starMark"></i>
+      <i
+        v-show="item.starMark"
+        class="icon2-star-target-2 star"/>
     </li>
   </v-touch>
 </template>
 <script>
   export default {
+    props: {
+      item: {
+        type: Object,
+        required: true
+      }
+    },
     data () {
       return {
       }
     },
-    props: {
-      item: Object
-    },
     computed: {
-      currentSubPlanOftask () {
+      currentPlan () {
+        return this.$store.state.currentPlan
+      },
+      currentSubPlanOfTask () {
         return this.$store.state.currentSubPlan
       }
     },
@@ -34,7 +44,7 @@
               that.$store.commit('SAVE_LABELS', res)
             }).then(() => {
               this.$store.commit('SET_EMPTY_CURRENT_SUB_PLAN')
-              that.$router.push('/plan/childPlan')
+              that.$router.push('/plan/' + this.currentPlan.id + '/child-plan')
             })
           })
       }
@@ -47,11 +57,11 @@
     align-items: center;
     height: 100%;
   }
-  .planImage{
+  .plan-image{
     width: 0.906rem;
     height: 0.906rem;
   }
-  .planName{
+  .plan-name{
     width: 7rem;
     text-overflow: ellipsis;
     overflow: hidden;

@@ -1,9 +1,11 @@
 <template>
-  <v-touch class="" @tap="gotoDate">
-    <div class="outer-wrap bottom-border":class="{'hasPadding':newItem, 'isInbox': fromInbox}">
+  <v-touch @tap="gotoDate">
+    <div
+      :class="{'hasPadding':newItem, 'isInbox': fromInbox}"
+      class="outer-wrap bottom-border">
       <span class="inner-key">日期</span>
       <span class="inner-value">{{ dateString }}</span>
-      <i class="icon2-arrow-right-small arrow"></i>
+      <i class="icon2-arrow-right-small arrow"/>
     </div>
   </v-touch>
 </template>
@@ -57,15 +59,30 @@
   import dateUtil from 'ut/dateUtil'
 
   export default {
+    props: {
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      item: {
+        type: Object,
+        required: true
+      },
+      sep: {
+        type: String,
+        default: ''
+      },
+      editTime: {
+        type: Boolean,
+        default: false
+      },
+      newItem: {
+        type: Boolean,
+        default: true
+      }
+    },
     data () {
       return {}
-    },
-    props: {
-      disabled: Boolean,
-      item: Object,
-      sep: String,
-      editTime: Boolean,
-      newItem: Boolean
     },
     computed: {
       dateString () {
@@ -106,7 +123,7 @@
           isLastDate: c.isLastDate === undefined || false
         }
         this.$store.commit('PUB_TODO_DATE_UPDATE', {data: obj})
-        this.$router.push('/todoEdit/date')
+        this.$router.push('/todo/date')
 //        // 显示之前先将所有获得焦点的元素失去焦点
 //        if (document.activeElement) {
 //          document.activeElement.blur()
@@ -122,9 +139,6 @@
 //          }
 //        })
       }
-    },
-    mounted () {
-      console.log('传过来的item' + JSON.stringify(this.item))
     }
   }
 </script>

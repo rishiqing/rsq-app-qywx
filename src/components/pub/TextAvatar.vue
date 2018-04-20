@@ -1,48 +1,38 @@
 <template>
-  <div><div class="avatar" :style="style">
-    <span v-if="!this.src">{{ userInitial }}</span>
-  </div></div>
-  <!--<div>-->
-    <!--<div class="avatar" style="font:'9px/100px Helvetica, Arial, sans-serif';font-weight:'bold';color:#fff;background-color:#cddc39;line-height:24px;width:24px;height:24px;text-align:center;vertical-align:middle;">-->
-      <!--<span>WM</span>-->
-    <!--</div>-->
-  <!--</div>-->
-  <!--<div>-->
-    <!--<div class="avatar" style="background:url(http://static.dingtalk.com/media/lADOD3zI380B080B0w_467_467.jpg) no-repeat;background-size:24px 24px;background-origin:'content-box';width:24px;height:24px;text-align:center;vertical-align:middle;">-->
-    <!--</div>-->
-  <!--</div>-->
+  <div>
+    <div
+      :style="style"
+      class="avatar">
+      <span v-if="!src">{{ userInitial }}</span>
+    </div>
+  </div>
 </template>
 <script>
   export default{
-    data () {
-      return {
-        backgroundColors: [
-          '#F44336', '#FF4081', '#9C27B0', '#673AB7',
-          '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688',
-          '#4CAF50', '#8BC34A', '#CDDC39', /* '#FFEB3B', */ '#FFC107',
-          '#FF9800', '#FF5722', '#795548', '#9E9E9E', '#607D8B']
-      }
-    },
     props: {
       username: {
         type: String,
         required: true
       },
       initials: {
-        type: String
+        type: String,
+        default: null
       },
       backgroundColor: {
-        type: String
+        type: String,
+        default: null
       },
       color: {
-        type: String
+        type: String,
+        default: '#FFFFFF'
       },
       size: {
         type: Number,
         default: 24
       },
       src: {
-        type: String
+        type: String,
+        default: ''
       },
       rounded: {
         type: Boolean,
@@ -53,11 +43,15 @@
         default: 80
       }
     },
-
-    mounted () {
-      this.$emit('avatar-initials', this.username, this.userInitial)
+    data () {
+      return {
+        backgroundColors: [
+          '#F44336', '#FF4081', '#9C27B0', '#673AB7',
+          '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688',
+          '#4CAF50', '#8BC34A', '#CDDC39', /* '#FFEB3B', */ '#FFC107',
+          '#FF9800', '#FF5722', '#795548', '#9E9E9E', '#607D8B']
+      }
     },
-
     computed: {
       background () {
         return this.backgroundColor ||
@@ -109,6 +103,9 @@
         const initials = this.initials || this.initial(this.username)
         return initials
       }
+    },
+    mounted () {
+      this.$emit('avatar-initials', this.username, this.userInitial)
     },
     methods: {
       /**

@@ -1,69 +1,74 @@
 <template>
-  <li class="list" :class="{ 'isDisplay': !more}">
-      <div v-if="item.type==9" class="comentrecord">
-        <span class="icon"><i class="icon-description"></i></span>
-        <span class="content">{{item.commentContent}}</span>
-        <div class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</div>
-        <p class="child-item">{{item.idOrContent}}</p>
-      </div>
-      <div v-else>
-        <div v-if="item.type==5" class="comentrecord">
-          <span class="icon"><i class="icon-check"></i></span>
-          <span class="content">{{item.commentContent}}</span>
-          <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
-        </div>
-        <div v-else>
-          <div v-if="item.type==7" class="comentrecord">
-            <span class="icon"><i class="icon-format_list_bulleted"></i></span>
-            <span class="content">{{item.commentContent}}</span>
-            <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
-            <p class="child-item">{{item.idOrContent}}</p>
-          </div>
-          <div v-else>
-            <div v-if="item.type==17" class="comentrecord">
-              <span class="icon"><i class="icon-format_list_bulleted"></i></span>
-              <span class="content">{{item.commentContent}}</span>
-              <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
-            </div>
-            <div v-else>
-              <div v-if="item.type==10" class="comentrecord">
-                <span class="icon"><i class="icon-format_list_bulleted"></i></span>
-                <span class="content">{{item.commentContent}}</span>
-                <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
-              </div>
-              <div v-else>
-                <div v-if="item.type==8" class="comentrecord">
-                  <span class="icon"><i class="icon-description"></i></span>
-                  <span class="content">{{item.commentContent}}</span>
-                  <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
-                  <p class="child-item">{{item.idOrContent.substring(3,item.idOrContent.length-4)}}</p>
-                </div>
-                <div v-else>
-                  <div v-if="item.type==1" class="comentrecord">
-                    <span class="icon"><i class="icon-add_circle"></i></span>
-                    <span class="content">{{item.commentContent}}</span>
-                    <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
-                  </div>
-                  <div v-else>
-                    <div v-if="item.type==6" class="comentrecord">
-                      <span class="icon"><i class="icon-check_box_outline_blank"></i></span>
-                      <span class="content">{{item.commentContent}}</span>
-                      <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
-                    </div>
-                    <div v-else>
-                      <div v-if="item.type==2" class="comentrecord">
-                        <span class="icon"><i class="icon-insert_invitation"></i></span>
-                        <span class="content">{{item.commentContent}}</span>
-                        <span class="time">{{item.dateCreated.substring(5,7)}}月{{item.dateCreated.substring(8,16)}}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <li
+    :class="{ 'isDisplay': !more}"
+    class="list">
+    <div
+      v-if="item.type === 9"
+      class="comment-record">
+      <span class="icon"><i class="icon-description"/></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</div>
+      <p class="child-item">{{ item.idOrContent }}</p>
+    </div>
+    <div
+      v-else-if="item.type === 5"
+      class="comment-record">
+      <span class="icon"><i class="icon-check"/></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+    </div>
+    <div
+      v-else-if="item.type === 7"
+      class="comment-record">
+      <span class="icon"><i class="icon-format_list_bulleted"/></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+      <p class="child-item">{{ item.idOrContent }}</p>
+    </div>
+    <div
+      v-else-if="item.type === 17"
+      class="comment-record">
+      <span class="icon"><i class="icon-format_list_bulleted"/></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+    </div>
+    <div
+      v-else-if="item.type === 10"
+      class="comment-record">
+      <span class="icon"><i class="icon-format_list_bulleted"/></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+    </div>
+    <div
+      v-else-if="item.type === 8"
+      class="comment-record">
+      <span class="icon"><i class="icon-description"/></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+      <p class="child-item">{{ item.idOrContent.substring(3,item.idOrContent.length-4) }}</p>
+    </div>
+    <div
+      v-else-if="item.type === 1"
+      class="comment-record">
+      <span class="icon"><i class="icon-add_circle"/></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+    </div>
+    <div
+      v-else-if="item.type === 6"
+      class="comment-record">
+      <span class="icon"><i class="icon-check_box_outline_blank"/></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+    </div>
+    <div
+      v-else-if="item.type === 2"
+      class="comment-record">
+      <span class="icon"><i class="icon-insert_invitation" /></span>
+      <span class="content">{{ item.commentContent }}</span>
+      <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+    </div>
+    <div v-else />
   </li>
 </template>
 <style scoped>
@@ -75,7 +80,7 @@
     margin-top:10px;
     padding-left: 0.4rem;
   }
-  .comentrecord{
+  .comment-record{
     display: flex;
     align-items: center;
     width: 100%;
@@ -118,6 +123,19 @@
 <script>
   import Avatar from 'com/pub/TextAvatar'
   export default {
+    components: {
+      'avatar': Avatar
+    },
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      more: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
       }
@@ -126,13 +144,6 @@
       loginUser () {
         return this.$store.state.loginUser
       }
-    },
-    props: {
-      item: Object,
-      more: Boolean
-    },
-    components: {
-      'avatar': Avatar
     },
     methods: {
     }

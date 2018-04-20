@@ -2,65 +2,97 @@
   <div class="edit-date">
     <div class="date-picker">
       <div class="dp-sel-type">
-        <v-touch class="dp-btn"
-                 @tap="tapChangeType($event, 'single')"
-                 :class="{'is-active': dateType=='single'}">单日</v-touch>
-        <div class="dp-v-line"><div class="dp-v-sep v-h-center"></div></div>
-        <v-touch class="dp-btn"
-                 @tap="tapChangeType($event, 'discrete')"
-                 :class="{'is-active': dateType=='discrete'}">多日</v-touch>
-        <div class="dp-v-line"><div class="dp-v-sep v-h-center"></div></div>
-        <v-touch class="dp-btn"
-                 @tap="tapChangeType($event, 'range')"
-                 :class="{'is-active': dateType=='range'}">起止</v-touch>
+        <v-touch
+          :class="{'is-active': dateType=='single'}"
+          class="dp-btn"
+          @tap="tapChangeType($event, 'single')">
+          单日
+        </v-touch>
+        <div class="dp-v-line">
+          <div class="dp-v-sep v-h-center"/>
+        </div>
+        <v-touch
+          :class="{'is-active': dateType=='discrete'}"
+          class="dp-btn"
+          @tap="tapChangeType($event, 'discrete')">
+          多日
+        </v-touch>
+        <div class="dp-v-line">
+          <div class="dp-v-sep v-h-center"/>
+        </div>
+        <v-touch
+          :class="{'is-active': dateType=='range'}"
+          class="dp-btn"
+          @tap="tapChangeType($event, 'range')">
+          起止
+        </v-touch>
       </div>
       <div class="dp-title">
         <!--<v-touch class="dp-title-tag u-pull-left" @tap="tapEmpty($event)">空</v-touch>-->
         <!--<v-touch class="dp-title-tag u-pull-right" @tap="tapBackToday($event)">今</v-touch>-->
-        <v-touch tag="i" class="icon icon-keyboard_arrow_left u-pull-left"
-                 @tap="tapChangeMonth($event, -1)"></v-touch>
+        <v-touch
+          class="icon icon-keyboard_arrow_left u-pull-left"
+          tag="i"
+          @tap="tapChangeMonth($event, -1)"/>
         <div class="dp-title-text">
-          {{focusDate.getFullYear()}}年{{focusDate.getMonth() + 1}}月
+          {{ focusDate.getFullYear() }}年{{ focusDate.getMonth() + 1 }}月
         </div>
-        <v-touch tag="i" class="icon icon-keyboard_arrow_right u-pull-right"
-                 @tap="tapChangeMonth($event, 1)"></v-touch>
-        <!--<v-touch @tap="backToToday">-->
+        <v-touch
+          tag="i"
+          class="icon icon-keyboard_arrow_right u-pull-right"
+          @tap="tapChangeMonth($event, 1)"/>
+          <!--<v-touch @tap="backToToday">-->
           <!--<span class="backToday">今</span>-->
-        <!--</v-touch>-->
+          <!--</v-touch>-->
       </div>
       <div class="dp-content">
         <table class="dp-table">
           <thead>
-          <tr>
-            <td  class="week-ri">日</td>
-            <td  class="week">一</td>
-            <td  class="week">二</td>
-            <td  class="week">三</td>
-            <td  class="week">四</td>
-            <td  class="week">五</td>
-            <td  class="week-six">六</td>
-          </tr>
+            <tr>
+              <td class="week-ri">日</td>
+              <td class="week">一</td>
+              <td class="week">二</td>
+              <td class="week">三</td>
+              <td class="week">四</td>
+              <td class="week">五</td>
+              <td class="week-six">六</td>
+            </tr>
           </thead>
           <tbody>
-          <tr v-for="weekArray in days">
-            <v-touch tag="td" v-for="day in weekArray" :key="day.date.getTime()"
-                     @tap="tapDay($event, day)">
-              <div class="dp-day"
-                   :class="{'dp-grey': !day.isInMonth, 'dp-selected': day.isSelected,'is-today':isToday(day)}">
-                {{day.date.getTime() === numToday ? '今' : day.date.getDate()}}
-              </div>
-            </v-touch>
-          </tr>
+            <tr
+              v-for="(weekArray, index) in days"
+              :key="index">
+              <v-touch
+                v-for="day in weekArray"
+                :key="day.date.getTime()"
+                tag="td"
+                @tap="tapDay($event, day)">
+                <div
+                  :class="{'dp-grey': !day.isInMonth, 'dp-selected': day.isSelected,'is-today':isToday(day)}"
+                  class="dp-day">
+                  {{ day.date.getTime() === numToday ? '今' : day.date.getDate() }}
+                </div>
+              </v-touch>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
-    <v-touch class="date-repeat" @tap="gotoRepeat">
+    <v-touch
+      class="date-repeat"
+      @tap="gotoRepeat">
       <span class="list-key u-pull-left">重复</span>
-      <i class="icon2-arrow-right arrow u-pull-right light-color"></i>
-      <span class="list-value u-pull-right light-color">{{repeatText}}</span>
+      <i class="icon2-arrow-right arrow u-pull-right light-color"/>
+      <span class="list-value u-pull-right light-color">
+        {{ repeatText }}
+      </span>
     </v-touch>
-    <v-touch tag="p" class="date-clear" @tap="tapEmpty">清除日期</v-touch>
+    <v-touch
+      class="date-clear"
+      tag="p"
+      @tap="tapEmpty">
+      清除日期
+    </v-touch>
   </div>
 </template>
 <style lang="scss">
@@ -259,6 +291,20 @@
         return (text || '不') + '重复'
       }
     },
+    created () {
+      this.initData()
+      var that = this
+      window.rsqadmg.exec('setTitle', {title: '日期选择'})
+      window.rsqadmg.exec('setOptionButtons', {
+        btns: [{key: 'backToday', name: '今天'}],
+        success (res) {
+          if (res.key === 'backToday') {
+            that.tapBackToday()
+          }
+        }
+      })
+      this.$store.dispatch('setNav', {isShow: false})
+    },
     methods: {
       backToToday () {
         this.focusDate = new Date()
@@ -433,7 +479,7 @@
           newObj.isLastDate !== oldObj.isLastDate
       },
       gotoRepeat () {
-        this.$router.push('/todoEdit/repeat')
+        this.$router.push('/todo/repeat')
       },
       saveTodoDateState () {
         var sorted = this.selectNumDate.sort((a, b) => { return a > b ? 1 : -1 })
@@ -502,20 +548,6 @@
           next()
         }
       }
-    },
-    created () {
-      this.initData()
-      var that = this
-      window.rsqadmg.exec('setTitle', {title: '日期选择'})
-      window.rsqadmg.exec('setOptionButtons', {
-        btns: [{key: 'backToday', name: '今天'}],
-        success (res) {
-          if (res.key === 'backToday') {
-            that.tapBackToday()
-          }
-        }
-      })
-      this.$store.dispatch('setNav', {isShow: false})
     },
     beforeRouteLeave (to, from, next) {
       //  做pub区缓存

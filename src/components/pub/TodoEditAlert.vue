@@ -1,29 +1,43 @@
 <template>
   <div class="edit-alert">
     <ul class="top-ul">
-      <v-touch tag="li" @tap="disableAlert">
+      <v-touch
+        tag="li"
+        @tap="disableAlert">
         <span>不提醒</span>
-        <i class="icon2-selected finish" v-show="noAlert"></i>
+        <i
+          v-show="noAlert"
+          class="icon2-selected finish"/>
       </v-touch>
     </ul>
     <ul class="alert-list">
-      <v-touch tag="li" @tap="selectAlert(alert)" v-for="(alert, index) in displayedRuleList" :key="index">
-        <span>{{parseCode(alert.schedule)}}</span>
-        <i class="icon2-selected finish" v-show="alert.selected"></i>
+      <v-touch
+        v-for="(alert, index) in displayedRuleList"
+        :key="index"
+        tag="li"
+        @tap="selectAlert(alert)">
+        <span>{{ parseCode(alert.schedule) }}</span>
+        <i
+          v-show="alert.selected"
+          class="icon2-selected finish"/>
       </v-touch>
     </ul>
     <!--<ul class="alert-list">-->
-      <!--<v-touch tag="li" @tap="selectAlert(alert)" v-for="(alert, index) in displayedTimeList" :key="index">-->
-        <!--<span>{{parseTimeText(alert.numTime)}}</span>-->
-        <!--<i class="icon2-selected finish" v-show="alert.selected"></i>-->
-      <!--</v-touch>-->
+    <!--<v-touch tag="li" @tap="selectAlert(alert)" v-for="(alert, index) in displayedTimeList" :key="index">-->
+    <!--<span>{{parseTimeText(alert.numTime)}}</span>-->
+    <!--<i class="icon2-selected finish" v-show="alert.selected"></i>-->
+    <!--</v-touch>-->
     <!--</ul>-->
     <ul class="sec">
-      <v-touch tag="li" @tap="showTimePicker" class="defineAlert">
+      <v-touch
+        tag="li"
+        class="defineAlert"
+        @tap="showTimePicker">
         <span class="list-key">自定义</span>
-        <span class="list-value">{{userDefinedAlertText}}</span>
-        <i class="icon2-arrow-right-small arrow"></i>
-        <!--<span class="remind">自定义提醒时间</span>-->
+        <span class="list-value">
+          {{ userDefinedAlertText }}
+        </span>
+        <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
   </div>
@@ -154,6 +168,11 @@
           return this.parseTimeText(a.numTime)
         }).join(',')
       }
+    },
+    created () {
+      this.initData()
+      window.rsqadmg.execute('setTitle', {title: '提醒'})
+      window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     methods: {
       initData () {
@@ -318,11 +337,6 @@
           }
         })
       }
-    },
-    created () {
-      this.initData()
-      window.rsqadmg.execute('setTitle', {title: '提醒'})
-      window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     beforeRouteLeave (to, from, next) {
       this.saveTodoAlert()

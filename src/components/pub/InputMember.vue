@@ -1,9 +1,11 @@
 <template>
-  <v-touch class="" @tap="showMemberEdit">
-    <div class="outer-wrap":class="{'hasPadding':newItem, 'bottom-border': editTime}">
-      <span class="inner-key">{{indexTitle}}</span>
-      <span class="inner-value">{{nameConcat}}{{selectedLocalList.length > 3 ? '等':''}}{{selectedLocalList.length}}人</span>
-      <i class="icon2-arrow-right-small arrow"></i>
+  <v-touch @tap="showMemberEdit">
+    <div
+      :class="{'hasPadding':newItem, 'bottom-border': editTime}"
+      class="outer-wrap" >
+      <span class="inner-key">{{ indexTitle }}</span>
+      <span class="inner-value">{{ nameConcat }}{{ selectedLocalList.length > 3 ? '等':'' }}{{ selectedLocalList.length }}人</span>
+      <i class="icon2-arrow-right-small arrow"/>
     </div>
   </v-touch>
 </template>
@@ -64,25 +66,54 @@
   import util from 'ut/jsUtil'
   import SelectMember from 'com/pub/SelectMember'
   import Avatar from 'com/pub/TextAvatar'
-
   export default {
+    components: {
+      'avatar': Avatar
+    },
+    props: {
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      isNative: {
+        type: Boolean,
+        default: true
+      },  //  是否使用钉钉应用本地的选择框
+      indexTitle: {
+        type: String,
+        default: ''
+      },
+      selectTitle: {
+        type: String,
+        default: ''
+      },
+      userRsqIds: {
+        type: Array,
+        required: true
+      },    //  可选人
+      selectedRsqIds: {
+        type: Array,
+        required: true
+      },  //  当前选中的人
+      disabledRsqIds: {
+        type: Array,
+        required: true
+      },   //  不可选的人
+      newItem: {
+        type: Boolean,
+        default: true
+      },
+      editTime: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
         localList: [],  //  人员选择列表
         selectedLocalList: [],  //  已选择的人员选择列表
         disabledLocalList: []  //  本地禁用的人员列表
       }
-    },
-    props: {
-      disabled: Boolean,
-      isNative: Boolean,  //  是否使用钉钉应用本地的选择框
-      indexTitle: String,
-      selectTitle: String,
-      userRsqIds: Array,    //  可选人
-      selectedRsqIds: Array,  //  当前选中的人
-      disabledRsqIds: Array,   //  不可选的人
-      newItem: Boolean,
-      editTime: Boolean
     },
     computed: {
       loginUser () {
@@ -116,9 +147,6 @@
       disabledRsqIds (ids) {
         this.fetchUserIds(ids, 'disabledLocalList')
       }
-    },
-    components: {
-      'avatar': Avatar
     },
     methods: {
       fetchUsers () {
@@ -209,9 +237,6 @@
 //            window.rsqadmg.exec('hideLoader')
           })
       }
-    },
-    mounted () {
-//      alert('传进来的selectedLocalList' + this.selectedLocalList)
     }
   }
 </script>

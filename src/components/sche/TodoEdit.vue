@@ -12,39 +12,43 @@
               :item-checked="editItem.pIsDone || editItem.isDone"
               :disabled="!checkEdit()"
               @text-blur="saveTitle"
-              @click-checkout="finishChecked"
-            ></r-input-title>
+              @click-checkout="finishChecked"/>
           </div>
           <v-touch @tap="switchToNote">
-            <div id="noteEditable" contenteditable="true" class="desp editor-style"
-                 name="note" rows="5"
-                 :class="{'remindColor':hasDecrip(),'contentColor':!hasDecrip(),'inbox-padding':isInbox,'sche-padding':!isInbox}"
-                 placeholder="添加任务描述..." onfocus="this.blur();">
+            <div
+              id="noteEditable"
+              :class="{'remindColor':hasDecrip(),'contentColor':!hasDecrip(),'inbox-padding':isInbox,'sche-padding':!isInbox}"
+              class="desp editor-style"
+              contenteditable="true"
+              name="note"
+              rows="5"
+              placeholder="添加任务描述..."
+              onfocus="this.blur();">
               添加任务描述...
             </div>
           </v-touch>
           <div class="itm--edit-todo ">
             <div class="edit-padding-left">
               <div class="first-date">
-                <i class="icon2-schedule sche"></i>
+                <i class="icon2-schedule sche"/>
                 <r-input-date
                   :disabled="!checkEdit()"
                   :item="editItem"
                   :sep="'/'"
-                  :edit-time="true"
-                ></r-input-date>
+                  :edit-time="true"/>
               </div>
-              <div class="first-date" v-show="!isInbox">
-                <i class="icon2-alarm sche"></i>
+              <div
+                v-show="!isInbox"
+                class="first-date">
+                <i class="icon2-alarm sche"/>
                 <r-input-time
+                  v-if="editItem.pContainer !== 'inbox'"
                   :disabled="!checkEdit()"
                   :item="editItem"
-                  :edit-time="true"
-                  v-if="editItem.pContainer !== 'inbox'"
-                ></r-input-time>
+                  :edit-time="true"/>
               </div>
               <div class="first-date">
-                <i class="icon2-member sche"></i>
+                <i class="icon2-member sche"/>
                 <r-input-member
                   :disabled="!checkEdit()"
                   :edit-time="true"
@@ -54,29 +58,36 @@
                   :user-rsq-ids="[]"
                   :selected-rsq-ids="joinUserRsqIds"
                   :disabled-rsq-ids="[]"
-                  @member-changed="saveMember"
-                ></r-input-member>
+                  @member-changed="saveMember"/>
               </div>
               <div class="first-date">
-                <i class="icon2-subplan-web sche"></i>
-                <r-input-sub-todo
+                <i class="icon2-subplan-web sche"/>
+                <r-input-subtodo
                   :disabled="!checkEdit()"
                   :item="currentTodo"
-                  :edit-time="true"
-                ></r-input-sub-todo>
+                  :edit-time="true"/>
               </div>
             </div>
             <r-comment-list
               :disabled="!checkEdit()"
               :items="todoComments"
-              :id="currentTodo.id"
-              ></r-comment-list>
-            <v-touch  class="deleteTask" >
-              <a  @click="prepareDelete($event)" href="javascript:;" class="weui-btn weui-btn_primary" style="font-size: 20px">删除任务</a>
+              :todo-id="currentTodo.id"/>
+            <v-touch class="deleteTask" >
+              <a
+                class="weui-btn weui-btn_primary"
+                style="font-size: 20px"
+                href="javascript:;"
+                @click="prepareDelete($event)">
+                删除任务
+              </a>
             </v-touch>
             <div class="bottom">
               <v-touch @tap="switchToComment">
-                <input type="text" class="bot" placeholder="输入讨论内容或发送文件" onfocus="this.blur();">
+                <input
+                  class="bot"
+                  type="text"
+                  placeholder="输入讨论内容或发送文件"
+                  onfocus="this.blur();">
               </v-touch>
             </div>
           </div>
@@ -253,13 +264,23 @@
   import InputDate from 'com/pub/InputDate'
   import InputTime from 'com/pub/InputTime'
   import InputMember from 'com/pub/InputMember'
-  import InputSubTodo from 'com/pub/InputSubTodo'
+  import InputSubtodo from 'com/pub/InputSubtodo'
   import SendConversation from 'com/demo/SendConversation'
   import util from 'ut/jsUtil'
   import dateUtil from 'ut/dateUtil'
   import CommentList from 'com/pub/CommentList'
 //  import bus from 'com/bus'
   export default {
+    components: {
+      'r-input-title': InputTitleText,
+      'r-input-date': InputDate,
+      'r-input-time': InputTime,
+      'r-input-member': InputMember,
+      'r-input-subtodo': InputSubtodo,
+//      'r-input-note': InputNoteText,
+      'r-comment-list': CommentList,
+      'r-send-conversation': SendConversation
+    },
     data () {
       return {
         editItem: {},
@@ -313,22 +334,30 @@
         }
         return newArray
       },
-      fileCount () {
-      },
       time () {
         var dates = this.$store.state.todo.currentTodo.clock
         return dates.startTime + '-' + dates.endTime
       }
     },
-    components: {
-      'r-input-title': InputTitleText,
-      'r-input-date': InputDate,
-      'r-input-time': InputTime,
-      'r-input-member': InputMember,
-      'r-input-sub-todo': InputSubTodo,
-//      'r-input-note': InputNoteText,
-      'r-comment-list': CommentList,
-      'r-send-conversation': SendConversation
+    created () {
+      if (this.currentTodo.kanbanId) {
+        this.initPlan()
+      } else {
+        this.initData()
+      }
+//      var that = this
+      window.rsqadmg.execute('setTitle', {title: '详情'})
+//      window.rsqadmg.execute('setOptionButtons', {
+//        btns: [{key: 'more', name: '更多'}],
+//        success (res) {
+//          if (res.key === 'more') {
+//            that.more()
+//          }
+//        }
+//      })
+    },
+    mounted () {
+      document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     methods: {
       hasDecrip () {
@@ -366,7 +395,7 @@
 //          .catch(err => {
 //            window.rsqadmg.exec('hideLoader')
 //            if (err.code === 400320) {
-//              this.$router.push('/pub/CheckFailure')
+//              this.$router.push('/pub/check-failure')
 //            } else if (err.code === 400318) {
 //              this.$router.push('/pub/noPermission')
 //            }
@@ -398,7 +427,7 @@
           window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
           return
         }
-        this.$router.push('/pub/coment')
+        this.$router.push('/todo/comment')
       },
       switchToNote () {
         if (!this.checkEdit()) {
@@ -714,26 +743,6 @@
 //            })
           })
       }
-    },
-    created () {
-      if (this.currentTodo.kanbanId) {
-        this.initPlan()
-      } else {
-        this.initData()
-      }
-//      var that = this
-      window.rsqadmg.execute('setTitle', {title: '详情'})
-//      window.rsqadmg.execute('setOptionButtons', {
-//        btns: [{key: 'more', name: '更多'}],
-//        success (res) {
-//          if (res.key === 'more') {
-//            that.more()
-//          }
-//        }
-//      })
-    },
-    mounted () {
-      document.body.scrollTop = document.documentElement.scrollTop = 0
     },
 //    beforeRouteEnter (to, from, next) {
 //      if (from.name === 'sche' || from.name === 'inbox') {

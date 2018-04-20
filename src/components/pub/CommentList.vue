@@ -1,25 +1,35 @@
 <template>
   <ul class="comentlist">
     <v-touch @tap="changeState()">
-      <div :class="{'isDisplay': !more}" class="operation">收起操作记录</div>
-      <div :class="{'isDisplay': more}" class="operation">显示操作记录</div>
+      <div
+        :class="{'isDisplay': !more}"
+        class="operation">
+        收起操作记录
+      </div>
+      <div
+        :class="{'isDisplay': more}"
+        class="operation">
+        显示操作记录
+      </div>
     </v-touch>
     <r-record-comment
       v-for="item in recordItems"
       :disabled="disabled"
       :item="item"
       :key="item.id"
-      :more="more"
-    ></r-record-comment>
+      :more="more"/>
     <r-todo-comment
       v-for="item in commentItems"
       :disabled="disabled"
       :item="item"
       :key="item.id"
-      @comment-file-touch="showAction"
-    ></r-todo-comment>
-    <div v-if="commentCount" class="noComent">
-      <img src="../../assets/img/nocoment.png" alt="">
+      @comment-file-touch="showAction"/>
+    <div
+      v-if="commentCount"
+      class="noComent">
+      <img
+        src="../../assets/img/nocoment.png"
+        alt="">
       <p class="noComentContent">暂无评论</p>
     </div>
   </ul>
@@ -68,21 +78,33 @@
   import CommentItem from 'com/pub/CommentItem'
   import CommentRecord from 'com/pub/CommentRecord'
   export default {
+    name: 'CommentList',
+    components: {
+      'r-todo-comment': CommentItem,
+      'r-record-comment': CommentRecord
+    },
+    props: {
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      items: {
+        type: Array,
+        required: true
+      },
+      commentContent: {
+        type: String,
+        required: true
+      },
+      todoId: {
+        type: Number,
+        required: true
+      }
+    },
     data () {
       return {
         more: false
       }
-    },
-    name: 'commentList',
-    props: {
-      disabled: Boolean,
-      items: Array,
-      commentContent: String,
-      id: Number
-    },
-    components: {
-      'r-todo-comment': CommentItem,
-      'r-record-comment': CommentRecord
     },
     computed: {
       recordItems () {
@@ -118,7 +140,7 @@
         return arr[arr.length - 1].substr(14)
       },
       changeState () {
-        this.$store.dispatch('getRecord', {id: this.id})
+        this.$store.dispatch('getRecord', {id: this.todoId})
         this.more = !this.more
       },
       showAction (f) {

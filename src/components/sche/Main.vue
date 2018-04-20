@@ -1,37 +1,42 @@
 <template>
-  <div id="calMain"
-       class="router-view content--cal calendar"
-       style="box-sizing:border-box;"
-       :class="{'animate': isShowAnimate}"
-       :style="{'padding-top': paddingTop + 'px'}">
+  <div
+    id="calMain"
+    :class="{'animate': isShowAnimate}"
+    :style="{'padding-top': paddingTop + 'px'}"
+    class="router-view content--cal calendar"
+    style="box-sizing:border-box;">
     <r-calendar
+      :default-select-date="dateSelect"
       @click-cal-day="fetchItems"
       @after-cal-ready="fetchDatesHasTodo"
       @after-cal-swipe="fetchDatesHasTodo"
       @after-cal-switch="fetchDatesHasTodo"
       @on-cal-pan="onPanMove"
-      @on-cal-pan-end="onPanEnd"
-      :default-select-date="dateSelect"
-    ></r-calendar>
-    <div id="bounceDiv" style="width:100%;height:100%;overflow: auto;-webkit-overflow-scrolling: touch;">
+      @on-cal-pan-end="onPanEnd"/>
+    <div
+      id="bounceDiv"
+      style="width:100%;height:100%;overflow: auto;-webkit-overflow-scrolling: touch;">
       <r-pull-to-refresh
         :enabled="enablePullToRefresh"
         @on-list-pan-move="checkScroll"
         @on-pull-down="pullRefresh">
         <r-todo-item-list
-          :items="items"
-          :is-checkable="true"
           v-if="items.length!==0"
-        ></r-todo-item-list>
-        <div class="itm-lst" v-else>
-          <img src="../../assets/img/todo-empty.png" alt="">
+          :items="items"
+          :is-checkable="true"/>
+        <div
+          v-else
+          class="itm-lst">
+          <img src="../../assets/img/todo-empty.png" >
           <p class="shouye">还没有日程，赶快去创建吧</p>
         </div>
       </r-pull-to-refresh>
       <v-touch @tap="toInbox">
-        <img src="../../assets/img/main_inbox.png" alt="" class="main_inbox">
+        <img
+          class="main_inbox"
+          src="../../assets/img/main_inbox.png">
       </v-touch>
-      <r-nav></r-nav>
+      <r-nav/>
     </div>
   </div>
 </template>
@@ -52,6 +57,12 @@
 
   export default {
     name: 'ScheduleView',
+    components: {
+      'r-calendar': Calendar,
+      'r-pull-to-refresh': Pull,
+      'r-todo-item-list': TodoItemList,
+      'r-nav': nav
+    },
     data () {
       return {
         titleName: '日程',
@@ -87,11 +98,18 @@
         }
       }
     },
-    components: {
-      'r-calendar': Calendar,
-      'r-pull-to-refresh': Pull,
-      'r-todo-item-list': TodoItemList,
-      'r-nav': nav
+    mounted () {
+      window.rsqadmg.exec('setTitle', {title: this.formatTitleDate(this.dateSelect)})
+      window.rsqadmg.execute('setOptionButtons', {hide: true})
+      this.$store.dispatch('setNav', {isShow: true})
+
+      var main = document.getElementById('calMain')
+      main.addEventListener('transitionend', () => {
+        this.isShowAnimate = false
+      })
+      main.addEventListener('webkitTransitionEnd', () => {
+        this.isShowAnimate = false
+      })
     },
     methods: {
       toInbox () {
@@ -182,30 +200,6 @@
           })
         })
       }
-    },
-    mounted () {
-      window.rsqadmg.exec('setTitle', {title: this.formatTitleDate(this.dateSelect)})
-//      document.title.style.color = 'gba(-2147483648,-2147483648,-2147483648,0.65)'
-//      var btnParams
-//      var that = this
-//      btnParams = {
-//        btns: [{key: 'toInbox', name: '收纳箱'}],
-//        success (res) {
-//          if (res.key === 'toInbox') {
-//            that.$router.push('/inbox')
-//          }
-//        }
-//      }
-      window.rsqadmg.execute('setOptionButtons', {hide: true})
-      this.$store.dispatch('setNav', {isShow: true})
-
-      var main = document.getElementById('calMain')
-      main.addEventListener('transitionend', () => {
-        this.isShowAnimate = false
-      })
-      main.addEventListener('webkitTransitionEnd', () => {
-        this.isShowAnimate = false
-      })
     }
   }
 </script>

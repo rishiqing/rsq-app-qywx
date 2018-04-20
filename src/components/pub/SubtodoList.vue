@@ -1,40 +1,60 @@
 <template>
   <div class="">
-    <div class="for-cover"></div>
-    <!--<div class="topSubtodo" v-if="seen" >-->
-      <!--<v-touch @tap="change">-->
-        <!--<v-touch ><i class="icon2-add-circle add"></i></v-touch>-->
-        <!--<span class="new-create">新建子任务</span>-->
-      <!--</v-touch>-->
-    <!--</div>-->
+    <div class="for-cover"/>
     <div class="wrap">
-      <input class="write" type="text" placeholder="输入子任务标题" v-model="inputTitle" >
-      <v-touch @tap="saveTodo" v-show="inputTitle !== ''" class="btn-create">
+      <input
+        v-model="inputTitle"
+        class="write"
+        type="text"
+        placeholder="输入子任务标题">
+      <v-touch
+        v-show="inputTitle !== ''"
+        class="btn-create"
+        @tap="saveTodo">
         <button class="create" >创建</button>
       </v-touch>
     </div>
-    <div class="margin-block"></div>
-    <ul class="sublist" :class="{hasborder:!haschild}">
-      <li v-for="item in finalItems" v-if="finalItems" class="sublistItem">
-        <v-touch class="wrap-sub-icon" v-if="" @tap="clickCheckOut(item)">
-          <i class="icon2-check-box select-sub"></i>
-          <div class="hide" :class="{'for-hide-sub':item.isDone}"></div>
-          <i class="icon2-selected hide" :class="{'isdisplay-sub':item.isDone}"></i>
-        </v-touch>
-        <v-touch class="wrap-input" @tap="showEditSubtodo(item)">
-           <!--<input   class="list-below" @focus="IsDisabled($event,item.isDone)" @blur="inputBlur($event.target.value, item)"  @input="inputChange($event.target.value)"-->
-                    <!--ref="titleInput" :value=item.name   :class="{ 'text-grey': item.isDone, 'text-mid-line': item.isDone,'is-editable':item.isDone}">-->
-          <span class="list-below"
-                ref="titleInput"
-                :class="{ 'text-grey': item.isDone, 'text-mid-line': item.isDone}">{{item.name}}</span>
-        </v-touch>
-      </li>
+    <div class="margin-block"/>
+    <ul
+      :class="{hasborder:!haschild}"
+      class="sublist">
+      <template v-if="finalItems">
+        <li
+          v-for="item in finalItems"
+          :key="item.id"
+          class="sublistItem">
+          <v-touch
+            class="wrap-sub-icon"
+            @tap="clickCheckOut(item)">
+            <i class="icon2-check-box select-sub"/>
+            <div
+              :class="{'for-hide-sub':item.isDone}"
+              class="hide"/>
+            <i
+              :class="{'isdisplay-sub':item.isDone}"
+              class="icon2-selected hide"/>
+          </v-touch>
+          <v-touch
+            class="wrap-input"
+            @tap="showEditSubtodo(item)">
+            <span
+              ref="titleInput"
+              :class="{ 'text-grey': item.isDone, 'text-mid-line': item.isDone}"
+              class="list-below">
+              {{ item.name }}
+            </span>
+          </v-touch>
+        </li>
+      </template>
     </ul>
   </div>
 </template>
 <script>
   import TodoItemList from 'com/sche/TodoItemList'
   export default {
+    components: {
+      'r-todo-item-list': TodoItemList
+    },
     data () {
       return {
         titleName: '子任务',
@@ -45,7 +65,7 @@
     },
     computed: {
       items () {
-        return this.$store.state.todo.currentTodo.subTodos// 其实有没有必要写这个呢，因为currenttodo是动态变化的，只要重新和后台打交道setcurrent以后自然可以变化
+        return this.$store.state.todo.currentTodo.subtodos// 其实有没有必要写这个呢，因为currenttodo是动态变化的，只要重新和后台打交道setcurrent以后自然可以变化
       },
       subItems () {
         return this.$store.state.todo.currentTodo.subItems
@@ -60,13 +80,15 @@
         return this.$store.state.todo.currentTodo
       },
       haschild () {
-        if (this.$store.state.todo.currentTodo.subTodos) {
-          return this.$store.state.todo.currentTodo.subTodos.length === 0
+        if (this.$store.state.todo.currentTodo.subtodos) {
+          return this.$store.state.todo.currentTodo.subtodos.length === 0
         }
       }
     },
-    components: {
-      'r-todo-item-list': TodoItemList
+    mounted () {
+      window.rsqadmg.exec('setTitle', {title: this.titleName})
+      window.rsqadmg.exec('setOptionButtons', {hide: true})
+      this.$store.dispatch('setNav', {isShow: false})
     },
     methods: {
       showEditSubtodo (item) {
@@ -89,7 +111,7 @@
             message: '确定要删除此任务？',
             success () {
               window.rsqadmg.execute('showLoader', {text: '删除中...'})
-              that.$store.dispatch('deleteSubTodo', {item: item})
+              that.$store.dispatch('deleteSubtodo', {item: item})
                 .then(() => {
                   //  触发标记重复修改
                   that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
@@ -105,9 +127,9 @@
         } else {
           if (value !== item.name) {
 //            window.rsqadmg.exec('showLoader', {text: '保存中...'})
-            this.$store.dispatch('updateSubTodo', {item: item, name: value})
+            this.$store.dispatch('updateSubtodo', {item: item, name: value})
               .then(() => {
-//                console.log('updateSubTodo执行完成')
+//                console.log('updateSubtodo执行完成')
                 //  触发标记重复修改
                 this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
               })
@@ -126,7 +148,7 @@
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
         } else {
-          this.$store.dispatch('createSubTodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoid})
+          this.$store.dispatch('createSubtodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoid})
             .then(() => {
               //  触发标记重复修改
 //            console.log('创建完成了')
@@ -142,22 +164,14 @@
         }
       },
       clickCheckOut (item) {
-        this.$store.dispatch('submitSubTodoFinish', {item: item, status: !item.isDone})
+        this.$store.dispatch('submitSubtodoFinish', {item: item, status: !item.isDone})
             .then(function () {
               this.$store.dispatch('saveTodoAction', {editItem: {status: !item.isDone, type: 17}})
                 .then(() => {
                 })
             })
       }
-    },
-    mounted () {
-      window.rsqadmg.exec('setTitle', {title: this.titleName})
-      window.rsqadmg.exec('setOptionButtons', {hide: true})
-      this.$store.dispatch('setNav', {isShow: false})
     }
-//    beforeRouteLeave (to, from, next) {
-//      this.inputBlur()
-//    }
   }
 </script>
 <style scoped>

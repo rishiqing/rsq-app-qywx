@@ -1,22 +1,29 @@
 <template>
-  <v-touch id="touchList" ref="touchList"
-           :enabled="enabled"
-           @panstart="onPanMove"
-           @panmove="onPanMove"
-           @panend="onPanEnd"
-           @pancancel="onPanEnd"
-           :pan-options="{ direction: 'vertical', threshold: 10 }"
-           class="pull-container">
+  <v-touch
+    id="touchList"
+    ref="touchList"
+    :enabled="enabled"
+    :pan-options="{ direction: 'vertical', threshold: 10 }"
+    class="pull-container"
+    @panstart="onPanMove"
+    @panmove="onPanMove"
+    @panend="onPanEnd"
+    @pancancel="onPanEnd">
     <div class="scroller">
-      <div :id="pullDownId" class="pulldown"
-           :class="[pullDownChangeStyle, {'animate': isShowTrans}]"
-           :style="{'margin-top': pullDownMargin + 'px'}">
-        <div class="pulldown-icon"></div>
-        <div class="pulldown-label">{{pullDownTip}}</div>
+      <div
+        :id="pullDownId"
+        :class="[pullDownChangeStyle, {'animate': isShowTrans}]"
+        :style="{'margin-top': pullDownMargin + 'px'}"
+        class="pulldown">
+        <div class="pulldown-icon"/>
+        <div class="pulldown-label">{{ pullDownTip }}</div>
       </div>
     </div>
-    <div id="listContainer" class="list-container" style="overflow-y: auto;">
-      <slot></slot>
+    <div
+      id="listContainer"
+      class="list-container"
+      style="overflow-y: auto;">
+      <slot/>
     </div>
   </v-touch>
 </template>
@@ -98,6 +105,13 @@
   var timeout = 3000
   var pullDownHeight = 50
   export default {
+    name: 'Pull2Refresh',
+    props: {
+      enabled: {
+        type: Boolean,
+        default: true
+      }
+    },
     data () {
       return {
         pullDownId: new Date().getTime(),
@@ -108,8 +122,14 @@
         pullDownMargin: -pullDownHeight
       }
     },
-    props: {
-      enabled: Boolean
+    mounted () {
+      var ele = document.getElementById(this.pullDownId)
+      ele.addEventListener('transitionend', () => {
+        this.showTrans(false)
+      })
+      ele.addEventListener('webkitTransitionEnd', () => {
+        this.showTrans(false)
+      })
     },
     methods: {
       onPanMove (e) {
@@ -152,29 +172,6 @@
       showTrans (isShow) {
         this.isShowTrans = !!isShow
       }
-    },
-    mounted () {
-      var ele = document.getElementById(this.pullDownId)
-      ele.addEventListener('transitionend', () => {
-        this.showTrans(false)
-      })
-      ele.addEventListener('webkitTransitionEnd', () => {
-        this.showTrans(false)
-      })
-//      console.log('=@_@===this.$refs.touchList===#_#=' + this.$refs.touchList.disable('pan'))
-//      this.$refs.touchList.disable('panstart')
-//      this.$refs.touchList.disable('panmove')
-//      this.$refs.touchList.disable('panend')
-//      this.$refs.touchList.disable('pancancel')
-//      var list = document.getElementById('touchList')
-//      list.style.touchAction = 'auto'
-//      var list = document.getElementById('listContainer')
-//      list.addEventListener('scroll', (e) => {
-//        console.log('=====' + list.scrollTop)
-//        e.preventDefault()
-//        e.stopPropagation()
-//        return false
-//      })
     }
   }
 </script>

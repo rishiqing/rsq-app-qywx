@@ -59,14 +59,14 @@ export default {
   todo: {
     // 当前的todoItem，可能是收纳箱中的，也可能是日程中的
     currentTodo: {
-      subTodos: [],
+      subtodos: [],
       comments: []
     },
     //  当点击子任务进入子任务编辑状态时，该字段用来存储当前的子任务
     currentSubtodo: null,
     //  用于处理重复的任务修改时，需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
     currentTodoRepeat: {},
-    //  重复相关的字段是否修改过，目前的条件是如果title/note/subTodos修改过，认为修改过
+    //  重复相关的字段是否修改过，目前的条件是如果title/note/subtodos修改过，认为修改过
     isRepeatFieldEdit: false
   },
   /**
@@ -119,11 +119,11 @@ export default {
   replyName: null,
   record: [],
   userList: [],
-  memeberList: [],
+  memberList: [],
   selectedMember: [],
-  planlist: [],
+  planList: [],
   currentPlan: '',
-  childPlanlist: [],
+  childPlanList: [],
   cardList: [],
   kanbanCardId: '',
   currentSubPlan: '',

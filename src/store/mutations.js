@@ -119,7 +119,7 @@ export default {
    * @constructor
    */
   CHILDTASK_TODO_CREATED (state, p) {
-    state.todo.currentTodo.subTodos.push(p.item)
+    state.todo.currentTodo.subtodos.push(p.item)
   },
   INB_TODO_CREATED (state, p) {
     if (!state.inbox.items) {
@@ -231,7 +231,7 @@ export default {
       pNote: i.pNote || null,
       oldPTitle: i.pTitle,
       oldPNote: i.pNote || null,
-      oldSubTodos: JSON.parse(JSON.stringify(i.subTodos || [])),
+      oldSubtodos: JSON.parse(JSON.stringify(i.subtodos || [])),
       createTaskDate: 'not set',
       type: 'not set'
     }
@@ -283,10 +283,10 @@ export default {
     // console.log('state.todo.currentTodo之后是' + JSON.stringify(state.todo.currentTodo))
   },
   TD_SUBTODO_UPDATED (state, p) {
-    let items = state.todo.currentTodo.subTodos
+    let items = state.todo.currentTodo.subtodos
     for (var i = 0; i < items.length; i++) {
       if (items[i].id === p.item.id) {
-        util.extendObject(items[i], p.subTodo)
+        util.extendObject(items[i], p.subtodo)
         break
       }
     }
@@ -315,7 +315,7 @@ export default {
     }
   },
   TD_SUBTODO_DELETE  (state, p) {
-    let items = state.todo.currentTodo.subTodos
+    let items = state.todo.currentTodo.subtodos
     for (var i = 0; i < items.length; i++) {
       if (items[i].id === p.item.id) {
         items.splice(i, 1)
@@ -414,54 +414,54 @@ export default {
     state.memberList = p
   },
   SAVE_PLANS (state, p) {
-    state.planlist = p
+    state.planList = p
   },
   SET_CURRENT_PLAN (state, p) {
     state.currentPlan = p
   },
   SAVE_CHILD_PLAN (state, p) {
-    state.childPlanlist = p
+    state.childPlanList = p
   },
   SAVE_CARD (state, p) {
     state.cardList = p
   },
   ADD_SUB_PLAN (state, p) {
-    state.childPlanlist.push(p)
+    state.childPlanList.push(p)
   },
   ADD_CARD (state, p) {
     state.cardList.push(p)
   },
   DELETE_CHILD_PLAN (state, p) {
-    // alert(JSON.stringify(state.childPlanlist))
-    // alert(state.childPlanlist.indexOf(p))
-    state.childPlanlist.splice(state.childPlanlist.indexOf(p), 1)
-    // alert(JSON.stringify(state.childPlanlist))
+    // alert(JSON.stringify(state.childPlanList))
+    // alert(state.childPlanList.indexOf(p))
+    state.childPlanList.splice(state.childPlanList.indexOf(p), 1)
+    // alert(JSON.stringify(state.childPlanList))
   },
   UPDATE_SUBPLAN_NAME (state, p) {
-    for (var i = 0; i < state.childPlanlist.length; i++) {
-      if (state.childPlanlist[i].id === p.id) {
-        state.childPlanlist[i].name = p.name
+    for (var i = 0; i < state.childPlanList.length; i++) {
+      if (state.childPlanList[i].id === p.id) {
+        state.childPlanList[i].name = p.name
       }
     }
   }, // 其实直接更改当前的item不就行了，有必要去列表里面去找吗
   CANCEL_STAR (state, p) {
-    for (var i = 0; i < state.planlist.length; i++) {
-      if (state.planlist[i].id === p.kanbanId) {
-        state.planlist[i].starMark = false
+    for (var i = 0; i < state.planList.length; i++) {
+      if (state.planList[i].id === p.kanbanId) {
+        state.planList[i].starMark = false
       }
     }
   },
   SAVE_STAR (state, p) {
-    for (var i = 0; i < state.planlist.length; i++) {
-      if (state.planlist[i].id === p.kanbanId) {
-        state.planlist[i].starMark = true
+    for (var i = 0; i < state.planList.length; i++) {
+      if (state.planList[i].id === p.kanbanId) {
+        state.planList[i].starMark = true
       }
     }
   },
   DELETE_PLAN (state, p) {
-    for (var i = 0; i < state.planlist.length; i++) {
-      if (state.planlist[i].id === p.id) {
-        state.planlist.splice(i, 1)
+    for (var i = 0; i < state.planList.length; i++) {
+      if (state.planList[i].id === p.id) {
+        state.planList.splice(i, 1)
       }
     }
   },

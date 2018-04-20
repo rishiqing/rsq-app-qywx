@@ -1,6 +1,8 @@
 <template>
   <div class="check-failure">
-    <img src="../../assets/img/deleted1.png" alt="" class="deletedSche">
+    <img
+      class="deletedSche"
+      src="../../assets/img/deleted1.png">
     <p class="deleted">该日程已被删除</p>
     <v-touch @tap="returnTo">
       <div class="returnTo">返回首页</div>

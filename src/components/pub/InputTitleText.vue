@@ -1,31 +1,29 @@
 <template>
   <div class="">
-    <div class="edit" >
-        <!--<textarea type="text"-->
-                  <!--class="edit-text"-->
-                  <!--v-if="isEdit"-->
-               <!--ref="titleInput"-->
-               <!--:value="itemTitle"-->
-                  <!--@blur="inputBlur($event.target.value)"-->
-               <!--@input="inputChange($event.target.value)"-->
-                  <!--:class="{'padding-left-input':isCheckable}"-->
-                  <!--@focus="IsDisabled($event)"></textarea>-->
-      <v-touch class="wrap-icon"
-               v-if="isCheckable"
-               @tap="clickCheckOut">
-        <i class="icon2-check-box select-title"
-           :class="{'icon-check_box_outline_blank': !itemChecked, 'icon-check': itemChecked}"></i>
-        <div class="hide" :class="{'for-hide-title':itemChecked}"></div>
-        <i class="icon2-selected hide" :class="{'isdisplay-title':itemChecked}"></i>
+    <div class="edit">
+      <v-touch
+        v-if="isCheckable"
+        class="wrap-icon"
+        @tap="clickCheckOut">
+        <i
+          :class="{'icon-check_box_outline_blank': !itemChecked, 'icon-check': itemChecked}"
+          class="icon2-check-box select-title"/>
+        <div
+          :class="{'for-hide-title':itemChecked}"
+          class="hide" />
+        <i
+          :class="{'isdisplay-title':itemChecked}"
+          class="icon2-selected hide"/>
       </v-touch>
-      <input type="text" placeholder="输入任务标题"
-              ref="titleInput"
-              :value="itemTitle"
-              @input="inputChange($event.target.value)"
-              @blur="inputBlur($event.target.value)"
-              :class="{'padding-left-input':isCheckable,'real-width':isMaxlength(itemTitle),'new-padding-left':newCheckable,'inbox-padding-left':!isCheckable,'edit-border':isEdit,'edit-text-font':isEdit,'new-text-font':newCheckable}"
-              @focus="IsDisabled($event)"/>
-        <!--@blur="inputBlur($event.target.value)"-->
+      <input
+        ref="titleInput"
+        :value="itemTitle"
+        :class="{'padding-left-input':isCheckable,'real-width':isMaxlength(itemTitle),'new-padding-left':newCheckable,'inbox-padding-left':!isCheckable,'edit-border':isEdit,'edit-text-font':isEdit,'new-text-font':newCheckable}"
+        type="text"
+        placeholder="输入任务标题"
+        @input="inputChange($event.target.value)"
+        @blur="inputBlur($event.target.value)"
+        @focus="isDisabled($event)">
     </div>
   </div>
 </template>
@@ -130,27 +128,37 @@
 </style>
 <script>
   export default {
+    props: {
+      newCheckable: {
+        type: Boolean,
+        default: true
+      },
+      isCheckable: {
+        type: Boolean,
+        default: false
+      },
+      itemTitle: {
+        type: Boolean,
+        required: true
+      },
+      itemChecked: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      isEdit: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
       }
     },
-    computed: {
-      paddingObject () {
-        if (!this.isCheckable) {
-          return {'padding-left': '0'}
-        } else {
-          return {}
-        }
-      }
-    },
-    props: {
-      newCheckable: Boolean,
-      isCheckable: Boolean,
-      itemTitle: String,
-      itemChecked: Boolean,
-      disabled: Boolean,
-      isEdit: Boolean
-    },
+    computed: {},
     methods: {
       onPanMove () {
       },
@@ -158,11 +166,10 @@
         title = title || ''
         return title.length > 15
       },
-      IsDisabled (e) {
+      isDisabled (e) {
         if (this.disabled) {
           e.target.blur()
           window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
-          return
         }
       },
       inputBlur (value) {
@@ -179,8 +186,5 @@
         this.$emit('click-checkout', !this.itemChecked)
       }
     }
-//    beforeRouteLeave (to, from, next) {
-//      this.$emit('text-blur', this.content)
-//    }
   }
 </script>

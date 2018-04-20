@@ -6,7 +6,7 @@
     <span class="selectAll">全选</span>
   </label>
   <ul>
-    <li v-for="item in memeberList" class="listMember">
+    <li v-for="item in memberList" class="listMember">
       <v-touch class="wrap-member">
         <label class="demo--label">
           <input type="checkbox" class="demo--radio" ref="radioInput"  @change="compute($event, item)">
@@ -34,7 +34,7 @@
       'avatar': Avatar
     },
     computed: {
-      memeberList () {
+      memberList () {
         return this.$store.state.memberList
       },
       selectedMember () {

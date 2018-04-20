@@ -1,25 +1,50 @@
 <template>
-  <div class="bot" style="position: fixed;bottom: 0;left: 0;right: 0;">
-      <div class="left">
-        <v-touch class="left-sche" @tap="reload('/sche')" :class="{'is-active': '/sche' == currentPath}">
-          <span><i class="icon2-schedule richeng" :class="{'is-active': '/sche' == currentPath}"></i></span>
-          <p class="sche " :class="{'is-active': '/sche' == currentPath}">日程</p>
-        </v-touch>
-      </div>
-      <div class="mid">
-        <v-touch class="" @tap="createNew">
-          <i class="icon2-add-circle add" ></i>
-        </v-touch>
-      </div>
-      <div class="right">
-        <v-touch class="right-me" @tap="reload('/plan/PlanList')" :class="{'is-active': '/plan/PlanList' == currentPath}">
-          <img src="../assets/img/Group18.png" alt="" class="plan-icon"   v-show="'/plan/PlanList' == currentPath">
-          <img src="../assets/img/Group18Copy.png" alt="" class="plan-icon" v-show="'/plan/PlanList' !== currentPath">
-          <!--<i class="icon2-member me" :class="{'is-active': '/plan/PlanList' == currentPath}"></i>-->
-          <p class="my" :class="{'is-active': '/plan/PlanList' == currentPath}">计划</p>
-        </v-touch>
-      </div>
+  <div
+    class="bot"
+    style="position: fixed;bottom: 0;left: 0;right: 0;">
+    <div class="left">
+      <v-touch
+        :class="{'is-active': '/sche' == currentPath}"
+        class="left-sche"
+        @tap="reload('/sche')">
+        <span>
+          <i
+            :class="{'is-active': '/sche' == currentPath}"
+            class="icon2-schedule richeng"/>
+        </span>
+        <p
+          :class="{'is-active': '/sche' == currentPath}"
+          class="sche">
+          日程
+        </p>
+      </v-touch>
     </div>
+    <div class="mid">
+      <v-touch @tap="createNew">
+        <i class="icon2-add-circle add"/>
+      </v-touch>
+    </div>
+    <div class="right">
+      <v-touch
+        :class="{'is-active': '/plan/list' == currentPath}"
+        class="right-me"
+        @tap="reload('/plan/list')">
+        <img
+          v-show="'/plan/list' === currentPath"
+          src="../assets/img/Group18.png"
+          class="plan-icon">
+        <img
+          v-show="'/plan/list' !== currentPath"
+          src="../assets/img/Group18Copy.png"
+          class="plan-icon">
+        <p
+          :class="{'is-active': '/plan/list' == currentPath}"
+          class="my">
+          计划
+        </p>
+      </v-touch>
+    </div>
+  </div>
 </template>
 <script>
   import def from 'ut/defaultUtil'
@@ -51,7 +76,7 @@
 //          return window.rsqadmg.exec('toast', {message: '过去的日期不能创建日程'})
         }
         if (this.currentPath === '/plan/PlanList') {
-          this.$router.push('/plan/Main')
+          this.$router.push('/plan/create')
         } else {
           this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
           this.$router.push('/todo/new/schedule')

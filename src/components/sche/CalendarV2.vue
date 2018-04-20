@@ -1,35 +1,40 @@
 <template>
-  <v-touch class="c-cal-main"
-           :class="{'animate': transDirection === 'v'}"
-           :style="{'height': (topBase + titleHeight + calHeight) + 'px'}"
-           @panstart="onPanMove"
-           @panmove="onPanMove"
-           @panend="onPanEnd"
-           @pancancel="onPanEnd"
-           :pan-options="{ direction: 'all', threshold: 10 }">
-    <!--<div class="cal-title z-index-m">-->
-      <!--<span>{{currentView.focusDate ? months[currentView.focusDate.getMonth()] : ''}}月</span>-->
-      <!--<span>{{currentView.focusDate ? currentView.focusDate.getFullYear() : ''}}</span>-->
-      <!--<v-touch tag="span" class="cal-title-today"-->
-      <!--@tap="backToToday"-->
-      <!--v-show="!isToday">今</v-touch>-->
-    <!--</div>-->
-    <div class="cal-week-title z-index-2xs" :style="{height: titleHeight + 'px', top: topBase + 'px'}">
+  <v-touch
+    :class="{'animate': transDirection === 'v'}"
+    :style="{'height': (topBase + titleHeight + calHeight) + 'px'}"
+    :pan-options="{ direction: 'all', threshold: 10 }"
+    class="c-cal-main"
+    @panstart="onPanMove"
+    @panmove="onPanMove"
+    @panend="onPanEnd"
+    @pancancel="onPanEnd">
+    <div
+      :style="{height: titleHeight + 'px', top: topBase + 'px'}"
+      class="cal-week-title z-index-2xs">
       <table>
         <tr>
-          <td class="cal-weekday" v-for="week in weeks">{{week}}</td>
+          <td
+            v-for="week in weeks"
+            :key="week"
+            class="cal-weekday">{{ week }}
+          </td>
         </tr>
       </table>
     </div>
-    <div class="cal-content z-index-3xs"
-         :style="{height: calHeight + 'px', top: (topBase + titleHeight) + 'px'}"
-         :class="{'animate': transDirection === 'v'}">
-      <div class="cal-outer cal-outer-pane" id="vPaneWrapper"
-           :style="{'transform': 'translateY(' + translateY + 'px)'}"
-           :class="{'animate': transDirection === 'v'}">
-        <div class="cal-inner cal-inner-pane" id="hMovePane"
-             :style="{'transform': 'translateX(' + paneView.translateX + ')', height: paneView.height + 'px', top: '0px'}"
-             :class="{'animate': transDirection === 'h' }">
+    <div
+      :style="{height: calHeight + 'px', top: (topBase + titleHeight) + 'px'}"
+      :class="{'animate': transDirection === 'v'}"
+      class="cal-content z-index-3xs">
+      <div
+        id="vPaneWrapper"
+        :style="{'transform': 'translateY(' + translateY + 'px)'}"
+        :class="{'animate': transDirection === 'v'}"
+        class="cal-outer cal-outer-pane" >
+        <div
+          id="hMovePane"
+          :style="{'transform': 'translateX(' + paneView.translateX + ')', height: paneView.height + 'px', top: '0px'}"
+          :class="{'animate': transDirection === 'h' }"
+          class="cal-inner cal-inner-pane" >
           <r-cal-pane
             v-for="(dates, index) in paneView.daysArray"
             :key="index"
@@ -37,14 +42,19 @@
             :pane-index="index"
             :highlight-day="selectDate"
             :today-value="todayValue"
-            @click-cal-pane-day="triggerSelectDate"
-          ></r-cal-pane>
+            @click-cal-pane-day="triggerSelectDate"/>
         </div>
       </div>
-      <div class="cal-outer cal-outer-bar" id="vBarWrapper" style="transform: translateY(0px);">
-        <div class="cal-inner cal-inner-bar" id="hMoveBar" v-show="isShowBar"
-             :style="{transform: 'translateX(' + barView.translateX + ')', height: barView.height + 'px', top: '0px'}"
-             :class="{animate: transDirection === 'h' }">
+      <div
+        id="vBarWrapper"
+        class="cal-outer cal-outer-bar"
+        style="transform: translateY(0px);">
+        <div
+          v-show="isShowBar"
+          id="hMoveBar"
+          :style="{transform: 'translateX(' + barView.translateX + ')', height: barView.height + 'px', top: '0px'}"
+          :class="{animate: transDirection === 'h' }"
+          class="cal-inner cal-inner-bar">
           <r-cal-bar
             v-for="(days, index) in barView.daysArray"
             :key="index"
@@ -52,8 +62,7 @@
             :bar-index="index"
             :highlight-day="selectDate"
             :today-value="todayValue"
-            @click-cal-bar-day="triggerSelectDate"
-          ></r-cal-bar>
+            @click-cal-bar-day="triggerSelectDate"/>
         </div>
       </div>
     </div>
@@ -63,9 +72,22 @@
   import CalendarBar from 'com/sche/CalendarBarV2'
   import CalendarPane from 'com/sche/CalendarPaneV2'
   import dateUtil from 'ut/dateUtil'
-
   export default {
     name: 'Calendar',
+    components: {
+      'r-cal-bar': CalendarBar,
+      'r-cal-pane': CalendarPane
+    },
+    props: {
+      defaultSelectDate: {
+        type: Date,
+        required: true
+      },
+      showHasTodoTag: {
+        type: Boolean,
+        default: true
+      }
+    },
     data () {
       return {
         selectDate: null,  //  当前选中（高亮显示）的日期
@@ -97,13 +119,6 @@
         calHeight: 0,
         weeks: ['日', '一', '二', '三', '四', '五', '六'],
         months: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二']
-      }
-    },
-    props: {
-      defaultSelectDate: Date,
-      showHasTodoTag: {
-        type: Boolean,
-        default: true
       }
     },
     computed: {
@@ -162,9 +177,35 @@
         return this.currentView.type === 'bar'
       }
     },
-    components: {
-      'r-cal-bar': CalendarBar,
-      'r-cal-pane': CalendarPane
+    mounted () {
+      //  初始化工作
+      this.resetAllViews({focusDate: this.defaultSelectDate})
+      this.barView.targetY = -this.marginY
+      this.paneView.targetY = 0
+      this.currentView = this.barView
+      this.isShowBar = true
+      this.calHeight = this.currentView.height
+      this.translateY = this.currentView.targetY
+      this.$emit('cal-ready', {type: this.currentView.type, daysArray: this.currentView.daysArray})
+      this.triggerSelectDate(this.defaultSelectDate)
+
+      this.$emit('after-cal-ready', {type: this.currentView.type, daysArray: this.currentView.daysArray})
+
+      //  给周视图加动画结束的方法
+      var ele1 = document.getElementById('hMoveBar')
+      ele1.addEventListener('transitionend', this.resetAllAndEmitEvent)
+      ele1.addEventListener('webkitTransitionEnd', this.resetAllAndEmitEvent)
+
+      //  给月视图加动画结束的方法
+      var ele2 = document.getElementById('hMovePane')
+      ele2.addEventListener('transitionend', this.resetAllAndEmitEvent)
+      ele2.addEventListener('webkitTransitionEnd', this.resetAllAndEmitEvent)
+
+      //  给垂直移动加动画结束的方法
+      //  WARN 注意！！ele1和ele2触发transition结束时也会触发ele3的监听方法
+      var ele3 = document.getElementById('vPaneWrapper')
+      ele3.addEventListener('transitionend', this.resetViewType)
+      ele3.addEventListener('webkitTransitionEnd', this.resetViewType)
     },
     methods: {
       triggerSelectDate (date) {
@@ -332,36 +373,6 @@
           this.$emit('after-cal-switch', {type: this.currentView.type, daysArray: this.currentView.daysArray})
         }
       }
-    },
-    mounted () {
-      //  初始化工作
-      this.resetAllViews({focusDate: this.defaultSelectDate})
-      this.barView.targetY = -this.marginY
-      this.paneView.targetY = 0
-      this.currentView = this.barView
-      this.isShowBar = true
-      this.calHeight = this.currentView.height
-      this.translateY = this.currentView.targetY
-      this.$emit('cal-ready', {type: this.currentView.type, daysArray: this.currentView.daysArray})
-      this.triggerSelectDate(this.defaultSelectDate)
-
-      this.$emit('after-cal-ready', {type: this.currentView.type, daysArray: this.currentView.daysArray})
-
-      //  给周视图加动画结束的方法
-      var ele1 = document.getElementById('hMoveBar')
-      ele1.addEventListener('transitionend', this.resetAllAndEmitEvent)
-      ele1.addEventListener('webkitTransitionEnd', this.resetAllAndEmitEvent)
-
-      //  给月视图加动画结束的方法
-      var ele2 = document.getElementById('hMovePane')
-      ele2.addEventListener('transitionend', this.resetAllAndEmitEvent)
-      ele2.addEventListener('webkitTransitionEnd', this.resetAllAndEmitEvent)
-
-      //  给垂直移动加动画结束的方法
-      //  WARN 注意！！ele1和ele2触发transition结束时也会触发ele3的监听方法
-      var ele3 = document.getElementById('vPaneWrapper')
-      ele3.addEventListener('transitionend', this.resetViewType)
-      ele3.addEventListener('webkitTransitionEnd', this.resetViewType)
     }
   }
 </script>

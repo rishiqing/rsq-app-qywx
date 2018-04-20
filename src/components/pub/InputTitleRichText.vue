@@ -2,14 +2,24 @@
   <!--富文本编辑的标题-->
   <div class="itm-edt-fields">
     <div class="edit-wrap" >
-      <v-touch class="wrap-icon"
-               @tap="clickCheckOut">
-        <i class="icon2-check-box select-title"
-           :class="{'icon-check_box_outline_blank': !itemChecked, 'icon-check': itemChecked}"></i>
-        <div class="hide" :class="{'for-hide-title':itemChecked}"></div>
-        <i class="icon2-selected hide" :class="{'isdisplay-title':itemChecked}"></i>
+      <v-touch
+        class="wrap-icon"
+        @tap="clickCheckOut">
+        <i
+          :class="{'icon-check_box_outline_blank': !itemChecked, 'icon-check': itemChecked}"
+          class="icon2-check-box select-title"/>
+        <div
+          :class="{'for-hide-title':itemChecked}"
+          class="hide"/>
+        <i
+          :class="{'isdisplay-title':itemChecked}"
+          class="icon2-selected hide" />
       </v-touch>
-      <div ref="textEditor" contenteditable="true" class="rich-title" @input="inputChange">{{itemTitle}}</div>
+      <div
+        ref="textEditor"
+        contenteditable="true"
+        class="rich-title"
+        @input="inputChange">{{ itemTitle }}</div>
     </div>
   </div>
 </template>
@@ -62,16 +72,25 @@
 </style>
 <script>
   export default {
+    props: {
+      itemTitle: {
+        type: String,
+        required: true
+      },
+      itemChecked: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      }
+    },
     data () {
       return {
       }
     },
     computed: {},
-    props: {
-      itemTitle: String,
-      itemChecked: Boolean,
-      disabled: Boolean
-    },
     methods: {
       clickCheckOut () {
         if (this.disabled) {

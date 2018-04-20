@@ -8,7 +8,7 @@ import Sche from 'com/sche/Main'
 import Inbox from 'com/inbox/Main'
 import TodoNew from 'com/sche/TodoNew'
 import TodoEdit from 'com/sche/TodoEdit'
-import TodoEditSubTodo from 'com/pub/TodoEditSubTodo'
+import TodoEditSubtodo from 'com/pub/TodoEditSubtodo'
 import TodoEditTime from 'com/pub/TodoEditTime'
 import TodoEditAlert from 'com/pub/TodoEditAlert'
 import TodoEditDate from 'com/pub/TodoEditDate'
@@ -17,7 +17,7 @@ import Me from 'com/me/Main'
 import Kefu from 'com/me/Kefu'
 import Note from 'com/pub/Note'
 import Explain from 'com/pub/Explain'
-import SubTodoList from 'com/pub/SubTodoList'
+import SubtodoList from 'com/pub/SubtodoList'
 // import NoPermission from 'com/pub/NoPermission'
 import CheckFailure from 'com/pub/CheckFailure'
 import PcEnd from 'com/me/PcEnd'
@@ -25,7 +25,7 @@ import PlanList from 'com/plan/PlanList'
 import PlanNameEdit from 'com/plan/PlanNameEdit'
 import PlanNew from 'com/plan/PlanNew'
 import ChildPlan from 'com/plan/ChildPlan'
-import PlanSettings from 'com/plan/PlanSettings'
+import PlanSetting from 'com/plan/PlanSetting'
 
 Vue.use(Router)
 
@@ -86,56 +86,56 @@ const router = new Router({
     },
     //  todo的子任务列表页面
     {
-      path: '/todo/:todoId/subTodo',
-      name: 'subTodoList',
-      component: SubTodoList,
+      path: '/todo/:todoId/subtodo',
+      name: 'subtodoList',
+      component: SubtodoList,
       meta: {requireAuth: true}
     },
     //  todo的子任务的详情页面
     {
       path: '/todo/:todoId/subtodo/:subtodoId',
-      name: 'todoEditSubTodo',
-      component: TodoEditSubTodo,
+      name: 'todoEditSubtodo',
+      component: TodoEditSubtodo,
       meta: {requireAuth: true}
     },
-    //  todo的时间编辑页面
+    //  todo的日期页面，用于新增或者编辑日程时候的日期设置
     {
-      path: '/todoEdit/time',
-      name: 'todoEditTime',
-      component: TodoEditTime,
-      meta: {requireAuth: false}
-    },
-    //  todo的时间提醒编辑页面
-    {
-      path: '/todoEdit/alert',
-      name: 'todoEditAlert',
-      component: TodoEditAlert,
-      meta: {requireAuth: false}
-    },
-    //  todo的日期页面
-    {
-      path: '/todoEdit/date',
+      path: '/todo/date',
       name: 'todoEditDate',
       component: TodoEditDate,
       meta: {requireAuth: false}
     },
-    //  todo的日期重复页面
+    //  todo的日期重复页面，用于新增或者编辑日程时候的日期重复设置
     {
-      path: '/todoEdit/repeat',
+      path: '/todo/repeat',
       name: 'todoEditRepeat',
       component: TodoEditRepeat,
       meta: {requireAuth: false}
     },
+    //  todo的时间编辑页面，用于新增或者编辑日程时候的时间设置
+    {
+      path: '/todo/time',
+      name: 'todoEditTime',
+      component: TodoEditTime,
+      meta: {requireAuth: false}
+    },
+    //  todo的时间提醒编辑页面，用于新增或者编辑日程时候的时间提醒设置
+    {
+      path: '/todo/alert',
+      name: 'todoEditAlert',
+      component: TodoEditAlert,
+      meta: {requireAuth: false}
+    },
     //  日程评论页面
     {
-      path: '/pub/coment',
+      path: '/todo/comment',
       name: 'comment',
       component: Comment,
       meta: {requireAuth: true}
     },
     //  日程备注页面
     {
-      path: '/pub/note',
+      path: '/todo/note',
       name: 'note',
       component: Note,
       meta: {requireAuth: true}
@@ -145,35 +145,35 @@ const router = new Router({
     //  --------计划页面--------
     //  新建plan的页面
     {
-      path: '/plan/Main',
+      path: '/plan/create',
       name: 'planNew',
       component: PlanNew,
       meta: {requireAuth: true}
     },
     //  plan列表页面
     {
-      path: '/plan/PlanList',
+      path: '/plan/list',
       name: 'PlanList',
       component: PlanList,
       meta: {requireAuth: true}
     },
     //  计划详情页面
     {
-      path: '/plan/childPlan',
+      path: '/plan/:planId/child-plan',
       name: 'childPlan',
       component: ChildPlan,
       meta: {requireAuth: true}
     },
     //  计划设置页面
     {
-      path: '/plan/setPlan',
-      name: 'planSettings',
-      component: PlanSettings,
+      path: '/plan/:planId/plan-setting',
+      name: 'planSetting',
+      component: PlanSetting,
       meta: {requireAuth: true}
     },
     //  编辑plan名称的页面
     {
-      path: '/plan/:planId/editName',
+      path: '/plan/:planId/edit-name',
       name: 'planNameEdit',
       component: PlanNameEdit,
       meta: {requireAuth: true}
@@ -197,8 +197,8 @@ const router = new Router({
     },
     //  无权查看的跳转页面
     {
-      path: '/pub/CheckFailure',
-      name: 'CheckFailure',
+      path: '/pub/check-failure',
+      name: 'checkFailure',
       component: CheckFailure,
       meta: {requireAuth: true}
     },

@@ -1,18 +1,19 @@
 <template>
   <div class="delete">
     <div class="slider">
-      <div class="content"
-           @touchstart='touchStart'
-           @touchmove='touchMove'
-           @touchend='touchEnd'
-           :style="deleteSlider"
-      >
-        <!-- 插槽中放具体项目中需要内容         -->
-        <slot></slot>
+      <div
+        :style="deleteSlider"
+        class="content"
+        @touchstart="touchStart"
+        @touchmove="touchMove"
+        @touchend="touchEnd">
+        <slot />
         <v-touch @tap="deleteItem()">
-        <div class="remove" ref='remove'>
+          <div
+            ref="remove"
+            class="remove">
             <span>删除</span>
-        </div>
+          </div>
         </v-touch>
       </div>
     </div>
@@ -56,7 +57,7 @@
   }
 
 </style>
-<script type="text/ecmascript-6">
+<script type="text/javascript">
   export default {
     data () {
       return {

@@ -48,11 +48,11 @@
                       </div>
                       <span class="label-name" :class="{'if-has-margin': (kanbanItem.subItems !== null || finalDate(kanbanItem) !== null)}">{{label(kanbanItem)}}</span>
                     </div>
-                      <taskMember
+                      <r-task-member
                        :item="kanbanItem"
                       >
 
-                      </taskMember>
+                      </r-task-member>
                       <!--<avatar v-for="item in selectedItems(kanbanItem.joinUserIds)"-->
                               <!--:key="item.rsqUserId"-->
                               <!--:src="item.avatar"-->
@@ -114,7 +114,7 @@
   </div>
 </template>
 <script>
-  import taskMember from 'com/plan/taskMember'
+  import TaskMember from 'com/plan/TaskMember'
   import def from 'ut/defaultUtil'
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
@@ -133,7 +133,7 @@
     },
     components: {
       'avatar': Avatar,
-      'taskMember': taskMember
+      'r-task-member': TaskMember
     },
     computed: {
       currentPlan () {

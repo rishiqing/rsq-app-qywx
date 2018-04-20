@@ -24,7 +24,7 @@ export default {
   'GET_TODO': 'task/v2/todo/:id',
   'GET_SCHEDULE_TODOS': 'task/v2/todo/getPeriodTodos',
   'POST_DATES_HAS_TODO': 'task/v2/todo/getDatesHasTodo',
-  'POST_DESP': 'task/v2/todo/:id',
+  'POST_NOTE': 'task/v2/todo/:id',
   'GET_STAFF_LIST': 'task/rsqCommonUser/getAllCompanyUserList',
   'GET_TODO_TITLE': 'task/rsqTodoTitle/getAllTodoTitleList',
   'POST_TODO_COMMENT': 'task/v2/todoComment',

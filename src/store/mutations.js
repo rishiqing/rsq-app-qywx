@@ -397,8 +397,8 @@ export default {
   PUB_TODO_DATE_DELETE (state, p) {
     state.pub.currentTodoDate = null
   },
-  TD_DESP_CREATED (state, p) {
-    state.todo.currentTodo.pNote = p.desp.pNote
+  TD_NOTE_CREATED (state, p) {
+    state.todo.currentTodo.pNote = p.note.pNote
   },
   REPLY_COMMENT_CREATED (state, p) {
     state.replyId = p.item.authorId

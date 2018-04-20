@@ -11,7 +11,7 @@
       @ready-to-upload="isUploading"
       @finish-upload="finishUpload"
     ></r-upload>
-    <v-touch @tap="comentBlur(content)" class="sendComment">
+    <v-touch @tap="commentBlur(content)" class="sendComment">
       <a href="javascript:;" class="weui-btn weui-btn_primary">发送</a>
     </v-touch>
   </div>
@@ -75,7 +75,7 @@
 <script>
   import Upload from 'com/pub/Upload'
   export default {
-    name: 'coment',
+    name: 'comment',
     props: {
     },
     data () {
@@ -107,7 +107,7 @@
           }
         }
       },
-      comentBlur (newTitle) {
+      commentBlur (newTitle) {
         if (!newTitle && this.fileId.length === 0) {
           return window.rsqadmg.execute('alert', {message: '任务评论不能为空'})
         }

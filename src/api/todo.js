@@ -192,8 +192,8 @@ export default {
         })
     })
   },
-  postdesp (props) {
-    var path = util.replaceUrlParams(mapping.POST_DESP, props)
+  postNote (props) {
+    var path = util.replaceUrlParams(mapping.POST_NOTE, props)
     return new Promise((resolve, reject) => {
       Vue.http.put(path, props)
         .then(res => {
@@ -516,7 +516,7 @@ export default {
         })
     })
   },
-  postKanbanItemDesp (props) {
+  postKanbanItemNote (props) {
     var path = util.replaceUrlParams(mapping.DELETE_KANBAN_ITEM, props)
     return new Promise((resolve, reject) => {
       Vue.http.put(path, props)

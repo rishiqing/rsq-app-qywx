@@ -4,21 +4,21 @@
       <div :class="{'isDisplay': !more}" class="operation">收起操作记录</div>
       <div :class="{'isDisplay': more}" class="operation">显示操作记录</div>
     </v-touch>
-    <r-record-coment
+    <r-record-comment
       v-for="item in recordItems"
       :disabled="disabled"
       :item="item"
       :key="item.id"
       :more="more"
-    ></r-record-coment>
-    <r-todo-coment
+    ></r-record-comment>
+    <r-todo-comment
       v-for="item in commentItems"
       :disabled="disabled"
       :item="item"
       :key="item.id"
       @comment-file-touch="showAction"
-    ></r-todo-coment>
-    <div v-if="comentCount" class="noComent">
+    ></r-todo-comment>
+    <div v-if="commentCount" class="noComent">
       <img src="../../assets/img/nocoment.png" alt="">
       <p class="noComentContent">暂无评论</p>
     </div>
@@ -65,15 +65,15 @@
 </style>
 <script>
   import Previewer from 'com/pub/Previewer'
-  import ComentItem from 'com/pub/ComentItem'
-  import comentRecord from 'com/pub/comentRecord'
+  import CommentItem from 'com/pub/CommentItem'
+  import CommentRecord from 'com/pub/CommentRecord'
   export default {
     data () {
       return {
         more: false
       }
     },
-    name: 'ComentList',
+    name: 'commentList',
     props: {
       disabled: Boolean,
       items: Array,
@@ -81,8 +81,8 @@
       id: Number
     },
     components: {
-      'r-todo-coment': ComentItem,
-      'r-record-coment': comentRecord
+      'r-todo-comment': CommentItem,
+      'r-record-comment': CommentRecord
     },
     computed: {
       recordItems () {
@@ -98,7 +98,7 @@
           return i.type === 0
         })
       },
-      comentCount () {
+      commentCount () {
         if (this.items === undefined) {
           return
         } else {

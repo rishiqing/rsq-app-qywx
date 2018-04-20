@@ -15,7 +15,7 @@
               @click-checkout="finishChecked"
             ></r-input-title>
           </div>
-          <v-touch @tap="SwitchToDesp">
+          <v-touch @tap="switchToNote">
             <div id="noteEditable" contenteditable="true" class="desp editor-style"
                  name="note" rows="5"
                  :class="{'remindColor':hasDecrip(),'contentColor':!hasDecrip(),'inbox-padding':isInbox,'sche-padding':!isInbox}"
@@ -75,7 +75,7 @@
               <a  @click="prepareDelete($event)" href="javascript:;" class="weui-btn weui-btn_primary" style="font-size: 20px">删除任务</a>
             </v-touch>
             <div class="bottom">
-              <v-touch @tap="SwitchToComent">
+              <v-touch @tap="switchToComment">
                 <input type="text" class="bot" placeholder="输入讨论内容或发送文件" onfocus="this.blur();">
               </v-touch>
             </div>
@@ -257,7 +257,7 @@
   import SendConversation from 'com/demo/SendConversation'
   import util from 'ut/jsUtil'
   import dateUtil from 'ut/dateUtil'
-  import ComentList from 'com/pub/ComentList'
+  import CommentList from 'com/pub/CommentList'
 //  import bus from 'com/bus'
   export default {
     data () {
@@ -327,7 +327,7 @@
       'r-input-member': InputMember,
       'r-input-sub-todo': InputSubTodo,
 //      'r-input-note': InputNoteText,
-      'r-comment-list': ComentList,
+      'r-comment-list': CommentList,
       'r-send-conversation': SendConversation
     },
     methods: {
@@ -393,19 +393,19 @@
             })
           })
       },
-      SwitchToComent () {
+      switchToComment () {
         if (!this.checkEdit()) {
           window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
           return
         }
         this.$router.push('/pub/coment')
       },
-      SwitchToDesp () {
+      switchToNote () {
         if (!this.checkEdit()) {
           window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
           return
         }
-        this.$router.push('/pub/desp')
+        this.$router.push('/pub/note')
       },
       saveTitle (newTitle) {
         if (!newTitle) {

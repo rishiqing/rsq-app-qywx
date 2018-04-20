@@ -1,5 +1,5 @@
 <template>
-  <sliderDelete
+  <r-slider-delete
    @deleteItem="deleteItem"
   >
     <li class="todoItem">
@@ -18,7 +18,7 @@
         <i class="icon2-selected hide" :class="{'isdisplay':item.pIsDone}"></i>
       </v-touch>
     </li>
-  </sliderDelete>
+  </r-slider-delete>
 </template>
 <style lang="scss" scoped>
   .isfrom{
@@ -135,7 +135,7 @@
 </style>
 <script>
   import dateUtil from 'ut/dateUtil'
-  import sliderDelete from 'com/pub/sliderDelete'
+  import SliderDelete from 'com/pub/SliderDelete'
 //  import bus from 'com/bus'
   export default {
     name: 'TodoItem',
@@ -147,7 +147,7 @@
       isCheckable: Boolean
     },
     components: {
-      'sliderDelete': sliderDelete
+      'r-slider-delete': SliderDelete
     },
     computed: {
       currentTodo () {

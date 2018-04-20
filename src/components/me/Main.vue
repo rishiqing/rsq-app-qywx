@@ -55,11 +55,11 @@
       SwitchToIntroduction () {
         this.$router.push('/pub/explain')
       },
-      gotokefu () {
+      gotoKefu () {
         this.$router.push('/me/kefu')
       },
-      gotoPC () {
-        this.$router.push('/me/pcEnd')
+      gotoPc () {
+        this.$router.push('/me/pc-end')
       }
     },
     mounted () {

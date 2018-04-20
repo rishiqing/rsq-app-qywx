@@ -1,11 +1,11 @@
 <template>
   <div id="app" class="rsq-webview">
     <!--<transition name="fade">-->
-      <!--<start-->
+      <!--<r-start-->
         <!--@enter="enter"-->
         <!--v-show="this.engine"-->
       <!--&gt;-->
-      <!--</start>-->
+      <!--</r-start>-->
     <!--</transition>-->
     <router-view></router-view>
     <r-nav v-if="isAddNav" v-show="isShowNav"></r-nav>
@@ -15,7 +15,7 @@
 <script>
   import Nav from 'com/Nav'
   import Guide from 'com/pub/RemindWindow'
-  import start from 'com/me/start'
+  import Start from 'com/me/Start'
   export default {
     name: 'app',
     data () {
@@ -37,7 +37,7 @@
     components: {
       'r-nav': Nav,
       'r-guide': Guide,
-      'start': start
+      'r-start': Start
     },
     mounted () {
       var that = this

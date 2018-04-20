@@ -796,13 +796,13 @@ export default {
   ReplyCommentItem ({commit, state}, props) {
     commit('REPLY_COMMENT_CREATED', {item: props.item})
   },
-  postdesp ({commit, state}, props) {
+  postNote ({commit, state}, props) {
     if (props.pNote) {
       var currentItem = state.todo.currentTodo
       props['id'] = currentItem.id
-      return api.todo.postdesp(props)
-        .then((desp) => {
-          commit('TD_DESP_CREATED', {desp: desp})
+      return api.todo.postNote(props)
+        .then((note) => {
+          commit('TD_NOTE_CREATED', {note: note})
         })
     } else {
       return Promise.resolve()
@@ -1108,8 +1108,8 @@ export default {
         // commit('DELETE_CARD', p)
       })
   },
-  postKanbanItemDesp  ({commit, state}, p) {
-    return api.todo.postKanbanItemDesp(p)
+  postKanbanItemNote  ({commit, state}, p) {
+    return api.todo.postKanbanItemNote(p)
       .then((res) => {
         // commit('DELETE_CARD', p)
       })

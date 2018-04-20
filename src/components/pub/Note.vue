@@ -13,7 +13,7 @@
 </template>
 <script>
   export default {
-    name: 'desp',
+    name: 'note',
     // 定义数据
     data () {
       return {
@@ -66,13 +66,13 @@
         var params = {pNote: this.newItemNote}
         if (this.currentTodo.kanbanId) {
           var newParams = {note: this.newItemNote, id: this.currentTodo.id}
-          this.$store.dispatch('postKanbanItemDesp', newParams).then(() => {
+          this.$store.dispatch('postKanbanItemNote', newParams).then(() => {
             this.currentTodo.note = this.newItemNote
 //            that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED', params)
             that.$router.replace(window.history.back())
           })
         } else {
-          this.$store.dispatch('postdesp', params).then(() => {
+          this.$store.dispatch('postNote', params).then(() => {
             that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED', params)
             that.$router.replace(window.history.back())
           })
@@ -100,9 +100,9 @@
       }
 //      var that = this
 //      window.rsqadmg.execute('setOptionButtons', {
-//        btns: [{key: 'senddesp', name: '确定'}],
+//        btns: [{key: 'sendNote', name: '确定'}],
 //        success (res) {
-//          if (res.key === 'senddesp') {
+//          if (res.key === 'sendNote') {
 //            that.inputBlur()
 //          }
 //        }

@@ -66,7 +66,7 @@
         var params = {pNote: this.newItemNote}
         if (this.currentTodo.kanbanId) {
           var newParams = {note: this.newItemNote, id: this.currentTodo.id}
-          this.$store.dispatch('postKanbanItemNote', newParams).then(() => {
+          this.$store.dispatch('updateKanbanItem', newParams).then(() => {
             this.currentTodo.note = this.newItemNote
 //            that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED', params)
             that.$router.replace(window.history.back())

@@ -1,6 +1,6 @@
 <template>
   <v-touch @tap="showSubtodo">
-    <div class="outer-wrap">
+    <div class="outer-wrap has-padding">
       <span class="inner-key">子任务</span>
       <span class="inner-value">{{ subtodoString }}</span>
       <i class="icon2-arrow-right-small arrow"/>
@@ -15,13 +15,19 @@
         type: Object,
         required: true
       },
-      editTime: {
+      //  是否被禁用编辑
+      isDisabled: {
         type: Boolean,
         default: false
       },
-      disabled: {
-        type: Boolean,
-        default: false
+      //  被禁用编辑的提示，默认为''，不提示；如果要显示提示文字，需要传入提示的文字
+      disabledText: {
+        type: String,
+        default: ''
+      },
+      todoType: {
+        type: String,
+        default: 'sche'
       }
     },
     data () {
@@ -32,7 +38,7 @@
         var finishcount = 0
         var unfinishcount = 0
         var result = null
-        var subtodo = this.item.subtodos
+        var subtodo = this.item.subtodos || this.item.subItems
         if (subtodo === undefined) {
           return ''
         } else {
@@ -54,11 +60,11 @@
     },
     methods: {
       showSubtodo () {
-        if (this.disabled) {
-          window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
+        if (this.isDisabled) {
+          window.rsqadmg.execute('toast', {message: this.disabledText})
           return
         }
-        this.$router.push('/todo/' + this.item.id + '/subtodo')
+        this.$router.push('/' + this.todoType + '/todo/' + this.item.id + '/subtodo')
       }
     }
   }
@@ -96,10 +102,7 @@
     margin-top: -0.25rem;
     right: 0.2rem;
   }
-  .isInbox{
-    border-bottom: 1px solid #E3E3E3;
-  }
-  .hasPadding{
+  .has-padding{
     padding-left: 3%;
   }
   .edit-padding-left{

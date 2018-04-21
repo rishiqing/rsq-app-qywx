@@ -1,6 +1,6 @@
 <template>
   <ul class="comment-list">
-    <v-touch @tap="changeState()">
+    <v-touch @tap="changeState">
       <div
         :class="{'isDisplay': !more}"
         class="operation">
@@ -23,12 +23,13 @@
       :disabled="disabled"
       :item="item"
       :key="item.id"
-      @comment-file-touch="showAction"/>
+      @comment-file-touch="showAction"
+      @click-comment="handleCommentClick"/>
     <div
       v-if="commentCount"
       class="no-comment">
       <img
-        src="../../assets/img/nocoment.png"
+        src="../../assets/img/nocomment.png"
         alt="">
       <p class="no-comment-content">暂无评论</p>
     </div>
@@ -53,13 +54,13 @@
         type: Array,
         required: true
       },
-      commentContent: {
-        type: String,
-        required: true
-      },
       todoId: {
         type: Number,
         required: true
+      },
+      todoType: {
+        type: String,
+        default: 'sche'
       }
     },
     data () {
@@ -92,6 +93,12 @@
           }
           return true
         }
+      },
+      loginUser () {
+        return this.$store.state.loginUser
+      },
+      rsqUserId () {
+        return this.loginUser.rsqUser.id
       }
     },
     methods: {
@@ -101,8 +108,15 @@
         return arr[arr.length - 1].substr(14)
       },
       changeState () {
-        this.$store.dispatch('getRecord', {id: this.todoId})
-        this.more = !this.more
+        //  暂时这么处理：日程中的操作记录通过接口获取，计划中的不获取
+        if (this.todoType === 'sche') {
+          this.$store.dispatch('getRecord', {id: this.todoId})
+            .then(() => {
+              this.more = !this.more
+            })
+        } else {
+          this.more = !this.more
+        }
       },
       showAction (f) {
         var that = this
@@ -129,6 +143,33 @@
         link.download = this.getFileName(f)
         link.href = f.realPath
         link.click()
+      },
+      handleCommentClick (item) {
+        const deleteAction = this.todoType === 'plan' ? 'deleteKanbanItemComment' : 'deleteCommentItem'
+        const replyAction = this.todoType === 'plan' ? 'replyKanbanItemComment' : 'replyCommentItem'
+        var that = this
+        if (this.rsqUserId === item.authorId) {
+          window.rsqadmg.exec('confirm', {
+            message: '确定要删除此评论？',
+            success () {
+              that.$store.dispatch(deleteAction, {item: item})
+                .then(() => {
+                  window.rsqadmg.exec('hideLoader')
+                  window.rsqadmg.execute('toast', {message: '删除成功'})
+                })
+            }
+          })
+        } else {
+          window.rsqadmg.exec('confirm', {
+            message: '确定回复此评论？',
+            success () {
+              that.$store.dispatch(replyAction, {item: item})
+                .then(() => {
+                  that.$router.push('/' + this.todoType + '/todo/comment')
+                })
+            }
+          })
+        }
       }
     }
   }

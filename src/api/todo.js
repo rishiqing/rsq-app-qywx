@@ -505,19 +505,7 @@ export default {
     })
   },
   updateKanbanItem (props) {
-    var path = util.replaceUrlParams(mapping.DELETE_KANBAN_ITEM, props)
-    return new Promise((resolve, reject) => {
-      Vue.http.put(path, props)
-        .then(res => {
-          resolve(res.json())
-        }, err => {
-          window.rsqadmg.error(JSON.stringify(err))
-          reject(err)
-        })
-    })
-  },
-  postKanbanItemNote (props) {
-    var path = util.replaceUrlParams(mapping.DELETE_KANBAN_ITEM, props)
+    var path = util.replaceUrlParams(mapping.PUT_KANBAN_ITEM, props)
     return new Promise((resolve, reject) => {
       Vue.http.put(path, props)
         .then(res => {
@@ -546,6 +534,53 @@ export default {
       Vue.http.post(mapping.KANBAN_SUBTODO, props)
         .then(res => {
           // alert('RES' + res.name)
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.error(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  putKanbanSubtodo (props) {
+    var path = util.replaceUrlParams(mapping.PUT_KANBAN_SUBTODO, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.put(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.error(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  deleteKanbanSubtodo (props) {
+    var path = util.replaceUrlParams(mapping.DELETE_KANBAN_SUBTODO, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.delete(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.error(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  postKanbanItemComment (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.POST_KANBAN_ITEM_COMMENT, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.error(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  deleteKanbanItemComment (props) {
+    var path = util.replaceUrlParams(mapping.DELETE_KANBAN_ITEM_COMMENT, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.delete(path, props)
+        .then(res => {
           resolve(res.json())
         }, err => {
           window.rsqadmg.error(JSON.stringify(err))

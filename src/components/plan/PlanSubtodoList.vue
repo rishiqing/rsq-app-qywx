@@ -16,11 +16,11 @@
     </div>
     <div class="margin-block"/>
     <ul
-      :class="{'has-border':!hasChild}"
+      :class="{'has-border': hasChild}"
       class="sublist">
-      <template v-if="finalItems">
+      <template v-if="subItems">
         <li
-          v-for="item in finalItems"
+          v-for="item in subItems"
           :key="item.id"
           class="sublist-item">
           <v-touch
@@ -64,108 +64,42 @@
       }
     },
     computed: {
-      items () {
-        return this.$store.state.todo.currentTodo.subtodos// 其实有没有必要写这个呢，因为currenttodo是动态变化的，只要重新和后台打交道setcurrent以后自然可以变化
+      currentKanbanItem () {
+        return this.$store.state.plan.currentKanbanItem
       },
       subItems () {
-        return this.$store.state.todo.currentTodo.subItems
+        return this.currentKanbanItem.subItems || []
       },
-      finalItems () {
-        return this.items ? this.items : this.subItems
-      },
-      todoId () {
-        return this.$store.state.todo.currentTodo.id
-      },
-      currentTodo () {
-        return this.$store.state.todo.currentTodo
+      kanbanItemId () {
+        return this.currentKanbanItem.id
       },
       hasChild () {
-        if (this.$store.state.todo.currentTodo.subtodos) {
-          return this.$store.state.todo.currentTodo.subtodos.length === 0
-        }
+        return this.subItems.length !== 0
       }
     },
     mounted () {
       window.rsqadmg.exec('setTitle', {title: this.titleName})
-      window.rsqadmg.exec('setOptionButtons', {hide: true})
-      this.$store.dispatch('setNav', {isShow: false})
     },
     methods: {
       showEditSubtodo (item) {
         this.$store.dispatch('setCurrentSubtodo', item)
-        this.$router.push('/todo/' + this.currentTodo.id + '/subtodo/' + item.id)
-      },
-      isDisabled (e, pIsDone) {
-        if (pIsDone) {
-          e.target.blur()
-        }
-      },
-      change () {
-        this.seen = false
-      },
-      inputBlur (value, item) {
-        this.$refs.titleInput.value = value
-        if (!value) {
-          var that = this
-          window.rsqadmg.exec('confirm', {
-            message: '确定要删除此任务？',
-            success () {
-              window.rsqadmg.execute('showLoader', {text: '删除中...'})
-              that.$store.dispatch('deleteSubtodo', {item: item})
-                .then(() => {
-                  //  触发标记重复修改
-                  that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
-//                  this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: value, type: 10}})
-//                    .then(() => {
-//                    })
-                  window.rsqadmg.exec('hideLoader')
-                  window.rsqadmg.execute('toast', {message: '删除成功'})
-                  that.$router.replace(window.history.back())
-                })
-            }
-          })
-        } else {
-          if (value !== item.name) {
-//            window.rsqadmg.exec('showLoader', {text: '保存中...'})
-            this.$store.dispatch('updateSubtodo', {item: item, name: value})
-              .then(() => {
-                //  触发标记重复修改
-                this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
-              })
-          }
-        }
-      },
-      inputChange (value) {
-        this.$refs.titleInput.value = value
+        this.$router.push('/plan/todo/' + this.currentKanbanItem.id + '/subtodo/' + item.id)
       },
       saveTodo () {
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
-        if (this.currentTodo.kanbanId) {
-          this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.todoId}).then(() => {
+        this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.kanbanItemId})
+          .then(() => {
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
-        } else {
-          this.$store.dispatch('createSubtodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoId})
-            .then(() => {
-              //  触发标记重复修改
-              this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
-//            this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: this.inputTitle, type: 7}})
-//              .then(() => {
-//              })
-              this.inputTitle = ''
-              window.rsqadmg.exec('hideLoader')
-              window.rsqadmg.execute('toast', {message: '创建成功'})
-            })
-        }
       },
       clickCheckOut (item) {
-        this.$store.dispatch('submitSubtodoFinish', {item: item, status: !item.isDone})
+        this.$store.dispatch('updateKanbanSubtodo', {id: item.id, isDone: !item.isDone})
             .then(function () {
-              this.$store.dispatch('saveTodoAction', {editItem: {status: !item.isDone, type: 17}})
-                .then(() => {
-                })
+              // this.$store.dispatch('saveTodoAction', {editItem: {status: !item.isDone, type: 17}})
+              //   .then(() => {
+              //   })
             })
       }
     }
@@ -232,7 +166,6 @@
     border:none;
     margin-left: 0.35rem;
     font-family: PingFangSC-Regular;
-    /*line-height: 0.2rem;*/
     font-size: 17px;
     width: 98%;
     text-overflow: ellipsis;
@@ -244,12 +177,9 @@
   }
   .sublist-item{
     position: relative;
-    /*padding-top: 0.1rem;*/
     border-bottom:1px solid #DADADA ;
     font-family: PingFangSC-Regular;
     font-size: 17px;
-    /*color: #222222;*/
-    /*padding: 0.33rem 0 0.15rem 0*/
     height: 1.22rem;
     display: flex;
     align-items: center;

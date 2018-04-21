@@ -1,4 +1,5 @@
 <template>
+  <!--新建日程任务的页面-->
   <div class="router-view">
     <div class="itm-edt z-index-xs">
       <div class="content">
@@ -7,26 +8,22 @@
           style="padding-bottom: 80px;">
           <div class="itm-group input-title">
             <r-input-title
-              :new-checkable="true"
               :item-title="editItem.pTitle"
               @text-change="saveTitle"/>
           </div>
-          <div
-            :class="{'is-hidden': !isShowNote}"
-            class="itm-group itm--edit-todo"/>
           <div class="itm-group itm--edit-todo">
             <div class="firstGroup">
               <r-input-date
                 :item="editItem"
                 :sep="'/'"
-                :new-item="true"/>
+                :has-left-space="true"/>
               <r-input-time
                 :item="editItem"
-                :new-item="true"/>
+                :has-left-space="true"/>
             </div>
             <div class="secondGroup">
               <r-input-member
-                :new-item="true"
+                :has-left-space="true"
                 :is-native="true"
                 :index-title="'执行人'"
                 :select-title="'请选择成员'"
@@ -52,7 +49,6 @@
   </div>
 </template>
 <script>
-//  import moment from 'moment'
   import InputTitleText from 'com/pub/InputTitleText'
   import InputDate from 'com/pub/InputDate'
   import InputMember from 'com/pub/InputMember'
@@ -75,8 +71,7 @@
           isAllDay: true
 //          receiverIds: []
         },
-        joinUserRsqIds: [],
-        isShowNote: false
+        joinUserRsqIds: []
       }
     },
     computed: {
@@ -108,10 +103,10 @@
       // beforeRouteEnter中不能获取到this，因为this还没有创建，只能通过next获取
     },
     created () {
+      window.rsqadmg.exec('setTitle', {title: '新建任务'})
       this.initData()
     },
     mounted () {
-      window.rsqadmg.exec('setTitle', {title: '新建任务'})
       this.joinUserRsqIds = [this.$store.state.loginUser.rsqUser.id]
       if (this.editItem.receiverIds !== null) {
         var idArray = this.editItem.receiverIds.split(',')

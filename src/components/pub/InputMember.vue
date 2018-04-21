@@ -1,7 +1,7 @@
 <template>
   <v-touch @tap="showMemberEdit">
     <div
-      :class="{'hasPadding':newItem, 'bottom-border': editTime}"
+      :class="{'has-padding':hasLeftSpace, 'bottom-border': editTime}"
       class="outer-wrap" >
       <span class="inner-key">{{ indexTitle }}</span>
       <span class="inner-value">{{ nameConcat }}{{ selectedLocalList.length > 3 ? '等':'' }}{{ selectedLocalList.length }}人</span>
@@ -21,9 +21,19 @@
       'avatar': Avatar
     },
     props: {
-      disabled: {
+      //  是否有左侧的空间，默认是没有的，编辑模式下是有左边的padding
+      hasLeftSpace: {
         type: Boolean,
         default: false
+      },
+      isDisabled: {
+        type: Boolean,
+        default: false
+      },
+      //  被禁用编辑的提示，默认为''，不提示；如果要显示提示文字，需要传入提示的文字
+      disabledText: {
+        type: String,
+        default: ''
       },
       isNative: {
         type: Boolean,
@@ -49,10 +59,6 @@
         type: Array,
         required: true
       },   //  不可选的人
-      newItem: {
-        type: Boolean,
-        default: true
-      },
       editTime: {
         type: Boolean,
         default: false
@@ -79,12 +85,6 @@
       },
       memberCount () {
         return this.selectedLocalList.length <= 3
-      },
-      newMemberlessThree () {
-        return this.newItem && this.memberCount
-      },
-      newMemberMoreThree () {
-        return this.newItem && !this.memberCount
       }
     },
     watch: {
@@ -104,8 +104,8 @@
       },
 
       showMemberEdit (e) {
-        if (this.disabled) {
-          window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
+        if (this.isDisabled) {
+          window.rsqadmg.execute('toast', {message: this.disabledText})
           return
         }
 //        this.fetchUsers()
@@ -225,7 +225,7 @@
   .isInbox{
     border-bottom: 1px solid #E3E3E3;
   }
-  .hasPadding{
+  .has-padding{
     padding-left: 3%;
   }
   .edit-padding-left{

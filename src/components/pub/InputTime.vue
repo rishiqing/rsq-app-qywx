@@ -1,7 +1,7 @@
 <template>
   <v-touch @tap="gotoTodoTime">
     <div
-      :class="{'hasPadding':newItem, 'bottom-border': editTime}"
+      :class="{'has-padding':hasLeftSpace, 'bottom-border': editTime}"
       class="outer-wrap" >
       <span class="inner-key">时间</span>
       <span class="inner-value">{{ timeValue }}</span>
@@ -17,17 +17,23 @@
         type: Object,
         required: true
       },
-      newItem: {
+      //  是否有左侧的空间，默认是没有的，编辑模式下是有左边的padding
+      hasLeftSpace: {
         type: Boolean,
-        default: true
+        default: false
       },
       editTime: {
         type: Boolean,
         default: false
       },
-      disabled: {
+      isDisabled: {
         type: Boolean,
         default: false
+      },
+      //  被禁用编辑的提示，默认为''，不提示；如果要显示提示文字，需要传入提示的文字
+      disabledText: {
+        type: String,
+        default: ''
       }
     },
     data () {
@@ -46,8 +52,8 @@
     },
     methods: {
       gotoTodoTime () {
-        if (this.disabled) {
-          window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
+        if (this.isDisabled) {
+          window.rsqadmg.execute('toast', {message: this.disabledText})
           return
         }
         this.$emit('time-tap')
@@ -94,10 +100,7 @@
     margin-top: -0.25rem;
     right: 0.2rem;
   }
-  .isInbox{
-    border-bottom: 1px solid #E3E3E3;
-  }
-  .hasPadding{
+  .has-padding{
     padding-left: 3%;
   }
   .edit-padding-left{

@@ -73,7 +73,8 @@ export default {
    * 计划相关的存储
    */
   plan: {
-    coverList: null
+    coverList: null,
+    currentKanbanItem: {}
   },
   /**
    * 组件之间需要共享的临时数据

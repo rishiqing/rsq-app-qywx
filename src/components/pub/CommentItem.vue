@@ -1,98 +1,95 @@
 <template>
-  <v-touch>
-    <li
-      class="comment"
-      @click="triggerAndroid($event)">
-      <div class="left">
-        <avatar
-          :src="item.qywxShowAvatar"
-          :username="item.qywxShowName || item.authorName"
-          :size="30" />
+  <li
+    class="comment"
+    @click="clickItem">
+    <div class="left">
+      <avatar
+        :src="item.qywxShowAvatar"
+        :username="item.qywxShowName || item.authorName"
+        :size="30" />
+    </div>
+    <div class="right">
+      <div class="top">
+        <span class="author">{{ item.qywxShowName || item.authorName }}</span>
+        <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
       </div>
-      <div class="right">
-        <div class="top">
-          <span class="author">{{ item.qywxShowName || item.authorName }}</span>
-          <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
-        </div>
-        <div class="bottom">
-          <div
-            v-if="ifReplyComment"
-            class="comment-content">
-            <span
-              class="reply-comment"
-              v-html="item.commentContent">
-              {{ item.commentContent }}
-            </span>
-            <!--<span class="comment-content">{{ item.commentContent.substr(indexOfBlank + 1) }}</span>-->
-          </div>
-          <div
-            v-else
-            class="comment-content"
+      <div class="bottom">
+        <div
+          v-if="ifReplyComment"
+          class="comment-content">
+          <span
+            class="reply-comment"
             v-html="item.commentContent">
             {{ item.commentContent }}
-          </div>
-          <v-touch
-            v-for="file in item.fileList"
-            :key="file.id"
-            class="comment-item-picture file-touch"
-            @tap="fileTouch($event, file)">
-            <template v-if="(file.contentType.toUpperCase() === 'PNG'||file.contentType.toUpperCase() === 'JPEG'|| file.contentType.toUpperCase() === 'JPG')">
-              <img
-                :src="file.realPath"
-                class="comment-photo file-touch"
-                alt="">
-              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
-              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
-            </template>
-            <template v-else-if="file.contentType.toUpperCase() == 'PDF'">
-              <img
-                class="comment-photo file-touch"
-                src="https://res-front-cdn.timetask.cn/beta/images/pdf.692b9767b9.png"
-                alt="">
-              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
-              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
-            </template>
-            <template v-else-if="file.contentType.toUpperCase() === 'ZIP'">
-              <img
-                class="comment-photo file-touch"
-                src="https://res-front-cdn.timetask.cn/beta/images/zip.f9f2049911.png"
-                alt="">
-              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
-              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
-            </template>
-            <template v-else-if="file.contentType.toUpperCase() === 'DOC' || file.contentType.toUpperCase() === 'DOC'">
-              <img
-                class="comment-photo file-touch"
-                src="https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png"
-                alt="">
-              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
-              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
-            </template>
-            <template v-else-if="file.contentType.toUpperCase() === 'PPT' || file.contentType.toUpperCase() === 'PPTX'">
-              <img
-                class="comment-photo file-touch"
-                src="https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png"
-                alt="">
-              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
-              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
-            </template>
-            <template v-else>
-              <img
-                class="comment-photo file-touch"
-                src="https://res-front-cdn.timetask.cn/beta/images/file.46449ccbd9.png"
-                alt="">
-              <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
-              <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
-            </template>
-          </v-touch>
+          </span>
         </div>
+        <div
+          v-else
+          class="comment-content"
+          v-html="item.commentContent">
+          {{ item.commentContent }}
+        </div>
+        <v-touch
+          v-for="file in item.fileList"
+          :key="file.id"
+          class="comment-item-picture file-touch"
+          @tap="fileTouch($event, file)">
+          <template v-if="(file.contentType.toUpperCase() === 'PNG'||file.contentType.toUpperCase() === 'JPEG'|| file.contentType.toUpperCase() === 'JPG')">
+            <img
+              :src="file.realPath"
+              class="comment-photo file-touch"
+              alt="">
+            <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+            <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
+          </template>
+          <template v-else-if="file.contentType.toUpperCase() == 'PDF'">
+            <img
+              class="comment-photo file-touch"
+              src="https://res-front-cdn.timetask.cn/beta/images/pdf.692b9767b9.png"
+              alt="">
+            <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+            <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
+          </template>
+          <template v-else-if="file.contentType.toUpperCase() === 'ZIP'">
+            <img
+              class="comment-photo file-touch"
+              src="https://res-front-cdn.timetask.cn/beta/images/zip.f9f2049911.png"
+              alt="">
+            <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+            <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
+          </template>
+          <template v-else-if="file.contentType.toUpperCase() === 'DOC' || file.contentType.toUpperCase() === 'DOC'">
+            <img
+              class="comment-photo file-touch"
+              src="https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png"
+              alt="">
+            <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+            <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
+          </template>
+          <template v-else-if="file.contentType.toUpperCase() === 'PPT' || file.contentType.toUpperCase() === 'PPTX'">
+            <img
+              class="comment-photo file-touch"
+              src="https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png"
+              alt="">
+            <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+            <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
+          </template>
+          <template v-else>
+            <img
+              class="comment-photo file-touch"
+              src="https://res-front-cdn.timetask.cn/beta/images/file.46449ccbd9.png"
+              alt="">
+            <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+            <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
+          </template>
+        </v-touch>
       </div>
-    </li>
-  </v-touch>
+    </div>
+  </li>
 </template>
 <script>
   import Avatar from 'com/pub/TextAvatar'
-  
+
   export default {
     name: 'CommentItem',
     components: {
@@ -113,15 +110,6 @@
       }
     },
     computed: {
-      loginUser () {
-        return this.$store.state.loginUser
-      },
-      rsqUserId () {
-        return this.loginUser.rsqUser.id
-      },
-      comments () {
-        return this.$store.state.todo.currentTodo.comments
-      },
       ifReplyComment () {
         return (this.item.commentContent.indexOf('@') !== -1)
       },
@@ -146,40 +134,15 @@
           return fileSize + 'B'
         }
       },
-      deleteComment (item) {
-        var that = this
-        if (this.rsqUserId === item.authorId) {
-          window.rsqadmg.exec('confirm', {
-            message: '确定要删除此评论？',
-            success () {
-//              window.rsqadmg.execute('showLoader', {text: '删除中...'})
-              that.$store.dispatch('deleteCommentItem', {item: item})
-                .then(() => {
-                  window.rsqadmg.exec('hideLoader')
-                  window.rsqadmg.execute('toast', {message: '删除成功'})
-                })
-            }
-          })
-        } else {
-          window.rsqadmg.exec('confirm', {
-            message: '确定回复此评论？',
-            success () {
-              that.$store.dispatch('ReplyCommentItem', {item: item})
-                .then(() => {
-                  that.$router.push('/todo/comment')
-                })
-            }
-          })
-        }
-      },
       fileTouch (e, file) {
         e.preventDefault()
         this.$emit('comment-file-touch', file)
       },
-      triggerAndroid (e) {
+      clickItem (e) {
         if (this.disabled) return
         if (!e.target.classList.contains('file-touch')) {
-          this.deleteComment(this.item)
+          this.$emit('click-comment', this.item)
+          // this.deleteComment(this.item)
         }
       }
     }

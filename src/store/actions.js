@@ -341,6 +341,9 @@ export default {
   setCurrentSubtodo ({commit}, item) {
     commit('TD_CURRENT_SUBTODO_SET', {item: item})
   },
+  updateCurrentSubtodo ({commit}, item) {
+    commit('TD_CURRENT_SUBTODO_UPDATE', {item: item})
+  },
   /**
    * 首先检查schedule的items中是否已经获取到todo的详细信息，如果没有获取过，则请求服务器获取
    * 当获取到item的详细信息时，item会添加cDetail标记，表示已经获取过，下次将不会再获取细节信息
@@ -793,7 +796,7 @@ export default {
     //   return Promise.resolve()
     // }
   },
-  ReplyCommentItem ({commit, state}, props) {
+  replyCommentItem ({commit, state}, props) {
     commit('REPLY_COMMENT_CREATED', {item: props.item})
   },
   postNote ({commit, state}, props) {
@@ -1105,27 +1108,75 @@ export default {
   updateKanbanItem  ({commit, state}, p) {
     return api.todo.updateKanbanItem(p)
       .then((res) => {
-        // commit('DELETE_CARD', p)
-      })
-  },
-  postKanbanItemNote  ({commit, state}, p) {
-    return api.todo.postKanbanItemNote(p)
-      .then((res) => {
+        commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: res})
         // commit('DELETE_CARD', p)
       })
   },
   getKanbanItem ({commit, state}, p) {
     return api.todo.getKanbanItem(p)
-      .then((result) => {
-        // commit('SAVE_LABELS', result)
-        return result
+      .then((res) => {
+        commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: res})
+        //  筛选出操作记录，保存在独立的缓存里
+        let arr = res.commentList
+        if (arr) {
+          arr = arr.filter(i => {
+            return i.type !== 0
+          })
+        }
+        commit('SAVE_RECORD', {item: arr})
+        return res
       })
   },
   createKanbanSubtodo ({commit, state}, p) {
     return api.todo.createKanbanSubtodo(p)
       .then((result) => {
-        // commit('SAVE_LABELS', result)
+        commit('PLAN_CURRENT_KANBAN_SUBITEM_CREATED', {item: result})
         return result
       })
+  },
+  updateKanbanSubtodo ({commit, state}, p) {
+    return api.todo.putKanbanSubtodo(p)
+      .then((res) => {
+        commit('PLAN_KANBAN_SUBITEM_UPDATE', {item: res})
+        // commit('DELETE_CARD', p)
+      })
+  },
+  deleteKanbanSubtodo ({commit, state}, p) {
+    return api.todo.deleteKanbanSubtodo(p)
+      .then((res) => {
+        commit('PLAN_KANBAN_SUBITEM_DELETE', {item: res})
+      })
+  },
+  setCurrentKanbanItem ({commit}, item) {
+    commit('PLAN_CURRENT_KANBAN_ITEM_SET', {item: item})
+  },
+  createKanbanItemComment ({commit, state}, props) {
+    // if (props.commentContent) {
+    const currentItem = state.plan.currentKanbanItem
+    const replyId = state.replyId
+    const replyName = state.replyName
+    props['kanbanItemId'] = currentItem.id
+    props['type'] = 0
+    if (replyId !== null) {
+      props['atIds'] = replyId
+      props.commentContent = '@' + replyName + '&' + props.commentContent
+    }
+
+    return api.todo.postKanbanItemComment(props)
+      .then((com) => {
+        com.type = 0
+        commit('PLAN_KANBAN_ITEM_COMMENT_CREATED', {comment: com})
+        return com
+      })
+  },
+  deleteKanbanItemComment ({commit, state, dispatch}, p) {
+    var item = p.item
+    return api.todo.deleteKanbanItemComment(item)
+      .then(() => {
+        commit('PLAN_KANBAN_ITEM_COMMENT_DELETE', {item: item})
+      })
+  },
+  replyKanbanItemComment ({commit, state}, props) {
+    commit('REPLY_KANBAN_ITEM_COMMENT_CREATED', {item: props.item})
   }
 }

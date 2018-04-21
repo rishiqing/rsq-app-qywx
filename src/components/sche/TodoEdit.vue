@@ -1,4 +1,5 @@
 <template>
+  <!--收纳箱任务和日程任务公用的编辑页面-->
   <div class="router-view">
     <div class="itm-edt z-index-xs">
       <div class="content">
@@ -8,49 +9,46 @@
               ref="title"
               :is-edit="true"
               :is-checkable="!isInbox"
-              :item-title="editItem.pTitle || editItem.name"
-              :item-checked="editItem.pIsDone || editItem.isDone"
-              :disabled="!checkEdit()"
+              :item-title="editItem.pTitle "
+              :item-checked="editItem.pIsDone"
+              :is-disabled="!isEditable"
+              :disabled-text="disabledText"
+              :is-show-bottom-border="true"
               @text-blur="saveTitle"
               @click-checkout="finishChecked"/>
+            <r-input-note
+              :content="editItem.pNote"
+              :has-left-space="!isInbox"
+              :is-disabled="!isEditable"
+              :disabled-text="disabledText"/>
           </div>
-          <v-touch @tap="switchToNote">
-            <div
-              id="noteEditable"
-              :class="{'remindColor':hasDecrip(),'contentColor':!hasDecrip(),'inbox-padding':isInbox,'sche-padding':!isInbox}"
-              class="desp editor-style"
-              contenteditable="true"
-              name="note"
-              rows="5"
-              placeholder="添加任务描述..."
-              onfocus="this.blur();">
-              添加任务描述...
-            </div>
-          </v-touch>
           <div class="itm--edit-todo ">
             <div class="edit-padding-left">
               <div class="first-date">
                 <i class="icon2-schedule sche"/>
                 <r-input-date
-                  :disabled="!checkEdit()"
+                  :is-disabled="!isEditable"
+                  :disabled-text="disabledText"
                   :item="editItem"
                   :sep="'/'"
-                  :edit-time="true"/>
+                  :has-left-space="true"/>
               </div>
               <div
-                v-show="!isInbox"
+                v-if="!isInbox"
                 class="first-date">
                 <i class="icon2-alarm sche"/>
                 <r-input-time
-                  v-if="editItem.pContainer !== 'inbox'"
-                  :disabled="!checkEdit()"
-                  :item="editItem"
-                  :edit-time="true"/>
+                  :has-left-space="true"
+                  :is-disabled="!isEditable"
+                  :disabled-text="disabledText"
+                  :item="editItem"/>
               </div>
               <div class="first-date">
                 <i class="icon2-member sche"/>
                 <r-input-member
-                  :disabled="!checkEdit()"
+                  :is-disabled="!isEditable"
+                  :disabled-text="disabledText"
+                  :has-left-space="true"
                   :edit-time="true"
                   :is-native="true"
                   :index-title="'执行人'"
@@ -63,16 +61,17 @@
               <div class="first-date">
                 <i class="icon2-subplan-web sche"/>
                 <r-input-subtodo
-                  :disabled="!checkEdit()"
+                  :is-disabled="!isEditable"
+                  :disabled-text="disabledText"
                   :item="currentTodo"
                   :edit-time="true"/>
               </div>
             </div>
             <r-comment-list
-              :disabled="!checkEdit()"
+              :disabled="!isEditable"
               :items="todoComments"
               :todo-id="currentTodo.id"/>
-            <v-touch class="deleteTask" >
+            <v-touch class="delete-task" >
               <a
                 class="weui-btn weui-btn_primary"
                 style="font-size: 20px"
@@ -100,6 +99,7 @@
   import { Promise } from 'es6-promise'
   import moment from 'moment'
   import InputTitleText from 'com/pub/InputTitleText'
+  import InputNote from 'com/pub/InputNote'
   import InputDate from 'com/pub/InputDate'
   import InputTime from 'com/pub/InputTime'
   import InputMember from 'com/pub/InputMember'
@@ -108,7 +108,6 @@
   import util from 'ut/jsUtil'
   import dateUtil from 'ut/dateUtil'
   import CommentList from 'com/pub/CommentList'
-//  import bus from 'com/bus'
 
   export default {
     name: 'TodoEdit',
@@ -118,12 +117,13 @@
       'r-input-time': InputTime,
       'r-input-member': InputMember,
       'r-input-subtodo': InputSubtodo,
-//      'r-input-note': InputNoteText,
+      'r-input-note': InputNote,
       'r-comment-list': CommentList,
       'r-send-conversation': SendConversation
     },
     data () {
       return {
+        disabledText: '过去的任务不能编辑',
         editItem: {},
         joinUserRsqIds: []
       }
@@ -140,6 +140,10 @@
       },
       isInbox () {
         return this.currentTodo.pContainer === 'inbox'
+      },
+      //  对于日程中任务来说，过去的任务是disabled，无法编辑的。只有收纳箱中的任务和未来的任务才是可以编辑的
+      isEditable () {
+        return this.isInbox || this.currentNumDate + 24 * 3600 * 1000 > new Date().getTime()
       },
       dynamicId () {
         return this.$route.params.todoId
@@ -181,13 +185,9 @@
       }
     },
     created () {
-      if (this.currentTodo.kanbanId) {
-        this.initPlan()
-      } else {
-        this.initData()
-      }
+      this.initData()
 //      var that = this
-      window.rsqadmg.execute('setTitle', {title: '详情'})
+      window.rsqadmg.execute('setTitle', {title: '日程详情'})
 //      window.rsqadmg.execute('setOptionButtons', {
 //        btns: [{key: 'more', name: '更多'}],
 //        success (res) {
@@ -201,26 +201,11 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     methods: {
-      hasDecrip () {
-        var description = document.getElementById('noteEditable')
-        if (description) {
-          return description.innerText === '添加任务描述...'
-        }
-      },
-      //  过去的日程不允许更新日程详情
-      checkEdit () {
-        var enabled = this.currentNumDate + 24 * 3600 * 1000 > new Date().getTime()
-        return enabled
-      },
       initData () {
         window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getTodo', {todo: {id: this.dynamicId}})
             .then(item => {
               util.extendObject(this.editItem, item)
-              var noteElement = document.getElementById('noteEditable')
-              if (this.pNote !== null) {
-                noteElement.innerHTML = this.pNote
-              }
               var joinUserArray = util.getMapValuePropArray(this.editItem.receiverUser, 'joinUser')
               this.joinUserRsqIds = joinUserArray.map(obj => {
                 return obj['id'] + ''
@@ -261,18 +246,11 @@
           })
       },
       switchToComment () {
-        if (!this.checkEdit()) {
+        if (!this.isEditable) {
           window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
           return
         }
-        this.$router.push('/todo/comment')
-      },
-      switchToNote () {
-        if (!this.checkEdit()) {
-          window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
-          return
-        }
-        this.$router.push('/pub/note')
+        this.$router.push('/sche/todo/comment')
       },
       saveTitle (newTitle) {
         if (!newTitle) {
@@ -429,7 +407,7 @@
       more () {
         var that = this
         var arr = ['发送到聊天', '发送提醒']
-        if (this.checkEdit()) {
+        if (this.isEditable) {
           arr.push('删除任务')
         }
         window.rsqadmg.exec('actionsheet', {
@@ -555,21 +533,8 @@
             next(false)
           })
       },
-      initPlan () {
-        // 只用cvurrenttodo不行还得去后台拿
-        return this.$store.dispatch('getKanbanItem', {id: this.currentTodo.id})
-          .then(item => {
-            util.extendObject(this.editItem, item)
-            var noteElement = document.getElementById('noteEditable')
-            if (this.note) {
-              noteElement.innerHTML = this.note
-            }
-            this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
-//            var joinUserArray = util.getMapValuePropArray(this.editItem.joinUserIds, 'joinUser')
-//            this.joinUserRsqIds = joinUserArray.map(obj => {
-//              return obj['id'] + ''
-//            })
-          })
+      noteChanged (p) {
+        alert('note changed: ' + JSON.stringify(p))
       }
     },
 //    beforeRouteEnter (to, from, next) {
@@ -596,16 +561,10 @@
   }
 </script>
 <style lang="scss" scoped>
-  .deleteTask{
+  .delete-task{
     margin-top: 0.7rem;
     padding-bottom: 2rem;
     background-color: #f6f6f6;
-  }
-  .remindColor{
-    color: #A5A5A5;
-  }
-  .contentColor{
-    color: #333333
   }
   .first-date{
     position: relative;
@@ -633,24 +592,6 @@
   }
   .content{
     background-color: white;
-  }
-  .desp{
-    margin-bottom: 10px;
-    padding-top:0.193rem ;
-    padding-bottom: 0.293rem;
-    padding-right: 0.3rem;
-    line-height: 0.586rem;
-    font-family: PingFangSC-Regular;
-    font-size: 0.373rem;
-    letter-spacing: 0;
-    background-color: white;
-    min-height:0.586rem;
-  }
-  .inbox-padding{
-    padding-left: 0.3rem;
-  }
-  .sche-padding{
-    padding-left: 1.1rem;
   }
   input{
     line-height: 0.933rem;

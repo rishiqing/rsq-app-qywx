@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import store from '@/store'
 import api from '@/api'
-import Comment from 'com/pub/Comment'
 import Login from 'com/Login'
 import Sche from 'com/sche/Main'
 import Inbox from 'com/inbox/Main'
@@ -13,9 +12,10 @@ import TodoEditTime from 'com/pub/TodoEditTime'
 import TodoEditAlert from 'com/pub/TodoEditAlert'
 import TodoEditDate from 'com/pub/TodoEditDate'
 import TodoEditRepeat from 'com/pub/TodoEditRepeat'
+import TodoComment from 'com/pub/TodoComment'
+import TodoNote from 'com/pub/TodoNote'
 import Me from 'com/me/Main'
 import Kefu from 'com/me/Kefu'
-import Note from 'com/pub/Note'
 import Explain from 'com/pub/Explain'
 import SubtodoList from 'com/pub/SubtodoList'
 // import NoPermission from 'com/pub/NoPermission'
@@ -26,6 +26,12 @@ import PlanNameEdit from 'com/plan/PlanNameEdit'
 import PlanNew from 'com/plan/PlanNew'
 import ChildPlan from 'com/plan/ChildPlan'
 import PlanSetting from 'com/plan/PlanSetting'
+import PlanTodoEdit from 'com/plan/PlanTodoEdit'
+import PlanTodoEditNote from 'com/plan/PlanTodoEditNote'
+import PlanTodoEditDate from 'com/plan/PlanTodoEditDate'
+import PlanSubtodoList from 'com/plan/PlanSubtodoList'
+import PlanTodoEditSubtodo from 'com/plan/PlanTodoEditSubtodo'
+import PlanTodoComment from 'com/plan/PlanTodoComment'
 
 Vue.use(Router)
 
@@ -77,30 +83,16 @@ const router = new Router({
       component: TodoNew,
       meta: {requireAuth: true}
     },
-    //  todo详情页面
+    //  日程备注页面，type有两种：sche表示日程的note，plan表示计划任务的note
     {
-      path: '/todo/:todoId',
-      name: 'todoEdit',
-      component: TodoEdit,
-      meta: {requireAuth: true}
-    },
-    //  todo的子任务列表页面
-    {
-      path: '/todo/:todoId/subtodo',
-      name: 'subtodoList',
-      component: SubtodoList,
-      meta: {requireAuth: true}
-    },
-    //  todo的子任务的详情页面
-    {
-      path: '/todo/:todoId/subtodo/:subtodoId',
-      name: 'todoEditSubtodo',
-      component: TodoEditSubtodo,
+      path: '/sche/todo/note',
+      name: 'todoNote',
+      component: TodoNote,
       meta: {requireAuth: true}
     },
     //  todo的日期页面，用于新增或者编辑日程时候的日期设置
     {
-      path: '/todo/date',
+      path: '/sche/todo/date',
       name: 'todoEditDate',
       component: TodoEditDate,
       meta: {requireAuth: false}
@@ -128,16 +120,30 @@ const router = new Router({
     },
     //  日程评论页面
     {
-      path: '/todo/comment',
-      name: 'comment',
-      component: Comment,
+      path: '/sche/todo/comment',
+      name: 'todoComment',
+      component: TodoComment,
       meta: {requireAuth: true}
     },
-    //  日程备注页面
+    //  todo详情页面
     {
-      path: '/todo/note',
-      name: 'note',
-      component: Note,
+      path: '/todo/:todoId',
+      name: 'todoEdit',
+      component: TodoEdit,
+      meta: {requireAuth: true}
+    },
+    //  todo的子任务列表页面
+    {
+      path: '/sche/todo/:todoId/subtodo',
+      name: 'subtodoList',
+      component: SubtodoList,
+      meta: {requireAuth: true}
+    },
+    //  todo的子任务的详情页面
+    {
+      path: '/sche/todo/:todoId/subtodo/:subtodoId',
+      name: 'todoEditSubtodo',
+      component: TodoEditSubtodo,
       meta: {requireAuth: true}
     },
     //  ------------------------
@@ -176,6 +182,48 @@ const router = new Router({
       path: '/plan/:planId/edit-name',
       name: 'planNameEdit',
       component: PlanNameEdit,
+      meta: {requireAuth: true}
+    },
+    //  计划任务备注页面，type有两种：sche表示日程的note，plan表示计划任务的note
+    {
+      path: '/plan/todo/note',
+      name: 'planTodoEditNote',
+      component: PlanTodoEditNote,
+      meta: {requireAuth: true}
+    },
+    //  计划任务的日期页面，用于新增或者编辑日程时候的日期设置
+    {
+      path: '/plan/todo/date',
+      name: 'planTodoEditDate',
+      component: PlanTodoEditDate,
+      meta: {requireAuth: false}
+    },
+    //  计划todo详情页面
+    {
+      path: '/plan-todo/:planTodoId',
+      name: 'planTodoEdit',
+      component: PlanTodoEdit,
+      meta: {requireAuth: true}
+    },
+    //  计划的子任务列表页面
+    {
+      path: '/plan/todo/:planTodoId/subtodo',
+      name: 'planSubtodoList',
+      component: PlanSubtodoList,
+      meta: {requireAuth: true}
+    },
+    //  计划的子任务的详情页面
+    {
+      path: '/plan/todo/:planTodoId/subtodo/:subtodoId',
+      name: 'planTodoEditSubtodo',
+      component: PlanTodoEditSubtodo,
+      meta: {requireAuth: true}
+    },
+    //  计划日程评论页面
+    {
+      path: '/plan/todo/comment',
+      name: 'planTodoComment',
+      component: PlanTodoComment,
       meta: {requireAuth: true}
     },
     //  ------------------------

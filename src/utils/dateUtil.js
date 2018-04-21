@@ -232,7 +232,6 @@ export default {
     if (dateType === 'none' || dateResult.length === 0) {
       dateType = ''
     }
-    sep = sep || '/'
     var result
     switch (dateType) {
       case 'repeat':  //  repeat类型，默认startDate和endDate与single相同

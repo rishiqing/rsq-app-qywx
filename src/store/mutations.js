@@ -305,15 +305,6 @@ export default {
       items.splice(index, 1)
     }
   },
-  TD_COMMENT_DELETE (state, p) {
-    let items = state.todo.currentTodo.comments
-    for (var i = 0; i < items.length; i++) {
-      if (items[i].id === p.item.id) {
-        items.splice(i, 1)
-        break
-      }
-    }
-  },
   TD_SUBTODO_DELETE  (state, p) {
     let items = state.todo.currentTodo.subtodos
     for (var i = 0; i < items.length; i++) {
@@ -500,5 +491,51 @@ export default {
   },
   PLAN_NAME_UPDATE (state, p) {
     state.currentPlan.name = p.name
+  },
+  PLAN_CURRENT_KANBAN_ITEM_SET (state, p) {
+    state.plan.currentKanbanItem = p.item
+  },
+  PLAN_CURRENT_KANBAN_ITEM_UPDATE (state, p) {
+    util.extendObject(state.plan.currentKanbanItem, p.kanbanItem)
+  },
+  PLAN_CURRENT_KANBAN_SUBITEM_CREATED (state, p) {
+    if (!state.plan.currentKanbanItem.subItems) {
+      state.plan.currentKanbanItem.subItems = []
+    }
+    state.plan.currentKanbanItem.subItems.push(p.item)
+  },
+  PLAN_KANBAN_SUBITEM_UPDATE (state, p) {
+    const target = state.plan.currentKanbanItem.subItems.find(subItem => {
+      return subItem.id === p.item.id
+    })
+    util.extendObject(target, p.item)
+  },
+  PLAN_KANBAN_SUBITEM_DELETE (state, p) {
+    const arr = state.plan.currentKanbanItem.subItems
+    const target = arr.find(subItem => {
+      return subItem.id === p.item.id
+    })
+    const index = arr.indexOf(target)
+    arr.splice(index, 1)
+  },
+  PLAN_KANBAN_ITEM_COMMENT_CREATED (state, p) {
+    const item = state.plan.currentKanbanItem
+    if (!item.commentList) {
+      item.commentList = []
+    }
+    item.commentList.push(p.comment)
+  },
+  PLAN_KANBAN_ITEM_COMMENT_DELETE (state, p) {
+    let items = state.plan.currentKanbanItem.commentList
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === p.item.id) {
+        items.splice(i, 1)
+        break
+      }
+    }
+  },
+  REPLY_KANBAN_ITEM_COMMENT_CREATED (state, p) {
+    state.replyId = p.item.authorId
+    state.replyName = p.item.authorName
   }
 }

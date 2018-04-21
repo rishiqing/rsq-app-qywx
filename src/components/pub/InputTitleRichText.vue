@@ -73,10 +73,14 @@
   .edit-wrap{
     position: relative;
     background-color: #FFFFFF;
-    padding: 0.39rem 0.3rem 0.3rem 0.35rem;
+    padding: 0.3rem;
   }
   .wrap-icon{
     position: absolute;
+    top: 50%;
+    left: 0.3rem;
+    height: 0.5rem;
+    margin-top: -0.25rem;
   }
   .hide{
     display: none;

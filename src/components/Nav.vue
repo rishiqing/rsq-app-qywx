@@ -79,7 +79,7 @@
           this.$router.push('/plan/create')
         } else {
           this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
-          this.$router.push('/todo/new/schedule')
+          this.$router.push('/sche/create')
         }
       }
     }

@@ -286,8 +286,8 @@
     methods: {
       toEdit (item) {
         // 设置当前todo不管是inbox的todo还是ssche的todo
-        this.$store.dispatch('setCurrentTodo', item)
-        this.$router.push('/todo/' + item.id)
+        this.$store.dispatch('setCurrentKanbanItem', item)
+        this.$router.push('/plan-todo/' + item.id)
       },
       finishDown (items) {
         var newItems = []

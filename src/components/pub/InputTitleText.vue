@@ -12,18 +12,19 @@
           :class="{'for-hide-title':itemChecked}"
           class="hide" />
         <i
-          :class="{'isdisplay-title':itemChecked}"
+          :class="{'is-display-title':itemChecked}"
           class="icon2-selected hide"/>
       </v-touch>
       <input
         ref="titleInput"
         :value="itemTitle"
-        :class="{'padding-left-input':isCheckable,'real-width':isMaxlength(itemTitle),'new-padding-left':newCheckable,'inbox-padding-left':!isCheckable,'edit-border':isEdit,'edit-text-font':isEdit,'new-text-font':newCheckable}"
+        :class="{'padding-left-input':isCheckable,'edit-border':isShowBottomBorder}"
+        :placeholder="placeholder"
+        class="title-input"
         type="text"
-        placeholder="输入任务标题"
-        @input="inputChange($event.target.value)"
-        @blur="inputBlur($event.target.value)"
-        @focus="isDisabled($event)">
+        @input="inputChange"
+        @blur="inputBlur"
+        @focus="checkDisabled">
     </div>
   </div>
 </template>
@@ -31,58 +32,61 @@
   export default {
     name: 'InputTitleText',
     props: {
-      newCheckable: {
-        type: Boolean,
-        default: true
+      //  标题的内容，默认为空字符串
+      itemTitle: {
+        type: String,
+        default: ''
       },
+      //  是否显示checkbox选择框
       isCheckable: {
         type: Boolean,
         default: false
       },
-      itemTitle: {
-        type: Boolean,
-        required: true
-      },
+      //  是否为选中状态
       itemChecked: {
         type: Boolean,
         default: false
       },
-      disabled: {
+      //  是否被禁用编辑
+      isDisabled: {
         type: Boolean,
         default: false
       },
-      isEdit: {
+      //  被禁用编辑的提示，默认为''，不提示；如果要显示提示文字，需要传入提示的文字
+      disabledText: {
+        type: String,
+        default: ''
+      },
+      //  是否显示底部的border
+      isShowBottomBorder: {
         type: Boolean,
         default: false
       }
     },
     data () {
       return {
+        placeholder: '输入任务标题'
       }
     },
     computed: {},
     methods: {
-      onPanMove () {
-      },
-      isMaxlength (title) {
-        title = title || ''
-        return title.length > 15
-      },
-      isDisabled (e) {
-        if (this.disabled) {
+      checkDisabled (e) {
+        if (this.isDisabled) {
           e.target.blur()
-          window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
+          if (this.disabledText) {
+            window.rsqadmg.execute('toast', {message: this.disabledText})
+          }
         }
       },
-      inputBlur (value) {
-        this.$emit('text-blur', value)
+      inputBlur (e) {
+        this.$emit('text-blur', e.target.value)
       },
-      inputChange (value) {
-        this.$emit('text-change', value)
+      inputChange (e) {
+        this.$emit('text-change', e.target.value)
       },
       clickCheckOut () {
-        if (this.disabled) {
-          window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
+        if (this.isDisabled) {
+          window.rsqadmg.execute('toast', {message: this.disabledText})
           return
         }
         this.$emit('click-checkout', !this.itemChecked)
@@ -93,9 +97,6 @@
 <style lang="scss" scoped>
   .edit-text-font{
     font-family: PingFangSC-Medium;
-  }
-  .new-text-font{
-    font-family: PingFangSC-Regular;
   }
   .wrap-icon{
     display: flex;
@@ -121,7 +122,7 @@
     position: relative;
     background-color: white;
   }
-  .real-width{
+  .title-input{
     text-overflow: ellipsis;
     overflow: hidden;
     white-space:nowrap
@@ -134,7 +135,7 @@
     background: #FFFFFF;
     border-radius: 1px;
   }
-  .isdisplay-title{
+  .is-display-title{
     display: block;
     position:absolute;
     top:0.34rem;
@@ -154,9 +155,6 @@
   }
   .padding-left-input{
     margin-left: 0.1rem;
-    padding-left: 0.2rem;
-  }
-  .inbox-padding-left{
     padding-left: 0.3rem;
   }
   input::-webkit-input-placeholder { /* WebKit browsers */
@@ -168,12 +166,9 @@
   input[type='text']{
     background: #FFFFFF;
     line-height:0.72rem ;
-    padding-bottom:0.305rem ;
-    padding-top: 0.305rem;
+    padding: 0.3rem;
     font-size: 0.506rem;
     border-radius: 0;
     color: #3D3D3D;
-  }
-  .padding-left-input{
   }
 </style>

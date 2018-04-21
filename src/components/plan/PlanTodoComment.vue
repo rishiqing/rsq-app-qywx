@@ -14,7 +14,7 @@
       @finish-upload="finishUpload" />
     <v-touch
       class="sendComment"
-      @tap="commentBlur(content)">
+      @tap="submitComment(content)">
       <a
         href="javascript:;"
         class="weui-btn weui-btn_primary">
@@ -47,25 +47,7 @@
       }
     },
     mounted () {
-//      var that = this
       window.rsqadmg.execute('setTitle', {title: '评论'})
-//      window.rsqadmg.execute('setOptionButtons', {
-//        btns: [{key: 'sendComent', name: '发送'}],
-//        success (res) {
-//          if (res.key === 'sendComent') {
-//            if (that.uploadingFile.length > 0) {
-//              window.rsqadmg.exec('confirm', {
-//                message: '还有未上传完成的附件，确定发送？',
-//                success: function () {
-//                  that.comentBlur(that.content)
-//                }
-//              })
-//            } else {
-//              that.comentBlur(that.content)
-//            }
-//          }
-//        }
-//      })
     },
     methods: {
       setFileId (p) {
@@ -80,16 +62,18 @@
           }
         }
       },
-      commentBlur (newTitle) {
+      submitComment (newTitle) {
         if (!newTitle && this.fileId.length === 0) {
           return window.rsqadmg.execute('alert', {message: '任务评论不能为空'})
         }
         var that = this
-//        console.log('this.currentdate是' + this.defaultTaskDate)
-        this.$store.dispatch('postTodoComment', {commentContent: newTitle, fileIds: this.fileId, createTaskDate: this.defaultTaskDate})
+        this.$store.dispatch('createKanbanItemComment',
+          {
+            commentContent: newTitle,
+            fileIds: this.fileId
+          })
           .then((com) => {
-            that.$router.replace(window.history.back())
-//            alert(JSON.stringify(com))
+            that.$router.go(-1)
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '保存成功'})
           })

@@ -16,13 +16,13 @@
     </div>
     <div class="margin-block"/>
     <ul
-      :class="{hasborder:!haschild}"
+      :class="{'has-border': !hasChild}"
       class="sublist">
       <template v-if="finalItems">
         <li
           v-for="item in finalItems"
           :key="item.id"
-          class="sublistItem">
+          class="sublist-item">
           <v-touch
             class="wrap-sub-icon"
             @tap="clickCheckOut(item)">
@@ -73,13 +73,13 @@
       finalItems () {
         return this.items ? this.items : this.subItems
       },
-      todoid () {
+      todoId () {
         return this.$store.state.todo.currentTodo.id
       },
       currentTodo () {
         return this.$store.state.todo.currentTodo
       },
-      haschild () {
+      hasChild () {
         if (this.$store.state.todo.currentTodo.subtodos) {
           return this.$store.state.todo.currentTodo.subtodos.length === 0
         }
@@ -142,13 +142,13 @@
       saveTodo () {
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         if (this.currentTodo.kanbanId) {
-          this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.todoid}).then(() => {
+          this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.todoId}).then(() => {
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
         } else {
-          this.$store.dispatch('createSubtodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoid})
+          this.$store.dispatch('createSubtodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoId})
             .then(() => {
               //  触发标记重复修改
 //            console.log('创建完成了')
@@ -177,9 +177,6 @@
 <style scoped>
   .is-editable{
     disabled:true
-  }
-  .IsDisplayRemind{
-    display: none;
   }
   .remind-subtodo{
     font-family: PingFangSC-Regular;
@@ -235,7 +232,7 @@
     padding-left: 0.6rem;
     z-index: 0;
   }
-  .hasborder{
+  .has-border{
     border-top:1px solid #E0E0E0;
     border-bottom:1px solid #E0E0E0;
   }
@@ -250,10 +247,10 @@
     overflow: hidden;
     white-space:nowrap;
   }
-  .sublistItem:last-child{
+  .sublist-item:last-child{
     border-bottom: none;
   }
-  .sublistItem{
+  .sublist-item{
     position: relative;
     /*padding-top: 0.1rem;*/
     border-bottom:1px solid #DADADA ;
@@ -265,7 +262,7 @@
     display: flex;
     align-items: center;
   }
-  .topSubtodo{
+  .top-subtodo{
     position:fixed;
     background-color: white;
     line-height: 1.226rem;;

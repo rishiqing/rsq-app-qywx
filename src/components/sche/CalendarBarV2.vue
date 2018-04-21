@@ -22,8 +22,9 @@
     </table>
   </div>
 </template>
-<script scoped>
+<script>
   export default {
+    name: 'CalendarBar',
     props: {
       days: {
         type: Array,
@@ -66,7 +67,7 @@
     }
   }
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
   @import '../../assets/css/variables.scss';
   .cal-bar {
     position: absolute;

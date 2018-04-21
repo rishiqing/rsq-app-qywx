@@ -114,77 +114,6 @@
     </div>
   </div>
 </template>
-<style lang="scss">
-  @import "../../../assets/css/variables.scss";
-  .select-repeat {
-    .popup {
-      box-sizing: border-box;position: fixed;background:#fff;backface-visibility: hidden;transition: .2s ease-out;
-    }
-    .popup-bottom {
-      top: auto;right: 0;bottom: 0;left: 0;
-      /*-webkit-transform: translate3d(-50%,0,0);*/
-      /*transform: translate3d(-50%,0,0);*/
-    }
-    .header {
-      font-size: 0.453rem; height: 1.07rem; line-height: 1.07rem; padding: 0 0.293rem;
-      border-bottom: 1px solid #E0E0E0; overflow: hidden;
-    }
-    .popup-title {text-align: center; color: #3D3D3D;}
-    .popup-button {color: #007AFF;}
-    .tab-panel {
-      font-size: 0.4rem; color: #8C8C8C; height: 1.17rem; line-height: 1.17rem;
-      border-bottom: 1px solid #E0E0E0; overflow: hidden; padding: 0 1.2rem;
-    }
-    .tab-bg {
-      float: left; width: 25%; overflow: hidden;text-align: center;
-    }
-    .is-tab-active {color: #55A8FD;}
-    .body {height: 5.85rem;overflow: auto;}
-    .body-list {font-size: 0.453rem; color: #333333;}
-    .body-list li:first-child {border-top: 1px solid #E0E0E0;}
-    .body-list li {
-      position: relative;
-      box-sizing: border-box;
-      padding: 0 0.293rem; height: 1.17rem; line-height: 1.17rem;
-      border-bottom: 1px solid #E0E0E0; overflow: hidden;
-    }
-    .body-table {
-      box-sizing: border-box; width: 100%; height: 100%; padding: 0.2rem 0.4rem;
-      font-size: 0.32rem; color: #666666;
-    }
-    .body-table table {width:100%; height: 100%;}
-    .body-table table td {position: relative;}
-    .dp-day {margin:0 auto;width:30px;height:30px;line-height:30px;text-align: center;border-radius: 50%;}
-    div.dp-selected {background: #55A8FD; color:#fff;}
-    .dp-is-last {
-      position: absolute; top: 50%; left: 50%; width: 50px;
-      height: 30px; line-height: 30px;
-      margin-left: -10px; margin-top: -15px;}
-    .footer {
-      background: #FDFDFF; color: #3D3D3D; font-size: 0.347rem;padding: 0 0.293rem;
-      height: 45px; line-height: 45px; border-top: 1px solid #E0E0E0;
-    }
-    .footer p {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .is-finish{
-      position:absolute;
-      right:0.63rem;
-      top:0.33rem;
-      color: #55A8FD;
-      font-weight: bold;
-    }
-    .body-img {
-      position:relative; height:100%; text-align: center;
-    }
-    .body-img > img {
-      position: absolute;margin: auto;
-      top: 0;right: 0;left: 0;bottom: 0;
-    }
-  }
-</style>
 <script>
   import dateUtil from 'ut/dateUtil'
   export default{
@@ -415,3 +344,72 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  @import "../../../assets/css/variables.scss";
+  .select-repeat {
+    .popup {
+      box-sizing: border-box;position: fixed;background:#fff;backface-visibility: hidden;transition: .2s ease-out;
+    }
+    .popup-bottom {
+      top: auto;right: 0;bottom: 0;left: 0;
+    }
+    .header {
+      font-size: 0.453rem; height: 1.07rem; line-height: 1.07rem; padding: 0 0.293rem;
+      border-bottom: 1px solid #E0E0E0; overflow: hidden;
+    }
+    .popup-title {text-align: center; color: #3D3D3D;}
+    .popup-button {color: #007AFF;}
+    .tab-panel {
+      font-size: 0.4rem; color: #8C8C8C; height: 1.17rem; line-height: 1.17rem;
+      border-bottom: 1px solid #E0E0E0; overflow: hidden; padding: 0 1.2rem;
+    }
+    .tab-bg {
+      float: left; width: 25%; overflow: hidden;text-align: center;
+    }
+    .is-tab-active {color: #55A8FD;}
+    .body {height: 5.85rem;overflow: auto;}
+    .body-list {font-size: 0.453rem; color: #333333;}
+    .body-list li:first-child {border-top: 1px solid #E0E0E0;}
+    .body-list li {
+      position: relative;
+      box-sizing: border-box;
+      padding: 0 0.293rem; height: 1.17rem; line-height: 1.17rem;
+      border-bottom: 1px solid #E0E0E0; overflow: hidden;
+    }
+    .body-table {
+      box-sizing: border-box; width: 100%; height: 100%; padding: 0.2rem 0.4rem;
+      font-size: 0.32rem; color: #666666;
+    }
+    .body-table table {width:100%; height: 100%;}
+    .body-table table td {position: relative;}
+    .dp-day {margin:0 auto;width:30px;height:30px;line-height:30px;text-align: center;border-radius: 50%;}
+    div.dp-selected {background: #55A8FD; color:#fff;}
+    .dp-is-last {
+      position: absolute; top: 50%; left: 50%; width: 50px;
+      height: 30px; line-height: 30px;
+      margin-left: -10px; margin-top: -15px;}
+    .footer {
+      background: #FDFDFF; color: #3D3D3D; font-size: 0.347rem;padding: 0 0.293rem;
+      height: 45px; line-height: 45px; border-top: 1px solid #E0E0E0;
+    }
+    .footer p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .is-finish{
+      position:absolute;
+      right:0.63rem;
+      top:0.33rem;
+      color: #55A8FD;
+      font-weight: bold;
+    }
+    .body-img {
+      position:relative; height:100%; text-align: center;
+    }
+    .body-img > img {
+      position: absolute;margin: auto;
+      top: 0;right: 0;left: 0;bottom: 0;
+    }
+  }
+</style>

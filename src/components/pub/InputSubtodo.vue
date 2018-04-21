@@ -7,7 +7,63 @@
     </div>
   </v-touch>
 </template>
-<style lang="" scoped>
+<script>
+  export default {
+    name: 'InputSubtodo',
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      editTime: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data () {
+      return {}
+    },
+    computed: {
+      subtodoString () {
+        var finishcount = 0
+        var unfinishcount = 0
+        var result = null
+        var subtodo = this.item.subtodos
+        if (subtodo === undefined) {
+          return ''
+        } else {
+          for (var i = 0; i < subtodo.length; i++) {
+            if (subtodo[i].isDone) {
+              finishcount++
+            } else {
+              unfinishcount++
+            }
+          }
+          if (finishcount === 0 && unfinishcount === 0) {
+            return ''
+          } else {
+            result = finishcount + '条已完成, ' + unfinishcount + '条未完成'
+            return result
+          }
+        }
+      }
+    },
+    methods: {
+      showSubtodo () {
+        if (this.disabled) {
+          window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
+          return
+        }
+        this.$router.push('/todo/' + this.item.id + '/subtodo')
+      }
+    }
+  }
+</script>
+<style lang="scss" scoped>
   .outer-wrap{
     display: flex;
     align-items: center;
@@ -53,60 +109,3 @@
     border-bottom: 1px solid #E0E0E0;
   }
 </style>
-<script>
-  export default {
-    props: {
-      item: {
-        type: Object,
-        required: true
-      },
-      editTime: {
-        type: Boolean,
-        default: false
-      },
-      disabled: {
-        type: Boolean,
-        default: false
-      }
-    },
-    data () {
-      return {}
-    },
-    computed: {
-      subtodoString () {
-        var finishcount = 0
-        var unfinishcount = 0
-        var result = null
-        var subtodo = this.item.subtodos
-        // console.log('---' + subtodo + '----') // 这一行输出两次
-        if (subtodo === undefined) {
-          // console.log('果然相等')
-          return ''
-        } else {
-          for (var i = 0; i < subtodo.length; i++) {
-            if (subtodo[i].isDone) {
-              finishcount++
-            } else {
-              unfinishcount++
-            }
-          }
-          if (finishcount === 0 && unfinishcount === 0) {
-            return ''
-          } else {
-            result = finishcount + '条已完成, ' + unfinishcount + '条未完成'
-            return result
-          }
-        }
-      }
-    },
-    methods: {
-      showSubtodo () {
-        if (this.disabled) {
-          window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
-          return
-        }
-        this.$router.push('/todo/' + this.item.id + '/subtodo')
-      }
-    }
-  }
-</script>

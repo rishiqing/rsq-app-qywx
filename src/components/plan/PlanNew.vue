@@ -49,7 +49,9 @@
   import PlanList from 'com/plan/PlanList'
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
+
   export default {
+    name: 'PlanNew',
     components: {
       'PlanList': PlanList,
       'avatar': Avatar
@@ -118,7 +120,6 @@
         return this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: id})
           .then(idMap => {
             this.selectedLocalList = util.getMapValuePropArray(idMap)
-//            alert(JSON.stringify(this.selectedLocalList))
 //            window.rsqadmg.exec('hideLoader')
           })
       },
@@ -126,10 +127,7 @@
         var that = this
         var corpId = that.loginUser.authUser.corpId
         var selectedArray = util.extractProp(this.selectedLocalList, 'userId')
-//        alert('进来了')
-//        console.log('提取之后内容是' + (selectedArray))
 //        var disabledArray = util.extractProp(this.disabledLocalList, 'userId')
-//        console.log('提取之后禁止内容是' + (selectedArray))
         window.rsqadmg.exec('selectDeptMember', {
           btnText: '确定',  //  选择器按钮文本，pc端需要的参数
           multiple: true, //  默认false，选择单人
@@ -139,26 +137,19 @@
           selectedIds: selectedArray,
           disabledIds: [], //  不能选的人
           success (res) {
-//            alert('cuccess执行了' + JSON.stringify(res.result.userList))
 //            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
 //              that.memberList = res
             if (res.length === 0) {
               return this.$emit('member-changed', [])
             }
-//            console.log('返回来的res是' + JSON.stringify(res))
             var idArray = util.extractProp(res.result.userList, 'id')
-//            alert('返回来的idarray是' + idArray)
 //            window.rsqadmg.exec('showLoader')
             that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
               .then(function (idMap) {
-//                alert('idMAP' + JSON.stringify(idMap))
 //                  window.rsqadmg.exec('hideLoader')
                 var userArray = util.getMapValuePropArray(idMap)
-//                alert('userArray' + JSON.stringify(userArray))
                 that.selectedLocalList = userArray
                 that.rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-//                alert('userArray' + JSON.stringify(that.rsqIdArray))
-//                  alert('rsqIdArray' + JSON.stringify(rsqIdArray))
 //                that.$emit('member-changed', rsqIdArray)
               })
           }
@@ -167,11 +158,11 @@
     }
   }
 </script>
-<style>
+<style lang="scss" scoped>
   .plan-member avatar{
     margin-right: 0.3rem;
   }
-  input::placeholder{ /*WebKit browsers*/
+  input::placeholder{
     color: #B1B1B1;
   }
   .cover-img{
@@ -179,7 +170,6 @@
     top: 0;
     width: 2.08rem;
     height: 1.173rem;
-    /*opacity: 0.3;*/
     left: 0px;
     right: 0;
   }

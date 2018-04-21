@@ -11,26 +11,6 @@
       @todo-item-check="checkTodo"/>
   </ul>
 </template>
-<style lang="scss" scoped>
-  .sche-list{
-    background-color: white;
-    /*border-bottom:1px solid #E3E3E3 ;*/
-    border-top:1px solid #DADADA ;
-    padding-left: 3%;
-    /*height: 12.6rem; // 这里不应该是固定高度*/
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    /*margin-top: 45px;*/
-  }
-  .itemList{
-    padding-bottom:1.306rem;
-    /*height: 12.6rem;*/
-  }
-  /*li:last-child{*/
-    /*border-bottom: none;*/
-  /*}*/
-</style>
 <script>
   import TodoItem from 'com/sche/TodoItem'
   export default {
@@ -72,3 +52,15 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .sche-list{
+    background-color: white;
+    border-top:1px solid #DADADA ;
+    padding-left: 3%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .itemList{
+    padding-bottom:1.306rem;
+  }
+</style>

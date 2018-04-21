@@ -27,6 +27,7 @@
   import TodoItemList from 'com/sche/TodoItemList'
 
   export default {
+    name: 'InboxMain',
     components: {
       'r-todo-item-list': TodoItemList
     },
@@ -63,7 +64,7 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
   .InboxItem{
     background-color: white;
     border-bottom:1px solid #E3E3E3 ;
@@ -77,13 +78,6 @@
     right: 0;
     z-index: 2;
   }
-  /*input::-webkit-input-placeholder { !* WebKit browsers *!*/
-    /*font-family: PingFangSC-Regular;*/
-    /*font-size: 0.453rem;*/
-    /*color: #999999;*/
-    /*line-height:normal;*/
-    /*height: 1.612rem;*/
-  /*}*/
   .topest{
     background-color: #F8F8F8;
     height: 10px;
@@ -129,7 +123,6 @@
     font-family: PingFangSC-Regular;
     font-size: 0.453rem;
     color: #999999;
-    /*line-height:normal;*/
     height: 1.4rem;
   }
   .margin-block {

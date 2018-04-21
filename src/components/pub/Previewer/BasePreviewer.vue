@@ -25,35 +25,6 @@
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
-  .preview {}
-  .preview-mask {position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,0.9);opacity: 0.8;z-index:1500;}
-  .preview-head {position: fixed;top: 0;left: 0;width: 100%;overflow:hidden;
-    text-align: center;cursor: default;background: rgba(0,0,0,.86);z-index: 1530;}
-  .preview-close {
-    position:fixed;
-    /*width: 0.7rem;*/
-    border-radius: 50%;
-    /*line-height: 0.65rem;*/
-    top: 0.45rem;
-    right: 0.35rem;
-    font-size: 22px;
-    color: #fff;
-    background: #000;
-    /*padding-bottom: 0.1rem;*/
-    /*padding-left: 0.04rem;*/
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
-  }
-  .preview-title {text-align:center;width: 80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;
-    margin:0 auto;font-size: 16px;height:1.5rem;line-height:1.5rem;}
-  .preview-img-wrap {position:fixed;left:10%;top:1.5rem;right:10%;bottom:1.5rem;overflow:auto;z-index:1520;}
-  .preview-img {display:block;position:relative;width: 100%;z-index: 1521;}
-  .preview-file-wrap {position:fixed;left:0%;top:1.5rem;right:0%;bottom:0rem;overflow:scroll;z-index:1520;
-    -webkit-overflow-scrolling:touch;}
-  .preview-file {display:block;position:relative;width: 100%;height:100%;z-index: 1521;}
-</style>
 <script>
   export default {
     data () {
@@ -100,3 +71,25 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .preview {}
+  .preview-mask {position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,0.9);opacity: 0.8;z-index:1500;}
+  .preview-head {position: fixed;top: 0;left: 0;width: 100%;overflow:hidden;
+    text-align: center;cursor: default;background: rgba(0,0,0,.86);z-index: 1530;}
+  .preview-close {
+    position:fixed;
+    border-radius: 50%;
+    top: 0.45rem;
+    right: 0.35rem;
+    font-size: 22px;
+    color: #fff;
+    background: #000;
+  }
+  .preview-title {text-align:center;width: 80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;
+    margin:0 auto;font-size: 16px;height:1.5rem;line-height:1.5rem;}
+  .preview-img-wrap {position:fixed;left:10%;top:1.5rem;right:10%;bottom:1.5rem;overflow:auto;z-index:1520;}
+  .preview-img {display:block;position:relative;width: 100%;z-index: 1521;}
+  .preview-file-wrap {position:fixed;left:0%;top:1.5rem;right:0%;bottom:0rem;overflow:scroll;z-index:1520;
+    -webkit-overflow-scrolling:touch;}
+  .preview-file {display:block;position:relative;width: 100%;height:100%;z-index: 1521;}
+</style>

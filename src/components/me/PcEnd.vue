@@ -32,7 +32,21 @@
     </div>
   </div>
 </template>
-<style scoped>
+<script>
+  export default {
+    name: 'PcEnd',
+    data () {
+      return {
+        titleName: '日事清PC端'
+      }
+    },
+    mounted () {
+      window.rsqadmg.exec('setTitle', {title: this.titleName})
+      window.rsqadmg.exec('setOptionButtons', {hide: true})
+    }
+  }
+</script>
+<style lang="scss" scoped>
   .pcEnd-img{
     width:7.413rem;
     height: 4.96rem;
@@ -87,7 +101,6 @@
   }
   .explain-img>img{
     width:7.413rem;
-    /*height: 8.864rem;*/
   }
   .explain-img{
     width: 9.32rem;
@@ -96,22 +109,4 @@
     justify-content: center;
     margin-top: 0.533rem;
   }
-  .explain-bottom>div{
-    /*margin-top: 10px;*/
-    /* border-bottom: 1px solid #E4E4E4;*/
-  }
 </style>
-<script>
-  export default {
-    data () {
-      return {
-        titleName: '日事清PC端'
-      }
-    },
-    mounted () {
-      window.rsqadmg.exec('setTitle', {title: this.titleName})
-      window.rsqadmg.exec('setOptionButtons', {hide: true})
-//      this.$store.dispatch('setNav', {isShow: true})
-    }
-  }
-</script>

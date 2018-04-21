@@ -42,13 +42,9 @@
     </div>
   </div>
 </template>
-<style lang="scss">
-  .login-form {
-    position: absolute;left: 10%;width: 80%;top: 20%;background: #f8f8f8;padding: 10px;
-  }
-</style>
 <script>
   export default {
+    name: 'Login',
     data () {
       return {
         username: 'www123@qq.com',
@@ -69,3 +65,8 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .login-form {
+    position: absolute;left: 10%;width: 80%;top: 20%;background: #f8f8f8;padding: 10px;
+  }
+</style>

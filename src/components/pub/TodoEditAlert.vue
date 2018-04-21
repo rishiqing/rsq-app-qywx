@@ -31,7 +31,7 @@
     <ul class="sec">
       <v-touch
         tag="li"
-        class="defineAlert"
+        class="define-alert"
         @tap="showTimePicker">
         <span class="list-key">自定义</span>
         <span class="list-value">
@@ -42,81 +42,12 @@
     </ul>
   </div>
 </template>
-<style lang="scss">
-  .edit-alert {
-     span.list-key {float:left;}
-     span.list-value {float:right;margin-right:0.94rem;
-        max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
-        color: #999999;}
-    .remind {
-      display: block;
-      margin-left: 0.2rem;
-      font-family: PingFangSC-Regular;
-      font-size: 16px;
-    }
-    .time {
-      position: absolute;
-      font-family: PingFangSC-Regular;
-      font-size: 17px;
-      color: #999999;
-      letter-spacing: 0;
-      right: 0.63rem;
-      top: 0.23rem;
-    }
-    .finish {
-      position: absolute;
-      right: 0.63rem;
-      top: 0.33rem;
-      color: #55A8FD;
-      font-weight: bold;
-    }
-    ul {
-      position: relative;
-      /*border-bottom: 0.5px solid #E3E3E3;*/
-      border-top: 0.5px solid #E3E3E3;
-      background: #FFFFFF;
-    }
-    .top-ul {
-      margin-top: 0.266rem;
-    }
-    .sec {
-      margin-top: 0.373rem;
-    }
-    span {
-      /*line-height: 1.112rem;*/
-      display: block;
-    }
-    li {
-      position: relative;
-      line-height: 1.2rem;
-      height: 1.2rem;
-      border-bottom: 1px solid #E3E3E3;
-      font-family: PingFangSC-Regular;
-      font-size: 17px;
-      color: #3D3D3D;
-      padding-left: 3%;
-    }
-    li:last-child {
-      border: none;
-    }
-    .arrow{
-      position: absolute;
-      right: 0.2rem;
-      top: 50%;
-      margin-top: -0.25rem;
-      font-size: 21px;
-      color: #999999;
-    }
-  }
-  ul.sec .defineAlert{
-    border-bottom: 1px solid #E3E3E3;
-  }
-</style>
 <script>
   import jsUtil from 'ut/jsUtil'
   import moment from 'moment'
 
   export default {
+    name: 'TodoEditAlert',
     data () {
       return {
         noAlert: true,
@@ -248,7 +179,6 @@
       },
       //  将'HH:mm'类型的时间根据baseDate转换成mills值
       getNumDateTime (time) {
-//        console.log('拿到的时间格式是' + time)
         return moment(this.baseDate + ' ' + time, 'YYYYMMDD HH:mm').valueOf()
       },
       parseTimeObj (obj) {
@@ -280,14 +210,11 @@
       mergeRuleList () {
         var selected = this.getSelected(this.displayedRuleList) // 这一步是拿到选中状态的list
         var result = []
-//        console.log('mergeRuleList中的selected是' + JSON.stringify(selected))
-//        console.log('mergeRuleList中的displayedRuleList是' + JSON.stringify(this.displayedRuleList))
         //  执行merge算法(selected本身就是和sysRuleList一致得把为什么还要filter,意思是后来又添加或者修改的selected？？？？？)
         selected.forEach(s => {
           var orgObjArray = this.sysRuleList.filter(org => {
             return org.schedule === s.schedule
           })
-//          console.log('mergeRuleList中的orgObjArray是' + orgObjArray)
           if (orgObjArray.length > 0) {
             result.push(orgObjArray[0])
           } else {
@@ -298,22 +225,18 @@
             })
           }
         })
-//        console.log('mergeRuleList中的result是' + result)
         return result
       },
       //  比对displayedTimeList与userRuleList，计算最终的提醒列表
       //  统一解析成时间来做判断是否相等
       mergeTimeList () {
-//        console.log('拿到的displayedTimeList是' + JSON.stringify(this.displayedTimeList))
         var selected = this.getSelected(this.displayedTimeList)
-//        console.log('拿到的selected是' + JSON.stringify(selected))
         var result = []
         //  执行merge算法
         selected.forEach(s => {
           var orgObjArray = this.userRuleList.filter(org => {
             return s.numTime === jsUtil.alertRule2Time(org.schedule, this.numStartTime, this.numEndTime)
           })
-//          console.log('mergeTimeList中的orgObjArray是' + orgObjArray)
           if (orgObjArray.length > 0) {
             result.push(orgObjArray[0])
           } else {
@@ -323,7 +246,6 @@
             })
           }
         })
-//        console.log('mergeTimeList中的result是' + result)
         return result
       },
       mergeList () {
@@ -344,3 +266,73 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .edit-alert {
+    span.list-key {float:left;}
+    span.list-value {float:right;margin-right:0.94rem;
+      max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
+      color: #999999;}
+    .remind {
+      display: block;
+      margin-left: 0.2rem;
+      font-family: PingFangSC-Regular;
+      font-size: 16px;
+    }
+    .time {
+      position: absolute;
+      font-family: PingFangSC-Regular;
+      font-size: 17px;
+      color: #999999;
+      letter-spacing: 0;
+      right: 0.63rem;
+      top: 0.23rem;
+    }
+    .finish {
+      position: absolute;
+      right: 0.63rem;
+      top: 0.33rem;
+      color: #55A8FD;
+      font-weight: bold;
+    }
+    ul {
+      position: relative;
+      /*border-bottom: 0.5px solid #E3E3E3;*/
+      border-top: 0.5px solid #E3E3E3;
+      background: #FFFFFF;
+    }
+    .top-ul {
+      margin-top: 0.266rem;
+    }
+    .sec {
+      margin-top: 0.373rem;
+    }
+    span {
+      /*line-height: 1.112rem;*/
+      display: block;
+    }
+    li {
+      position: relative;
+      line-height: 1.2rem;
+      height: 1.2rem;
+      border-bottom: 1px solid #E3E3E3;
+      font-family: PingFangSC-Regular;
+      font-size: 17px;
+      color: #3D3D3D;
+      padding-left: 3%;
+    }
+    li:last-child {
+      border: none;
+    }
+    .arrow{
+      position: absolute;
+      right: 0.2rem;
+      top: 50%;
+      margin-top: -0.25rem;
+      font-size: 21px;
+      color: #999999;
+    }
+  }
+  ul.sec .define-alert{
+    border-bottom: 1px solid #E3E3E3;
+  }
+</style>

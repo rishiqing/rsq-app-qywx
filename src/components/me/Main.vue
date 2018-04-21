@@ -21,6 +21,7 @@
   import Avatar from 'com/pub/TextAvatar'
 
   export default {
+    name: 'MeMain',
     components: {
       'avatar': Avatar
     },
@@ -52,7 +53,7 @@
     }
   }
 </script>
-<style scoped >
+<style lang="scss" scoped>
   .me-list{
     display: flex;
     align-items: center;

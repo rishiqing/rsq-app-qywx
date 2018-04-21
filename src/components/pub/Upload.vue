@@ -16,27 +16,10 @@
     </ul>
   </div>
 </template>
-<style lang="scss">
-  .ul-list{
-    margin-top: -15px;
-  }
-  .file-input {
-    cursor: pointer;
-    position:absolute;
-    top: -1rem;
-    font-size:30px;
-    left:0.3rem;
-    width:0.848rem;
-    height: 0.7rem;
-    /*Opacity settings for all browsers*/
-    opacity: 0;
-    -moz-opacity: 0;
-    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0)
-  }
-</style>
 <script>
   import UploadItem from 'com/pub/UploadItem'
   export default {
+    name: 'Upload',
     components: {
       'r-upload-item': UploadItem
     },
@@ -124,7 +107,6 @@
           list: this.unfinishedTask
         }).then(res => {
           // 在这里发送getfromAli
-//          alert('返回' + JSON.stringify(res))
           for (var i = 0; i < res.length; i++) {
             var name = res[i].name
             this.$store.dispatch('toRsqServer', {name: name}).then(res => {
@@ -144,3 +126,21 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .ul-list{
+    margin-top: -15px;
+  }
+  .file-input {
+    cursor: pointer;
+    position:absolute;
+    top: -1rem;
+    font-size:30px;
+    left:0.3rem;
+    width:0.848rem;
+    height: 0.7rem;
+    /*Opacity settings for all browsers*/
+    opacity: 0;
+    -moz-opacity: 0;
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0)
+  }
+</style>

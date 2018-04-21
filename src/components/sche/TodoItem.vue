@@ -49,6 +49,123 @@
     </li>
   </r-slider-delete>
 </template>
+<script>
+  import dateUtil from 'ut/dateUtil'
+  import SliderDelete from 'com/pub/SliderDelete'
+//  import bus from 'com/bus'
+
+  export default {
+    name: 'TodoItem',
+    components: {
+      'r-slider-delete': SliderDelete
+    },
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      isCheckable: {
+        type: Boolean,
+        default: true
+      }
+    },
+    data () {
+      return {}
+    },
+    computed: {
+      currentTodo () {
+        return this.$store.state.todo.currentTodo || {}
+      },
+      currentDate () { return this.$store.getters.defaultTaskDate },
+      isIE () { return this.item.pContainer === 'IE' },
+      isIU () { return this.item.pContainer === 'IU' },
+      isUE () { return this.item.pContainer === 'UE' },
+      isUU () { return this.item.pContainer === 'UU' },
+      delayDays () {
+        return dateUtil.getDelayDays(this.item, this.currentDate, false)
+      },
+      isDelay () {
+        return this.delayDays
+      },
+      isFromSche () {
+        return this.item.isFrom === 'receive'
+      },
+      isFromKanban () {
+        return this.item.isFrom === 'kanban'
+      }
+    },
+    methods: {
+      deleteCurrentTodo (p) {
+        return this.$store.dispatch('deleteTodo', p)
+      },
+      prepareDelete () {
+        var that = this
+        if (that.currentTodo.isCloseRepeat) {
+          window.rsqadmg.exec('confirm', {
+            message: '确定要删除此任务？',
+            success () {
+//              window.rsqadmg.execute('showLoader', {text: '删除中...'})
+              that.deleteCurrentTodo({todo: that.currentTodo})
+                .then(() => {
+                  //                  window.rsqadmg.exec('hideLoader')
+                  window.rsqadmg.execute('toast', {message: '删除成功'})
+                })
+            }
+          })
+        } else {
+          window.rsqadmg.exec('actionsheet', {
+            buttonArray: ['仅删除此任务', '删除此任务及以后的任务', '删除所有的重复任务'],
+            success: function (res) {
+              var promise
+              switch (res.buttonIndex) {
+                case 0:
+                  promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'today'})
+                  break
+                case 1:
+                  promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'after'})
+                  break
+                case 2:
+                  promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'all'})
+                  break
+                default:
+                  break
+              }
+              promise.then(() => {
+                window.rsqadmg.exec('hideLoader')
+                window.rsqadmg.execute('toast', {message: '删除成功'})
+//                  that.$router.replace(window.history.back())
+              })
+            }
+          })
+        }
+      },
+      deleteItem () {
+//        bus.$emit('deleteItemList')
+//        e.stopPropagation()
+        var that = this
+        this.$store.dispatch('setCurrentTodo', this.item).then(
+          () => {
+            that.prepareDelete()
+          }
+        )
+      },
+      isMaxlength (item) {
+        return item.pTitle.length > 10
+      },
+      clickItem (e) {
+        //  这个是点击跳到编辑界面
+        if (!e.target.classList.contains('icon2-check-box')) {
+          this.$emit('todo-item-click', this.item)
+          e.preventDefault()
+        }
+      },
+      clickCheckOut (e) {
+        this.$emit('todo-item-check', this.item, !this.item.pIsDone)
+        e.preventDefault()
+      }
+    }
+  }
+</script>
 <style lang="scss" scoped>
   .isfrom{
     display: none;
@@ -162,120 +279,3 @@
     height: 1.6rem;
   }
 </style>
-<script>
-  import dateUtil from 'ut/dateUtil'
-  import SliderDelete from 'com/pub/SliderDelete'
-//  import bus from 'com/bus'
-  export default {
-    name: 'TodoItem',
-    components: {
-      'r-slider-delete': SliderDelete
-    },
-    props: {
-      item: {
-        type: Object,
-        required: true
-      },
-      isCheckable: {
-        type: Boolean,
-        default: true
-      }
-    },
-    data () {
-      return {}
-    },
-    computed: {
-      currentTodo () {
-        return this.$store.state.todo.currentTodo || {}
-      },
-      currentDate () { return this.$store.getters.defaultTaskDate },
-      isIE () { return this.item.pContainer === 'IE' },
-      isIU () { return this.item.pContainer === 'IU' },
-      isUE () { return this.item.pContainer === 'UE' },
-      isUU () { return this.item.pContainer === 'UU' },
-      delayDays () {
-        return dateUtil.getDelayDays(this.item, this.currentDate, false)
-      },
-      isDelay () {
-        return this.delayDays
-      },
-      isFromSche () {
-        return this.item.isFrom === 'receive'
-      },
-      isFromKanban () {
-        return this.item.isFrom === 'kanban'
-      }
-    },
-    methods: {
-      deleteCurrentTodo (p) {
-        return this.$store.dispatch('deleteTodo', p)
-      },
-      prepareDelete () {
-        var that = this
-        if (that.currentTodo.isCloseRepeat) {
-          window.rsqadmg.exec('confirm', {
-            message: '确定要删除此任务？',
-            success () {
-//              window.rsqadmg.execute('showLoader', {text: '删除中...'})
-              that.deleteCurrentTodo({todo: that.currentTodo})
-                .then(() => {
-                  //                  window.rsqadmg.exec('hideLoader')
-                  window.rsqadmg.execute('toast', {message: '删除成功'})
-                })
-            }
-          })
-        } else {
-          window.rsqadmg.exec('actionsheet', {
-            buttonArray: ['仅删除此任务', '删除此任务及以后的任务', '删除所有的重复任务'],
-            success: function (res) {
-              var promise
-              switch (res.buttonIndex) {
-                case 0:
-                  promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'today'})
-                  break
-                case 1:
-                  promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'after'})
-                  break
-                case 2:
-                  promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'all'})
-                  break
-                default:
-                  break
-              }
-              promise.then(() => {
-                window.rsqadmg.exec('hideLoader')
-                window.rsqadmg.execute('toast', {message: '删除成功'})
-//                  that.$router.replace(window.history.back())
-              })
-            }
-          })
-        }
-      },
-      deleteItem () {
-//        console.log('todoitem到了')
-//        bus.$emit('deleteItemList')
-//        e.stopPropagation()
-        var that = this
-        this.$store.dispatch('setCurrentTodo', this.item).then(
-          () => {
-            that.prepareDelete()
-          }
-        )
-      },
-      isMaxlength (item) {
-        return item.pTitle.length > 10
-      },
-      clickItem (e) {
-        //  这个是点击跳到编辑界面
-        if (!e.target.classList.contains('icon2-check-box')) {
-          this.$emit('todo-item-click', this.item)
-          e.preventDefault()
-        }
-      },
-      clickCheckOut (e) {
-        this.$emit('todo-item-check', this.item, !this.item.pIsDone)
-        e.preventDefault()
-      }
-    }
-  }
-</script>

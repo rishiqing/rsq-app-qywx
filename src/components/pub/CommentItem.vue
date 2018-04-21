@@ -16,14 +16,14 @@
         </div>
         <div class="bottom">
           <div
-            v-if="IfReplyComment"
+            v-if="ifReplyComment"
             class="comentContent">
             <span
               class="replyComment"
               v-html="item.commentContent">
               {{ item.commentContent }}
             </span>
-            <!--<span class="comentContent">{{ item.commentContent.substr(IndexOfBlank + 1) }}</span>-->
+            <!--<span class="comentContent">{{ item.commentContent.substr(indexOfBlank + 1) }}</span>-->
           </div>
           <div
             v-else
@@ -90,103 +90,11 @@
     </li>
   </v-touch>
 </template>
-<style scoped>
-  .replyComment{
-    background: rgba(0,0,0,.1);
-  }
-  .coment{
-    padding-left: 3%;
-    margin-top:0.613rem ;
-    margin-bottom: 0.54rem;
-    line-height: 0.7rem;
-    border-bottom: none;
-    display: flex;
-    /*align-items: center;*/
-  }
-  .comment:last-child{
-    margin-bottom: 1rem;
-  }
-  .file-name{
-    font-family: PingFangSC-Regular;
-    font-size: 13px;
-    color: #BFBFBF;
-    margin-left: 10px;
-    width: 70%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .file-size{
-    font-family: PingFangSC-Regular;
-    font-size: 13px;
-    color: #BFBFBF;
-    /*display: block;*/
-    margin-left:0.4rem;
-    /*float: right;*/
-  }
-  .comment-photo{
-    width: 25px;
-    height: 29px;
-  }
-  .coment-item-picture{
-    display: flex;
-    align-items: center;
-    padding: 5px;
-    background-color: white;
-    border: 1px solid #E0E0E0;
-    width: 91%;
-    margin-top: 5px;
-  }
-  .coment:after{
-    display: block;
-    content: '';
-    clear: both;
-  }
-  .time{
-    font-size:13px;
-    color:#8C8C8C ;
-    /*width: 2.186rem;*/
-    /*position: absolute;*/
-    /*right:0.26rem;*/
-    font-family: PingFangSC-Regular;
-  }
-  .left{
-    width: 1.093rem;
-    float: left;
-    zoom: 1;
-  }
-  .right{
-    padding: 0;
-    /*width: calc(100% - 52px);*/
-    /*float: left;*/
-    border: none;
-  }
-  .top{
-    display: flex;
-    align-items: center;
-    /*padding-right: 0.3rem;*/
-    margin-top: -4px;
-    justify-content: space-between;
-  }
-  .author{
-    width: 5.733rem;
-    font-family: PingFangSC-Regular;
-    font-size: 12px;
-    color: #8C8C8C;
-    letter-spacing: 0;
-  }
-  .comentContent{
-    width: 94%;
-    font-family: STHeitiSC-Light;
-    font-size: 15px;
-    color: #111111;
-    letter-spacing: 0;
-    line-height: 21px;
-  }
-</style>
 <script>
   import Avatar from 'com/pub/TextAvatar'
+
   export default {
+    name: 'CommentItem',
     components: {
       'avatar': Avatar
     },
@@ -214,11 +122,11 @@
       comments () {
         return this.$store.state.todo.currentTodo.comments
       },
-      IfReplyComment () {
+      ifReplyComment () {
         return (this.item.commentContent.indexOf('@') !== -1)
       },
-      IndexOfBlank () {
-        if (this.IfReplyComment) {
+      indexOfBlank () {
+        if (this.ifReplyComment) {
           return this.item.commentContent.indexOf('&')
         }
       }
@@ -277,3 +185,88 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .replyComment{
+    background: rgba(0,0,0,.1);
+  }
+  .coment{
+    padding-left: 3%;
+    margin-top:0.613rem ;
+    margin-bottom: 0.54rem;
+    line-height: 0.7rem;
+    border-bottom: none;
+    display: flex;
+  }
+  .comment:last-child{
+    margin-bottom: 1rem;
+  }
+  .file-name{
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    color: #BFBFBF;
+    margin-left: 10px;
+    width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .file-size{
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    color: #BFBFBF;
+    margin-left:0.4rem;
+  }
+  .comment-photo{
+    width: 25px;
+    height: 29px;
+  }
+  .coment-item-picture{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: white;
+    border: 1px solid #E0E0E0;
+    width: 91%;
+    margin-top: 5px;
+  }
+  .coment:after{
+    display: block;
+    content: '';
+    clear: both;
+  }
+  .time{
+    font-size:13px;
+    color:#8C8C8C ;
+    font-family: PingFangSC-Regular;
+  }
+  .left{
+    width: 1.093rem;
+    float: left;
+    zoom: 1;
+  }
+  .right{
+    padding: 0;
+    border: none;
+  }
+  .top{
+    display: flex;
+    align-items: center;
+    margin-top: -4px;
+    justify-content: space-between;
+  }
+  .author{
+    width: 5.733rem;
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
+    color: #8C8C8C;
+    letter-spacing: 0;
+  }
+  .comentContent{
+    width: 94%;
+    font-family: STHeitiSC-Light;
+    font-size: 15px;
+    color: #111111;
+    letter-spacing: 0;
+    line-height: 21px;
+  }
+</style>

@@ -72,6 +72,7 @@
   import CalendarBar from 'com/sche/CalendarBarV2'
   import CalendarPane from 'com/sche/CalendarPaneV2'
   import dateUtil from 'ut/dateUtil'
+
   export default {
     name: 'Calendar',
     components: {
@@ -376,7 +377,7 @@
     }
   }
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
   @import '../../assets/css/variables.scss';
   .c-cal-main {
     position: fixed;color:white;font-size: 1.4rem;

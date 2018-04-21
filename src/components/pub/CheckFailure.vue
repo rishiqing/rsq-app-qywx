@@ -8,9 +8,24 @@
       <div class="returnTo">返回首页</div>
     </v-touch>
   </div>
-
 </template>
-<style>
+<script>
+  export default {
+    name: 'CheckFailure',
+    data () {
+      return {}
+    },
+    methods: {
+      returnTo () {
+        this.$router.replace('/sche')
+      }
+    },
+    beforeRouteLeave (to, from, next) {
+      next('/')
+    }
+  }
+</script>
+<style lang="scss" scoped>
   .check-failure{
     text-align: center;
     position: absolute;
@@ -45,21 +60,3 @@
   }
 
 </style>
-<script>
-  export default {
-    data () {
-      return {}
-    },
-    methods: {
-      returnTo () {
-//        console.log('进来了')
-        this.$router.replace('/sche')
-      }
-    },
-    beforeRouteLeave (to, from, next) {
-//      this.$router.replace('/sche')
-//      console.log(from)
-      next('/')
-    }
-  }
-</script>

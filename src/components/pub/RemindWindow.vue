@@ -26,7 +26,26 @@
     </div>
   </div>
 </template>
-<style>
+<script>
+  export default {
+    name: 'RemindWindow',
+    data () {
+      return {}
+    },
+    methods: {
+      SwitchToexplain () {
+        this.$store.commit('SYS_GUIDE_SHOW', {isShow: false})
+        window.rsqadmg.exec('setItem', this.$store.state.env.version)
+        this.$router.push('/pub/explain')
+      },
+      SwitchTosche () {
+        this.$store.commit('SYS_GUIDE_SHOW', {isShow: false})
+        window.rsqadmg.exec('setItem', this.$store.state.env.version)
+      }
+    }
+  }
+</script>
+<style lang="scss" scoped>
   div{
     margin:0;
     padding: 0;
@@ -65,7 +84,6 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    /*background-color: #3E86D6;*/
     background-image: linear-gradient(-90deg, #69ACEF 0%, #3E86D6 100%);
   }
   .window-top>img{
@@ -125,21 +143,3 @@
     background-color: white;
   }
 </style>
-<script>
-  export default {
-    data () {
-      return {}
-    },
-    methods: {
-      SwitchToexplain () {
-        this.$store.commit('SYS_GUIDE_SHOW', {isShow: false})
-        window.rsqadmg.exec('setItem', this.$store.state.env.version)
-        this.$router.push('/pub/explain')
-      },
-      SwitchTosche () {
-        this.$store.commit('SYS_GUIDE_SHOW', {isShow: false})
-        window.rsqadmg.exec('setItem', this.$store.state.env.version)
-      }
-    }
-  }
-</script>

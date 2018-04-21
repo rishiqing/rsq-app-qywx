@@ -23,65 +23,11 @@
       class="progress-mask" />
   </li>
 </template>
-<style lang="scss" scoped>
-  .small-img{
-    width: 27px;
-    height: 27px;
-  }
-  .icon-wrap {
-    position:absolute;top:0;right:0.5rem;bottom:0;overflow:hidden;
-  }
-  .icon-wrap > * {
-    float: right;line-height:1.2rem;
-  }
-  .delete-comment {
-    color: #DEDEDE;
-    font-size: 18px;
-    z-index:9;
-  }
-  .done-text {
-    color: #9B9B9B;font-size: 12px;padding-right:0.3rem;
-  }
-  .file-name {
-    font-family:AppleSystemUIFont;
-    margin-left: 10px;
-  }
-  .word{
-    font-size: 13px;
-    color: #3D3D3D;
-    width: 85%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .file-size {
-    font-size: 12px;color: #9B9B9B;
-  }
-  .task-list{
-    position: relative;
-    display:flex;
-    align-items: center;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: none;
-    background-color: white;
-    padding-left: 13px;
-    height: 1.2rem;
-  }
-  .task-list:last-child{
-    border-bottom: 1px solid #E0E0E0;
-  }
-  .progress-mask {
-    position: absolute; top:0;bottom:0;left:0;width:1%;background: rgba(0,122,255,0.2);
-    transition: transform 1s ease-in-out;
-    -webkit-transition: -webkit-transform 1s ease-in-out;
-    transform-origin: 0 50%;
-    -webkit-transform-origin: 0 50%;
-  }
-</style>
 <script>
   import util from 'ut/jsUtil'
 
   export default {
+    name: 'UploadItem',
     props: {
       task: {
         type: Object,
@@ -147,3 +93,58 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .small-img{
+    width: 27px;
+    height: 27px;
+  }
+  .icon-wrap {
+    position:absolute;top:0;right:0.5rem;bottom:0;overflow:hidden;
+  }
+  .icon-wrap > * {
+    float: right;line-height:1.2rem;
+  }
+  .delete-comment {
+    color: #DEDEDE;
+    font-size: 18px;
+    z-index:9;
+  }
+  .done-text {
+    color: #9B9B9B;font-size: 12px;padding-right:0.3rem;
+  }
+  .file-name {
+    font-family:AppleSystemUIFont;
+    margin-left: 10px;
+  }
+  .word{
+    font-size: 13px;
+    color: #3D3D3D;
+    width: 85%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .file-size {
+    font-size: 12px;color: #9B9B9B;
+  }
+  .task-list{
+    position: relative;
+    display:flex;
+    align-items: center;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: none;
+    background-color: white;
+    padding-left: 13px;
+    height: 1.2rem;
+  }
+  .task-list:last-child{
+    border-bottom: 1px solid #E0E0E0;
+  }
+  .progress-mask {
+    position: absolute; top:0;bottom:0;left:0;width:1%;background: rgba(0,122,255,0.2);
+    transition: transform 1s ease-in-out;
+    -webkit-transition: -webkit-transform 1s ease-in-out;
+    transform-origin: 0 50%;
+    -webkit-transform-origin: 0 50%;
+  }
+</style>

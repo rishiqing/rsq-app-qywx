@@ -15,6 +15,7 @@
 </template>
 <script>
   export default {
+    name: 'Plan',
     props: {
       item: {
         type: Object,
@@ -51,7 +52,7 @@
     }
   }
 </script>
-<style>
+<style lang="scss" scoped>
   .forward-plan{
     display: flex;
     align-items: center;

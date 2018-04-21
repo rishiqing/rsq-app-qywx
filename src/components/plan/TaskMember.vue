@@ -10,7 +10,9 @@
 <script>
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
+
   export default {
+    name: 'TaskMember',
     components: {
       'avatar': Avatar
     },
@@ -35,10 +37,8 @@
     },
     mounted () {
       var corpId = this.loginUser.authUser.corpId
-//      alert('金莱尔')
       this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.item.joinUserIds]})
         .then(idMap => {
-//          alert('idmap' + JSON.stringify(util.getMapValuePropArray(idMap)))
           this.local = util.getMapValuePropArray(idMap)
 //            window.rsqadmg.exec('hideLoader')
         })
@@ -46,7 +46,7 @@
   }
 
 </script>
-<style>
+<style lang="scss" scoped>
   .task-member{
     margin-top: 0.2rem;
   }

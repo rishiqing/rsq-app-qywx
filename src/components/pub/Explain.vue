@@ -31,7 +31,9 @@
     </div>
   </div>
 </template>
-<style scoped>
+<script>
+</script>
+<style lang="scss" scoped>
   p{
     margin:0;
   }
@@ -57,12 +59,12 @@
     color: #E0E0E0;
     letter-spacing: 0;
   }
- .explain-title{
-   font-family: PingFangSC-Regular;
-   font-size: 17px;
-   color: #000000;
-   letter-spacing: 0;
- }
+  .explain-title{
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #000000;
+    letter-spacing: 0;
+  }
   .explain-content{
     font-family: PingFangSC-Regular;
     font-size: 14px;
@@ -71,23 +73,19 @@
     line-height: 18px;
     margin-top: 5px;
   }
- .explain-img>img{
-   width: 5.648rem;
-   /*height: 8.864rem;*/
- }
+  .explain-img>img{
+    width: 5.648rem;
+  }
   .explain-img .last-picture{
-   width: 4.5rem;
- }
- .explain-img{
-   width: 9.32rem;
-   display: flex;
-   align-items: center;
-   justify-content: center;
- }
+    width: 4.5rem;
+  }
+  .explain-img{
+    width: 9.32rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .explain-bottom>div{
     margin-top: 10px;
-    /* border-bottom: 1px solid #E4E4E4;*/
   }
 </style>
-<script>
-</script>

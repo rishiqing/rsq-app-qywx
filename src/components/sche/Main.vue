@@ -56,7 +56,7 @@
   }
 
   export default {
-    name: 'ScheduleView',
+    name: 'ScheMain',
     components: {
       'r-calendar': Calendar,
       'r-pull-to-refresh': Pull,
@@ -80,7 +80,6 @@
       items () {
         var items = this.$store.state.schedule.items
         var newItems = []
-//        console.log(JSON.stringify(items))
         if (items !== null && items.length !== 0) {
           for (var i = 0; i < items.length; i++) {
             if (!items[i].pIsDone) {
@@ -123,14 +122,12 @@
         this.isShowAnimate = true
       },
       checkScroll (p) {
-//        console.log('-========')
 //        this.enablePullToRefresh = false
 //        var main = document.getElementById('calMain')
 //        main.scrollTop = -p.deltaY
       },
       updateScroll () {
         //  获取列表后，始终错位一个像素，保证上拉刷新
-//        console.log('=@_@===---------===#_#=')
 //        this.$nextTick(() => {
 //          var main = document.getElementById('calMain')
 //          main.scrollTop = 50
@@ -203,7 +200,7 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
   .main_inbox{
     position: fixed;
     bottom: 1.6rem;

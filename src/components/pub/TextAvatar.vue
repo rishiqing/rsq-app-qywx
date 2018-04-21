@@ -9,6 +9,7 @@
 </template>
 <script>
   export default{
+    name: 'TextAvatar',
     props: {
       username: {
         type: String,

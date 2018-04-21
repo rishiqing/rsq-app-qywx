@@ -71,7 +71,38 @@
     <div v-else />
   </li>
 </template>
-<style scoped>
+<script>
+  import Avatar from 'com/pub/TextAvatar'
+
+  export default {
+    name: 'CommentRecord',
+    components: {
+      'avatar': Avatar
+    },
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      more: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data () {
+      return {
+      }
+    },
+    computed: {
+      loginUser () {
+        return this.$store.state.loginUser
+      }
+    },
+    methods: {
+    }
+  }
+</script>
+<style lang="scss" scoped>
   .list{
     display: flex;
     align-items: center;
@@ -117,35 +148,5 @@
     font-size: 13px;
     color:#999999;
     display: inline-block;
-    /*width: 2.133rem;*/
   }
 </style>
-<script>
-  import Avatar from 'com/pub/TextAvatar'
-  export default {
-    components: {
-      'avatar': Avatar
-    },
-    props: {
-      item: {
-        type: Object,
-        required: true
-      },
-      more: {
-        type: Boolean,
-        default: false
-      }
-    },
-    data () {
-      return {
-      }
-    },
-    computed: {
-      loginUser () {
-        return this.$store.state.loginUser
-      }
-    },
-    methods: {
-    }
-  }
-</script>

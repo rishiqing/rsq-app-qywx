@@ -49,133 +49,12 @@
     </v-touch>
   </div>
 </template>
-<style lang="scss">
-  .setEndTime{
-    /*border-bottom:0.5px solid #DADADA;*/
-  }
-  .weui-picker__item{
-    font-size: 18px;
-  }
-  .weui-picker__action:first-child, .weui-picker__action{
-    color: skyblue;
-  }
-  .edit-time {
-    .switch-wrapper {
-      position: absolute;
-      top:0.15rem;
-      right:0.25rem;
-      color: #333333;
-    }
-    input.mui-switch-time {
-      display: block;
-      width: 50px;
-      height: 31px;
-      border: 1px solid #dfdfdf;
-      background-color: #fdfdfd;
-      box-shadow: #dfdfdf 0 0 0 0 inset;
-      border-radius: 20px;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      background-clip: content-box;
-      -webkit-appearance: none;
-      user-select: none;
-      outline: none; }
-    input.mui-switch-time:before {
-      content: '';
-      width: 29px;
-      height: 30px;
-      position: absolute;
-      top: 0px;
-      left: 0;
-      border-radius: 20px;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      background-color: #fff;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
-    input.mui-switch-time:checked {
-      border-color: #67B2FE;
-      box-shadow: #67B2FE 0 0 0 16px inset;
-      background-color: #67B2FE; }
-    input.mui-switch-time:checked:before {
-      left: 21px; }
-
-    .is-text-disabled span {color: #DDDDDD;}
-    .is-text-disabled .arrow {color:#E0E0E0;}
-    .arrow{
-      position: absolute;
-      right: 0.2rem;
-      top: 50%;
-      margin-top: -0.25rem;
-      font-size: 21px;
-      color: #999999;
-    }
-    ul{
-      background-color: white;
-      /*border-bottom:0.5px solid #DADADA;*/
-      border-top:0.5px solid #DADADA;
-    }
-    .edit-time-all-day{
-      margin-top: 0.231rem;
-      /*border-bottom:0.5px solid #DADADA;*/
-      border-top:0.5px solid #DADADA;
-    }
-    .edit-time-all-day>li{
-      padding-left: 3%;
-    }
-    .last>li{
-      padding-left: 3%;
-    }
-    li{
-      position: relative;
-      line-height:1.2rem ;
-      height: 1.2rem;
-      border-bottom:0.5px solid #DADADA;
-      box-sizing: border-box;
-      padding-left: 3%;
-    }
-    .sec{
-      margin-top:0.231rem ;
-      border-bottom:0.5px solid #DADADA;
-    }
-    .last{
-      margin-top:0.391rem ;
-    }
-    .sec>li:last-child{
-      border: none;
-    }
-    span{
-      display: block;
-      font-family: PingFangSC-Regular;
-      font-size: 17px;
-      letter-spacing: 0;
-    }
-    span.list-key {float:left;}
-    span.list-value {float:right;margin-right:0.94rem;
-      max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
-      color: #999999;
-    }
-    .sec span{}
-    .last span{}
-  }
-  .date-clear {
-    text-align: center;
-    line-height: 1.2rem;
-    font-size: 0.4rem;
-    background-color: #FFF;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-  }
-</style>
 <script>
   import moment from 'moment'
   import jsUtil from 'ut/jsUtil'
 
   export default {
+    name: 'TodoEditTime',
     data () {
       return {
         autoStart: true,
@@ -234,7 +113,6 @@
        */
       initData () {
         //  检查pub区是否有缓存，有缓存则读缓存，否则从currentTodo上读取
-//        console.log('进来一次')
         jsUtil.extendObject(this.clock, this.todoTime.clock)
         // this.isAllDay = !this.clock.startTime
         // this.isChecked = this.isAllDay
@@ -437,3 +315,114 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .setEndTime{
+  }
+  .weui-picker__item{
+    font-size: 18px;
+  }
+  .weui-picker__action:first-child, .weui-picker__action{
+    color: skyblue;
+  }
+  .edit-time {
+    .switch-wrapper {
+      position: absolute;
+      top:0.15rem;
+      right:0.25rem;
+      color: #333333;
+    }
+    input.mui-switch-time {
+      display: block;
+      width: 50px;
+      height: 31px;
+      border: 1px solid #dfdfdf;
+      background-color: #fdfdfd;
+      box-shadow: #dfdfdf 0 0 0 0 inset;
+      border-radius: 20px;
+      background-clip: content-box;
+      -webkit-appearance: none;
+      user-select: none;
+      outline: none; }
+    input.mui-switch-time:before {
+      content: '';
+      width: 29px;
+      height: 30px;
+      position: absolute;
+      top: 0px;
+      left: 0;
+      border-radius: 20px;
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
+    input.mui-switch-time:checked {
+      border-color: #67B2FE;
+      box-shadow: #67B2FE 0 0 0 16px inset;
+      background-color: #67B2FE; }
+    input.mui-switch-time:checked:before {
+      left: 21px; }
+
+    .is-text-disabled span {color: #DDDDDD;}
+    .is-text-disabled .arrow {color:#E0E0E0;}
+    .arrow{
+      position: absolute;
+      right: 0.2rem;
+      top: 50%;
+      margin-top: -0.25rem;
+      font-size: 21px;
+      color: #999999;
+    }
+    ul{
+      background-color: white;
+      border-top:0.5px solid #DADADA;
+    }
+    .edit-time-all-day{
+      margin-top: 0.231rem;
+      border-top:0.5px solid #DADADA;
+    }
+    .edit-time-all-day>li{
+      padding-left: 3%;
+    }
+    .last>li{
+      padding-left: 3%;
+    }
+    li{
+      position: relative;
+      line-height:1.2rem ;
+      height: 1.2rem;
+      border-bottom:0.5px solid #DADADA;
+      box-sizing: border-box;
+      padding-left: 3%;
+    }
+    .sec{
+      margin-top:0.231rem ;
+      border-bottom:0.5px solid #DADADA;
+    }
+    .last{
+      margin-top:0.391rem ;
+    }
+    .sec>li:last-child{
+      border: none;
+    }
+    span{
+      display: block;
+      font-family: PingFangSC-Regular;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+    span.list-key {float:left;}
+    span.list-value {float:right;margin-right:0.94rem;
+      max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
+      color: #999999;
+    }
+    .sec span{}
+    .last span{}
+  }
+  .date-clear {
+    text-align: center;
+    line-height: 1.2rem;
+    font-size: 0.4rem;
+    background-color: #FFF;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+</style>

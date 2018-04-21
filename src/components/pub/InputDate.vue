@@ -9,56 +9,11 @@
     </div>
   </v-touch>
 </template>
-<style lang="" scoped>
-  .outer-wrap{
-    display: flex;
-    align-items: center;
-    position: relative;
-    line-height: 1.3rem;
-    background-color: white;
-  }
-  .inner-key{
-    display: block;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-  }
-  .inner-value {
-    display: block;
-    position: absolute;
-    top:50%;
-    margin-top: -0.65rem;
-    right: 0.94rem;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #999999;
-    letter-spacing: 0;
-  }
-  .arrow{
-    color: #999999;
-    font-size: 21px;
-    position: absolute;
-    top:50%;
-    margin-top: -0.25rem;
-    right: 0.2rem;
-  }
-  .isInbox{
-    border-bottom: 1px solid #E3E3E3;
-  }
-  .hasPadding{
-    padding-left: 3%;
-  }
-  .edit-padding-left{
-    left:1.3rem
-  }
-  .bottom-border{
-    border-bottom: 1px solid #E0E0E0;
-  }
-</style>
 <script>
   import dateUtil from 'ut/dateUtil'
 
   export default {
+    name: 'InputDate',
     props: {
       disabled: {
         type: Boolean,
@@ -86,14 +41,12 @@
     },
     computed: {
       dateString () {
-        console.log('进来了')
         if (this.item.pContainer === 'inbox') {
           return '添至日程'
         } else if (this.item.startDate === null && this.item.endDate === null && this.item.dates === null) {
           return '今天'
         } else {
           var result = dateUtil.repeatDate2Text(this.item)
-          console.log(result)
           if (result.length > 20) {
             result = result.substring(0, 21)
           }
@@ -142,3 +95,49 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .outer-wrap{
+    display: flex;
+    align-items: center;
+    position: relative;
+    line-height: 1.3rem;
+    background-color: white;
+  }
+  .inner-key{
+    display: block;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
+  }
+  .inner-value {
+    display: block;
+    position: absolute;
+    top:50%;
+    margin-top: -0.65rem;
+    right: 0.94rem;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #999999;
+    letter-spacing: 0;
+  }
+  .arrow{
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top:50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+  }
+  .isInbox{
+    border-bottom: 1px solid #E3E3E3;
+  }
+  .hasPadding{
+    padding-left: 3%;
+  }
+  .edit-padding-left{
+    left:1.3rem
+  }
+  .bottom-border{
+    border-bottom: 1px solid #E0E0E0;
+  }
+</style>

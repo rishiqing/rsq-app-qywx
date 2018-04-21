@@ -23,64 +23,9 @@
     </v-touch>
   </div>
 </template>
-<style scoped>
-  .sendComment{
-    margin-top: 1rem;
-  }
-  .icon-wrap{
-    position: relative;
-
-  }
-  .upload-icon{
-    font-size: 26px;
-    color:#a3a3a3;
-    position: absolute;
-    bottom:0.7rem;
-    left:0.4rem;
-  }
-  li{
-    position: relative;
-    border-bottom: 0.5px solid #E3E3E3;
-    line-height: 1.173rem;
-    padding-left: 0.4rem;
-  }
-  textarea{
-    display: inline-block;
-    padding-left:10px ;
-    padding-top:5px ;
-    height: 200px;
-    width: 100%;
-    margin-top: 10px;
-  }
-  ul{
-    border-bottom: 0.5px solid #E3E3E3;
-    border-top: 0.5px solid #E3E3E3;
-    background-color: white;
-  }
-  .close{
-    position: absolute;
-    top:31%;
-    right:8%;
-    color: #DEDEDE;
-    font-size: 17px;
-  }
-  .file{
-    position: absolute;
-    top:4.468rem;
-    left:0.4rem;
-    color: #3D3D3D;
-    font-size:20px;
-  }
-  .img{
-    color: #3D3D3D;
-    position: absolute;
-    left:2rem;
-    top:4.468rem;
-    font-size:20px;
-  }
-</style>
 <script>
   import Upload from 'com/pub/Upload'
+
   export default {
     name: 'Comment',
     components: {
@@ -158,3 +103,59 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .sendComment{
+    margin-top: 1rem;
+  }
+  .icon-wrap{
+    position: relative;
+
+  }
+  .upload-icon{
+    font-size: 26px;
+    color:#a3a3a3;
+    position: absolute;
+    bottom:0.7rem;
+    left:0.4rem;
+  }
+  li{
+    position: relative;
+    border-bottom: 0.5px solid #E3E3E3;
+    line-height: 1.173rem;
+    padding-left: 0.4rem;
+  }
+  textarea{
+    display: inline-block;
+    padding-left:10px ;
+    padding-top:5px ;
+    height: 200px;
+    width: 100%;
+    margin-top: 10px;
+  }
+  ul{
+    border-bottom: 0.5px solid #E3E3E3;
+    border-top: 0.5px solid #E3E3E3;
+    background-color: white;
+  }
+  .close{
+    position: absolute;
+    top:31%;
+    right:8%;
+    color: #DEDEDE;
+    font-size: 17px;
+  }
+  .file{
+    position: absolute;
+    top:4.468rem;
+    left:0.4rem;
+    color: #3D3D3D;
+    font-size:20px;
+  }
+  .img{
+    color: #3D3D3D;
+    position: absolute;
+    left:2rem;
+    top:4.468rem;
+    font-size:20px;
+  }
+</style>

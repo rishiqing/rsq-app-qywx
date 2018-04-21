@@ -64,7 +64,9 @@
 <script>
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
+
   export default {
+    name: 'PlanSetting',
     components: {
       'avatar': Avatar
     },
@@ -123,14 +125,12 @@
       },
       savePlanName () {
         this.editState = false
-//        console.log(this.currentPlan.name)
         this.$store.dispatch('updatePlanName', {'name': this.currentPlan.name, 'id': this.currentPlan.id})
       },
       showEditName () {
         this.editState = true
       },
       toggleAllDay () {
-//        alert(this.isChecked)
         if (this.isStar) {
           this.$store.dispatch('cancelStar', {kanbanId: this.currentPlan.id})
         } else {
@@ -158,10 +158,8 @@
         var corpId = this.loginUser.authUser.corpId
         //  暂时去掉loader
 //        window.rsqadmg.exec('showLoader')
-//        alert(id)
         return this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: id})
           .then(idMap => {
-//            alert('idmap' + JSON.stringify(util.getMapValuePropArray(idMap)))
             this.selectedLocalList = util.getMapValuePropArray(idMap)
 //            window.rsqadmg.exec('hideLoader')
           })
@@ -169,12 +167,8 @@
       showNativeMemberEdit () {
         var that = this
         var corpId = that.loginUser.authUser.corpId
-//        console.log('提取之前内容是' + JSON.stringify(this.selectedLocalList))
         var selectedArray = util.extractProp(this.selectedLocalList, 'userId')
-//        alert('提取之后内容是' + (selectedArray))
-//        console.log('提取之后内容是' + (selectedArray))
 //        var disabledArray = util.extractProp(this.disabledLocalList, 'userId')
-//        console.log('提取之后禁止内容是' + (selectedArray))
         window.rsqadmg.exec('selectDeptMember', {
           btnText: '确定',  //  选择器按钮文本，pc端需要的参数
           multiple: true, //  默认false，选择单人
@@ -184,23 +178,17 @@
           selectedIds: selectedArray,
           disabledIds: [], //  不能选的人
           success (res) {
-//            alert('cuccess执行了' + JSON.stringify(res.result.userList))
             if (res.length === 0) {
               return this.$emit('member-changed', [])
             }
-//            console.log('返回来的res是' + JSON.stringify(res))
             var idArray = util.extractProp(res.result.userList, 'id')
-//            alert('返回来的idarray是' + idArray)
 //            window.rsqadmg.exec('showLoader')
             that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
               .then(function (idMap) {
                 var userArray = util.getMapValuePropArray(idMap)
-//                alert('userArray' + JSON.stringify(userArray))
                 var rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-//                alert('rsqIdArray' + rsqIdArray)
                 that.$store.dispatch('updatePlanMember', { id: that.currentPlan.id, accessIds: rsqIdArray.toString() }).then((res) => {
                   that.selectedLocalList = userArray
-//                  alert('res.userRoles' + JSON.stringify(res.userRoles))
                   that.currentPlan.userRoles = res.userRoles
                 })
 //                var params = {
@@ -208,7 +196,6 @@
 //                  addJoinUsers: compRes.addList.join(','),
 //                  deleteJoinUsers: compRes.delList.join(',')
 //                }
-//        alert(JSON.stringify(params))
 //                window.rsqadmg.execute('showLoader', {text: '保存中...'})
 //                this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
 //                  this.joinUserRsqIds = idArray
@@ -225,7 +212,7 @@
     }
   }
 </script>
-<style>
+<style lang="scss" scoped>
   .arrow-right-plan{
     margin-left: 0.2rem;
   }
@@ -260,8 +247,6 @@
     align-items: center;
     justify-content: space-between;
     height: 1rem;
-    /*padding-left: 0.3rem;*/
-    /*padding-right: 0.3rem;*/
     border-bottom: 1px solid #F5F5F5;
   }
   .add-member, .arrow-right-plan{
@@ -283,7 +268,6 @@
   .wrap-name{
     display: flex;
     align-items: center;
-    /*margin-left: 1rem;*/
     justify-content: center;
     align-items:center;
   }

@@ -27,107 +27,9 @@
     </div>
   </div>
 </template>
-<style scoped>
-  .edit-text-font{
-    font-family: PingFangSC-Medium;
-  }
-  .new-text-font{
-    font-family: PingFangSC-Regular;
-  }
-  .wrap-icon{
-    display: flex;
-    align-items: center;
-    height: 1.28rem;
-    position: relative;
-  }
-  .edit-text{
-    font-family: PingFangSC-Medium;
-    font-size: 0.506rem;
-    color: #333333;
-    letter-spacing: 0;
-  }
-  .hide{
-    display: none;
-  }
-  .edit-border{
-    border-bottom: 1px solid #e0e0e0;
-  }
-  .edit{
-    display: flex;
-    align-items: center;
-    position: relative;
-    background-color: white;
-  }
-  .real-width{
-    /*width:88%;*/
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space:nowrap
-  }
-  .select-title{
-    color:#b1b1b1;
-    font-size: 0.506rem;
-    /*position: absolute;*/
-    top:0.39rem;
-    /*margin-top: -0.2rem;*/
-    margin-left:0.35rem;
-    background: #FFFFFF;
-    border-radius: 1px;
-  }
-  .isdisplay-title{
-    display: block;
-    position:absolute;
-    top:0.34rem;
-    left: 0.45rem;
-    font-size: 15px;
-    color:#55A8FD;
-  }
-  .for-hide-title{
-    position: absolute;
-    top:0.35rem;
-    /*margin-top: -0.29rem;*/
-    left: 0.75rem;
-    display: block;
-    width: 2px;
-    height: 2px;
-    background-color: white;
-    border: 1px solid white;
-  }
-  .padding-left-input{
-    margin-left: 0.1rem;
-    padding-left: 0.2rem;
-  }
-  .inbox-padding-left{
-    padding-left: 0.3rem;
-  }
-  input::-webkit-input-placeholder { /* WebKit browsers */
-    /*font-family: PingFangSC-Regular;*/
-    font-size: 0.506rem;
-    color: #8C8C8C;
-    letter-spacing: 0;
-    padding-left: 0.1rem;
-  }
-  input[type='text']{
-    /*font-family: PingFangSC-Regular;*/
-    /*height:1.458rem;*/
-    background: #FFFFFF;
-    /*border-top:1px solid #E0E0E0 ;*/
-    line-height:0.72rem ;
-    padding-bottom:0.305rem ;
-    padding-top: 0.305rem;
-    font-size: 0.506rem;
-    border-radius: 0;
-    color: #3D3D3D;
-  }
-  /*.padding-left-input-{*/
-    /*padding-left:0.3rem;*/
-  /*}*/
-  .padding-left-input{
-    /*padding-left: 1.5rem;*/
-  }
-</style>
 <script>
   export default {
+    name: 'InputTitleText',
     props: {
       newCheckable: {
         type: Boolean,
@@ -188,3 +90,90 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .edit-text-font{
+    font-family: PingFangSC-Medium;
+  }
+  .new-text-font{
+    font-family: PingFangSC-Regular;
+  }
+  .wrap-icon{
+    display: flex;
+    align-items: center;
+    height: 1.28rem;
+    position: relative;
+  }
+  .edit-text{
+    font-family: PingFangSC-Medium;
+    font-size: 0.506rem;
+    color: #333333;
+    letter-spacing: 0;
+  }
+  .hide{
+    display: none;
+  }
+  .edit-border{
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .edit{
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: white;
+  }
+  .real-width{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap
+  }
+  .select-title{
+    color:#b1b1b1;
+    font-size: 0.506rem;
+    top:0.39rem;
+    margin-left:0.35rem;
+    background: #FFFFFF;
+    border-radius: 1px;
+  }
+  .isdisplay-title{
+    display: block;
+    position:absolute;
+    top:0.34rem;
+    left: 0.45rem;
+    font-size: 15px;
+    color:#55A8FD;
+  }
+  .for-hide-title{
+    position: absolute;
+    top:0.35rem;
+    left: 0.75rem;
+    display: block;
+    width: 2px;
+    height: 2px;
+    background-color: white;
+    border: 1px solid white;
+  }
+  .padding-left-input{
+    margin-left: 0.1rem;
+    padding-left: 0.2rem;
+  }
+  .inbox-padding-left{
+    padding-left: 0.3rem;
+  }
+  input::-webkit-input-placeholder { /* WebKit browsers */
+    font-size: 0.506rem;
+    color: #8C8C8C;
+    letter-spacing: 0;
+    padding-left: 0.1rem;
+  }
+  input[type='text']{
+    background: #FFFFFF;
+    line-height:0.72rem ;
+    padding-bottom:0.305rem ;
+    padding-top: 0.305rem;
+    font-size: 0.506rem;
+    border-radius: 0;
+    color: #3D3D3D;
+  }
+  .padding-left-input{
+  }
+</style>

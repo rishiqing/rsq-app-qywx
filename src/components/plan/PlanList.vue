@@ -22,7 +22,9 @@
 <script>
   import Plan from 'com/plan/Plan'
   import Nav from 'com/Nav'
+
   export default {
+    name: 'PlanList',
     components: {
       'r-plan': Plan,
       'r-nav': Nav
@@ -74,9 +76,7 @@
   .PlanList{
     background-color: white;
     padding-left: 0.3rem;
-    /*padding-bottom: 1.5rem;*/
     margin-top: 0.1rem;
-    /*margin-bottom: 2.9rem;*/
   }
   .itm-lst{
     text-align: center;

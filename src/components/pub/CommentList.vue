@@ -1,5 +1,5 @@
 <template>
-  <ul class="comentlist">
+  <ul class="comment-list">
     <v-touch @tap="changeState()">
       <div
         :class="{'isDisplay': !more}"
@@ -26,53 +26,14 @@
       @comment-file-touch="showAction"/>
     <div
       v-if="commentCount"
-      class="noComent">
+      class="no-comment">
       <img
         src="../../assets/img/nocoment.png"
         alt="">
-      <p class="noComentContent">暂无评论</p>
+      <p class="no-comment-content">暂无评论</p>
     </div>
   </ul>
 </template>
-<style>
-  .noComent{
-    text-align: center;
-    height: 3rem;
-    margin-bottom: 2rem;
-  }
-  .noComent>img{
-    width: 44px;
-    height:44px ;
-    margin-top: 1.6rem;
-  }
-  .noComentContent{
-    font-family: PingFangSC-Regular;
-    font-size: 15px;
-    color: #55A8FD;
-    letter-spacing: 0;
-  }
-  .isDisplay{
-    display: none;
-  }
-  .comentlist{
-    background-color: white;
-    margin-top: 10px;
-    /*margin-bottom: 5rem;*/
-    padding-bottom: 2.9rem;
-    /*margin-bottom: 1.4rem;*/
-    /*border-top: 1px solid #E0E0E0;*/
-  }
-  .operation{
-    line-height:1.083rem;
-    padding-left: 0.333rem;
-    font-family: PingFangSC-Regular;
-    color:#55A8FD;
-    font-size:15px ;
-    background-color: white;
-    border-bottom: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
-  }
-</style>
 <script>
   import Previewer from 'com/pub/Previewer'
   import CommentItem from 'com/pub/CommentItem'
@@ -172,3 +133,39 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .no-comment{
+    text-align: center;
+    height: 3rem;
+    margin-bottom: 2rem;
+  }
+  .no-comment>img{
+    width: 44px;
+    height:44px ;
+    margin-top: 1.6rem;
+  }
+  .no-comment-content{
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #55A8FD;
+    letter-spacing: 0;
+  }
+  .isDisplay{
+    display: none;
+  }
+  .comment-list{
+    background-color: white;
+    margin-top: 10px;
+    padding-bottom: 2.9rem;
+  }
+  .operation{
+    line-height:1.083rem;
+    padding-left: 0.333rem;
+    font-family: PingFangSC-Regular;
+    color:#55A8FD;
+    font-size:15px ;
+    background-color: white;
+    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+  }
+</style>

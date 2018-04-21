@@ -13,6 +13,7 @@
 </template>
 <script>
   export default {
+    name: 'Kefu',
     data () {
       return {
         titleName: '在线客服'
@@ -24,7 +25,7 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
   .xian{
     margin: 0 auto;
     width: 206px;

@@ -45,8 +45,7 @@
     }
   }
 </script>
-
-<style scoped>
+<style lang="scss" scoped>
   .input-wrap {
 
   }

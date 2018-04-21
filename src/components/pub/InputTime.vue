@@ -9,7 +9,59 @@
     </div>
   </v-touch>
 </template>
-<style lang="" scoped>
+<script>
+  export default {
+    name: 'InputTime',
+    props: {
+      item: {
+        type: Object,
+        required: true
+      },
+      newItem: {
+        type: Boolean,
+        default: true
+      },
+      editTime: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data () {
+      return {}
+    },
+    computed: {
+      itemClock () {
+        return this.item.clock || {}
+      },
+      isAllDay () {
+        return !this.itemClock.startTime
+      },
+      timeValue () {
+        return this.isAllDay ? '全天' : this.itemClock.startTime + '-' + this.itemClock.endTime
+      }
+    },
+    methods: {
+      gotoTodoTime () {
+        if (this.disabled) {
+          window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
+          return
+        }
+        this.$emit('time-tap')
+        //  将需要用到的属性设置到currentTodoTime中
+        var timeObj = {
+          clock: JSON.parse(JSON.stringify(this.itemClock))
+        }
+        this.$store.commit('PUB_TODO_TIME_UPDATE', {data: timeObj})
+        this.$router.push('/todo/time')
+      }
+    }
+  }
+</script>
+<style lang="scss" scoped>
   .outer-wrap{
     display: flex;
     align-items: center;
@@ -55,56 +107,3 @@
     border-bottom: 1px solid #E0E0E0;
   }
 </style>
-<script>
-  export default {
-    props: {
-      item: {
-        type: Object,
-        required: true
-      },
-      newItem: {
-        type: Boolean,
-        default: true
-      },
-      editTime: {
-        type: Boolean,
-        default: false
-      },
-      disabled: {
-        type: Boolean,
-        default: false
-      }
-    },
-    data () {
-      return {}
-    },
-    computed: {
-      itemClock () {
-        return this.item.clock || {}
-      },
-      isAllDay () {
-        return !this.itemClock.startTime
-      },
-      timeValue () {
-        return this.isAllDay ? '全天' : this.itemClock.startTime + '-' + this.itemClock.endTime
-      }
-    },
-    methods: {
-      gotoTodoTime () {
-//        console.log('进来了')
-        if (this.disabled) {
-          window.rsqadmg.execute('topTips', {message: '过去的任务不能编辑'})
-          return
-        }
-        this.$emit('time-tap') // 谁来接收它呢
-        //  将需要用到的属性设置到currentTodoTime中
-        var timeObj = {
-          clock: JSON.parse(JSON.stringify(this.itemClock))
-        }
-//        console.log(JSON.stringify(timeObj))
-        this.$store.commit('PUB_TODO_TIME_UPDATE', {data: timeObj})
-        this.$router.push('/todo/time')
-      }
-    }
-  }
-</script>

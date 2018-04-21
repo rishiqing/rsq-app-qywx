@@ -26,8 +26,9 @@
     </table>
   </div>
 </template>
-<script scoped>
+<script>
   export default {
+    name: 'CalendarPane',
     props: {
       dates: {
         type: Array,
@@ -70,7 +71,7 @@
     }
   }
 </script>
-<style lang="scss" scope>
+<style lang="scss" scoped>
   @import '../../assets/css/variables.scss';
   .cal-pane {
     position: absolute;

@@ -16,13 +16,13 @@
     </div>
     <div class="margin-block"/>
     <ul
-      :class="{hasborder:!haschild}"
+      :class="{'has-border': !haschild}"
       class="sublist">
       <template v-if="finalItems">
         <li
           v-for="item in finalItems"
           :key="item.id"
-          class="sublistItem">
+          class="sublist-item">
           <v-touch
             class="wrap-sub-icon"
             @tap="clickCheckOut(item)">
@@ -31,7 +31,7 @@
               :class="{'for-hide-sub':item.isDone}"
               class="hide"/>
             <i
-              :class="{'isdisplay-sub':item.isDone}"
+              :class="{'is-display-sub':item.isDone}"
               class="icon2-selected hide"/>
           </v-touch>
           <v-touch
@@ -51,7 +51,9 @@
 </template>
 <script>
   import TodoItemList from 'com/sche/TodoItemList'
+
   export default {
+    name: 'SubtodoList',
     components: {
       'r-todo-item-list': TodoItemList
     },
@@ -95,7 +97,7 @@
         this.$store.dispatch('setCurrentSubtodo', item)
         this.$router.push('/todo/' + this.currentTodo.id + '/subtodo/' + item.id)
       },
-      IsDisabled (e, pIsDone) {
+      isDisabled (e, pIsDone) {
         if (pIsDone) {
           e.target.blur()
         }
@@ -129,7 +131,6 @@
 //            window.rsqadmg.exec('showLoader', {text: '保存中...'})
             this.$store.dispatch('updateSubtodo', {item: item, name: value})
               .then(() => {
-//                console.log('updateSubtodo执行完成')
                 //  触发标记重复修改
                 this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
               })
@@ -151,11 +152,9 @@
           this.$store.dispatch('createSubtodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoid})
             .then(() => {
               //  触发标记重复修改
-//            console.log('创建完成了')
               this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
 //            this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: this.inputTitle, type: 7}})
 //              .then(() => {
-//                console.log('saveTodoAction资格行完成')
 //              })
               this.inputTitle = ''
               window.rsqadmg.exec('hideLoader')
@@ -174,11 +173,11 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
   .is-editable{
     disabled:true
   }
-  .IsDisplayRemind{
+  .is-display-remind{
     display: none;
   }
   .remind-subtodo{
@@ -205,10 +204,6 @@
     width: 100%;
     background-color: #F8F8F8;
     position: fixed;
-    /*top:0;*/
-    /*left:0;*/
-    /*right: 0;*/
-    /*bottom: 0;*/
   }
   .wrap {
     position: fixed;
@@ -224,10 +219,6 @@
     color: #999999;
   }
   .select-sub{
-    /*position: absolute;*/
-    /*top: 0.4rem;*/
-    /*color:#b9b9bc;*/
-    /*left:0.02rem*/
     color: #B1B1B1;
   }
   .sublist{
@@ -235,7 +226,7 @@
     padding-left: 0.6rem;
     z-index: 0;
   }
-  .hasborder{
+  .has-border{
     border-top:1px solid #E0E0E0;
     border-bottom:1px solid #E0E0E0;
   }
@@ -243,29 +234,25 @@
     border:none;
     margin-left: 0.35rem;
     font-family: PingFangSC-Regular;
-    /*line-height: 0.2rem;*/
     font-size: 17px;
     width: 98%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space:nowrap;
   }
-  .sublistItem:last-child{
+  .sublist-item:last-child{
     border-bottom: none;
   }
-  .sublistItem{
+  .sublist-item{
     position: relative;
-    /*padding-top: 0.1rem;*/
     border-bottom:1px solid #DADADA ;
     font-family: PingFangSC-Regular;
     font-size: 17px;
-    /*color: #222222;*/
-    /*padding: 0.33rem 0 0.15rem 0*/
     height: 1.22rem;
     display: flex;
     align-items: center;
   }
-  .topSubtodo{
+  .top-subtodo{
     position:fixed;
     background-color: white;
     line-height: 1.226rem;;
@@ -321,7 +308,7 @@
   }
   li:first-child{
   }
-  .isdisplay-sub{
+  .is-display-sub{
     display: block;
     position:absolute;
     top:0.36rem;

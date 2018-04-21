@@ -23,7 +23,7 @@
     </v-touch>
   </div>
 </template>
-<script>
+<script lang="scss" scoped>
   export default {
     name: 'Note',
     // 定义数据
@@ -130,11 +130,6 @@
     overflow-y: auto;
     box-sizing: border-box;
     outline: none;
-    /*position: fixed;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*bottom:0;*/
   }
   .editable-blank{
     color: #A5A5A5;

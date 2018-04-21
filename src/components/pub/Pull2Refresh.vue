@@ -27,66 +27,6 @@
     </div>
   </v-touch>
 </template>
-<style lang="scss" scoped>
-  .pull-container {
-    overflow: hidden;
-    transform: translateZ(0);
-    user-select: none;
-    text-size-adjust: none;
-  }
-  .scroller{
-    min-height: 101%;/*修正内容高度不够无法scroll*/
-    -webkit-tap-highlight-color:rgba(0,0,0,0);
-  }
-  .animate{
-    transition: margin-top 0.2s linear;
-  }
-  .hide{
-    display: none;
-  }
-  .pulldown {
-    height: 50px;
-    line-height: 50px;
-    padding: 5px 15px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #888;
-    text-align: center;
-    box-sizing: border-box;
-  }
-  .pulldown .pulldown-icon {
-    display: block;
-    width: 40px;
-    height: 40px;
-    background: url(../../assets/img/pull-icon@2x.png) 0 0 no-repeat;
-    -webkit-background-size: 40px 80px;
-    background-size: 40px 80px;
-    -webkit-transition-property: -webkit-transform;
-    -webkit-transition-duration: 250ms;
-  }
-  .pulldown .pulldown-label{
-    position:relative;
-    top: -40px;
-  }
-  .pulldown .pulldown-icon {
-    -webkit-transform: rotate(0deg) translateZ(0);
-  }
-  .pulldown.release .pulldown-icon {
-    -webkit-transform: rotate(-180deg) translateZ(0);
-  }
-  .pulldown.refresh .pulldown-icon {
-    background-position: 0 100%;
-    -webkit-transition-duration: 0ms;
-    -webkit-animation: spinner 3s infinite linear;
-    animation: spinner 3s infinite linear;
-  }
-  /*通用转动动画*/
-  @-webkit-keyframes spinner {
-    0% { -webkit-transform: rotate(0deg); }
-    50% { -webkit-transform: rotate(180deg); }
-    100% { -webkit-transform: rotate(360deg); }
-  }
-</style>
 <script>
   const PULL_DOWN_NORMAL = '下拉刷新'
   const PULL_DOWN_RELEASE = '释放加载'
@@ -104,6 +44,7 @@
   var timeoutHandler = 0
   var timeout = 3000
   var pullDownHeight = 50
+
   export default {
     name: 'Pull2Refresh',
     props: {
@@ -175,3 +116,63 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .pull-container {
+    overflow: hidden;
+    transform: translateZ(0);
+    user-select: none;
+    text-size-adjust: none;
+  }
+  .scroller{
+    min-height: 101%;/*修正内容高度不够无法scroll*/
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+  }
+  .animate{
+    transition: margin-top 0.2s linear;
+  }
+  .hide{
+    display: none;
+  }
+  .pulldown {
+    height: 50px;
+    line-height: 50px;
+    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #888;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .pulldown .pulldown-icon {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: url(../../assets/img/pull-icon@2x.png) 0 0 no-repeat;
+    -webkit-background-size: 40px 80px;
+    background-size: 40px 80px;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 250ms;
+  }
+  .pulldown .pulldown-label{
+    position:relative;
+    top: -40px;
+  }
+  .pulldown .pulldown-icon {
+    -webkit-transform: rotate(0deg) translateZ(0);
+  }
+  .pulldown.release .pulldown-icon {
+    -webkit-transform: rotate(-180deg) translateZ(0);
+  }
+  .pulldown.refresh .pulldown-icon {
+    background-position: 0 100%;
+    -webkit-transition-duration: 0ms;
+    -webkit-animation: spinner 3s infinite linear;
+    animation: spinner 3s infinite linear;
+  }
+  /*通用转动动画*/
+  @-webkit-keyframes spinner {
+    0% { -webkit-transform: rotate(0deg); }
+    50% { -webkit-transform: rotate(180deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+</style>

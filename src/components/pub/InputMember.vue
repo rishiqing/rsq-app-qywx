@@ -9,64 +9,14 @@
     </div>
   </v-touch>
 </template>
-<style scoped>
-  .outer-wrap{
-    display: flex;
-    align-items: center;
-    position: relative;
-    line-height: 1.3rem;
-    background-color: white;
-  }
-  .inner-key{
-    display: block;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-  }
-  .inner-value {
-    display: block;
-    position: absolute;
-    top:50%;
-    margin-top: -0.65rem;
-    right: 0.94rem;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #999999;
-    letter-spacing: 0;
-    /* 防止溢出 */
-    max-width: 7rem;
-    height: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .arrow{
-    color: #999999;
-    font-size: 21px;
-    position: absolute;
-    top:50%;
-    margin-top: -0.25rem;
-    right: 0.2rem;
-  }
-  .isInbox{
-    border-bottom: 1px solid #E3E3E3;
-  }
-  .hasPadding{
-    padding-left: 3%;
-  }
-  .edit-padding-left{
-    left:1.3rem
-  }
-  .bottom-border{
-    border-bottom: 1px solid #E0E0E0;
-  }
-</style>
 <script>
   import { Promise } from 'es6-promise'
   import util from 'ut/jsUtil'
   import SelectMember from 'com/pub/SelectMember'
   import Avatar from 'com/pub/TextAvatar'
+
   export default {
+    name: 'InputMember',
     components: {
       'avatar': Avatar
     },
@@ -181,19 +131,13 @@
             if (res.length === 0) {
               return this.$emit('member-changed', [])
             }
-//            console.log('返回来的res是' + JSON.stringify(res))
             var idArray = util.extractProp(res.result.userList, 'id')
-//            alert('返回来的idarray是' + idArray)
 //            window.rsqadmg.exec('showLoader')
             that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
                 .then(function (idMap) {
-//                  alert('idMAP' + JSON.stringify(idMap))
 //                  window.rsqadmg.exec('hideLoader')
                   var userArray = util.getMapValuePropArray(idMap)
-//                  alert('userId是' + JSON.stringify(userArray))
                   var rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-//                  alert('userArray' + JSON.stringify(userArray))
-//                  alert('rsqIdArray' + JSON.stringify(rsqIdArray))
                   that.$emit('member-changed', rsqIdArray)
                 })
           }
@@ -232,7 +176,6 @@
 //        window.rsqadmg.exec('showLoader')
         return this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: ids})
           .then(idMap => {
-//            alert('idmap' + JSON.stringify(idMap))
             this[targetListName] = util.getMapValuePropArray(idMap)
 //            window.rsqadmg.exec('hideLoader')
           })
@@ -240,3 +183,55 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .outer-wrap{
+    display: flex;
+    align-items: center;
+    position: relative;
+    line-height: 1.3rem;
+    background-color: white;
+  }
+  .inner-key{
+    display: block;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
+  }
+  .inner-value {
+    display: block;
+    position: absolute;
+    top:50%;
+    margin-top: -0.65rem;
+    right: 0.94rem;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #999999;
+    letter-spacing: 0;
+    /* 防止溢出 */
+    max-width: 7rem;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .arrow{
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top:50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+  }
+  .isInbox{
+    border-bottom: 1px solid #E3E3E3;
+  }
+  .hasPadding{
+    padding-left: 3%;
+  }
+  .edit-padding-left{
+    left:1.3rem
+  }
+  .bottom-border{
+    border-bottom: 1px solid #E0E0E0;
+  }
+</style>

@@ -19,46 +19,9 @@
     </div>
   </div>
 </template>
-<style scoped>
-  .slider {
-    width: 120%;
-    /*height: 20px;*/
-    /*height: 200px;*/
-    position: relative;
-    /*display: flex;*/
-    /*align-items: center;*/
-    user-select: none;
-  }
-  .slider  .content{
-    /*position: absolute;*/
-    /*left: 0;*/
-    /*right: 0;*/
-    /*top: 0;*/
-    /*bottom: 0;*/
-    /*background:green;*/
-    z-index: 100;
-    //    设置过渡动画
-    transition: 0.3s;
-    width: 120%;
-    display: flex;
-    align-items: center;
-  }
-  .slider  .remove{
-    /*position: absolute;*/
-    width:2rem;
-    height:1.612rem;
-    background:red;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: PingFangSC-Medium;
-    font-size: 17px;
-    color: #FFFFFF;
-  }
-
-</style>
 <script type="text/javascript">
   export default {
+    name: 'SliderDelete',
     data () {
       return {
         startX: 0,
@@ -114,7 +77,6 @@
           if (Math.abs(this.disX) <= this.threshold) {
             return
           }
-//          console.log(this.disX)
           if ((this.disX * 5) < (wd / 2)) {
             this.deleteSlider = 'transform:translateX(0px)'
           } else {
@@ -123,9 +85,46 @@
         }
       },
       deleteItem () {
-//        console.log('sliderdelete到了')
         this.$emit('deleteItem')
       }
     }
   }
 </script>
+<style lang="scss" scoped>
+  .slider {
+    width: 120%;
+    /*height: 20px;*/
+    /*height: 200px;*/
+    position: relative;
+    /*display: flex;*/
+    /*align-items: center;*/
+    user-select: none;
+  }
+  .slider  .content{
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*bottom: 0;*/
+    /*background:green;*/
+    z-index: 100;
+  //    设置过渡动画
+  transition: 0.3s;
+    width: 120%;
+    display: flex;
+    align-items: center;
+  }
+  .slider  .remove{
+    /*position: absolute;*/
+    width:2rem;
+    height:1.612rem;
+    background:red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: PingFangSC-Medium;
+    font-size: 17px;
+    color: #FFFFFF;
+  }
+
+</style>

@@ -85,12 +85,10 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
   .right-me{
-    /*padding-bottom: 0.6rem;*/
     display: flex;
     flex-direction: column;
-    /*align-items: center;*/
   }
   .plan-icon{
     font-size:0.586rem;
@@ -114,7 +112,6 @@
   .richeng{
     font-size: 0.586rem;
     color: #999999;
-    /*display: block;*/
   }
   .sche{
     font-family: PingFangSC-Regular;
@@ -143,28 +140,18 @@
   .left{
     position: absolute;
     left: 2.053rem;
-    /*bottom:0.23rem;*/
-    /*padding-bottom:0.026rem;*/
     height: 1.306rem;
-    /*top:50%;*/
-    /*margin-top: -0.453rem;*/
     display: flex;
     align-items: center;
     text-align: center;
-    /*justify-content: center;*/
   }
   .right{
     text-align: center;
-    /*padding-bottom:0.026rem;*/
     position: absolute;
     right: 2.11rem;
-    /*bottom:0.23rem;*/
-    /*bottom:50%;*/
-    /*margin-bottom: -0.45rem;*/
     height: 1.306rem;
     display: flex;
     align-items: center;
-    /*justify-content: center;*/
   }
   .mid{
     display: flex;
@@ -186,9 +173,4 @@
     width: 0.6rem;
     height:0.6rem
   }
-  /*img{*/
-    /*width: 1.866rem;*/
-    /*height: 1.866rem;*/
-    /*margin-top:3.653rem ;*/
-  /*}*/
 </style>

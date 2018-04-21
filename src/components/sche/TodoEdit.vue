@@ -96,167 +96,6 @@
     </div>
   </div>
 </template>
-<style scoped>
-  .deleteTask{
-    margin-top: 0.7rem;
-    padding-bottom: 2rem;
-    background-color: #f6f6f6;
-  }
-  .remindColor{
-    color: #A5A5A5;
-  }
-  .contentColor{
-    color: #333333
-  }
-  .first-date{
-    position: relative;
-    padding-left: 1.1rem;
-  }
-  .sche{
-    font-size:0.586rem;
-    color:#55A8FD;
-    position: absolute;
-    top: 50%;
-    margin-top: -0.29rem;
-    left:0.3rem
-  }
-  .edit-padding-left{
-    background-color: white;
-  }
-  .time-border{
-    border-bottom: 1px solid #E0E0E0;
-    /*position: relative;*/
-    /*padding-left: 1.1rem;*/
-  }
-  input::-webkit-input-placeholder { /* WebKit browsers */
-    font-family: STHeitiSC-Light;
-    font-size: 15px;
-    color: #A3A3A3;
-    letter-spacing: 0;
-  }
-  .content{
-    background-color: white;
-  }
-  .desp{
-    /*border-bottom: 1px solid #E0E0E0;*/
-    margin-bottom: 10px;
-    padding-top:0.193rem ;
-    padding-bottom: 0.293rem;
-    padding-right: 0.3rem;
-    line-height: 0.586rem;
-    font-family: PingFangSC-Regular;
-    font-size: 0.373rem;
-    /*color: #333333;*/
-    letter-spacing: 0;
-    background-color: white;
-    min-height:0.586rem;
-    /*display: flex;*/
-    /*align-items: center;*/
-  }
-  .inbox-padding{
-    padding-left: 0.3rem;
-  }
-  .sche-padding{
-    padding-left: 1.1rem;
-  }
-  input{
-    line-height: 0.933rem;
-    width:6.8rem;
-  }
-  .bottom{
-    height: 1.333rem;
-    display: flex;
-    align-items: center;
-    background-color: white;
-    position: fixed;
-    bottom: 0;
-    left:0;
-    right: 0;
-    justify-content: center;
-    width:100%;
-    border-top:1px solid #DADADA ;
-    background-color: #FDFDFF ;
-  }
-  .bot{
-    padding-left: 2%;
-    width:8.6rem;
-    height:0.945rem ;
-    border:1px solid #E0E0E0 ;
-    border-radius: 4px;
-  }
-  .send>input{
-    width: 300px;
-    height: 50px;
-    border: 1px solid red;
-  }
-  p{
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-  }
-  .ding{
-    height:2rem;
-    line-height: 1rem;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-    position:relative;
-    background-color: white;
-    border-bottom:1px solid #E0E0E0;
-  }
-  .message{
-    font-family: PingFangSC-Regular;
-    font-size: 13px;
-    color: #999999;
-  }
-  .mui-switch {
-    width: 52px;
-    height: 31px;
-    position: absolute;
-    top:0.55rem;
-    right:0.55rem;
-    border: 1px solid #dfdfdf;
-    background-color: #fdfdfd;
-    box-shadow: #dfdfdf 0 0 0 0 inset;
-    border-radius: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    background-clip: content-box;
-    display: inline-block;
-    -webkit-appearance: none;
-    user-select: none;
-    outline: none; }
-  .mui-switch:before {
-    content: '';
-    width: 29px;
-    height: 29px;
-    position: absolute;
-    top: 0px;
-    left: 0;
-    border-radius: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
-  .mui-switch:checked {
-    border-color: #67B2FE;
-    box-shadow: #67B2FE 0 0 0 16px inset;
-    background-color: #67B2FE; }
-  .mui-switch:checked:before {
-    left: 21px; }
-  .mui-switch.mui-switch-animbg {
-    transition: background-color ease 0.4s; }
-  .mui-switch.mui-switch-animbg:before {
-    transition: left 0.3s; }
-  .mui-switch.mui-switch-animbg:checked {
-    box-shadow: #dfdfdf 0 0 0 0 inset;
-    background-color: #67B2FE;
-    transition: border-color 0.4s, background-color ease 0.4s; }
-</style>
 <script>
   import { Promise } from 'es6-promise'
   import moment from 'moment'
@@ -270,7 +109,9 @@
   import dateUtil from 'ut/dateUtil'
   import CommentList from 'com/pub/CommentList'
 //  import bus from 'com/bus'
+
   export default {
+    name: 'TodoEdit',
     components: {
       'r-input-title': InputTitleText,
       'r-input-date': InputDate,
@@ -375,10 +216,8 @@
         window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getTodo', {todo: {id: this.dynamicId}})
             .then(item => {
-//              alert('拿到的item' + JSON.stringify(item))
               util.extendObject(this.editItem, item)
               var noteElement = document.getElementById('noteEditable')
-//              console.log('this.curent' + JSON.stringify(this.currentTodo))
               if (this.pNote !== null) {
                 noteElement.innerHTML = this.pNote
               }
@@ -386,7 +225,6 @@
               this.joinUserRsqIds = joinUserArray.map(obj => {
                 return obj['id'] + ''
               })
-//              alert('this.joinUserRsqIds' + this.joinUserRsqIds)
             })
           .then(() => {
             this.fetchCommentIds()
@@ -466,16 +304,13 @@
         }
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
-//        alert('saveMember' + idArray)
         var that = this
         var compRes = util.compareList(this.joinUserRsqIds, idArray)
-//        alert('比较之后的结果是' + JSON.stringify(compRes))
         var params = {
           receiverIds: idArray.join(','),
           addJoinUsers: compRes.addList.join(','),
           deleteJoinUsers: compRes.delList.join(',')
         }
-//        alert(JSON.stringify(params))
         window.rsqadmg.execute('showLoader', {text: '保存中...'})
         this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
           this.joinUserRsqIds = idArray
@@ -540,7 +375,6 @@
         return this.$store.dispatch('deleteTodo', p)
       },
       prepareDelete (e) {
-//        console.log(e)
 //        if (e.target.innerText === '删除任务') {
         var that = this
         if (this.currentTodo.kanbanId) {
@@ -566,7 +400,6 @@
               window.rsqadmg.exec('actionsheet', {
                 buttonArray: ['仅删除此任务', '删除此任务及以后的任务', '删除所有的重复任务'],
                 success: function (res) {
-                  //              console.log(JSON.stringify(res))
 //                window.rsqadmg.execute('showLoader', {text: '删除中...'})
                   var promise
                   switch (res.buttonIndex) {
@@ -724,19 +557,14 @@
       },
       initPlan () {
         // 只用cvurrenttodo不行还得去后台拿
-//        console.log('currenttodo:' + JSON.stringify(this.currentTodo))
         return this.$store.dispatch('getKanbanItem', {id: this.currentTodo.id})
           .then(item => {
-//            console.log('拿到的item' + JSON.stringify(item))
             util.extendObject(this.editItem, item)
-//            console.log('this.edititem' + JSON.stringify(this.editItem))
             var noteElement = document.getElementById('noteEditable')
             if (this.note) {
               noteElement.innerHTML = this.note
             }
-//            alert('this.editItem' + JSON.stringify(this.editItem))
             this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
-//            alert('this.joinUserRsqIds' + this.joinUserRsqIds)
 //            var joinUserArray = util.getMapValuePropArray(this.editItem.joinUserIds, 'joinUser')
 //            this.joinUserRsqIds = joinUserArray.map(obj => {
 //              return obj['id'] + ''
@@ -767,3 +595,150 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .deleteTask{
+    margin-top: 0.7rem;
+    padding-bottom: 2rem;
+    background-color: #f6f6f6;
+  }
+  .remindColor{
+    color: #A5A5A5;
+  }
+  .contentColor{
+    color: #333333
+  }
+  .first-date{
+    position: relative;
+    padding-left: 1.1rem;
+  }
+  .sche{
+    font-size:0.586rem;
+    color:#55A8FD;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.29rem;
+    left:0.3rem
+  }
+  .edit-padding-left{
+    background-color: white;
+  }
+  .time-border{
+    border-bottom: 1px solid #E0E0E0;
+  }
+  input::-webkit-input-placeholder { /* WebKit browsers */
+    font-family: STHeitiSC-Light;
+    font-size: 15px;
+    color: #A3A3A3;
+    letter-spacing: 0;
+  }
+  .content{
+    background-color: white;
+  }
+  .desp{
+    margin-bottom: 10px;
+    padding-top:0.193rem ;
+    padding-bottom: 0.293rem;
+    padding-right: 0.3rem;
+    line-height: 0.586rem;
+    font-family: PingFangSC-Regular;
+    font-size: 0.373rem;
+    letter-spacing: 0;
+    background-color: white;
+    min-height:0.586rem;
+  }
+  .inbox-padding{
+    padding-left: 0.3rem;
+  }
+  .sche-padding{
+    padding-left: 1.1rem;
+  }
+  input{
+    line-height: 0.933rem;
+    width:6.8rem;
+  }
+  .bottom{
+    height: 1.333rem;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    left:0;
+    right: 0;
+    justify-content: center;
+    width:100%;
+    border-top:1px solid #DADADA ;
+    background-color: #FDFDFF ;
+  }
+  .bot{
+    padding-left: 2%;
+    width:8.6rem;
+    height:0.945rem ;
+    border:1px solid #E0E0E0 ;
+    border-radius: 4px;
+  }
+  .send>input{
+    width: 300px;
+    height: 50px;
+    border: 1px solid red;
+  }
+  p{
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
+  }
+  .ding{
+    height:2rem;
+    line-height: 1rem;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
+    position:relative;
+    background-color: white;
+    border-bottom:1px solid #E0E0E0;
+  }
+  .message{
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    color: #999999;
+  }
+  .mui-switch {
+    width: 52px;
+    height: 31px;
+    position: absolute;
+    top:0.55rem;
+    right:0.55rem;
+    border: 1px solid #dfdfdf;
+    background-color: #fdfdfd;
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    border-radius: 20px;
+    background-clip: content-box;
+    display: inline-block;
+    -webkit-appearance: none;
+    user-select: none;
+    outline: none; }
+  .mui-switch:before {
+    content: '';
+    width: 29px;
+    height: 29px;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
+  .mui-switch:checked {
+    border-color: #67B2FE;
+    box-shadow: #67B2FE 0 0 0 16px inset;
+    background-color: #67B2FE; }
+  .mui-switch:checked:before {
+    left: 21px; }
+  .mui-switch.mui-switch-animbg {
+    transition: background-color ease 0.4s; }
+  .mui-switch.mui-switch-animbg:before {
+    transition: left 0.3s; }
+  .mui-switch.mui-switch-animbg:checked {
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    background-color: #67B2FE;
+    transition: border-color 0.4s, background-color ease 0.4s; }
+</style>

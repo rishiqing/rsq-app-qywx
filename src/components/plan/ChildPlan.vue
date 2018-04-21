@@ -200,7 +200,9 @@
   import def from 'ut/defaultUtil'
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
+
   export default {
+    name: 'ChildPlan',
     components: {
       'avatar': Avatar,
       'r-task-member': TaskMember
@@ -283,12 +285,12 @@
     },
     methods: {
       toEdit (item) {
-        this.$store.dispatch('setCurrentTodo', item)// 设置当前todo不管是inbox的todo还是ssche的todo
+        // 设置当前todo不管是inbox的todo还是ssche的todo
+        this.$store.dispatch('setCurrentTodo', item)
         this.$router.push('/todo/' + item.id)
       },
       finishDown (items) {
         var newItems = []
-//        console.log(JSON.stringify(items))
         if (items !== null && items.length !== 0) {
           for (var i = 0; i < items.length; i++) {
             if (!items[i].isDone) {
@@ -312,13 +314,10 @@
         var corpId = this.loginUser.authUser.corpId
         this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [ids]})
           .then(idMap => {
-//            alert('idmap' + JSON.stringify(idMap))
             this.local = util.getMapValuePropArray(idMap)
-//            window.rsqadmg.exec('hideLoader')
           })
       },
       label (item) {
-//        console.log('this.lables' + this.labels)
         if (item.itemLabelIds && this.labels) {
           var a = this.labels.filter(function (lable) {
             return lable.id === parseInt(item.itemLabelIds)
@@ -362,12 +361,6 @@
         var aLi = document.getElementsByClassName('card-border')
         var box = document.querySelector('.card-list')
         var wrap = document.querySelector('.wrap')
-//        console.log(box)
-//        console.log(aLi)
-//        console.log(aLi.length)
-//        var aLiWidth = box.offsetWidth
-//        var aLiWidth = 375
-//        wrap.style.height = aLi[0].offsetHeight + 'px'
         // 设置盒子的宽度
         box.style.width = (aLi.length) * 100 + '%'
         for (var i = 0; i < aLi.length; i++) {
@@ -375,14 +368,11 @@
         }
         if (this.currentSubPlanOfTask) {
           box.style.left = this.pos
-//          console.log(this.num)
-//          console.log('wrap' + wrap)
           this.currNum = this.num
         }
         // 初始化手指坐标点
         var startPoint = 0
         var startEle = 0
-//        var currNum = 0
         wrap.addEventListener('touchstart', function (e) {
           e.preventDefault()
           console.log('触发了')
@@ -400,30 +390,23 @@
         wrap.addEventListener('touchend', function (e) {
           e.preventDefault()
           var left = box.offsetLeft
-//          console.log('aLiWidth' + aLiWidth)
           console.log('startEle' + startEle)
           console.log('left' + left)
-// 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
+          // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
           if (Math.abs(startEle) - Math.abs(left) > 10 && left < 0) {
-//            var currNum = Math.floor(-left / aLiWidth)
             that.currNum = that.currNum - 1
           } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 10) || (left > 0 && left < startEle)) {
-//            currNum = Math.ceil(-left / aLiWidth)
             that.currNum = that.currNum + 1
           }
-//          console.log('currNum' + that.currNum)
           that.currNum = that.currNum >= (aLi.length - 1) ? aLi.length - 1 : that.currNum
           console.log('currNum' + that.currNum)
           that.currNum = that.currNum <= 0 ? 0 : that.currNum
           box.style.left = -that.currNum * wrap.offsetWidth + 'px'
-//          console.log(box.style.left)
-//          console.log('wrap.offsetWidth' + wrap.offsetWidth)
         })
       },
       editCard (e, item) {
         console.log(e)
         e.preventDefault()
-//        e.cancelBubble()
         var that = this
         window.rsqadmg.exec('actionsheet', {
           buttonArray: ['编辑卡片名称', '删除卡片'],
@@ -448,18 +431,6 @@
                     message: '取消输入'
                   })
                 })
-//                var name = prompt('请输入卡片名称', item.name)
-//                if (name) {
-//                  var params = {
-//                    name: name,
-//                    id: item.id
-//                  }
-//                  var that = this
-//                  that.$store.dispatch('updateCardName', params).then((res) => {
-//                    item.name = name
-//                    that.$store.commit('UPDATE_SUBPLAN_NAME', res)
-//                  })
-//                }
                 break
               case 1:
                 var params = {
@@ -477,7 +448,6 @@
       addTask (item) {
         this.$store.commit('SAVE_CURRENT_CARD_ID', item)
         var pos = document.getElementsByClassName('card-list')[0].style.left
-//        console.log(pos)
         this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         this.$store.commit('SAVE_CURRENT_LEFT', {pos: pos, num: this.currNum})
         this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
@@ -519,13 +489,10 @@
                   confirmButtonText: '确定',
                   cancelButtonText: '取消'
                 }).then(({ value }) => {
-//                var name = prompt('请输入子计划名称', that.currentSubPlan.name)
-//                if (name) {
                   var params = {
                     name: value,
                     id: that.currentSubPlan.id
                   }
-//                  var that = this
                   that.$store.dispatch('updateName', params).then((res) => {
                     that.$store.commit('UPDATE_SUBPLAN_NAME', res)
                   })
@@ -572,7 +539,6 @@
         this.$store.dispatch('getCardList', item).then(
           (res) => {
             that.$store.commit('SAVE_CARD', res.kanbanCardList)
-//            that.initLayout()
           }).then(() => {
             that.$nextTick(() => {
               var aLi = document.getElementsByClassName('card-border')
@@ -601,19 +567,6 @@
             that.$store.commit('ADD_SUB_PLAN', res)
           })
         })
-//        var name = prompt('请输入子计划名称', '')
-//        if (name) {
-//          var params = {
-//            name: name,
-//            kanbanId: this.currentPlan.id
-//          }
-//          var that = this
-//          this.$store.dispatch('postSubPlan', params).then((res) => {
-//            that.$store.commit('ADD_SUB_PLAN', res)
-//          })
-//        } else {
-//        }
-//        this.$router.push('/plan/createSubplan')
       },
       postCard () {
         var params = {
@@ -638,7 +591,7 @@
     }
   }
 </script>
-<style>
+<style lang="scss" scoped>
   .el-input__inner:focus{
     border: 1px solid #dcdfe6
   }
@@ -684,7 +637,6 @@
     align-items: center;
     height: 0.453rem;
     margin-top: 0.2rem;
-    /*justify-content: space-around;*/
   }
   .sub-item-img{
     width: 0.3rem;
@@ -747,23 +699,17 @@
   .wrap-card-border{
     background-color: #F7F7F7;
     padding: 0.3rem;
-    /*height: 95%;*/
   }
   .wrap{
     position: relative;
     overflow: hidden;
-    /*height: 97%;*/
     height: 92vh;
     background-color: white;
-    /*height: 14rem;*/
   }
   .card-border{
     float: left;
     box-sizing: border-box;
-    /*height: 100%;*/
     position: relative;
-    /*margin: 0.6rem;*/
-    /*width: 25%;*/
   }
   .card-item-left{
     float: left;
@@ -776,7 +722,6 @@
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #4A4A4A;
-    /*color:red;*/
     margin-left: 0.2rem;
   }
   .is-finish{
@@ -794,7 +739,6 @@
     color: #000000;
     letter-spacing: 0.96px;
     word-break: break-all;
-    /*line-height: 10px;*/
   }
   .card-item{
     background: #FFFFFF;
@@ -812,9 +756,6 @@
     height: 1.5rem;
     justify-content: space-between;
   }
-  /*.el-message-box{*/
-    /*width: 220px;*/
-  /*}*/
   .other{
     color: #D8D8D8;
     border-radius: 100px;
@@ -834,7 +775,6 @@
     margin-bottom: 0;
     transition: 0.1s;
     overflow: hidden;
-    /*padding: 0.3rem;*/
   }
   .wrap-button{
     display: flex;
@@ -874,7 +814,6 @@
   }
   .child-plan-main{
     background-color: white;
-    /*overflow: hidden;*/
     height: 100vh;
   }
   .wrap-post-card{
@@ -985,23 +924,16 @@
     clear: both;
   }
   .task-border{
-    /*height: 10rem;*/
     height: 67vh;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    /*border: 1px solid yellow;*/
-    /*background-color: white;*/
   }
   .card-border{
     margin-top: 0.3rem;
     padding-right: 0.7rem;
-    /*background: #F7F7F7;*/
     border-radius: 2px;
-    /*padding: 0.3rem;*/
-    /*border: 3px solid blue*/
   }
   .card-border:first-child{
-    /*margin-left: 0.3rem;*/
   }
   .card-name{
     font-family: PingFangSC-Medium;

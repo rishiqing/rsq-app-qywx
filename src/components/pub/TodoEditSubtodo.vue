@@ -29,22 +29,14 @@
     </div>
   </div>
 </template>
-<style scoped>
-  .buttons {
-    padding-top: 0.2rem;
-  }
-  .button-wrap {
-    margin: 0.3rem 0.3rem 0;
-  }
-</style>
-
 <script>
   import InputTitleRichText from 'com/pub/InputTitleRichText'
   import util from 'ut/jsUtil'
-
   //  缓存的变量，用来接收r-input-title组件中的值的改变
   let newName = ''
+
   export default {
+    name: 'TodoEditSubtodo',
     components: {
       'r-input-title': InputTitleRichText
     },
@@ -119,3 +111,11 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .buttons {
+    padding-top: 0.2rem;
+  }
+  .button-wrap {
+    margin: 0.3rem 0.3rem 0;
+  }
+</style>

@@ -23,7 +23,43 @@
     </div>
   </div>
 </template>
-<style scoped>
+<script>
+  export default {
+    name: 'InputTitleRichText',
+    props: {
+      itemTitle: {
+        type: String,
+        required: true
+      },
+      itemChecked: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data () {
+      return {
+      }
+    },
+    computed: {},
+    methods: {
+      clickCheckOut () {
+        if (this.disabled) {
+          window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
+          return
+        }
+        this.$emit('click-checkout', !this.itemChecked)
+      },
+      inputChange () {
+        this.$emit('text-change', this.$refs.textEditor.innerHTML)
+      }
+    }
+  }
+</script>
+<style lang="scss" scoped>
   .rich-title {
     display: inline-block;
     background: #FFFFFF;
@@ -70,38 +106,3 @@
     color:#55A8FD;
   }
 </style>
-<script>
-  export default {
-    props: {
-      itemTitle: {
-        type: String,
-        required: true
-      },
-      itemChecked: {
-        type: Boolean,
-        default: false
-      },
-      disabled: {
-        type: Boolean,
-        default: false
-      }
-    },
-    data () {
-      return {
-      }
-    },
-    computed: {},
-    methods: {
-      clickCheckOut () {
-        if (this.disabled) {
-          window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
-          return
-        }
-        this.$emit('click-checkout', !this.itemChecked)
-      },
-      inputChange () {
-        this.$emit('text-change', this.$refs.textEditor.innerHTML)
-      }
-    }
-  }
-</script>

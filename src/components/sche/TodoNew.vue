@@ -51,107 +51,6 @@
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
-  .input-title{
-    border-top: 1px solid #DADADA;
-    border-bottom: 1px solid #DADADA;
-  }
-  .create-bot{
-    margin-top: 0.5rem;
-  }
-  .router-view{
-    height: 100%;
-    background-color: #f6f6f6;
-  }
-  .content{
-    height: 100%;
-  }
-  .firstGroup{
-    margin-top:10px;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
-  }
-  .secondGroup{
-    margin-top:10px;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
-  }
-  p{
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-  }
-  .bottom {
-    height: 2rem;
-    display: inline-block;
-    padding-left: 11px;
-    line-height: 0.1rem;
-    position: relative;
-    margin-top: 0.7rem;
-  }
-  .ding{
-    height:2rem;
-    line-height: 1rem;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
-    position:relative;
-    background-color: white;
-  }
-  .message{
-    font-family: PingFangSC-Regular;
-    font-size: 13px;
-    color: #999999;
-  }
-  .mui-switch {
-    width: 52px;
-    height: 31px;
-    position: absolute;
-    top:0.55rem;
-    right:0.3rem;
-    border: 1px solid #dfdfdf;
-    background-color: #fdfdfd;
-    box-shadow: #dfdfdf 0 0 0 0 inset;
-    border-radius: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    background-clip: content-box;
-    display: inline-block;
-    -webkit-appearance: none;
-    user-select: none;
-    outline: none; }
-  .mui-switch:before {
-    content: '';
-    width: 29px;
-    height: 29px;
-    position: absolute;
-    top: 0px;
-    left: 0;
-    border-radius: 20px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
-  .mui-switch:checked {
-    border-color: #67B2FE;
-    box-shadow: #67B2FE 0 0 0 16px inset;
-    background-color: #67B2FE; }
-  .mui-switch:checked:before {
-    left: 21px; }
-  .mui-switch.mui-switch-animbg {
-    transition: background-color ease 0.4s; }
-  .mui-switch.mui-switch-animbg:before {
-    transition: left 0.3s; }
-  .mui-switch.mui-switch-animbg:checked {
-    box-shadow: #dfdfdf 0 0 0 0 inset;
-    background-color: #67B2FE;
-    transition: border-color 0.4s, background-color ease 0.4s; }
-</style>
-
 <script>
 //  import moment from 'moment'
   import InputTitleText from 'com/pub/InputTitleText'
@@ -160,7 +59,9 @@
   import InputTime from 'com/pub/InputTime'
   import dateUtil from 'ut/dateUtil'
   import jsUtil from 'ut/jsUtil'
+
   export default {
+    name: 'TodoNew',
     components: {
       'r-input-title': InputTitleText,
       'r-input-date': InputDate,
@@ -275,7 +176,6 @@
         var todoType = this.isInbox ? 'inbox' : 'schedule'
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
-//        debugger
         var clockAlert = JSON.parse(JSON.stringify(this.currentTodo.clock.alert || null))
         var that = this
         if (this.kanbanCardId) {
@@ -323,20 +223,15 @@
                 var empIDArray = []
                 this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
                   .then(idMap => {
-//                  alert('idmap' + JSON.stringify(idMap))
                     for (var i = 0; i < IDArrays.length; i++) {
                       empIDArray.push(idMap[IDArrays[i]].userId)
                     }
-//                  alert('发送的id' + JSON.stringify(empIDArray))
-//                  alert(empIDArray.toString().split(',').join('|'))
                     data['touser'] = empIDArray.toString().split(',').join('|')
                     that.$store.dispatch('sendAsyncCorpMessage', {
                       corpId: that.loginUser.authUser.corpId,
                       data: data
                     }).then(res => {
-//                      alert(JSON.stringify(res))
                       if (res.errcode !== 0) {
-//                        alert('发送失败：' + JSON.stringify(res))
                       } else {
                         console.log('发送成功！')
                       }
@@ -350,3 +245,95 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .input-title{
+    border-top: 1px solid #DADADA;
+    border-bottom: 1px solid #DADADA;
+  }
+  .create-bot{
+    margin-top: 0.5rem;
+  }
+  .router-view{
+    height: 100%;
+    background-color: #f6f6f6;
+  }
+  .content{
+    height: 100%;
+  }
+  .firstGroup{
+    margin-top:10px;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+  }
+  .secondGroup{
+    margin-top:10px;
+    border-top: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
+  }
+  p{
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
+  }
+  .bottom {
+    height: 2rem;
+    display: inline-block;
+    padding-left: 11px;
+    line-height: 0.1rem;
+    position: relative;
+    margin-top: 0.7rem;
+  }
+  .ding{
+    height:2rem;
+    line-height: 1rem;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #333333;
+    position:relative;
+    background-color: white;
+  }
+  .message{
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    color: #999999;
+  }
+  .mui-switch {
+    width: 52px;
+    height: 31px;
+    position: absolute;
+    top:0.55rem;
+    right:0.3rem;
+    border: 1px solid #dfdfdf;
+    background-color: #fdfdfd;
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    border-radius: 20px;
+    background-clip: content-box;
+    display: inline-block;
+    -webkit-appearance: none;
+    user-select: none;
+    outline: none; }
+  .mui-switch:before {
+    content: '';
+    width: 29px;
+    height: 29px;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
+  .mui-switch:checked {
+    border-color: #67B2FE;
+    box-shadow: #67B2FE 0 0 0 16px inset;
+    background-color: #67B2FE; }
+  .mui-switch:checked:before {
+    left: 21px; }
+  .mui-switch.mui-switch-animbg {
+    transition: background-color ease 0.4s; }
+  .mui-switch.mui-switch-animbg:before {
+    transition: left 0.3s; }
+  .mui-switch.mui-switch-animbg:checked {
+    box-shadow: #dfdfdf 0 0 0 0 inset;
+    background-color: #67B2FE;
+    transition: border-color 0.4s, background-color ease 0.4s; }
+</style>

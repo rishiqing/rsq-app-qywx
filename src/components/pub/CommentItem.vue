@@ -1,7 +1,7 @@
 <template>
   <v-touch>
     <li
-      class="coment"
+      class="comment"
       @click="triggerAndroid($event)">
       <div class="left">
         <avatar
@@ -17,24 +17,24 @@
         <div class="bottom">
           <div
             v-if="ifReplyComment"
-            class="comentContent">
+            class="comment-content">
             <span
-              class="replyComment"
+              class="reply-comment"
               v-html="item.commentContent">
               {{ item.commentContent }}
             </span>
-            <!--<span class="comentContent">{{ item.commentContent.substr(indexOfBlank + 1) }}</span>-->
+            <!--<span class="comment-content">{{ item.commentContent.substr(indexOfBlank + 1) }}</span>-->
           </div>
           <div
             v-else
-            class="comentContent"
+            class="comment-content"
             v-html="item.commentContent">
             {{ item.commentContent }}
           </div>
           <v-touch
             v-for="file in item.fileList"
             :key="file.id"
-            class="coment-item-picture file-touch"
+            class="comment-item-picture file-touch"
             @tap="fileTouch($event, file)">
             <template v-if="(file.contentType.toUpperCase() === 'PNG'||file.contentType.toUpperCase() === 'JPEG'|| file.contentType.toUpperCase() === 'JPG')">
               <img
@@ -92,7 +92,7 @@
 </template>
 <script>
   import Avatar from 'com/pub/TextAvatar'
-
+  
   export default {
     name: 'CommentItem',
     components: {
@@ -186,10 +186,10 @@
   }
 </script>
 <style lang="scss" scoped>
-  .replyComment{
+  .reply-comment{
     background: rgba(0,0,0,.1);
   }
-  .coment{
+  .comment{
     padding-left: 3%;
     margin-top:0.613rem ;
     margin-bottom: 0.54rem;
@@ -220,7 +220,7 @@
     width: 25px;
     height: 29px;
   }
-  .coment-item-picture{
+  .comment-item-picture{
     display: flex;
     align-items: center;
     padding: 5px;
@@ -229,7 +229,7 @@
     width: 91%;
     margin-top: 5px;
   }
-  .coment:after{
+  .comment:after{
     display: block;
     content: '';
     clear: both;
@@ -261,7 +261,7 @@
     color: #8C8C8C;
     letter-spacing: 0;
   }
-  .comentContent{
+  .comment-content{
     width: 94%;
     font-family: STHeitiSC-Light;
     font-size: 15px;

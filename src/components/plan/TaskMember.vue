@@ -40,7 +40,6 @@
       this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.item.joinUserIds]})
         .then(idMap => {
           this.local = util.getMapValuePropArray(idMap)
-//            window.rsqadmg.exec('hideLoader')
         })
     }
   }

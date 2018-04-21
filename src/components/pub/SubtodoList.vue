@@ -16,13 +16,13 @@
     </div>
     <div class="margin-block"/>
     <ul
-      :class="{'has-border': !haschild}"
+      :class="{hasborder:!haschild}"
       class="sublist">
       <template v-if="finalItems">
         <li
           v-for="item in finalItems"
           :key="item.id"
-          class="sublist-item">
+          class="sublistItem">
           <v-touch
             class="wrap-sub-icon"
             @tap="clickCheckOut(item)">
@@ -31,7 +31,7 @@
               :class="{'for-hide-sub':item.isDone}"
               class="hide"/>
             <i
-              :class="{'is-display-sub':item.isDone}"
+              :class="{'isdisplay-sub':item.isDone}"
               class="icon2-selected hide"/>
           </v-touch>
           <v-touch
@@ -51,9 +51,7 @@
 </template>
 <script>
   import TodoItemList from 'com/sche/TodoItemList'
-
   export default {
-    name: 'SubtodoList',
     components: {
       'r-todo-item-list': TodoItemList
     },
@@ -75,13 +73,13 @@
       finalItems () {
         return this.items ? this.items : this.subItems
       },
-      todoid () {
+      todoId () {
         return this.$store.state.todo.currentTodo.id
       },
       currentTodo () {
         return this.$store.state.todo.currentTodo
       },
-      haschild () {
+      hasChild () {
         if (this.$store.state.todo.currentTodo.subtodos) {
           return this.$store.state.todo.currentTodo.subtodos.length === 0
         }
@@ -143,13 +141,13 @@
       saveTodo () {
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         if (this.currentTodo.kanbanId) {
-          this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.todoid}).then(() => {
+          this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.todoId}).then(() => {
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
         } else {
-          this.$store.dispatch('createSubtodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoid})
+          this.$store.dispatch('createSubtodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoId})
             .then(() => {
               //  触发标记重复修改
               this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')

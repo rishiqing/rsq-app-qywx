@@ -12,15 +12,17 @@
       @remove-file-id="removeFileId"
       @ready-to-upload="isUploading"
       @finish-upload="finishUpload" />
-    <v-touch
-      class="sendComment"
-      @tap="submitComment(content)">
-      <a
-        href="javascript:;"
-        class="weui-btn weui-btn_primary">
-        发送
-      </a>
-    </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          href="javascript:;"
+          class="weui-btn weui-btn_primary"
+          @tap="submitComment">
+          发送
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -62,7 +64,8 @@
           }
         }
       },
-      submitComment (newTitle) {
+      submitComment () {
+        const newTitle = this.content
         if (!newTitle && this.fileId.length === 0) {
           return window.rsqadmg.execute('alert', {message: '任务评论不能为空'})
         }
@@ -88,12 +91,8 @@
   }
 </script>
 <style lang="scss" scoped>
-  .sendComment{
-    margin-top: 1rem;
-  }
   .icon-wrap{
     position: relative;
-
   }
   .upload-icon{
     font-size: 26px;

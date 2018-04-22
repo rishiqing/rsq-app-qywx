@@ -59,7 +59,7 @@ export default {
   todo: {
     // 当前的todoItem，可能是收纳箱中的，也可能是日程中的
     currentTodo: {
-      subtodos: [],
+      subTodos: [],
       comments: []
     },
     //  当点击子任务进入子任务编辑状态时，该字段用来存储当前的子任务

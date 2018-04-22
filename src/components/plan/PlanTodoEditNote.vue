@@ -7,15 +7,17 @@
       @focus="inputFocus"
       @input="inputChange"
       @blur="inputBlur" />
-    <v-touch
-      class="despSubmit"
-      @tap="submit">
-      <a
-        href="javascript:;"
-        class="weui-btn weui-btn_primary">
-        提交
-      </a>
-    </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          href="javascript:;"
+          class="weui-btn weui-btn_primary"
+          @tap="submit">
+          提交
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -74,9 +76,6 @@
   }
 </script>
 <style lang="scss" scoped>
-  .despSubmit{
-    margin-top: 0.5rem;
-  }
   .descrip{
     border-top: 1px solid #E0E0E0;
     margin-top: 10px;

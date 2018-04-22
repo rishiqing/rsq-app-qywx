@@ -7,16 +7,16 @@
         type="text"
         placeholder="计划名称">
     </div>
-    <div class="buttons">
-      <v-touch
-        class="button-wrap"
-        @tap="submitPlanName" >
-        <a
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
           href="javascript:;"
-          class="weui-btn weui-btn_primary">
+          class="weui-btn weui-btn_primary"
+          @tap="submitPlanName">
           保存
-        </a>
-      </v-touch>
+        </v-touch>
+      </div>
     </div>
   </div>
 </template>
@@ -56,11 +56,5 @@
     font-size: 0.506rem;
     border-radius: 0;
     color: #3D3D3D;
-  }
-  .buttons {
-    padding-top: 0.2rem;
-  }
-  .button-wrap {
-    margin: 0.3rem 0.3rem 0;
   }
 </style>

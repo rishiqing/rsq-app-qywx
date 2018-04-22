@@ -47,18 +47,26 @@
           type="checkbox">
       </v-touch>
     </div>
-    <v-touch @tap="ifDelPlan">
-      <div
-        v-show="isOwn"
-        class="plan-set-bot">
-        删除计划
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          v-if="isOwn"
+          tag="a"
+          class="weui-btn weui-btn_warn"
+          href="javascript:;"
+          @tap="ifDelPlan">
+          删除计划
+        </v-touch>
+        <v-touch
+          v-else
+          tag="a"
+          class="weui-btn weui-btn_warn"
+          href="javascript:;"
+          @tap="ifDelPlan">
+          退出计划
+        </v-touch>
       </div>
-      <div
-        v-show="!isOwn"
-        class="plan-set-bot">
-        退出计划
-      </div>
-    </v-touch>
+    </div>
   </div>
 </template>
 <script>
@@ -279,20 +287,6 @@
   }
   .plan-set-sec-img > img {
     width: 100%;
-  }
-  .plan-set-bot{
-    height: 1.4rem;
-    background-color: #D34435 ;
-    width: 95%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: PingFangSC-Regular;
-    font-size: 18px;
-    color: #FFFFFF;
-    border-radius: 5px;
-    margin: 0 auto;
-    margin-top: 0.3rem;
   }
   .creator-time{
     font-family: PingFangSC-Regular;

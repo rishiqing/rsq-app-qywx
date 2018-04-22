@@ -26,6 +26,7 @@ import PlanNameEdit from 'com/plan/PlanNameEdit'
 import PlanNew from 'com/plan/PlanNew'
 import ChildPlan from 'com/plan/ChildPlan'
 import PlanSetting from 'com/plan/PlanSetting'
+import PlanTodoNew from 'com/plan/PlanTodoNew'
 import PlanTodoEdit from 'com/plan/PlanTodoEdit'
 import PlanTodoEditNote from 'com/plan/PlanTodoEditNote'
 import PlanTodoEditDate from 'com/plan/PlanTodoEditDate'
@@ -78,7 +79,7 @@ const router = new Router({
     {
       //  todoType用来表示是收纳箱新建todo还是日程新建todo，"inbox" or "schedule"
       // path: '/todo/new/:todoType',
-      path: '/sche/create',
+      path: '/sche/todo/create',
       name: 'todoNew',
       component: TodoNew,
       meta: {requireAuth: true}
@@ -99,21 +100,21 @@ const router = new Router({
     },
     //  todo的日期重复页面，用于新增或者编辑日程时候的日期重复设置
     {
-      path: '/todo/repeat',
+      path: '/sche/todo/repeat',
       name: 'todoEditRepeat',
       component: TodoEditRepeat,
       meta: {requireAuth: false}
     },
     //  todo的时间编辑页面，用于新增或者编辑日程时候的时间设置
     {
-      path: '/todo/time',
+      path: '/sche/todo/time',
       name: 'todoEditTime',
       component: TodoEditTime,
       meta: {requireAuth: false}
     },
     //  todo的时间提醒编辑页面，用于新增或者编辑日程时候的时间提醒设置
     {
-      path: '/todo/alert',
+      path: '/sche/todo/alert',
       name: 'todoEditAlert',
       component: TodoEditAlert,
       meta: {requireAuth: false}
@@ -127,7 +128,7 @@ const router = new Router({
     },
     //  todo详情页面
     {
-      path: '/todo/:todoId',
+      path: '/sche/todo/:todoId',
       name: 'todoEdit',
       component: TodoEdit,
       meta: {requireAuth: true}
@@ -184,6 +185,13 @@ const router = new Router({
       component: PlanNameEdit,
       meta: {requireAuth: true}
     },
+    //  创建计划任务的页面
+    {
+      path: '/plan/todo/create',
+      name: 'planTodoNew',
+      component: PlanTodoNew,
+      meta: {requireAuth: true}
+    },
     //  计划任务备注页面，type有两种：sche表示日程的note，plan表示计划任务的note
     {
       path: '/plan/todo/note',
@@ -198,9 +206,16 @@ const router = new Router({
       component: PlanTodoEditDate,
       meta: {requireAuth: false}
     },
+    //  计划日程评论页面
+    {
+      path: '/plan/todo/comment',
+      name: 'planTodoComment',
+      component: PlanTodoComment,
+      meta: {requireAuth: true}
+    },
     //  计划todo详情页面
     {
-      path: '/plan-todo/:planTodoId',
+      path: '/plan/todo/:planTodoId',
       name: 'planTodoEdit',
       component: PlanTodoEdit,
       meta: {requireAuth: true}
@@ -217,13 +232,6 @@ const router = new Router({
       path: '/plan/todo/:planTodoId/subtodo/:subtodoId',
       name: 'planTodoEditSubtodo',
       component: PlanTodoEditSubtodo,
-      meta: {requireAuth: true}
-    },
-    //  计划日程评论页面
-    {
-      path: '/plan/todo/comment',
-      name: 'planTodoComment',
-      component: PlanTodoComment,
       meta: {requireAuth: true}
     },
     //  ------------------------

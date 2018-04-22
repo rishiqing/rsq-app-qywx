@@ -148,7 +148,6 @@
             this.clock.endTime = base.add(1, 'h').format('HH:mm')
           }
         }
-        console.log('autoChangeTime的clock是' + JSON.stringify(this.clock))
       },
       // empty () {},
       // toggleAllDay (e) {
@@ -208,7 +207,7 @@
           return
         }
         this.saveTodoTimeState()
-        this.$router.push('/todo/alert')
+        this.$router.push('/sche/todo/alert')
       },
       /**
        * 检查开始时间和结束时间设置的是否正确，需要满足一下两个条件：

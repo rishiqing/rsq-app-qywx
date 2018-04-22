@@ -4,13 +4,13 @@
       <div class="top-sub">
         <v-touch
           class="top-sub-plan"
-          @tap="changeState($event)" >
+          @tap="changeState" >
           <span class="top-sub-plan-name">{{ currentSubPlan.name }}</span>
           <i class="icon2-arrow-down arrow-down"/>
         </v-touch>
         <v-touch
           class="set-plan"
-          @tap="delaySetPlan($event)" >
+          @tap="delayCall('setPlan', $event)" >
           <i class="icon2-set set"/>
         </v-touch>
       </div>
@@ -31,7 +31,7 @@
                   {{ finishNumber(item) }}/{{ totalNumber(item) }}
                 </span>
               </div>
-              <v-touch @tap="editCard($event,item)">
+              <v-touch @tap="delayCall('editCard', $event, item)">
                 <i class="icon2-other other"/>
               </v-touch>
             </div>
@@ -179,7 +179,7 @@
             class="icon2-selected selected-icon"/>
         </v-touch>
       </li>
-      <v-touch @tap="toEditPlan($event)">
+      <v-touch @tap="delayCall('toEditPlan', $event)">
         <li
           v-show="ifShowCreate"
           class="post-sub-plan">
@@ -287,7 +287,7 @@
       toEdit (item) {
         // 设置当前todo不管是inbox的todo还是ssche的todo
         this.$store.dispatch('setCurrentKanbanItem', item)
-        this.$router.push('/plan-todo/' + item.id)
+        this.$router.push('/plan/todo/' + item.id)
       },
       finishDown (items) {
         var newItems = []
@@ -374,8 +374,7 @@
         var startPoint = 0
         var startEle = 0
         wrap.addEventListener('touchstart', function (e) {
-          e.preventDefault()
-          console.log('触发了')
+          // e.preventDefault()
           startPoint = e.changedTouches[0].pageX
           startEle = box.offsetLeft
         })
@@ -388,10 +387,8 @@
           }
         })
         wrap.addEventListener('touchend', function (e) {
-          e.preventDefault()
+          // e.preventDefault()
           var left = box.offsetLeft
-          console.log('startEle' + startEle)
-          console.log('left' + left)
           // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
           if (Math.abs(startEle) - Math.abs(left) > 10 && left < 0) {
             that.currNum = that.currNum - 1
@@ -399,13 +396,11 @@
             that.currNum = that.currNum + 1
           }
           that.currNum = that.currNum >= (aLi.length - 1) ? aLi.length - 1 : that.currNum
-          console.log('currNum' + that.currNum)
           that.currNum = that.currNum <= 0 ? 0 : that.currNum
           box.style.left = -that.currNum * wrap.offsetWidth + 'px'
         })
       },
       editCard (e, item) {
-        console.log(e)
         e.preventDefault()
         var that = this
         window.rsqadmg.exec('actionsheet', {
@@ -450,8 +445,8 @@
         var pos = document.getElementsByClassName('card-list')[0].style.left
         this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         this.$store.commit('SAVE_CURRENT_LEFT', {pos: pos, num: this.currNum})
-        this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
-        this.$router.push('/todo/new/schedule')
+        this.$store.dispatch('setCurrentKanbanItem', def.defaultKanbanItem())
+        this.$router.push('/plan/todo/create')
       },
       finish (item) {
         this.$store.dispatch('finishCardItem', {id: item.id, isDone: !item.isDone}).then(() => {
@@ -468,21 +463,21 @@
       totalNumber (item) {
         return item.kanbanItemList ? item.kanbanItemList.length : 0
       },
-      delaySetPlan (e) {
+      //  element ui使用的时候有时会出现连续触发的问题，这里设置50ms的延迟执行
+      delayCall (func) {
         window.setTimeout(() => {
-          this.setPlan(e)
+          this[func].apply(this, Array.prototype.slice.call(arguments, 1))
         }, 50)
       },
       setPlan (e) {
         e.preventDefault()
-        console.log(e)
         var that = this
         window.rsqadmg.exec('actionsheet', {
           buttonArray: ['计划设置', '重命名当前子计划', '删除当前子计划', '取消'],
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
-                that.$router.push('/plan' + this.currentPlan.id + '/plan-setting')
+                that.$router.push('/plan/' + that.currentPlan.id + '/plan-setting')
                 break
               case 1:
                 that.$prompt('请输入子计划名称', '提示', {
@@ -530,7 +525,6 @@
         this.initialState = !this.initialState
       },
       getCardList (e, item) {
-        console.log('进来getcard')
         e.preventDefault()
         var that = this
         this.initialState = false

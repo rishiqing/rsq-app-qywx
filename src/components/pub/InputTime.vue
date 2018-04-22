@@ -62,7 +62,7 @@
           clock: JSON.parse(JSON.stringify(this.itemClock))
         }
         this.$store.commit('PUB_TODO_TIME_UPDATE', {data: timeObj})
-        this.$router.push('/todo/time')
+        this.$router.push('/sche/todo/time')
       }
     }
   }

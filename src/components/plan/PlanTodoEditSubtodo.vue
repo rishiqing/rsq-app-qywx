@@ -7,25 +7,25 @@
       :item-checked="editItem.isDone || false"
       @click-checkout="finishChecked"
       @text-change="titleChanged"/>
-    <div class="buttons">
-      <v-touch
-        class="button-wrap"
-        @tap="submitSubtodo">
-        <a
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
           class="weui-btn weui-btn_primary"
-          href="javascript:;">
+          href="javascript:;"
+          @tap="submitSubtodo">
           保存
-        </a>
-      </v-touch>
-      <v-touch
-        class="button-wrap"
-        @tap="deleteSubtodo">
-        <a
-          class="weui-btn weui-btn_default"
-          href="javascript:;">
+        </v-touch>
+      </div>
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_warn"
+          href="javascript:;"
+          @tap="deleteSubtodo">
           删除
-        </a>
-      </v-touch>
+        </v-touch>
+      </div>
     </div>
   </div>
 </template>
@@ -91,7 +91,6 @@
         })
       },
       titleChanged (value) {
-        console.log('newTitle: ' + value)
         newName = value
       },
       finishChecked () {
@@ -109,10 +108,4 @@
   }
 </script>
 <style lang="scss" scoped>
-  .buttons {
-    padding-top: 0.2rem;
-  }
-  .button-wrap {
-    margin: 0.3rem 0.3rem 0;
-  }
 </style>

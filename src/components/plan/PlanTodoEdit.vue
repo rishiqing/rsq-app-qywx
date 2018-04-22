@@ -53,15 +53,17 @@
               :items="todoComments"
               :todo-id="currentKanbanItem.id"
               :todo-type="'plan'"/>
-            <v-touch class="deleteTask" >
-              <a
-                class="weui-btn weui-btn_primary"
-                style="font-size: 20px"
-                href="javascript:;"
-                @click="deleteItem">
-                删除任务
-              </a>
-            </v-touch>
+            <div class="btn-group deleteTask" >
+              <div class="btn-wrap">
+                <v-touch
+                  tag="a"
+                  class="weui-btn weui-btn_warn"
+                  href="javascript:;"
+                  @tap="deleteItem">
+                  删除任务
+                </v-touch>
+              </div>
+            </div>
             <div class="bottom">
               <v-touch @tap="switchToComment">
                 <input
@@ -184,7 +186,7 @@
               'textcard': {
                 'title': this.currentKanbanItem.name,
                 'description': '日程通知',
-                'url': url[0] + '#' + '/plan-todo/' + this.currentKanbanItem.id
+                'url': url[0] + '#' + '/plan/todo/' + this.currentKanbanItem.id
               }
             }
 
@@ -258,7 +260,6 @@
 </script>
 <style lang="scss" scoped>
   .deleteTask{
-    margin-top: 0.7rem;
     padding-bottom: 2rem;
     background-color: #f6f6f6;
   }

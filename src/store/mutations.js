@@ -119,7 +119,7 @@ export default {
    * @constructor
    */
   CHILDTASK_TODO_CREATED (state, p) {
-    state.todo.currentTodo.subtodos.push(p.item)
+    state.todo.currentTodo.subTodos.push(p.item)
   },
   INB_TODO_CREATED (state, p) {
     if (!state.inbox.items) {
@@ -231,7 +231,7 @@ export default {
       pNote: i.pNote || null,
       oldPTitle: i.pTitle,
       oldPNote: i.pNote || null,
-      oldSubtodos: JSON.parse(JSON.stringify(i.subtodos || [])),
+      oldSubtodos: JSON.parse(JSON.stringify(i.subTodos || [])),
       createTaskDate: 'not set',
       type: 'not set'
     }
@@ -277,13 +277,10 @@ export default {
    * @constructor
    */
   TD_TODO_UPDATED (state, p) {
-    // console.log('state.todo.currentTodo是' + JSON.stringify(state.todo.currentTodo))
-    // console.log('p.todo是' + JSON.stringify(p.todo))
     util.extendObject(state.todo.currentTodo, p.todo)
-    // console.log('state.todo.currentTodo之后是' + JSON.stringify(state.todo.currentTodo))
   },
   TD_SUBTODO_UPDATED (state, p) {
-    let items = state.todo.currentTodo.subtodos
+    let items = state.todo.currentTodo.subTodos
     for (var i = 0; i < items.length; i++) {
       if (items[i].id === p.item.id) {
         util.extendObject(items[i], p.subtodo)
@@ -306,7 +303,7 @@ export default {
     }
   },
   TD_SUBTODO_DELETE  (state, p) {
-    let items = state.todo.currentTodo.subtodos
+    let items = state.todo.currentTodo.subTodos
     for (var i = 0; i < items.length; i++) {
       if (items[i].id === p.item.id) {
         items.splice(i, 1)

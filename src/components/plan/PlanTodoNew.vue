@@ -1,5 +1,5 @@
 <template>
-  <!--新建日程任务的页面-->
+  <!--新建计划任务的页面-->
   <div class="router-view">
     <div class="itm-edt z-index-xs">
       <div class="content">
@@ -8,19 +8,16 @@
           style="padding-bottom: 80px;">
           <div class="itm-group input-title">
             <r-input-title
-              :item-title="editItem.pTitle"
+              :item-title="editItem.name"
               @text-change="saveTitle"/>
           </div>
           <div class="itm-group itm--edit-todo">
-            <div class="firstGroup">
-              <r-input-date
-                :item="editItem"
-                :sep="'/'"
-                :has-left-space="true"/>
-              <r-input-time
-                :item="editItem"
-                :has-left-space="true"/>
-            </div>
+            <!--<div class="firstGroup">-->
+            <!--<r-input-date-->
+            <!--:item="editItem"-->
+            <!--:sep="'/'"-->
+            <!--:has-left-space="true"/>-->
+            <!--</div>-->
             <div class="secondGroup">
               <r-input-member
                 :has-left-space="true"
@@ -44,7 +41,6 @@
               </div>
             </div>
           </div>
-          <!--<div class="itm-group itm&#45;&#45;edit-todo" @click="submitTodo">提交（测试）</div>-->
         </div>
       </div>
     </div>
@@ -59,7 +55,7 @@
   import jsUtil from 'ut/jsUtil'
 
   export default {
-    name: 'TodoNew',
+    name: 'PlanTodoNew',
     components: {
       'r-input-title': InputTitleText,
       'r-input-date': InputDate,
@@ -71,18 +67,13 @@
         editItem: {
           isChecked: false,
           isAllDay: true
-//          receiverIds: []
         },
         joinUserRsqIds: []
       }
     },
     computed: {
-      currentTodo () {
-        return this.$store.state.todo.currentTodo
-      },
-      isInbox () {
-        //  所有日期属性均为date，判断当前新建的item为收纳箱任务
-        return this.editItem.pContainer === 'inbox'
+      currentKanbanItem () {
+        return this.$store.state.plan.currentKanbanItem
       },
       loginUser () {
         return this.$store.getters.loginUser || {}
@@ -92,11 +83,13 @@
       },
       corpId () {
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
+      },
+      kanbanCardId () {
+        return this.$store.state.kanbanCardId
+      },
+      cardItemLength () {
+        return this.$store.state.cardItemLength
       }
-    },
-    beforeRouteEnter (to, from, next) {
-      next()
-      // beforeRouteEnter中不能获取到this，因为this还没有创建，只能通过next获取
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建任务'})
@@ -104,8 +97,8 @@
     },
     mounted () {
       this.joinUserRsqIds = [this.$store.state.loginUser.rsqUser.id]
-      if (this.editItem.receiverIds !== null) {
-        var idArray = this.editItem.receiverIds.split(',')
+      if (this.editItem.joinUser) {
+        var idArray = this.editItem.joinUser.split(',')
         this.joinUserRsqIds = []
         for (var i = 0; i < idArray.length; i++) {
           this.joinUserRsqIds.push(idArray[i])
@@ -113,15 +106,11 @@
       }
     },
     methods: {
-      empty () {},
-      toggleAllDay (e) {
-        this.editItem.isChecked = !this.editItem.isChecked
-      },
       /**
-       * 初始化数据，从state的currentTodo复制到local的editItem
+       * 初始化数据，从state的currentKanbanItem复制到local的editItem
        */
       initData () {
-        jsUtil.extendObject(this.editItem, this.currentTodo)
+        jsUtil.extendObject(this.editItem, this.currentKanbanItem)
       },
       /**
        * 从startDate endDate dates三个字段中转换成用户前台显示的date结构
@@ -132,88 +121,44 @@
         return (result && result.dateResult) ? result.dateResult[0] : null
       },
       saveTitle (newTitle) {
-        this.editItem.pTitle = newTitle
-        this.$store.commit('TD_TODO_UPDATED', {todo: {pTitle: newTitle}})
+        this.editItem.name = newTitle
+        this.$store.commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: {name: newTitle}})
       },
       saveMember (idArray) {
         this.joinUserRsqIds = idArray
         var ids = idArray.join(',')
-        this.editItem.receiverIds = ids
-        this.$store.commit('TD_TODO_UPDATED', {todo: {receiverIds: ids}})
-//        this.editItem.receiverIds = idArray
-      }, // 注意这里没有和后台打交道，在提交新建的时候才打交道
+        this.editItem.joinUser = ids
+        this.$store.commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: {joinUser: ids}})
+//        this.editItem.joinUser = idArray
+      },
       /**
        * 将local的对象保存到state的变量中
        */
       saveTodoState () {
-        this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
+        this.$store.commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: this.editItem})
       },
       submitTodo () {
-        if (!this.editItem.pTitle) {
+        if (!this.editItem.name) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
-        }
-        if (!this.isInbox) {
-          var planTime = this.getPlanedTime()
-          if (!planTime) {
-//            return window.rsqadmg.execute('alert', {message: '请选择任务日期'})
-          }
-          //  坑爹啊。。。格式不统一，需要做额外的hack
-          this.editItem.pPlanedTime = dateUtil.dateNum2Text(planTime, '-') + ' 00:00:00'
-          this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
         }
 
         this.saveTodoState()
-//        var that = this
-        var todoType = this.isInbox ? 'inbox' : 'schedule'
-//        window.rsqadmg.execute('showLoader', {text: '创建中...'})
-        //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
-        var clockAlert = JSON.parse(JSON.stringify(this.currentTodo.clock.alert || null))
         var that = this
-        this.$store.dispatch('submitCreateTodoItem', {newItem: this.currentTodo, todoType: todoType})
-          .then(item => {
-            if (this.currentTodo.clock && this.currentTodo.clock.startTime && item.clock && item.clock.alert) {
-              //  如果item.clock.alert存在，说明设置了alert，那么就发送设置的提醒
-              item.clock.alert = clockAlert
-              return this.$store.dispatch('handleRemind', {item})
-            } else {
-              return item
-            }
-          })
-          .then(item => {
+        var startDate = this.currentKanbanItem.startDate ? this.currentKanbanItem.startDate.split('/').join('') : null
+        var endDate = this.currentKanbanItem.endDate ? this.currentKanbanItem.endDate.split('/').join('') : null
+        var params = {
+          name: this.currentKanbanItem.name,
+          kanbanCard: this.kanbanCardId,
+          displayOrder: 65535 - this.cardItemLength,
+          joinUser: this.editItem.joinUser,
+          dates: this.currentKanbanItem.dates,
+          startDate: startDate,
+          endDate: endDate
+        }
+        this.$store.dispatch('createKanbanItem', params)
+          .then((res) => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
-            if (item.receiverIds) {
-              var url = window.location.href.split('#')
-//                var note = this.editItem.pNote
-//                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
-              var data = {
-                'msgtype': 'textcard',
-                'agentid': this.corpId,
-                'textcard': {
-                  'title': item.pTitle,
-                  'description': '日程通知',
-                  'url': url[0] + '#' + '/sche/todo/' + item.id
-                }
-              }
-              var IDArrays = item.receiverIds.split(',')
-              var empIDArray = []
-              this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
-                .then(idMap => {
-                  for (var i = 0; i < IDArrays.length; i++) {
-                    empIDArray.push(idMap[IDArrays[i]].userId)
-                  }
-                  data['touser'] = empIDArray.toString().split(',').join('|')
-                  that.$store.dispatch('sendAsyncCorpMessage', {
-                    corpId: that.loginUser.authUser.corpId,
-                    data: data
-                  }).then(res => {
-                    if (res.errcode !== 0) {
-                    } else {
-                      console.log('发送成功！')
-                    }
-                  })
-                })
-            }
-            this.$router.replace('/sche')
+            that.$router.go(-1)
           })
       }
     }

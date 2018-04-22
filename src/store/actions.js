@@ -925,7 +925,7 @@ export default {
         userid_list: state.loginUser.authUser.userId,
         msgtype: 'textcard',
         msgcontent: {
-          url: url[0] + '#' + '/todo/' + item.id,
+          url: url[0] + '#' + '/sche/todo/' + item.id,
           title: item.pTitle,
           description: '日程提醒'
         }
@@ -1053,12 +1053,6 @@ export default {
         // commit('QUIT_PLAN', p) // 这里用不用该前端的参与人呢？
       })
   },
-  submitKanbanItem ({commit, state}, p) {
-    return api.todo.submitKanbanItem(p)
-      .then((res) => {
-        return res
-      })
-  },
   updateCardName ({commit, state}, p) {
     return api.todo.updateCardName(p)
       .then((res) => {
@@ -1097,6 +1091,12 @@ export default {
         //  目前在企业微信中只使用四个模板，因此这里将这四个模板取出来
         commit('PLAN_COVER_LIST_SET', {coverList: bizUtil.extractTemplate(result)})
         return result
+      })
+  },
+  createKanbanItem ({commit, state}, p) {
+    return api.todo.submitKanbanItem(p)
+      .then((res) => {
+        return res
       })
   },
   deleteKanbanItem ({commit, state}, p) {

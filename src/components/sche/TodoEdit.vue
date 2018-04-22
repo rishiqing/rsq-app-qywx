@@ -71,15 +71,17 @@
               :disabled="!isEditable"
               :items="todoComments"
               :todo-id="currentTodo.id"/>
-            <v-touch class="delete-task" >
-              <a
-                class="weui-btn weui-btn_primary"
-                style="font-size: 20px"
-                href="javascript:;"
-                @click="prepareDelete($event)">
-                删除任务
-              </a>
-            </v-touch>
+            <div class="btn-group delete-task" >
+              <div class="btn-wrap">
+                <v-touch
+                  tag="a"
+                  class="weui-btn weui-btn_warn"
+                  href="javascript:;"
+                  @tap="prepareDelete">
+                  删除任务
+                </v-touch>
+              </div>
+            </div>
             <div class="bottom">
               <v-touch @tap="switchToComment">
                 <input
@@ -309,7 +311,7 @@
               'textcard': {
                 'title': this.currentTodo.pTitle,
                 'description': '日程通知',
-                'url': url[0] + '#' + '/todo/' + this.currentTodo.id
+                'url': url[0] + '#' + '/sche/todo/' + this.currentTodo.id
               }
             }
 
@@ -562,7 +564,6 @@
 </script>
 <style lang="scss" scoped>
   .delete-task{
-    margin-top: 0.7rem;
     padding-bottom: 2rem;
     background-color: #f6f6f6;
   }

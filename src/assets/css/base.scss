@@ -325,3 +325,17 @@ input[type="button"].cmt-send-btn-submit {
   background-color: #44DB5E; }
 .mui-switch:checked:before {
   left: 21px; }
+
+.btn-group {
+  padding-top: 0.2rem;
+}
+.btn-wrap {
+  padding: 0.3rem 0.3rem 0;
+}
+
+div.el-message-box {
+  width: 8rem;
+}
+div.el-message-box input.el-input__inner {
+  border: 1px solid #dcdfe6;
+}

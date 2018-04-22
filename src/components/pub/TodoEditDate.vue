@@ -332,7 +332,7 @@
           newObj.isLastDate !== oldObj.isLastDate
       },
       gotoRepeat () {
-        this.$router.push('/todo/repeat')
+        this.$router.push('/sche/todo/repeat')
       },
       saveTodoDateState () {
         var sorted = this.selectNumDate.sort((a, b) => { return a > b ? 1 : -1 })

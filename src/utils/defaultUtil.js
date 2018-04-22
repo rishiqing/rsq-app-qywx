@@ -36,7 +36,7 @@ export default {
       TSLList: [],
       allKList: [],
       allTList: [],
-      subtodos: [],
+      subTodos: [],
       comments: [],
       noteFiles: []
     }
@@ -50,5 +50,31 @@ export default {
     obj['repeatBaseTime'] = null
     obj['repeatOverDate'] = ''
     return obj
+  },
+  defaultKanbanItem () {
+    return {
+      KSLList: [],
+      TSLList: [],
+      actions: [],
+      allKList: [],
+      allTList: [],
+      allowUpdate: false,
+      comments: [],
+      dates: null,
+      displayOrder: 65533,
+      editAuthority: 'all',
+      id: null,
+      isCurrentUserFocus: false,
+      isWeb: true,
+      joinUser: '',
+      kanbanCard: null,
+      kanbanItemJoinLinks: [],
+      name: '',
+      note: '',
+      noteFile: [],
+      noteFiles: [],
+      openToPublic: false,
+      subItems: []
+    }
   }
 }

@@ -50,7 +50,6 @@
           // 滑动时距离浏览器左侧实时距离
           this.moveX = ev.touches[0].clientX
           this.disX = this.startX - this.moveX
-          console.log(this.disX)
           // 如果是向右滑动或者不滑动，不改变滑块的位置
           if (Math.abs(this.disX) <= this.threshold) {
             return

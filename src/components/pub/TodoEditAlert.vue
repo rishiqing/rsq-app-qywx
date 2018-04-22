@@ -113,10 +113,7 @@
       },
       initRuleList () {
         var noAlert = true
-        console.log('initRuleList中的是sysRuleList' + JSON.stringify(this.sysRuleList))
-        console.log('initRuleList中的是displayedRuleList' + JSON.stringify(this.displayedRuleList))
         this.sysRuleList.forEach(remoteAlert => {
-          console.log('remoteAlert是' + JSON.stringify(remoteAlert))
           for (let i = 0; i < this.displayedRuleList.length; i++) {
             const localAlert = this.displayedRuleList[i]
             if (localAlert.schedule === remoteAlert.schedule) {
@@ -126,17 +123,13 @@
             }
           }
         })
-        console.log('initRuleList完之后displayedRuleList是' + JSON.stringify(this.displayedRuleList))
         this.noAlert = noAlert
       },
       initTimeList () {
         this.userRuleList.forEach(t => {
-          console.log('t是' + t)
           var obj = this.parseTimeObj(t)
-          console.log('解析后的t是' + obj)
           this.displayedTimeList.push(obj)
           this.selectAlert(obj)
-          console.log('改变选中状态后的t是' + obj)
         })
       },
       showTimePicker () {
@@ -154,7 +147,6 @@
               var obj = {numTime: that.getNumDateTime(result.value), selected: false}
               that.displayedTimeList.push(obj)
               that.selectAlert(obj)
-              console.log('selectAlert之后obj是' + obj)
             }
           })
         }, 50)

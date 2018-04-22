@@ -35,26 +35,23 @@
     },
     computed: {
       subtodoString () {
-        var finishcount = 0
-        var unfinishcount = 0
-        var result = null
-        var subtodo = this.item.subtodos || this.item.subItems
-        if (subtodo === undefined) {
+        let finishedCount = 0
+        let unfinishedCount = 0
+        let result = null
+        const subtodo = this.item.subTodos || this.item.subItems || []
+
+        for (let i = 0; i < subtodo.length; i++) {
+          if (subtodo[i].isDone) {
+            finishedCount++
+          } else {
+            unfinishedCount++
+          }
+        }
+        if (finishedCount === 0 && unfinishedCount === 0) {
           return ''
         } else {
-          for (var i = 0; i < subtodo.length; i++) {
-            if (subtodo[i].isDone) {
-              finishcount++
-            } else {
-              unfinishcount++
-            }
-          }
-          if (finishcount === 0 && unfinishcount === 0) {
-            return ''
-          } else {
-            result = finishcount + '条已完成, ' + unfinishcount + '条未完成'
-            return result
-          }
+          result = finishedCount + '条已完成, ' + unfinishedCount + '条未完成'
+          return result
         }
       }
     },

@@ -1,8 +1,8 @@
 <template>
-  <div class="">
+  <div class="top-padding">
     <r-input-title
       ref="title"
-      :disabled="false"
+      :is-checkable="true"
       :item-title="editItem.name || ''"
       :item-checked="editItem.isDone || false"
       @click-checkout="finishChecked"
@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-  import InputTitleRichText from 'com/pub/InputTitleRichText'
+  import InputTitleText from 'com/pub/InputTitleText'
   import util from 'ut/jsUtil'
   //  缓存的变量，用来接收r-input-title组件中的值的改变
   let newName = ''
@@ -38,7 +38,7 @@
   export default {
     name: 'TodoEditSubtodo',
     components: {
-      'r-input-title': InputTitleRichText
+      'r-input-title': InputTitleText
     },
     data () {
       return {
@@ -111,4 +111,7 @@
   }
 </script>
 <style lang="scss" scoped>
+  .top-padding {
+    padding-top: 0.2rem;
+  }
 </style>

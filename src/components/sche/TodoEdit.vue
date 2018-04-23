@@ -354,52 +354,46 @@
       prepareDelete (e) {
 //        if (e.target.innerText === '删除任务') {
         var that = this
-        if (this.currentTodo.kanbanId) {
-          this.$store.dispatch('deleteKanbanItem', {id: this.currentTodo.id}).then(() => {
-            this.$router.replace(window.history.back())
+        if (that.currentTodo.isCloseRepeat) {
+          window.rsqadmg.exec('confirm', {
+            message: '确定要删除此任务？',
+            success () {
+              window.rsqadmg.execute('showLoader', {text: '删除中...'})
+              that.deleteCurrentTodo({todo: that.currentTodo})
+                .then(() => {
+                  window.rsqadmg.exec('hideLoader')
+                  window.rsqadmg.execute('toast', {message: '删除成功'})
+                  that.$router.go(-1)
+                })
+            }
           })
         } else {
-          if (that.currentTodo.isCloseRepeat) {
-            window.rsqadmg.exec('confirm', {
-              message: '确定要删除此任务？',
-              success () {
-//              window.rsqadmg.execute('showLoader', {text: '删除中...'})
-                that.deleteCurrentTodo({todo: that.currentTodo})
-                  .then(() => {
-                    //                  window.rsqadmg.exec('hideLoader')
-                    window.rsqadmg.execute('toast', {message: '删除成功'})
-                    that.$router.replace(window.history.back())
-                  })
+          if (e.target.innerText === '删除任务') {
+            window.rsqadmg.exec('actionsheet', {
+              buttonArray: ['仅删除此任务', '删除此任务及以后的任务', '删除所有的重复任务'],
+              success: function (res) {
+//                window.rsqadmg.execute('showLoader', {text: '删除中...'})
+                var promise
+                switch (res.buttonIndex) {
+                  case 0:
+                    promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'today'})
+                    break
+                  case 1:
+                    promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'after'})
+                    break
+                  case 2:
+                    promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'all'})
+                    break
+                  default:
+                    break
+                }
+                promise.then(() => {
+                  window.rsqadmg.exec('hideLoader')
+                  window.rsqadmg.execute('toast', {message: '删除成功'})
+                  that.$router.go(-1)
+                })
               }
             })
-          } else {
-            if (e.target.innerText === '删除任务') {
-              window.rsqadmg.exec('actionsheet', {
-                buttonArray: ['仅删除此任务', '删除此任务及以后的任务', '删除所有的重复任务'],
-                success: function (res) {
-//                window.rsqadmg.execute('showLoader', {text: '删除中...'})
-                  var promise
-                  switch (res.buttonIndex) {
-                    case 0:
-                      promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'today'})
-                      break
-                    case 1:
-                      promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'after'})
-                      break
-                    case 2:
-                      promise = that.deleteCurrentTodo({todo: that.currentTodo, isRepeat: true, type: 'all'})
-                      break
-                    default:
-                      break
-                  }
-                  promise.then(() => {
-                    window.rsqadmg.exec('hideLoader')
-                    window.rsqadmg.execute('toast', {message: '删除成功'})
-                    that.$router.replace(window.history.back())
-                  })
-                }
-              })
-            }
           }
         }
       },

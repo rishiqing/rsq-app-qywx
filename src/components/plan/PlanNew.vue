@@ -47,7 +47,7 @@
           class="weui-btn weui-btn_primary"
           href="javascript:;"
           @tap="create">
-          保存
+          创建
         </v-touch>
       </div>
     </div>
@@ -110,6 +110,7 @@
         if (!this.content) {
           return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
         }
+        window.rsqadmg.exec('showLoader', {text: '创建中...'})
         var params = {
           name: this.content,
           cover: this.currentTemplate.cover,
@@ -118,6 +119,8 @@
           accessIds: this.rsqIdArray.toString()
         }
         this.$store.dispatch('postPlan', params).then((res) => {
+          window.rsqadmg.exec('hideLoader')
+          window.rsqadmg.exec('toast', {message: '创建成功'})
           that.$router.go(-1)
         })
       },

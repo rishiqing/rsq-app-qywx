@@ -41,24 +41,24 @@
                 :key="kanbanItem.id"
                 :class="{'is-finish':kanbanItem.isDone}"
                 class="card-item" >
-                <v-touch @tap="toEdit(kanbanItem)">
-                  <div class="card-item-left">
-                    <v-touch
-                      class="selected-icon"
-                      @tap="finish(kanbanItem)" >
+                <div>
+                  <v-touch
+                    class="card-item-left"
+                    @tap="finish(kanbanItem)">
+                    <div class="selected-icon">
                       <i
                         v-show="kanbanItem.isDone"
                         class="icon2-seleced-mult card-selected"/>
-                    </v-touch>
-                    <v-touch
-                      class="selected-icon"
-                      @tap="finish(kanbanItem)">
+                    </div>
+                    <div class="selected-icon">
                       <i
                         v-show="!kanbanItem.isDone"
                         class="icon2-check-box card-selected"/>
-                    </v-touch>
-                  </div>
-                  <div class="card-item-right">
+                    </div>
+                  </v-touch>
+                  <v-touch
+                    class="card-item-right"
+                    @tap="toEdit(kanbanItem)">
                     <div
                       :class="{'text-grey': kanbanItem.isDone, 'text-mid-line': kanbanItem.isDone}"
                       class="card-item-name">
@@ -99,8 +99,8 @@
                     </div>
                     <r-task-member
                       :item="kanbanItem"/>
-                  </div>
-                </v-touch>
+                  </v-touch>
+                </div>
               </li>
             </ul>
             <v-touch
@@ -410,7 +410,13 @@
               case 0:
                 that.$prompt('请输入卡片名称', '提示', {
                   confirmButtonText: '确定',
-                  cancelButtonText: '取消'
+                  cancelButtonText: '取消',
+                  inputValue: item.name,
+                  inputValidator: value => {
+                    if (!value) {
+                      return '请输入卡片名称'
+                    }
+                  }
                 }).then(({ value }) => {
                   var params = {
                     name: value,
@@ -420,19 +426,18 @@
                     item.name = value
                     that.$store.commit('UPDATE_SUBPLAN_NAME', res)
                   })
-                }).catch(() => {
-                  this.$message({
-                    type: 'info',
-                    message: '取消输入'
-                  })
-                })
+                }).catch(() => {})
                 break
               case 1:
-                var params = {
-                  name: name,
-                  id: item.id
-                }
-                that.$store.dispatch('deleteCard', params)
+                window.rsqadmg.exec('confirm', {
+                  message: '确定删除卡片：' + item.name + '?',
+                  success () {
+                    const params = {
+                      id: item.id
+                    }
+                    that.$store.dispatch('deleteCard', params)
+                  }
+                })
                 break
               default:
                 break
@@ -482,7 +487,13 @@
               case 1:
                 that.$prompt('请输入子计划名称', '提示', {
                   confirmButtonText: '确定',
-                  cancelButtonText: '取消'
+                  cancelButtonText: '取消',
+                  inputValue: that.currentSubPlan.name,
+                  inputValidator: value => {
+                    if (!value) {
+                      return '请输入子计划名称'
+                    }
+                  }
                 }).then(({ value }) => {
                   var params = {
                     name: value,
@@ -491,7 +502,7 @@
                   that.$store.dispatch('updateName', params).then((res) => {
                     that.$store.commit('UPDATE_SUBPLAN_NAME', res)
                   })
-                })
+                }).catch(() => {})
                 break
               case 2:
                 that.$store.dispatch('deleteChildPlan', that.currentSubPlan).then(() => {
@@ -546,11 +557,15 @@
           })
       },
       toEditPlan (e) {
-        e.preventDefault()
         this.initialState = !this.initialState
         this.$prompt('请输入新建子计划名称', '提示', {
           confirmButtonText: '确定',
-          cancelButtonText: '取消'
+          cancelButtonText: '取消',
+          inputValidator: value => {
+            if (!value) {
+              return '请输入子计划名称'
+            }
+          }
         }).then(({ value }) => {
           var params = {
             name: value,
@@ -560,9 +575,12 @@
           this.$store.dispatch('postSubPlan', params).then((res) => {
             that.$store.commit('ADD_SUB_PLAN', res)
           })
-        })
+        }).catch(() => {})
       },
       postCard () {
+        if (!this.cardName) {
+          return window.rsqadmg.exec('alert', {message: '请输入任务列表名称'})
+        }
         var params = {
           name: this.cardName,
           childKanbanId: this.currentSubPlan.id
@@ -707,7 +725,8 @@
   }
   .card-item-left{
     float: left;
-    margin-left: 0.2rem;
+    padding-left: 0.2rem;
+    padding-bottom: 0.5rem;
   }
   .card-item-right{
     margin-left: 1rem;

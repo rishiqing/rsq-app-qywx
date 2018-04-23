@@ -39,6 +39,9 @@
     },
     methods: {
       submitPlanName () {
+        if (!this.planName) {
+          return window.rsqadmg.exec('alert', {message: '请输入计划名称'})
+        }
         this.$store.dispatch('updatePlanName', {'name': this.planName, 'id': this.currentPlan.id})
         this.$router.go(-1)
       }

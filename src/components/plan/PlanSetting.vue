@@ -52,17 +52,17 @@
         <v-touch
           v-if="isOwn"
           tag="a"
-          class="weui-btn weui-btn_warn"
+          class="delete-plan-btn weui-btn weui-btn_warn"
           href="javascript:;"
-          @tap="ifDelPlan">
+          @tap="deletePlan">
           删除计划
         </v-touch>
         <v-touch
           v-else
           tag="a"
-          class="weui-btn weui-btn_warn"
+          class="delete-plan-btn weui-btn weui-btn_warn"
           href="javascript:;"
-          @tap="ifDelPlan">
+          @tap="deletePlan">
           退出计划
         </v-touch>
       </div>
@@ -146,21 +146,34 @@
         }
         this.isChecked = !this.isChecked
       },
-      ifDelPlan () {
-        if (this.isOwn) {
-          var that = this
-          this.$store.dispatch('deletePlan', {id: this.currentPlan.id}).then(() => {
-            that.$router.replace('/plan/PlanList')
-          })
-        } else {
-          this.$store.dispatch('quitPlan', {id: this.currentPlan.id}).then((e) => {
-            if (e.message) {
-              window.rsqadmg.exec('alert', {message: e.message})
-            } else {
-              that.$router.replace('/plan/PlanList')
+      deletePlan () {
+        const that = this
+        window.setTimeout(() => {
+          window.rsqadmg.exec('confirm', {
+            message: '确定删除计划：' + that.currentPlan.name + '?',
+            success () {
+              if (that.isOwn) {
+                window.rsqadmg.exec('showLoader', {'text': '删除中'})
+                that.$store.dispatch('deletePlan', {id: that.currentPlan.id}).then(() => {
+                  window.rsqadmg.exec('hideLoader')
+                  window.rsqadmg.exec('toast', {message: '已删除'})
+                  that.$router.replace('/plan/list')
+                })
+              } else {
+                window.rsqadmg.exec('showLoader', {'text': '退出中'})
+                that.$store.dispatch('quitPlan', {id: that.currentPlan.id}).then((e) => {
+                  if (e.message) {
+                    window.rsqadmg.exec('alert', {message: e.message})
+                  } else {
+                    window.rsqadmg.exec('hideLoader')
+                    window.rsqadmg.exec('toast', {message: '已退出'})
+                    that.$router.replace('/plan/list')
+                  }
+                })
+              }
             }
           })
-        }
+        }, 50)
       },
       getMember (id) {
         var corpId = this.loginUser.authUser.corpId

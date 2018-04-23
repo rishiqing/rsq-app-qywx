@@ -258,11 +258,9 @@ rsqAdapterManager.register({
       '',
       function(){
         rsqChk(params.success, []);
-        console.log('yes')
       },
       function(){
         rsqChk(params.cancel, []);
-        console.log('no')
       },
       {title: params.message}
     );
@@ -378,7 +376,9 @@ rsqAdapterManager.register({
    * @param params.onFail
    */
   toast: function(params){
-    weui.toast(params.message);
+    weui.toast(params.message, {
+      duration: 1500
+    });
   },
   selectDeptMember: function(params){
     wx.invoke('selectEnterpriseContact', {

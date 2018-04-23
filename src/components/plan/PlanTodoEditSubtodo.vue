@@ -32,8 +32,6 @@
 <script>
   import InputTitleText from 'com/pub/InputTitleText'
   import util from 'ut/jsUtil'
-  //  缓存的变量，用来接收r-input-title组件中的值的改变
-  let newName = ''
 
   export default {
     name: 'PlanTodoEditSubtodo',
@@ -42,7 +40,8 @@
     },
     data () {
       return {
-        editItem: {}
+        editItem: {},
+        newName: ''
       }
     },
     computed: {
@@ -56,7 +55,7 @@
     },
     methods: {
       submitSubtodo () {
-        const value = newName
+        const value = this.newName
         const item = this.currentSubtodo
         const that = this
         if (item.name !== value) {
@@ -91,7 +90,7 @@
         })
       },
       titleChanged (value) {
-        newName = value
+        this.newName = value
       },
       finishChecked () {
         const item = this.currentSubtodo

@@ -237,20 +237,30 @@
         }
       },
       deleteItem () {
-        this.$store.dispatch('deleteKanbanItem', {id: this.itemId})
-          .then(() => {
-            this.$router.go(-1)
-          })
+        const that = this
+        window.rsqadmg.exec('confirm', {
+          message: '确定要删除此任务？',
+          success () {
+            window.rsqadmg.execute('showLoader', {text: '删除中...'})
+            that.$store.dispatch('deleteKanbanItem', {id: that.itemId})
+              .then(() => {
+                window.rsqadmg.exec('hideLoader')
+                window.rsqadmg.execute('toast', {message: '删除成功'})
+                that.$router.go(-1)
+              })
+          }
+        })
       },
       initPlan () {
+        window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getKanbanItem', {id: this.itemId})
           .then(item => {
             util.extendObject(this.editItem, item)
             this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
-//            var joinUserArray = util.getMapValuePropArray(this.editItem.joinUserIds, 'joinUser')
-//            this.joinUserRsqIds = joinUserArray.map(obj => {
-//              return obj['id'] + ''
-//            })
+          })
+          .then(() => {
+            this.fetchCommentIds()
+            window.rsqadmg.exec('hideLoader')
           })
       }
     }

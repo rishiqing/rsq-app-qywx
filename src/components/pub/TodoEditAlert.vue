@@ -10,7 +10,7 @@
           class="icon2-selected finish"/>
       </v-touch>
     </ul>
-    <ul class="alert-list">
+    <ul class="alert-list bottom-border">
       <v-touch
         v-for="(alert, index) in displayedRuleList"
         :key="index"
@@ -28,10 +28,9 @@
     <!--<i class="icon2-selected finish" v-show="alert.selected"></i>-->
     <!--</v-touch>-->
     <!--</ul>-->
-    <ul class="sec">
+    <ul class="sec bottom-border">
       <v-touch
         tag="li"
-        class="define-alert"
         @tap="showTimePicker">
         <span class="list-key">自定义</span>
         <span class="list-value">
@@ -292,6 +291,9 @@
       border-top: 0.5px solid #E3E3E3;
       background: #FFFFFF;
     }
+    ul.bottom-border{
+      border-bottom: 0.5px solid #E3E3E3;
+    }
     .top-ul {
       margin-top: 0.266rem;
     }
@@ -306,7 +308,7 @@
       position: relative;
       line-height: 1.2rem;
       height: 1.2rem;
-      border-bottom: 1px solid #E3E3E3;
+      border-bottom: 0.5px solid #E3E3E3;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
@@ -323,8 +325,5 @@
       font-size: 21px;
       color: #999999;
     }
-  }
-  ul.sec .define-alert{
-    border-bottom: 1px solid #E3E3E3;
   }
 </style>

@@ -27,7 +27,9 @@
         <div
           v-else
           class="itm-lst">
-          <img src="../../assets/img/todo-empty.png" >
+          <v-touch @tap="createNew">
+            <img src="../../assets/img/todo-empty.png" >
+          </v-touch>
           <p class="shouye">还没有日程，赶快去创建吧</p>
         </div>
       </r-pull-to-refresh>
@@ -41,6 +43,7 @@
   </div>
 </template>
 <script>
+  import def from 'ut/defaultUtil'
   import Calendar from 'com/sche/CalendarV2'
   import Pull from 'com/pub/Pull2Refresh'
   import TodoItemList from 'com/sche/TodoItemList'
@@ -95,6 +98,9 @@
         } else {
           return []
         }
+      },
+      currentNumDate () {
+        return this.$store.getters.defaultNumTaskDate
       }
     },
     mounted () {
@@ -113,6 +119,13 @@
     methods: {
       toInbox () {
         this.$router.push('/inbox')
+      },
+      createNew () {
+        //  过去的日期不允许创建任务
+        if (this.currentNumDate + 24 * 3600 * 1000 > new Date().getTime()) {
+          this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
+          this.$router.push('/sche/todo/create')
+        }
       },
       onPanMove (p) {
         this.paddingTop = CAL_STATE[p.type].value + p.deltaY

@@ -40,9 +40,17 @@
         </div>
       </div>
     </div>
-    <v-touch @tap="create">
-      <div class="post-plan">创建</div>
-    </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="create">
+          保存
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>

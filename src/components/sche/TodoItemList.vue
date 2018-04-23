@@ -44,6 +44,8 @@
       checkTodo (item, status) {
         this.$store.dispatch('submitTodoFinish', {item: item, status: status})
             .then(function () {
+              var str = status ? '任务已完成' : '任务已重启'
+              window.rsqadmg.execute('toast', {message: str})
               this.$store.dispatch('saveTodoAction', {editItem: {status: status}})
                 .then(() => {
                 })

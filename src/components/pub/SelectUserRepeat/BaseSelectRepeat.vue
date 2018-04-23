@@ -387,7 +387,7 @@
     .dp-is-last {
       position: absolute; top: 50%; left: 50%; width: 50px;
       height: 30px; line-height: 30px;
-      margin-left: -10px; margin-top: -15px;}
+      margin-left: -10px; margin-top: -15px;font-size: 12px;}
     .footer {
       background: #FDFDFF; color: #3D3D3D; font-size: 0.347rem;padding: 0 0.293rem;
       height: 45px; line-height: 45px; border-top: 1px solid #E0E0E0;

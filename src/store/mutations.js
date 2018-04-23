@@ -354,6 +354,15 @@ export default {
   TD_COMMENT_CREATED (state, p) {
     state.todo.currentTodo.comments.push(p.comment)
   },
+  TD_COMMENT_DELETE (state, p) {
+    let items = state.todo.currentTodo.comments
+    for (var i = 0; i < items.length; i++) {
+      if (items[i].id === p.item.id) {
+        items.splice(i, 1)
+        break
+      }
+    }
+  },
   /**
    * 重置用于提醒的时间model
    * @param state

@@ -79,6 +79,7 @@
           startDate: c.startDate || null,
           endDate: c.endDate || null,
           dates: c.dates || null,
+          isCloseRepeat: !!c.isCloseRepeat,
           repeatType: c.repeatType || null,
           repeatBaseTime: c.repeatBaseTime || null,
           isLastDate: c.isLastDate === undefined || false

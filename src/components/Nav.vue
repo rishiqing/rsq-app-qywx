@@ -26,7 +26,7 @@
     </div>
     <div class="right">
       <v-touch
-        :class="{'is-active': '/plan/list' == currentPath}"
+        :class="{'is-active': '/plan/list' === currentPath}"
         class="right-me"
         @tap="reload('/plan/list')">
         <img
@@ -38,7 +38,7 @@
           src="../assets/img/Group18Copy.png"
           class="plan-icon">
         <p
-          :class="{'is-active': '/plan/list' == currentPath}"
+          :class="{'is-active': '/plan/list' === currentPath}"
           class="my">
           计划
         </p>
@@ -70,14 +70,13 @@
         this.$router.replace(page)
       },
       createNew () {
-        //  过去的日期不允许创建任务
-        if (this.currentNumDate + 24 * 3600 * 1000 < new Date().getTime()) {
-          return window.rsqadmg.exec('topTips', {message: '过去的日期不能创建日程'})
-//          return window.rsqadmg.exec('toast', {message: '过去的日期不能创建日程'})
-        }
-        if (this.currentPath === '/plan/PlanList') {
+        if (this.currentPath === '/plan/list') {
           this.$router.push('/plan/create')
         } else {
+          //  过去的日期不允许创建任务
+          if (this.currentNumDate + 24 * 3600 * 1000 < new Date().getTime()) {
+            return window.rsqadmg.exec('topTips', {message: '过去的日期不能创建日程'})
+          }
           this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
           this.$router.push('/sche/todo/create')
         }

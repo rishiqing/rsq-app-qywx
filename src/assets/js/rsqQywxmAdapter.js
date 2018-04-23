@@ -442,15 +442,14 @@ rsqAdapterManager.register({
     }
     var defString = params.strInit || '00:00';
     var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
-
     weui.picker(hours, symbol, minites, {
+      id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onConfirm: function(result) {
         var time = result[0].label + ':' + result[2].label;
         var result = {value: time}
         rsqChk(params.success, [result]);
-      },
-      id: 'ma_expect_time'
+      }
     });
   },
   disableBounce: function(){

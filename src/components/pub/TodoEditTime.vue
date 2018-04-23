@@ -45,7 +45,7 @@
       class="date-clear"
       tag="p"
       @tap="tapEmpty">
-      清除日期
+      清除时间
     </v-touch>
   </div>
 </template>

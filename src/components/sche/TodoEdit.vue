@@ -23,32 +23,29 @@
               :disabled-text="disabledText"/>
           </div>
           <div class="itm--edit-todo ">
-            <div class="edit-padding-left">
-              <div class="first-date">
+            <div class="icon-field-group">
+              <div class="common-field">
                 <i class="icon2-schedule sche"/>
                 <r-input-date
                   :is-disabled="!isEditable"
                   :disabled-text="disabledText"
                   :item="editItem"
-                  :sep="'/'"
-                  :has-left-space="true"/>
+                  :sep="'/'"/>
               </div>
               <div
                 v-if="!isInbox"
-                class="first-date">
+                class="common-field">
                 <i class="icon2-alarm sche"/>
                 <r-input-time
-                  :has-left-space="true"
                   :is-disabled="!isEditable"
                   :disabled-text="disabledText"
                   :item="editItem"/>
               </div>
-              <div class="first-date">
+              <div class="common-field">
                 <i class="icon2-member sche"/>
                 <r-input-member
                   :is-disabled="!isEditable"
                   :disabled-text="disabledText"
-                  :has-left-space="true"
                   :edit-time="true"
                   :is-native="true"
                   :index-title="'执行人'"
@@ -58,7 +55,7 @@
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
-              <div class="first-date">
+              <div class="common-field">
                 <i class="icon2-subplan-web sche"/>
                 <r-input-subtodo
                   :is-disabled="!isEditable"
@@ -567,10 +564,6 @@
     padding-bottom: 2rem;
     background-color: #f6f6f6;
   }
-  .first-date{
-    position: relative;
-    padding-left: 1.1rem;
-  }
   .sche{
     font-size:0.586rem;
     color:#55A8FD;
@@ -578,9 +571,6 @@
     top: 50%;
     margin-top: -0.29rem;
     left:0.3rem
-  }
-  .edit-padding-left{
-    background-color: white;
   }
   .time-border{
     border-bottom: 1px solid #E0E0E0;

@@ -1,8 +1,7 @@
 <template>
   <v-touch @tap="showMemberEdit">
     <div
-      :class="{'has-padding':hasLeftSpace, 'bottom-border': editTime}"
-      class="outer-wrap" >
+      class="outer-wrap bottom-border" >
       <span class="inner-key">{{ indexTitle }}</span>
       <span class="inner-value">{{ nameConcat }}{{ selectedLocalList.length > 3 ? '等':'' }}{{ selectedLocalList.length }}人</span>
       <i class="icon2-arrow-right-small arrow"/>

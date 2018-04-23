@@ -19,15 +19,17 @@
             <!--:has-left-space="true"/>-->
             <!--</div>-->
             <div class="secondGroup">
-              <r-input-member
-                :has-left-space="true"
-                :is-native="true"
-                :index-title="'执行人'"
-                :select-title="'请选择成员'"
-                :user-rsq-ids="[]"
-                :selected-rsq-ids="joinUserRsqIds"
-                :disabled-rsq-ids="[]"
-                @member-changed="saveMember"/>
+              <div class="common-field">
+                <r-input-member
+                  :has-left-space="true"
+                  :is-native="true"
+                  :index-title="'执行人'"
+                  :select-title="'请选择成员'"
+                  :user-rsq-ids="[]"
+                  :selected-rsq-ids="joinUserRsqIds"
+                  :disabled-rsq-ids="[]"
+                  @member-changed="saveMember"/>
+              </div>
             </div>
             <div class="btn-group">
               <div class="btn-wrap">

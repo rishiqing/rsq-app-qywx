@@ -1,8 +1,7 @@
 <template>
   <v-touch @tap="gotoTodoTime">
     <div
-      :class="{'has-padding':hasLeftSpace, 'bottom-border': editTime}"
-      class="outer-wrap" >
+      class="outer-wrap bottom-border" >
       <span class="inner-key">时间</span>
       <span class="inner-value">{{ timeValue }}</span>
       <i class="icon2-arrow-right-small arrow"/>

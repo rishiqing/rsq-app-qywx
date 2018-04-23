@@ -19,20 +19,18 @@
               :todo-type="'plan'"/>
           </div>
           <div class="itm--edit-todo ">
-            <div class="edit-padding-left">
-              <div class="first-date">
+            <div class="icon-field-group">
+              <div class="common-field">
                 <i class="icon2-schedule sche"/>
                 <r-input-date
                   :item="editItem"
                   :sep="'/'"
                   :edit-time="true"
-                  :has-left-space="true"
                   :todo-type="'plan'"/>
               </div>
-              <div class="first-date">
+              <div class="common-field">
                 <i class="icon2-member sche"/>
                 <r-input-member
-                  :has-left-space="true"
                   :edit-time="true"
                   :is-native="true"
                   :index-title="'执行人'"
@@ -42,7 +40,7 @@
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
-              <div class="first-date">
+              <div class="common-field">
                 <i class="icon2-subplan-web sche"/>
                 <r-input-subtodo
                   :item="currentKanbanItem"
@@ -269,10 +267,6 @@
   .contentColor{
     color: #333333
   }
-  .first-date{
-    position: relative;
-    padding-left: 1.1rem;
-  }
   .sche{
     font-size:0.586rem;
     color:#55A8FD;
@@ -280,9 +274,6 @@
     top: 50%;
     margin-top: -0.29rem;
     left:0.3rem
-  }
-  .edit-padding-left{
-    background-color: white;
   }
   .time-border{
     border-bottom: 1px solid #E0E0E0;

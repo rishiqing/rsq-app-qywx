@@ -13,24 +13,30 @@
           </div>
           <div class="itm-group itm--edit-todo">
             <div class="firstGroup">
-              <r-input-date
-                :item="editItem"
-                :sep="'/'"
-                :has-left-space="true"/>
-              <r-input-time
-                :item="editItem"
-                :has-left-space="true"/>
+              <div class="common-field">
+                <r-input-date
+                  :item="editItem"
+                  :sep="'/'"
+                  :has-left-space="true"/>
+              </div>
+              <div class="common-field">
+                <r-input-time
+                  :item="editItem"
+                  :has-left-space="true"/>
+              </div>
             </div>
             <div class="secondGroup">
-              <r-input-member
-                :has-left-space="true"
-                :is-native="true"
-                :index-title="'执行人'"
-                :select-title="'请选择成员'"
-                :user-rsq-ids="[]"
-                :selected-rsq-ids="joinUserRsqIds"
-                :disabled-rsq-ids="[]"
-                @member-changed="saveMember"/>
+              <div class="common-field">
+                <r-input-member
+                  :has-left-space="true"
+                  :is-native="true"
+                  :index-title="'执行人'"
+                  :select-title="'请选择成员'"
+                  :user-rsq-ids="[]"
+                  :selected-rsq-ids="joinUserRsqIds"
+                  :disabled-rsq-ids="[]"
+                  @member-changed="saveMember"/>
+              </div>
             </div>
             <div class="btn-group">
               <div class="btn-wrap">

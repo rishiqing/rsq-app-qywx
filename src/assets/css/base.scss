@@ -339,3 +339,21 @@ div.el-message-box {
 div.el-message-box input.el-input__inner {
   border: 1px solid #dcdfe6;
 }
+
+.common-field {
+  position: relative;
+  background: #FFF;
+}
+.common-field .outer-wrap {
+  padding-left: 0.3rem;
+}
+.common-field:last-child .outer-wrap {
+  border-bottom: none;
+}
+
+.icon-field-group .common-field {
+  padding-left: 1.2rem;
+}
+.icon-field-group .common-field .outer-wrap {
+  padding-left: 0;
+}

@@ -1,7 +1,6 @@
 <template>
   <v-touch @tap="gotoDate">
     <div
-      :class="{'has-padding': hasLeftSpace}"
       class="outer-wrap bottom-border">
       <span class="inner-key">日期</span>
       <span class="inner-value">{{ dateString }}</span>
@@ -136,12 +135,6 @@
     top:50%;
     margin-top: -0.25rem;
     right: 0.2rem;
-  }
-  .has-padding{
-    padding-left: 3%;
-  }
-  .edit-padding-left{
-    left:1.3rem
   }
   .bottom-border{
     border-bottom: 1px solid #E0E0E0;

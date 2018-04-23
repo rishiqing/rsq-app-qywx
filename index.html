@@ -14,6 +14,28 @@
     <!-- 引入样式 -->
     <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
     <link rel="stylesheet" href="https://rishiqing-front.oss-cn-beijing.aliyuncs.com/dingtalk/public/element-ui.css">
+    <style type="text/css">
+      .splash-loading {
+        position:fixed;left:0;top:0;right:0;bottom:0;background:#4F77AA;color: #fff;
+        transition: all 1s ease-in-out;
+      }
+      .splash-wrap {
+        position: absolute;left: 10%;top:25%;right:10%;
+      }
+      .splash-wrap > * {
+        text-align: center;
+      }
+      .splash-wrap img {
+        width: 100%;
+      }
+      .splash-wrap p {
+        margin: 20px 0;
+        font-size: 18px;
+      }
+      div.ease-hide {
+        opacity: 0;
+      }
+    </style>
     <!-- 引入组件库 -->
     <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
     <script>
@@ -42,5 +64,11 @@
   </head>
   <body>
   <div id="app"></div>
+  <div id="splashLoading" class="splash-loading">
+    <div class="splash-wrap">
+      <img src="https://rishiqing-front.oss-cn-beijing.aliyuncs.com/qywx/start.png">
+      <p>欢迎使用日事清，即刻开始享受工作</p>
+    </div>
+  </div>
   </body>
 </html>

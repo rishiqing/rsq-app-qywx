@@ -36,11 +36,20 @@
       }
     },
     mounted () {
-      var that = this
+      //  生产环境下下载动效
+      const that = this
       window.setTimeout(
         () => {
           that.engine = false
-        }, 3000
+          //  删除加载动效
+          const ele = document.getElementById('splashLoading')
+          if (ele) {
+            ele.classList.add('ease-hide')
+            window.setTimeout(() => {
+              ele.parentNode.removeChild(ele)
+            }, 1000)
+          }
+        }, 2000
       )
     }
   }

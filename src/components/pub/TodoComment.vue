@@ -69,6 +69,11 @@
 //        }
 //      })
     },
+    beforeRouteLeave (to, from, next) {
+      //  清理回复评论的缓存
+      this.$store.commit('REPLY_COMMENT_DELETE')
+      next()
+    },
     methods: {
       setFileId (p) {
         this.fileId.push(p.id)
@@ -90,7 +95,7 @@
         var that = this
         this.$store.dispatch('postTodoComment', {commentContent: newTitle, fileIds: this.fileId, createTaskDate: this.defaultTaskDate})
           .then((com) => {
-            that.$router.replace(window.history.back())
+            that.$router.go(-1)
 //            alert(JSON.stringify(com))
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '保存成功'})

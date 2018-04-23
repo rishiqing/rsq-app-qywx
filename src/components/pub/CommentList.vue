@@ -165,7 +165,7 @@
             success () {
               that.$store.dispatch(replyAction, {item: item})
                 .then(() => {
-                  that.$router.push('/' + this.todoType + '/todo/comment')
+                  that.$router.push('/' + that.todoType + '/todo/comment')
                 })
             }
           })

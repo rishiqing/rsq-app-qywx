@@ -15,20 +15,8 @@
       </div>
       <div class="bottom">
         <div
-          v-if="ifReplyComment"
-          class="comment-content">
-          <span
-            class="reply-comment"
-            v-html="item.commentContent">
-            {{ item.commentContent }}
-          </span>
-        </div>
-        <div
-          v-else
           class="comment-content"
-          v-html="item.commentContent">
-          {{ item.commentContent }}
-        </div>
+          v-html="displayedComment" />
         <v-touch
           v-for="file in item.fileList"
           :key="file.id"
@@ -110,12 +98,24 @@
       }
     },
     computed: {
-      ifReplyComment () {
+      isReplyComment () {
         return (this.item.commentContent.indexOf('@') !== -1)
       },
-      indexOfBlank () {
-        if (this.ifReplyComment) {
-          return this.item.commentContent.indexOf('&')
+      displayedComment () {
+        const content = this.item.commentContent
+        if (this.isReplyComment) {
+          const index = this.item.commentContent.indexOf('&')
+          let name = ''
+          let realContent = ''
+          if (index !== -1) {
+            name = content.substring(0, index)
+            realContent = content.substring(index + 1)
+          } else {
+            name = content
+          }
+          return '<span style="margin-right: 5px;background: rgba(0,0,0,.1);">' + name + '</span><span>' + realContent + '</span>'
+        } else {
+          return content
         }
       }
     },
@@ -149,9 +149,6 @@
   }
 </script>
 <style lang="scss" scoped>
-  .reply-comment{
-    background: rgba(0,0,0,.1);
-  }
   .comment{
     padding-left: 3%;
     margin-top:0.613rem ;
@@ -231,5 +228,9 @@
     color: #111111;
     letter-spacing: 0;
     line-height: 21px;
+  }
+  .reply-comment{
+    margin-right: 5px;
+    background: rgba(0,0,0,.1);
   }
 </style>

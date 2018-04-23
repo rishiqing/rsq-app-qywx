@@ -51,6 +51,11 @@
     mounted () {
       window.rsqadmg.execute('setTitle', {title: '评论'})
     },
+    beforeRouteLeave (to, from, next) {
+      //  清理回复评论的缓存
+      this.$store.commit('REPLY_KANBAN_ITEM_COMMENT_DELETE')
+      next()
+    },
     methods: {
       setFileId (p) {
         this.fileId.push(p.id)

@@ -401,6 +401,10 @@ export default {
     state.replyId = p.item.authorId
     state.replyName = p.item.authorName
   },
+  REPLY_COMMENT_DELETE (state, p) {
+    state.replyId = null
+    state.replyName = null
+  },
   SAVE_RECORD (state, p) {
     state.record = p.item
   },
@@ -543,5 +547,9 @@ export default {
   REPLY_KANBAN_ITEM_COMMENT_CREATED (state, p) {
     state.replyId = p.item.authorId
     state.replyName = p.item.authorName
+  },
+  REPLY_KANBAN_ITEM_COMMENT_DELETE (state, p) {
+    state.replyId = null
+    state.replyName = null
   }
 }

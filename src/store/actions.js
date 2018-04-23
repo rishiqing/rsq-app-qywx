@@ -776,7 +776,6 @@ export default {
     })
   },
   postTodoComment ({commit, state}, props) {
-    // if (props.commentContent) {
     var currentItem = state.todo.currentTodo
     var replyId = state.replyId
     var replyName = state.replyName

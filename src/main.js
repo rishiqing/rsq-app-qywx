@@ -34,6 +34,11 @@ if (window.rsqConfig.env === 'prod') {
     .config('https://8c36e59fcc6f4d1283c64115f5a99955@sentry.io/230122')
     .addPlugin(RavenVue, Vue)
     .install()
+} else {
+  const ele = document.getElementById('splashLoading')
+  if (ele) {
+    ele.parentNode.removeChild(ele)
+  }
 }
 
 Vue.use(VueTouch)

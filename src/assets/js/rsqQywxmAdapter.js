@@ -177,6 +177,7 @@ rsqAdapterManager.register({
       // });
 
       var userCookie = getCookie(cookieName);
+      window.alert('userCookie: ' + userCookie)
       //  从cookie中获取
       if(userCookie){
         //  直接从authServer获取到用户数据

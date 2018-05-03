@@ -74,7 +74,7 @@
         if(x.status == 200){
           callback(x.responseText)
         }else{
-          alert('http error:' + x.status);
+          callback(x.status)
         }
       }
     };

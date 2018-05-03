@@ -73,6 +73,8 @@
       if (x.readyState == 4) {
         if(x.status == 200){
           callback(x.responseText)
+        }else if (x.status >= 400) {
+          window.alert(x.status)
         }else{
           callback(x.status)
         }

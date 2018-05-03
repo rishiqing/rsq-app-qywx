@@ -126,8 +126,10 @@
             }
             var idArray = util.extractProp(res.result.userList, 'id')
 //            window.rsqadmg.exec('showLoader')
+            window.alert('idArray: ' + JSON.stringify(idArray))
             that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
                 .then(function (idMap) {
+                  window.alert('idMap: ' + JSON.stringify(idMap))
 //                  window.rsqadmg.exec('hideLoader')
                   var userArray = util.getMapValuePropArray(idMap)
                   var rsqIdArray = util.extractProp(userArray, 'rsqUserId')

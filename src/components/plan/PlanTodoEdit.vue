@@ -163,6 +163,7 @@
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
         const that = this
         const compRes = util.compareList(this.joinUserRsqIds, idArray)
+        window.alert('compRes: ' + JSON.stringify(compRes))
         const params = {
           id: this.currentKanbanItem.id,
           receiverIds: idArray.join(','),

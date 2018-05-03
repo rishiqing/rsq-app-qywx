@@ -70,11 +70,9 @@
       loginUser () {
         return this.$store.getters.loginUser
       },
-      selectedItems () {
-        return this.selectedLocalList.slice(this.selectedLocalList.length - 3)
-      },
       nameConcat () {
-        return this.selectedLocalList.map(function (o) {
+        const arr = this.selectedLocalList.length <= 3 ? this.selectedLocalList : this.selectedLocalList.slice(0, 3)
+        return arr.map(function (o) {
           return o.name
         }).join('、')
       },

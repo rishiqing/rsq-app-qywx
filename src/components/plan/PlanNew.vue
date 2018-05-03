@@ -10,12 +10,7 @@
       <v-touch
         class="plan-member"
         @tap="showNativeMemberEdit">
-        <span class="people-number">{{ selectedLocalList.length }}人</span>
-        <avatar
-          v-for="item in selectedLocalList"
-          :key="item.rsqUserId"
-          :src="item.avatar"
-          :username="item.name"/>
+        <span class="people-number">{{ nameConcat }}{{ selectedLocalList.length > 3 ? '等':'' }}{{ selectedLocalList.length }}人</span>
         <i class="icon2-arrow-right-small arrow-right"/>
       </v-touch>
     </div>
@@ -82,11 +77,14 @@
       planItems () {
         return this.$store.state.planList
       },
-      selectedItems () {
-        return this.selectedLocalList.length > 10 ? this.selectedLocalList.slice(0, 11) : this.selectedLocalList
-      },
       imgs () {
         return this.$store.state.plan.coverList
+      },
+      nameConcat () {
+        const arr = this.selectedLocalList.length <= 3 ? this.selectedLocalList : this.selectedLocalList.slice(0, 3)
+        return arr.map(function (o) {
+          return o.name
+        }).join('、')
       }
     },
     created () {

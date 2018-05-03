@@ -8,7 +8,7 @@
             <r-input-title
               ref="title"
               :is-edit="true"
-              :is-checkable="!isInbox"
+              :is-checkable="!(delayShowCheckbox || isInbox)"
               :item-title="editItem.pTitle "
               :item-checked="editItem.pIsDone"
               :is-disabled="!isEditable"
@@ -181,6 +181,9 @@
       time () {
         var dates = this.$store.state.todo.currentTodo.clock
         return dates.startTime + '-' + dates.endTime
+      },
+      delayShowCheckbox () {
+        return this.$store.state.todo.delayShowCheckbox
       }
     },
     created () {
@@ -530,19 +533,8 @@
         alert('note changed: ' + JSON.stringify(p))
       }
     },
-//    beforeRouteEnter (to, from, next) {
-//      if (from.name === 'sche' || from.name === 'inbox') {
-//        next(vm => {
-//          vm.initData()
-//        })
-//      } else {
-//        next(vm => {
-//          vm.initPlan()
-//        })
-//      }
-//      next()
-//    },
     beforeRouteLeave (to, from, next) {
+      this.$store.commit('RESET_DELAY_SHOW_CHECKBOX')
       //  判断是否需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
       if (to.name === 'sche') {
         next(false)

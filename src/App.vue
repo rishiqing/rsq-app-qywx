@@ -36,7 +36,7 @@
       }
     },
     mounted () {
-      window.alert('客户端的userAgent: ' + window.navigator.userAgent.toLowerCase())
+      // window.alert('客户端的userAgent: ' + window.navigator.userAgent.toLowerCase())
       //  生产环境下下载动效
       const that = this
       window.setTimeout(

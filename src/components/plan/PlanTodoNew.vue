@@ -152,7 +152,7 @@
           name: this.currentKanbanItem.name,
           kanbanCard: this.kanbanCardId,
           displayOrder: 65535 - this.cardItemLength,
-          joinUser: this.editItem.joinUser,
+          joinUser: this.currentKanbanItem.joinUser,
           dates: this.currentKanbanItem.dates,
           startDate: startDate,
           endDate: endDate

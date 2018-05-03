@@ -401,6 +401,10 @@
       }
     },
     beforeRouteLeave (to, from, next) {
+      //  如果是从日期页面跳回到编辑页面的，那么即使不在收纳箱中了，那么也暂时不显示checkbox
+      if (this.currentTodo['pContainer'] === 'inbox') {
+        this.$store.commit('DELAY_SHOW_CHECKBOX')
+      }
       //  做pub区缓存
       this.saveTodoDateState()
       if (to.name !== 'todoNew' && to.name !== 'todoEdit' && to.name !== 'demo') {

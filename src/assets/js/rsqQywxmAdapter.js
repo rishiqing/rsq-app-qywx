@@ -91,14 +91,14 @@ rsqAdapterManager.register({
     //   "department":"[8]",
     //   "englishName":"",
     //   "gender":"1",
-    //   "id":14,
+    //   "id":340,
     //   "isLeaderInDepts":"0",
     //   "name":"毛文强",
     //   "orderInDepts":"[0]",
     //   "position":"",
-    //   "rsqPassword":"uiHbhe",
-    //   "rsqUserId":"15242",
-    //   "rsqUsername":"vjBXU_1520435764814@qywxtest.rishiqing.com",
+    //   "rsqPassword":"DKOPQr",
+    //   "rsqUserId":"15211",
+    //   "rsqUsername":"lKAFc_1520334538410@qywxtest.rishiqing.com",
     //   "status":1,
     //   "userId":"0002"
     // }

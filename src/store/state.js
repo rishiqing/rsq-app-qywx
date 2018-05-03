@@ -67,7 +67,9 @@ export default {
     //  用于处理重复的任务修改时，需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
     currentTodoRepeat: {},
     //  重复相关的字段是否修改过，目前的条件是如果title/note/subtodos修改过，认为修改过
-    isRepeatFieldEdit: false
+    isRepeatFieldEdit: false,
+    //  如果是从日期页面跳回到编辑页面的，那么即使不在收纳箱中了，那么也暂时不显示checkbox
+    delayShowCheckbox: false
   },
   /**
    * 计划相关的存储

@@ -551,5 +551,11 @@ export default {
   REPLY_KANBAN_ITEM_COMMENT_DELETE (state, p) {
     state.replyId = null
     state.replyName = null
+  },
+  DELAY_SHOW_CHECKBOX (state) {
+    state.todo.delayShowCheckbox = true
+  },
+  RESET_DELAY_SHOW_CHECKBOX (state) {
+    state.todo.delayShowCheckbox = false
   }
 }

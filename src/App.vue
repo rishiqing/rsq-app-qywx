@@ -48,9 +48,9 @@
             ele.classList.add('ease-hide')
             window.setTimeout(() => {
               ele.parentNode.removeChild(ele)
-            }, 200)
+            }, 300)
           }
-        }, 600
+        }, 800
       )
     }
   }

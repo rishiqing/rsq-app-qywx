@@ -384,7 +384,7 @@ rsqAdapterManager.register({
     wx.invoke('selectEnterpriseContact', {
         'fromDepartmentId': -1,// 必填，-1表示打开的通讯录从自己所在部门开始展示, 0表示从最上层开始
         'mode': 'multi',// 必填，选择模式，single表示单选，multi表示多选
-        'type': ['department', 'user'],// 必填，选择限制类型，指定department、user中的一个或者多个
+        'type': ['user'],// 必填，选择限制类型，指定department、user中的一个或者多个
         'selectedDepartmentIds': [],// 非必填，已选部门ID列表。用于多次选人时可重入
         'selectedUserIds': params.selectedIds// 非必填，已选用户ID列表。用于多次选人时可重入
       },function(res){

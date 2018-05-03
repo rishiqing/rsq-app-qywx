@@ -16,7 +16,8 @@
       'actionsheet',
       'toast', 'picker', 'datePicker', 'timePicker', 'deleteUserCache',
       'notify','pickConversation', 'getItem', 'setItem', 'deleteItem',
-      'checkVersion', 'upgradeVersion','topTips'
+      'checkVersion', 'upgradeVersion','topTips',
+      'checkDevice'
     ];
   function register(adapter){
     extend(mgrObj, adapter);

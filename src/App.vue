@@ -36,6 +36,7 @@
       }
     },
     mounted () {
+      window.alert('客户端的userAgent: ' + window.navigator.userAgent.toLowerCase())
       //  生产环境下下载动效
       const that = this
       window.setTimeout(
@@ -47,9 +48,9 @@
             ele.classList.add('ease-hide')
             window.setTimeout(() => {
               ele.parentNode.removeChild(ele)
-            }, 1000)
+            }, 500)
           }
-        }, 2000
+        }, 1000
       )
     }
   }

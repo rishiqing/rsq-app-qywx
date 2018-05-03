@@ -120,8 +120,13 @@
       },
       showAction (f) {
         var that = this
+        const device = window.rsqadmg.exec('checkDevice')
+        const btnArray = ['预览文件']
+        if (device.os !== 'iOS') {
+          btnArray.push('下载文件')
+        }
         window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['预览文件', '下载文件'],
+          buttonArray: btnArray,
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:

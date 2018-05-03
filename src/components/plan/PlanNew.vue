@@ -35,7 +35,7 @@
             <img
               :src="item.cover"
               class="templ">
-            <div class="templName">{{ item.name }}</div>
+            <div class="templ-name">{{ item.name }}</div>
           </v-touch>
         </div>
       </div>
@@ -101,6 +101,7 @@
       }
     },
     mounted () {
+      window.rsqadmg.exec('setTitle', {title: '新建计划'})
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
     },
@@ -192,7 +193,7 @@
   .plan-member-word{
     font-family: PingFangSC-Regular;
     font-size: 17px;
-    color: #666666;
+    color: #333333;
   }
   .wrap-plan-member{
     display: flex;
@@ -235,10 +236,10 @@
   .plan-templ{
     font-family: PingFangSC-Regular;
     font-size: 16px;
-    color: #3D3D3D;
+    color: #333333;
     margin-left: 0.3rem;
   }
-  .templName{
+  .templ-name{
     font-family: PingFangSC-Regular;
     font-size: 13px;
     color: #8C8C8C;

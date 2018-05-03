@@ -496,4 +496,16 @@ rsqAdapterManager.register({
       alert('localStorage not found!')
     }
   },
+  checkDevice: function() {
+    var userAgent = window.navigator.userAgent.toLowerCase()
+    var ios = /iphone|ipod|ipad/.test( userAgent )
+    var result = {}
+
+    if(ios) {
+      result['os'] = 'iOS'
+    } else {
+      result['os'] = 'unknown'
+    }
+    return result
+  }
 })

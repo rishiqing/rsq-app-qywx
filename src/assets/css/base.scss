@@ -357,3 +357,8 @@ div.el-message-box input.el-input__inner {
 .icon-field-group .common-field .outer-wrap {
   padding-left: 0;
 }
+
+/* 去掉element-ui的右上角的按钮 */
+button.el-message-box__headerbtn i.el-message-box__close {
+  display: none;
+}

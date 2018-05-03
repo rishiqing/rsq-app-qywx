@@ -12,13 +12,9 @@
   import { Promise } from 'es6-promise'
   import util from 'ut/jsUtil'
   import SelectMember from 'com/pub/SelectMember'
-  import Avatar from 'com/pub/TextAvatar'
 
   export default {
     name: 'InputMember',
-    components: {
-      'avatar': Avatar
-    },
     props: {
       //  是否有左侧的空间，默认是没有的，编辑模式下是有左边的padding
       hasLeftSpace: {

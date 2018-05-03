@@ -13,7 +13,7 @@
     props: {
       username: {
         type: String,
-        required: true
+        default: null
       },
       initials: {
         type: String,
@@ -46,6 +46,7 @@
     },
     data () {
       return {
+        initialBackgroundColor: '#FFFFFF',
         backgroundColors: [
           '#F44336', '#FF4081', '#9C27B0', '#673AB7',
           '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688',
@@ -55,8 +56,12 @@
     },
     computed: {
       background () {
-        return this.backgroundColor ||
+        if (this.username) {
+          return this.backgroundColor ||
             this.randomBackgroundColor(this.username.length, this.backgroundColors)
+        } else {
+          return this.initialBackgroundColor
+        }
       },
 
       fontColor () {
@@ -101,8 +106,7 @@
       },
 
       userInitial () {
-        const initials = this.initials || this.initial(this.username)
-        return initials
+        return this.initials || (this.username ? this.initial(this.username) : '')
       }
     },
     mounted () {

@@ -72,13 +72,8 @@
   </li>
 </template>
 <script>
-  import Avatar from 'com/pub/TextAvatar'
-
   export default {
     name: 'CommentRecord',
-    components: {
-      'avatar': Avatar
-    },
     props: {
       item: {
         type: Object,

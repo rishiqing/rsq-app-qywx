@@ -5,13 +5,13 @@
     <div class="left">
       <avatar
         :src="item.qywxShowAvatar"
-        :username="item.qywxShowName || item.authorName"
+        :username="item.qywxShowName"
         :size="30" />
     </div>
     <div class="right">
       <div class="top">
         <span class="author">{{ item.qywxShowName || item.authorName }}</span>
-        <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}</span>
+        <span class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,10) }}日{{ item.dateCreated.substring(11,16) }}</span>
       </div>
       <div class="bottom">
         <div

@@ -49,8 +49,6 @@
                       <i
                         v-show="kanbanItem.isDone"
                         class="icon2-seleced-mult card-selected"/>
-                    </div>
-                    <div class="selected-icon">
                       <i
                         v-show="!kanbanItem.isDone"
                         class="icon2-check-box card-selected"/>
@@ -190,21 +188,20 @@
         </li>
       </v-touch>
     </ul>
-    <div
+    <v-touch
       v-show="initialState"
-      class="mask"/>
+      class="mask"
+      @tap="changeState"/>
   </div>
 </template>
 <script>
   import TaskMember from 'com/plan/TaskMember'
   import def from 'ut/defaultUtil'
   import util from 'ut/jsUtil'
-  import Avatar from 'com/pub/TextAvatar'
 
   export default {
     name: 'ChildPlan',
     components: {
-      'avatar': Avatar,
       'r-task-member': TaskMember
     },
     data () {
@@ -558,7 +555,7 @@
       },
       toEditPlan (e) {
         this.initialState = !this.initialState
-        this.$prompt('请输入新建子计划名称', '提示', {
+        this.$prompt('请输入新建子计划名称', '新建子计划', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           inputValidator: value => {
@@ -725,8 +722,7 @@
   }
   .card-item-left{
     float: left;
-    padding-left: 0.2rem;
-    padding-bottom: 0.5rem;
+    padding: 0.07rem 0 0.5rem 0.2rem;
   }
   .card-item-right{
     margin-left: 1rem;

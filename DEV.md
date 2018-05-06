@@ -1,84 +1,92 @@
-# 开发文档
+# 开发及发布说明
 
-## 分支说明
+## 系统架构
+- 前置反向代理。一般可以使用nginx做反向代理，通过反向代理，统一域名，避免出现跨域名访问。
+前置反向代理由企业微信开发小组配置并维护。
+例如：线上应用主页的地址为：
+`https://qywx.rishiqing.com/qywxbackwebapp/index.html?corpid=$CORPID$&agentid=$AGENTID$`
+（其中，`$CORPID$`和`$AGENTID$`会被分别替换为实际企业的corpId和应用的agentId）
+那么前端资源和后台的地址都应该统一在`qywx.rishiqing.com`这个域名下。
+- 日事清后台（api server）。对于操作“日程”、“计划”等相关的接口，需要调用日事清后台的标准接口。
+日事清后台由日事清后台组进行开发和维护。
+例如：实际调用的接口可能是`https://www.rishiqing.com/task/xxxx/yyyy`。注意：为了防止跨域请求，
+需要将api server的接口使用“前置反向代理”做转发，将`https://qywx.rishiqing.com/task/xxxx/yyy`
+转发到`https://www.rishiqing.com/task/xxxx/yyy`
+- 企业微信的中转后台（auth server）。用来做企业微信相关的授权、id转换等操作。
+中转后台由企业微信小组进行开发维护。
+例如：获取当前登录用户，就需要中转后台跟企业微信官方的后台进行交互鉴权，取得用户信息。
+一般的中转后台接口格式为：`https://qywx.rishiqing.com/qywxbackauth/aaa/bbb`
+- 前端服务（front server）。提供前端资源文件（css、js、font、图片等）前端服务。
+前端服务及前端资源由企业微信小组开发及维护。
+在线上，一般可以放到阿里云的OSS等存储服务中，可以直接得到资源文件的下载地址。也可以使用反向代理来
+使资源文件可对外访问
+- 企业微信配置。在企业微信后台，会配置微应用首页地址、回调地址等参数路径。
+企业微信的配置由企业微信小组进行配置。
+- 企业微信后台。企业微信官方提供的接口，可以用来获取企业信息、组织结构等数据。
+企业微信后台由企业微信官方进行开发及维护。
+- 企业微信移动端。在企业微信移动端app中，通过webview访问配置的微应用移动端首页地址。
+企业微信移动端由企业微信官方进行开发及维护。
+- 企业微信PC端。在企业微信PC端中，通过webview访问配置的微应用pc端首页地址。
+企业微信PC端由企业微信官方进行开发及维护。
 
-* v1.0.0：基于vue1.0版本的uigit
-* v1.1.0：新版本UI + 笔记
-* v2.0.0：基于vue2.0版本，包括了新UI和笔记功能
+## 开发说明
+开发模式中，为了便于调试，架构与线上有一定差异，开发方式与普通的web应用也有区别。
 
-## postcss替换sass
+### 开发及调试架构
+- 前置反向代理与ssh隧道。在企业微信配置中，需要配置回调服务器的地址。企业微信官方服务器会
+每隔一定时间向回调服务器的地址推送ticket。因此，企业微信的开发不能只在本地开发，至少还需要
+一台可以有公网ip的服务器。这里采用隧道技术，将远程服务的端口转发到本地电脑的指定端口。
 
-> sass使用繁琐，而postcss通过precss插件可以兼容大部分sass语法，故使用postcss解析编译前的css文件。
-> .scss文件均使用postcss编译
+> 关于ssh隧道的原理。
+> 首先，有一台公网访问的服务器，例如：182.92.222.40。在这台服务器上安装nginx，并将80端口下的
+指定格式的url（例如：/qywxbackwebapp）转发到服务器localhost的一个任意端口（例如9888）。
+> 然后，使用xshell等ssh工具建立ssh隧道，将服务器localhost的指定端口（例如9888）转发到开发电脑
+localhost的指定端口（例如：8080）。
+> 最后使用xshell工具登录服务器。即可实现公网转发到本地。例如，
+对于`http://182.92.222.40:80/qywxbackwebapp/xxx`的访问会经由服务器的9888端口最终转发到开发电脑所在的8080端口
 
-### 使用到的package有：
-1. postcss-loader：webpack集成postcss的loader，按照postcss官方推荐，在使用postcss-loader之前调用css-loader
-2. postcss-import：支持@import语法引入css文件
-3. autoprefixer：自动添加vendor prefixes
-4. precss：按照sass的语法解析文件
+- 日事清后台（api server）。开发模式下，使用beta作为后台，即使用格式形如
+`https://beta.rishiqing.com/task/xxxx/yyyy`的接口调用。
+- 企业微信的中转后台（auth server）。在普通的本地开发电脑上启动一个开发版本的企业微信中转后台java web应用作为中转后台。
+- 企业微信前端服务。前端开发时，需要实时对js进行编译，看到修改结果。
+因此，开发模式下，企业微信前端服务主要使用webpack的热编译和dev-server等技术。
+前端项目的开发在文件保存时会自动打包更新，使前端可以实时显示；
+前端的资源文件存放在内存中，并通过dev-server暴露给外部访问。
+- 企业微信配置。在企业微信后台，会配置微应用首页地址、回调地址等参数路径。
+- 企业微信后台。企业微信官方提供的接口，可以用来获取企业信息、组织结构等数据。
+- 企业微信移动端。在企业微信移动端app中，通过webview访问配置的微应用移动端首页地址。
+- 企业微信PC端。在企业微信PC端中，通过webview访问配置的微应用pc端首页地址。
 
-### webpack配置
-在build/utils中将scss文件的loader设置为postcss
+### 开发方式
+日事清企业微信微应用最终需要在企业微信app的webview中打开并进行交互，同时企业微信官方也提供了js-sdk
+供webview中的js调用。然而，直接在企业微信app中调试，无法方便地使用chrome开发工具进行调试，
+因此，企业微信的开发方式有以下两种：
 
-    scss: generateLoaders('postcss', {
-                                       plugins: (loader) => [
-                                         require('postcss-import')({ root: loader.resourcePath }),
-                                         require('autoprefixer')({ browsers: ['last 2 versions'] }),
-                                         require('precss')()
-                                       ]
-                                     })
+1. 模拟webview的chrome中开发
+将需要进行授权的代码暂时去掉，直接在chrome浏览器中打开微应用主页进行调试。
+在项目中，需要将src/assets/js/rsqQywxmAdapter.js中的auth接口中注释掉的个人信息的代码启用即可。
 
-### .postcssrc.js文件
-项目中postcss默认的配置文件为.postcssrc.js，由于在dev环境下postcss的import功能无法正常使用，故这里不使用配置文件，而采用动态配置的方式
+2. 企业微信app中开发
+在chrome中开发完成后，需要提交到测试版本上，接入到企业微信app中进行调试。
 
-## server说明
-> portlet前端需要与日事清api、第三方权限认证系统、前端资源等后台服务交互。
+### 多人开发
+受企业微信的限制，一个微应用只能有一个地址，因此一个微应用难以多人开发，目前多人开发采用不同微应用的方式
 
-### apiServer
-日事清接口api，测试环境为http://beta.rishiqing.com，正式环境为https://www.rishiqing.com
-
-### authServer
-第三方权限认证后台，例如，与钉钉集成时，需要authServer与钉钉后台和日事清后台交互已同步人员信息，人员相关的接口需要通过authServer获取
-
-### frontServer
-前端资源存放的后台。开发环境一般为本地dev-server，正式环境一般为阿里云OSS或CDN节点
-
-## 跨域问题解决方案
-> 日事清系统中的登录接口j_spring_security_check，直接调用默认使用302重定向，而CORS的options请求（preflight）不允许返回redirect，因此需要使用同一的域做访问
-
-1. 配置域名。例如解析`dd.rsq.etoutiao.cn`域名到公网服务器（182.92.222.40）
-2. 配置nginx端口转发。将`http://dd.rsq.etoutiao.cn/abc`转发到某个服务器端口，例如（9888）
-3. 通过Xshell等ssh连接工具做ssh隧道，映射某个本地端口（8888）到配置好的服务器端口（9888）
-4. 启动Xshell连接服务器，即可实现将访问连接统一到`dd.rsq.etoutiao.cn`这个域名下
-
-## 问题汇总
-
-### .vue文件中的警告问题
-
-Previous source map found, but options.sourceMap isn't set.
-In this case the loader will discard the source map enterily for performance reasons.
-See https://github.com/postcss/postcss-loader#sourcemap for more information.
-
-暂时先将config/index.js中的dev.cssSourceMap设置为true
-
-### .vue文件中无法使用scss的问题
-
-.vue文件的style标签中无法使用scss相关的import等语法，具体原因待研究。
-而在.postcsssr.js中配置了postcss的相关插件后，.vue文件的style标签就可以正常使用了！
-
-### mutation中的参数问题
-vue2.0中，mutation的payload需要是一个对象，而不能同时传入多个参数！需要统一测试修改！
-
-## 多人开发流程
-目前由于钉钉方的限制，一个微应用只能有一个地址，因此一个微应用难以多人开发，目前多人开发采用同一个套件下新建多个微应用的方式
-
-1. 新建后台。由于一个java后台只能服务一个微应用，因此，需要在原来的基础上新建并启动一个新后台，服务微应用。并做好后台的映射
-2. 修改配置config/index.js
+1. 为每个开发人员新建一个微应用。
+2. 新建后台。由于一个java后台只能服务一个微应用，因此，需要在原来的基础上新建并启动一个新后台，服务微应用。并做好后台的映射
+3. 修改配置config/index.js
   - hotPath: 开发时前端打包文件的热加载hmr路径，默认为"/__webpack_hmr"，不同的开发者需要设置不同的path
   - dev-server.js: 修改`'webpack-hot-middleware/client?path=/__wallace_hmr&noInfo=true&reload=true'`中的path为配置文件中的hotPath
   - authServer: 后台地址，根据不同的path映射到不同的后台
 
-# 版本号说明
 
-- 三位版本号。如2.0.0
-- 为做比较版本码按照（主版本号 * 1000000 + 副版本号 * 1000 + 三级版本号）的形式表示，例如：2.1.12版本号，对应的版本码为2001012
+## 发布流程
+当企业微信微应用前端开发完成后，需要进行发布。企业微信的发布过程通过jenkins实现了自动化，具体步骤如下：
+
+1. 提交代码到开发分支。开发完成后，工程师需要提交代码到开发分支（dev），由相关人员进行一定代码审查。
+2. 代码合并到master分支。代码审查通过后，由相关人员将dev分支的代码合并到master分支。
+3. jenkins拉取master分支代码并构建。jenkins监控到master分支代码有更新，拉取更新的代码，在jenkins本地打包构建前端资源文件以及前端入口文件的docker镜像。
+4. jenkins将打包好的资源文件推送到阿里云的OSS存储服务中。
+4. jenkins构建入口文件的docker镜像成功后，会带有版本号，然后将入口文件的docker镜像推送到阿里云的镜像仓库。
+5. jenkins通知前端服务更新入口文件镜像。
+6. 发布成功。

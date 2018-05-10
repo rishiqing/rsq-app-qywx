@@ -1,17 +1,32 @@
 <template>
-  <v-touch @tap="toChildPlan">
-    <li class="plan">
+  <li
+    :style="deleteSlider"
+    class="slider"
+    @touchstart="touchStart"
+    @touchmove="touchMove"
+    @touchend="touchEnd">
+    <v-touch @tap="toChildPlan">
       <div class="forward-plan">
         <img
           :src="item.cover"
           class="plan-image">
         <span class="plan-name">{{ item.name }}</span>
       </div>
-      <i
-        v-show="item.starMark"
-        class="icon2-star-target-2 star"/>
-    </li>
-  </v-touch>
+    </v-touch>
+    <i
+      v-show="item.starMark"
+      class="icon2-star-target-2 haveStar"/>
+    <v-touch
+      class="starMain"
+      @tap="item.starMark?starOut():starTo()">
+      <div
+        ref="star"
+        :class="{ starChose: item.starMark }"
+        class="star">
+        <span>{{ item.starMark?"取消星标":"设为星标" }}</span>
+      </div>
+    </v-touch>
+  </li>
 </template>
 <script>
   export default {
@@ -24,6 +39,12 @@
     },
     data () {
       return {
+        startX: 0,
+        endX: 0,
+        moveX: 0,
+        disX: 0,
+        deleteSlider: '',
+        threshold: 50  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
       }
     },
     computed: {
@@ -48,6 +69,63 @@
               that.$router.push('/plan/' + this.currentPlan.id + '/child-plan')
             })
           })
+      },
+      touchStart (ev) {
+        ev = ev || event
+        if (ev.touches.length === 1) {
+          // 记录开始位置
+          this.startX = ev.touches[0].clientX
+        }
+      },
+      touchMove (ev) {
+        if (!this.$refs.star) {
+          return
+        }
+        ev = ev || event
+        let wd = this.$refs.star.offsetWidth
+        if (ev.touches.length === 1) {
+          // 滑动时距离浏览器左侧实时距离
+          this.moveX = ev.touches[0].clientX
+          this.disX = this.startX - this.moveX
+          // 如果是向右滑动或者不滑动，不改变滑块的位置
+          if (Math.abs(this.disX) <= this.threshold) {
+            return
+          }
+          if (this.disX < 0 || this.disX === 0) {
+            this.deleteSlider = 'transform:translateX(0px)'
+          } else if (this.disX > 0) {
+            this.deleteSlider = 'transform:translateX(-' + this.disX * 5 + 'px)'
+            if (this.disX * 5 >= wd) {
+              this.deleteSlider = 'transform:translateX(-' + wd + 'px)'
+            }
+          }
+        }
+      },
+      touchEnd (ev) {
+        if (!this.$refs.star) {
+          return
+        }
+        ev = ev || event
+        let wd = this.$refs.star.offsetWidth
+        if (ev.changedTouches.length === 1) {
+          let endX = ev.changedTouches[0].clientX
+          this.disX = this.startX - endX
+          if (Math.abs(this.disX) <= this.threshold) {
+            return
+          }
+          if ((this.disX * 5) < (wd / 2)) {
+            this.deleteSlider = 'transform:translateX(0px)'
+          } else {
+            this.deleteSlider = 'transform:translateX(-' + wd + 'px)'
+          }
+        }
+      },
+      starTo () {
+        // console.log(this.item)
+        this.$store.dispatch('saveStar', {kanbanId: this.item.id})
+      },
+      starOut () {
+        this.$store.dispatch('cancelStar', {kanbanId: this.item.id})
       }
     }
   }
@@ -72,19 +150,46 @@
     color: #3D3D3D;
     margin-left: 0.3rem;
   }
-  .plan{
+  .slider {
     height: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
-    padding-right: 0.3rem;
     border-bottom: 1px solid #EAEAEA;
+    width: 131%;
+    position: relative;
+    user-select: none;
   }
-  .star{
+  .slider  .content{
+    z-index: 100;
+  //    设置过渡动画
+  transition: 0.3s;
+    display: flex;
+    align-items: center;
+  }
+  .slider  .star{
+    margin-right: 0;
+    width: 100%;
+    height:1.612rem;
+    background:#F8E71C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: PingFangSC-Medium;
+    font-size: 17px;
+    color: #FFFFFF;
+  }
+  .starMain{
+    width:23.4%;
+  }
+  .haveStar{
     color: #F8E71C;
     font-size: 16px;
     margin-right: 0.3rem;
+  }
+  .slider .starChose{
+    background:red
   }
 </style>

@@ -87,6 +87,7 @@
     background-color: white;
     padding-left: 0.3rem;
     margin-top: 0.1rem;
+    overflow-x: hidden;
   }
   .itm-lst{
     text-align: center;
@@ -131,7 +132,6 @@
     justify-content: space-between;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
-    padding-right: 0.3rem;
     border-bottom: 1px solid #EAEAEA;
   }
 </style>

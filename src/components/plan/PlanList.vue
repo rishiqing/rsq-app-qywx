@@ -8,6 +8,16 @@
         v-for="item in planItems"
         :key="item.id"
         :item="item"/>
+      <li
+        class="plan"
+        @click="toCreate">
+        <div class="forward-plan">
+          <img
+            src="../../assets/img/add2.png"
+            class="plan-image">
+          <span class="plan-name">新建计划</span>
+        </div>
+      </li>
     </ul>
     <v-touch
       v-else
@@ -97,5 +107,31 @@
       color: #55A8FD;
       letter-spacing: 0
     }
+  }
+  .forward-plan{
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .plan-image{
+    width: 0.906rem;
+    height: 0.906rem;
+  }
+  .plan-name{
+    width: 7rem;
+    font-size: 17px;
+    color: #3D3D3D;
+    margin-left: 0.3rem;
+    color: #2F7DCD;
+  }
+  .plan{
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    padding-right: 0.3rem;
+    border-bottom: 1px solid #EAEAEA;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="inboxMain">
+  <div class="">
     <div class="topest"/>
     <div class="wrap">
       <input
@@ -21,9 +21,7 @@
         :items="items"
         :is-checkable="false"/>
     </div>
-    <div class="tips">收纳箱中的任务没有具体的日期，它可能是灵光乍现的想法，可能是同事拜托你的一件小事…</div>
   </div>
-
 </template>
 <script>
   import TodoItemList from 'com/sche/TodoItemList'
@@ -61,35 +59,15 @@
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
-            //  exec与execute明明是一个
           })
       }
     }
   }
 </script>
 <style lang="scss" scoped>
-  .inboxMain{
-    min-height: 100%;
-  }
-  .tips{
-    position: fixed;
-    bottom: 3.8%;
-    z-index: 0;
-    color: #9B9B9B;
-    font-size: 14px;
-    line-height: 18px;
-    width: 93.2%;
-    text-align: center;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    height: 4.9%;
-  }
   .InboxItem{
     background-color: white;
     border-bottom:1px solid #E3E3E3 ;
-    position: relative;
-    z-index: 2;
   }
   .wrap{
     position: fixed;

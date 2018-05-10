@@ -16,6 +16,7 @@ function getJsonFromUrl() {
     var item = part.split("=");
     result[item[0]] = decodeURIComponent(item[1]);
   });
+  //在这里格式化出appid以及agentid
   return result;
 }
 
@@ -152,6 +153,7 @@ rsqAdapterManager.register({
       corpId: pa.corpid,
       agentId: pa.agentid
     }, function(resSign){
+      //通过corpid和agentid返回新数据，执行成功函数
       var resJson = JSON.parse(resSign);
       rsqChk(params.success, [resJson]);
     });

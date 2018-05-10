@@ -20,12 +20,10 @@
       'checkDevice'
     ];
   function register(adapter){
-    //将mgrObj作为主对象
     extend(mgrObj, adapter);
   }
   function extend(orgObj, newObj){
     for(var key in newObj){
-      //若存在，则复制
       if(newObj.hasOwnProperty(key) && ~funNameList.indexOf(key)){
         orgObj[key] = newObj[key];
       }
@@ -107,7 +105,6 @@
 
 
   win.rsqadmg = win.rsqAdMg = win.rsqAdapterManager = win.rsqSpace.adapterManager = {
-    //不知道为啥起了这么多别名
     log: function(message){
       rsqadmg.execute('log', {message: message});
     },

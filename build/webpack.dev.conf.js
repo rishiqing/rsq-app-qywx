@@ -26,7 +26,6 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      //覆盖config，在html里面传递给rsqConfig
       env: 'dev',
       backendServer: config.dev.backendServer,
       authServer: config.dev.authServer,

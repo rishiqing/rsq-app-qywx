@@ -15,13 +15,13 @@
     </v-touch>
     <i
       v-show="item.starMark"
-      class="icon2-star-target-2 haveStar"/>
+      class="icon2-star-target-2 have-star"/>
     <v-touch
-      class="starMain"
+      class="star-main"
       @tap="item.starMark?starOut():starTo()">
       <div
         ref="star"
-        :class="{ starChose: item.starMark }"
+        :class="{ chose: item.starMark }"
         class="star">
         <span>{{ item.starMark?"取消星标":"设为星标" }}</span>
       </div>
@@ -121,7 +121,6 @@
         }
       },
       starTo () {
-        // console.log(this.item)
         this.$store.dispatch('saveStar', {kanbanId: this.item.id})
       },
       starOut () {
@@ -164,7 +163,6 @@
   }
   .slider  .content{
     z-index: 100;
-  //    设置过渡动画
   transition: 0.3s;
     display: flex;
     align-items: center;
@@ -181,15 +179,15 @@
     font-size: 17px;
     color: #FFFFFF;
   }
-  .starMain{
+  .star-main{
     width:23.4%;
   }
-  .haveStar{
+  .have-star{
     color: #F8E71C;
     font-size: 16px;
     margin-right: 0.3rem;
   }
-  .slider .starChose{
-    background:red
+  .slider .chose{
+    background:red;
   }
 </style>

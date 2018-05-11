@@ -3,7 +3,7 @@
     <ul
       v-if="planItems.length > 0"
       :class="{'plan-count': planCount}"
-      class="PlanList">
+      class="plan-list">
       <r-plan
         v-for="item in planItems"
         :key="item.id"
@@ -83,7 +83,7 @@
     width: 1rem;
     height: 1rem;
   }
-  .PlanList{
+  .plan-list{
     background-color: white;
     padding-left: 0.3rem;
     margin-top: 0.1rem;
@@ -106,7 +106,7 @@
       font-family: PingFangSC-Regular;
       font-size: 15px;
       color: #55A8FD;
-      letter-spacing: 0
+      letter-spacing: 0;
     }
   }
   .forward-plan{

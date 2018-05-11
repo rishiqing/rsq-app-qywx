@@ -1,5 +1,5 @@
 <template>
-  <div class="inboxMain">
+  <div class="inbox-main">
     <div class="topest"/>
     <div class="wrap">
       <input
@@ -61,14 +61,13 @@
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
-            //  exec与execute明明是一个
           })
       }
     }
   }
 </script>
 <style lang="scss" scoped>
-  .inboxMain{
+  .inbox-main{
     min-height: 100%;
   }
   .tips{

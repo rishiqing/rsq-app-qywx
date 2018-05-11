@@ -7,9 +7,7 @@
     <v-touch
       class="down"
       @tap="delayCall('setPlan',$event)">
-      <img
-        src="../../assets/img/moreplan.png"
-        class="moreplan">
+      <img src="../../assets/img/moreplan.png">
     </v-touch>
   </li>
 </template>
@@ -34,7 +32,6 @@
     },
     methods: {
       delayCall (func) {
-        console.log(this.item)
         window.setTimeout(() => {
           this[func].apply(this, Array.prototype.slice.call(arguments, 1))
         }, 50)
@@ -113,7 +110,7 @@
     color: #000000;
     line-height: 0.8rem;
   }
-  .moreplan{
+  .down{
     width: 0.5333rem;
     height: 0.5333rem;
     vertical-align: text-bottom;

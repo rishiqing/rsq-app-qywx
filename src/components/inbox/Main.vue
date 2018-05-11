@@ -15,7 +15,7 @@
       </v-touch>
     </div>
     <div class="margin-block"/>
-    <div class="InboxItem">
+    <div class="inbox-item">
       <r-todo-item-list
         v-if="items != null && items.length > 0"
         :items="items"
@@ -84,7 +84,7 @@
     right: 0;
     height: 4.9%;
   }
-  .InboxItem{
+  .inbox-item{
     background-color: white;
     border-bottom:1px solid #E3E3E3 ;
     position: relative;

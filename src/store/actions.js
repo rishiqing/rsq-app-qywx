@@ -1010,8 +1010,7 @@ export default {
   },
   deleteChildPlan ({commit, state}, p) {
     return api.todo.deleteChildPlan(p)
-      .then(() => {
-        // alert('删除返回')
+      .then((res) => {
         commit('DELETE_CHILD_PLAN', p)
       })
   },

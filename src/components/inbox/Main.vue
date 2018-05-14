@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="inbox-main">
     <div class="topest"/>
     <div class="wrap">
       <input
@@ -15,13 +15,15 @@
       </v-touch>
     </div>
     <div class="margin-block"/>
-    <div class="InboxItem">
+    <div class="inbox-item">
       <r-todo-item-list
         v-if="items != null && items.length > 0"
         :items="items"
         :is-checkable="false"/>
     </div>
+    <div class="tips">收纳箱中的任务没有具体的日期，它可能是灵光乍现的想法，可能是同事拜托你的一件小事…</div>
   </div>
+
 </template>
 <script>
   import TodoItemList from 'com/sche/TodoItemList'
@@ -65,9 +67,28 @@
   }
 </script>
 <style lang="scss" scoped>
-  .InboxItem{
+  .inbox-main{
+    min-height: 100%;
+  }
+  .tips{
+    position: fixed;
+    bottom: 3.8%;
+    z-index: 0;
+    color: #9B9B9B;
+    font-size: 14px;
+    line-height: 18px;
+    width: 93.2%;
+    text-align: center;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    height: 4.9%;
+  }
+  .inbox-item{
     background-color: white;
     border-bottom:1px solid #E3E3E3 ;
+    position: relative;
+    z-index: 2;
   }
   .wrap{
     position: fixed;

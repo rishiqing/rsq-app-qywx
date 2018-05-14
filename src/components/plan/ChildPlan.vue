@@ -184,7 +184,7 @@
           <img
             src="../../assets/img/edit.png"
             class="sub-plan-img">
-          <div class="sub-plan-name">新建子计划</div>
+          <div class="sub-plan-name">编辑子计划</div>
         </li>
       </v-touch>
     </ul>
@@ -554,25 +554,7 @@
           })
       },
       toEditPlan (e) {
-        this.initialState = !this.initialState
-        this.$prompt('请输入新建子计划名称', '新建子计划', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          inputValidator: value => {
-            if (!value) {
-              return '请输入子计划名称'
-            }
-          }
-        }).then(({ value }) => {
-          var params = {
-            name: value,
-            kanbanId: this.currentPlan.id
-          }
-          var that = this
-          this.$store.dispatch('postSubPlan', params).then((res) => {
-            that.$store.commit('ADD_SUB_PLAN', res)
-          })
-        }).catch(() => {})
+        this.$router.push('/plan/' + this.currentPlan.id + '/edit-child-plan')
       },
       postCard () {
         if (!this.cardName) {

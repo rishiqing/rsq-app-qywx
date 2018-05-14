@@ -25,6 +25,7 @@ import PlanList from 'com/plan/PlanList'
 import PlanNameEdit from 'com/plan/PlanNameEdit'
 import PlanNew from 'com/plan/PlanNew'
 import ChildPlan from 'com/plan/ChildPlan'
+import EditChildPlan from 'com/plan/EditChildPlan'
 import PlanSetting from 'com/plan/PlanSetting'
 import PlanTodoNew from 'com/plan/PlanTodoNew'
 import PlanTodoEdit from 'com/plan/PlanTodoEdit'
@@ -169,6 +170,12 @@ const router = new Router({
       path: '/plan/:planId/child-plan',
       name: 'childPlan',
       component: ChildPlan,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/plan/:planId/edit-child-plan',
+      name: 'editChildPlan',
+      component: EditChildPlan,
       meta: {requireAuth: true}
     },
     //  计划设置页面

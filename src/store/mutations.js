@@ -106,7 +106,7 @@ export default {
    * @param {[type]} p     [description]
    */
   SYS_SUB_TILTE (state, p) {
-    state.todo.currentSubtodo.title = p.title
+    state.todo.currentSubtodo.name = p.name
   },
   /* ----------------inbox----------------- */
   /**
@@ -387,7 +387,7 @@ export default {
     util.extendObject(state.todo.currentSubtodoDate, p.data)
   },
   PUB_SUB_TODO_DATE_BACK (state, p) {
-    state.todo.currentSubtodo.title = p.title
+    state.todo.currentSubtodo.name = p.name
     state.todo.currentSubtodoDate = p.backDate
     state.subUserId = p.id
   },

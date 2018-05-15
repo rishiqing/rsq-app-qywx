@@ -2,16 +2,13 @@
   <div class="">
     <div class="for-cover"/>
     <div class="wrap">
-      <input
-        v-model="inputTitle"
-        class="write"
-        type="text"
-        placeholder="输入子任务标题">
+      <img
+        src="../../assets/img/add2.png"
+        class="add">
       <v-touch
-        v-show="inputTitle !== ''"
-        class="btn-create"
+        class="write"
         @tap="saveTodo">
-        <button class="create" >创建</button>
+        添加子任务
       </v-touch>
     </div>
     <div class="margin-block"/>
@@ -65,7 +62,7 @@
     },
     computed: {
       items () {
-        return this.$store.state.todo.currentTodo.subTodos// 其实有没有必要写这个呢，因为currenttodo是动态变化的，只要重新和后台打交道setcurrent以后自然可以变化
+        return this.$store.state.todo.currentTodo.subTodos
       },
       finalItems () {
         return this.items ? this.items : []
@@ -110,11 +107,7 @@
               window.rsqadmg.execute('showLoader', {text: '删除中...'})
               that.$store.dispatch('deleteSubtodo', {item: item})
                 .then(() => {
-                  //  触发标记重复修改
                   that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
-//                  this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: value, type: 10}})
-//                    .then(() => {
-//                    })
                   window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.execute('toast', {message: '删除成功'})
                   that.$router.replace(window.history.back())
@@ -123,7 +116,6 @@
           })
         } else {
           if (value !== item.name) {
-//            window.rsqadmg.exec('showLoader', {text: '保存中...'})
             this.$store.dispatch('updateSubtodo', {item: item, name: value})
               .then(() => {
                 //  触发标记重复修改
@@ -136,18 +128,7 @@
         this.$refs.titleInput.value = value
       },
       saveTodo () {
-        window.rsqadmg.execute('showLoader', {text: '创建中...'})
-        this.$store.dispatch('createSubtodo', {newItem: {pTitle: this.inputTitle}, todoId: this.todoId})
-          .then(() => {
-            //  触发标记重复修改
-            this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
-//            this.$store.dispatch('saveTodoAction', {editItem: {idOrContent: this.inputTitle, type: 7}})
-//              .then(() => {
-//              })
-            this.inputTitle = ''
-            window.rsqadmg.exec('hideLoader')
-            window.rsqadmg.execute('toast', {message: '创建成功'})
-          })
+        this.$router.push('/sche/todo/' + this.currentTodo.id + '/subtodo/create')
       },
       clickCheckOut (item) {
         this.$store.dispatch('submitSubtodoFinish', {item: item, status: !item.isDone})
@@ -233,12 +214,9 @@
   }
   .sublist-item{
     position: relative;
-    /*padding-top: 0.1rem;*/
     border-bottom:1px solid #DADADA ;
     font-family: PingFangSC-Regular;
     font-size: 17px;
-    /*color: #222222;*/
-    /*padding: 0.33rem 0 0.15rem 0*/
     height: 1.22rem;
     display: flex;
     align-items: center;
@@ -253,15 +231,14 @@
     z-index: 1;
   }
   .add{
-    position: absolute;
-    top:0.4rem;
-    font-size: 0.4rem;
-    background-color: #55A8FD;
-    color:white;
-    border: 1px solid #55A8FD;
-    border-radius: 50%;
-    left:0.55rem;
-    -webkit-appearance: none;
+      position: absolute;
+      top: 30%;
+      background-color: #55A8FD;
+      left:0.55rem;
+      -webkit-appearance: none;
+      width: 0.5333rem;
+      height: 0.5333rem;
+      vertical-align: text-align;
   }
   .title-todo input{
     border: none;
@@ -293,11 +270,6 @@
     position: relative;
     margin-top:0.666rem;
     padding-left: 5%;
-  }
-  li{
-
-  }
-  li:first-child{
   }
   .is-display-sub{
     display: block;
@@ -339,12 +311,16 @@
     border-bottom:1px solid #E3E3E3;
     border-top:1px solid #E3E3E3;
     top: 0.266rem;
-    padding-left:0.6rem;
+    padding-left:1.6rem;
     z-index: 1;
     line-height: 0.6rem;
     padding-right: 2.432rem;
     padding-top: 0.313rem;
     padding-bottom: 0.313rem;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #000000;
+    line-height: 24px;
   }
   .margin-block {
     height: 50px;

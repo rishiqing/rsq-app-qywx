@@ -57,7 +57,7 @@
         required: true
       },    //  可选人
       selectedRsqIds: {
-        type: Array,
+        type: [String, Array],
         required: true
       },  //  当前选中的人
       disabledRsqIds: {

@@ -100,7 +100,14 @@ export default {
   SYS_NAV_SHOW (state, p) {
     state.env.isShowNav = p.isShow
   },
-
+  /**
+   * 设置子任务title
+   * @param {[type]} state [description]
+   * @param {[type]} p     [description]
+   */
+  SYS_SUB_TILTE (state, p) {
+    state.todo.currentSubtodo.title = p.title
+  },
   /* ----------------inbox----------------- */
   /**
    *
@@ -375,6 +382,17 @@ export default {
   },
   PUB_TODO_TIME_UPDATE (state, p) {
     util.extendObject(state.pub.currentTodoTime, p.data)
+  },
+  PUB_SUB_TODO_DATE_UPDATE (state, p) {
+    util.extendObject(state.todo.currentSubtodoDate, p.data)
+  },
+  PUB_SUB_TODO_DATE_BACK (state, p) {
+    state.todo.currentSubtodo.title = p.title
+    state.todo.currentSubtodoDate = p.backDate
+    state.subUserId = p.id
+  },
+  PUB_SUB_TODO_USER (state, p) {
+    state.subUserId = p.id
   },
   PUB_TODO_TIME_DELETE (state, p) {
     state.pub.currentTodoTime = {}

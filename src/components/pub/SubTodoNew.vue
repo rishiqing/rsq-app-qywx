@@ -12,7 +12,7 @@
               type="text"
               class="add-title"
               placeholder="请输入任务标题"
-              @blur="inputNew"/>
+              @input="inputNew"/>
           </div>
           <div class="itm-group itm--edit-todo">
             <div class="firstGroup">
@@ -112,14 +112,14 @@
           repeatType: null,
           startDate: ''
         }
-        this.$store.commit('PUB_SUB_TODO_DATE_BACK', {name: '', backDate, id: ''})
+        this.$store.commit('PUB_SUB_TODO_DATE_BACK', {title: '', backDate, id: ''})
       }
       next()
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建子任务'})
       this.initData()
-      this.inputTitle = this.$store.state.todo.currentSubtodo.name
+      this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
       this.joinUserRsqIds = this.$store.state.subUserId
@@ -150,7 +150,7 @@
       },
       //  缓存title
       inputNew () {
-        this.$store.commit('SYS_SUB_TILTE', {name: this.inputTitle})
+        this.$store.commit('SYS_SUB_TILTE', {title: this.inputTitle})
       },
       saveMember (idArray) {
         this.joinUserRsqIds = idArray

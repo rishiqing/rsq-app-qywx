@@ -69,6 +69,7 @@ export default {
     },
     //  当点击子任务进入子任务编辑状态时，该字段用来存储当前的子任务
     currentSubtodo: {
+      title: ''
     },
     // 存储自子任务的时间
     currentSubtodoDate: {

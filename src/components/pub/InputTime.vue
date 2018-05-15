@@ -2,9 +2,7 @@
   <v-touch @tap="gotoTodoTime">
     <div
       class="outer-wrap bottom-border" >
-      <span class="inner-key">时间</span>
-      <span class="inner-value">{{ timeValue }}</span>
-      <i class="icon2-arrow-right-small arrow"/>
+      <span class="inner-key">{{ timeValue }}</span>
     </div>
   </v-touch>
 </template>
@@ -46,7 +44,7 @@
         return !this.itemClock.startTime
       },
       timeValue () {
-        return this.isAllDay ? '全天' : this.itemClock.startTime + '-' + this.itemClock.endTime
+        return this.isAllDay ? '时间和提醒' : this.itemClock.startTime + '-' + this.itemClock.endTime
       }
     },
     methods: {
@@ -80,30 +78,11 @@
     font-size: 17px;
     color: #333333;
   }
-  .inner-value {
-    display: block;
-    position: absolute;
-    top:50%;
-    margin-top: -0.65rem;
-    right: 0.94rem;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #999999;
-    letter-spacing: 0;
-  }
-  .arrow{
-    color: #999999;
-    font-size: 21px;
-    position: absolute;
-    top:50%;
-    margin-top: -0.25rem;
-    right: 0.2rem;
-  }
   .has-padding{
     padding-left: 3%;
   }
   .edit-padding-left{
-    left:1.3rem
+    left: 1.3rem;
   }
   .bottom-border{
     border-bottom: 1px solid #E0E0E0;

@@ -30,7 +30,7 @@
                 <r-input-member
                   :has-left-space="true"
                   :is-native="true"
-                  :index-title="'执行人'"
+                  :index-title="''"
                   :select-title="'请选择成员'"
                   :user-rsq-ids="[]"
                   :selected-rsq-ids="joinUserRsqIds"

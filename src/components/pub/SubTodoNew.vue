@@ -174,7 +174,7 @@
           return window.rsqadmg.execute('alert', {message: '请选择执行人'})
         }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
-        this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: this.sub.joinUsers, dates: this.sub.dates})
+        this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: this.joinUserRsqIds[0], dates: this.sub.dates})
           .then(() => {
             //  触发标记重复修改
             this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')

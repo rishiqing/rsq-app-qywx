@@ -1,5 +1,6 @@
 <template>
   <li
+    :class="{ 'isDisplay': more}"
     class="comment"
     @click="clickItem">
     <div class="left">
@@ -85,6 +86,10 @@
     },
     props: {
       disabled: {
+        type: Boolean,
+        default: false
+      },
+      more: {
         type: Boolean,
         default: false
       },

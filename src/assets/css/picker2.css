@@ -54,3 +54,6 @@
 	text-align: left;
 	padding-left:10px;
 }
+.delete_IOS .weui-actionsheet__cell:nth-child(2){
+	color: red;
+}

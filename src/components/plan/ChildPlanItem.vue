@@ -41,6 +41,7 @@
         var that = this
         window.rsqadmg.exec('actionsheet', {
           buttonArray: ['编辑子计划名称', '删除子计划'],
+          className: 'delete_IOS',
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:

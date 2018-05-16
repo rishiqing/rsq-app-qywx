@@ -72,7 +72,7 @@
           isAllDay: true
         },
         sub: null,
-        joinUserRsqIds: [],
+        joinUserRsqIds: '',
         inputTitle: ''
       }
     },
@@ -103,7 +103,7 @@
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
-      this.joinUserRsqIds = [this.$store.state.subUserId]
+      this.joinUserRsqIds = this.$store.state.subUserId
       this.sub = this.$store.state.todo.currentSubtodoDate
     },
     methods: {
@@ -134,7 +134,6 @@
         this.$store.commit('SYS_SUB_TILTE', {title: this.inputTitle})
       },
       saveMember (idArray) {
-        alert(1)
         this.joinUserRsqIds = idArray
         this.editItem.receiverIds = idArray
         this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})
@@ -152,7 +151,7 @@
         if (!this.sub.datas && !this.sub.startDate) {
           return window.rsqadmg.execute('alert', {message: '请选择时间'})
         }
-        if (this.joinUserRsqIds.length === 0) {
+        if (!this.joinUserRsqIds) {
           return window.rsqadmg.execute('alert', {message: '请选择执行人'})
         }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
@@ -161,7 +160,7 @@
         datas.todoId = this.todoId
         datas.startDate = this.sub.startDate
         datas.endDate = this.sub.endDate
-        // datas.joinUsers = this.joinUserRsqIds[0]
+        datas.joinUsers = this.joinUserRsqIds[0]
         datas.dates = this.sub.dates
         this.$store.dispatch('createSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})

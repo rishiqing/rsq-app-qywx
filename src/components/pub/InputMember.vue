@@ -3,7 +3,7 @@
     <div
       class="outer-wrap bottom-border" >
       <span
-        v-show="selectedLocalList.length == 0"
+        v-show="selectedLocalList.length === 0"
         class="inner-key">
         {{ indexTitle }}</span>
       <div class="inner-value">

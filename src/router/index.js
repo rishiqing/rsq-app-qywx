@@ -105,7 +105,7 @@ const router = new Router({
       path: '/sche/todo/subdate',
       name: 'SubTodoEditDate',
       component: SubTodoEditDate,
-      meta: {requireAuth: false}
+      meta: {requireAuth: true}
     },
     //  todo的日期重复页面，用于新增或者编辑日程时候的日期重复设置
     {

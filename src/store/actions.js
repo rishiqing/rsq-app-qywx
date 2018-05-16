@@ -225,7 +225,14 @@ export default {
       })
   },
   createSubtodo ({commit, state, dispatch}, p) {
-    return api.todo.postSubtodo({name: p.name, todoId: p.todoId, startDate: p.startDate, endDate: p.endDate, joinUsers: p.joinUsers, dates: p.dates})
+    var datas = {}
+    datas.name = p.name
+    datas.todoId = p.todoId
+    datas.startDate = p.startDate
+    datas.endDate = p.endDate
+    datas.joinUsers = p.joinUsers
+    datas.dates = p.dates
+    return api.todo.postSubtodo(datas)
       .then(item => {
         commit('CHILDTASK_TODO_CREATED', {item: item})
       })

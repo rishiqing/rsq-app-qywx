@@ -148,11 +148,6 @@
                 })
             })
       }
-    },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.$router.push('/sche/todo/406229/subtodo')
-      })
     }
   }
 </script>

@@ -17,8 +17,8 @@
       class="sublist">
       <template v-if="finalItems">
         <li
-          v-for="item in finalItems"
-          :key="item.id"
+          v-for="(item, index) in finalItems"
+          :key="index"
           class="sublist-item">
           <v-touch
             class="wrap-sub-icon"
@@ -128,6 +128,16 @@
         this.$refs.titleInput.value = value
       },
       saveTodo () {
+        var backDate = {
+          dates: null,
+          endDate: '',
+          isCloseRepeat: true,
+          isLastDate: true,
+          repeatBaseTime: null,
+          repeatType: null,
+          startDate: ''
+        }
+        this.$store.dispatch('setCurrentSubtodo', backDate)
         this.$router.push('/sche/todo/' + this.currentTodo.id + '/subtodo/create')
       },
       clickCheckOut (item) {
@@ -138,6 +148,11 @@
                 })
             })
       }
+    },
+    beforeRouteEnter (to, from, next) {
+      next(vm => {
+        vm.$router.push('/sche/todo/406229/subtodo')
+      })
     }
   }
 </script>

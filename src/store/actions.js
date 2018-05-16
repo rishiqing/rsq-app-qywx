@@ -534,29 +534,15 @@ export default {
   },
   updateSubtodo ({commit, state}, p) {
     //  p.todo不存在，则默认读取currentTod
-    // var id = state.todo.currentTodo.subTodos[0].id
-    // var id = p.item.id
-    p.item.name = p.name
     var item = p.item
-    //  如果id存在，则ajax更新
-    // var editItem = p.editItem
-    // console.log('todo的id是' + id)
-    // editItem['id'] = id
-    return api.todo.putSubtodoProps(item)
-      .then(subtodo => {
-        commit('TD_SUBTODO_UPDATED', {subtodo: subtodo, item: item})
-      })
-  },
-  updateSubtodoCheck ({commit, state}, p) {
-    //  p.todo不存在，则默认读取currentTodo
-    // var id = state.todo.currentTodo.subtodos[0].id
-    // var id = p.item.id
-    p.item.name = p.name
-    var item = p.item
-    //  如果id存在，则ajax更新
-    // var editItem = p.editItem
-    // editItem['id'] = id
-    return api.todo.putSubtodoProps(item)
+    var temp = {}
+    temp.name = p.name
+    temp.id = p.id
+    temp.endDate = p.endDate
+    temp.startDate = p.startDate
+    temp.isDone = p.isDone
+    temp.dates = p.dates
+    return api.todo.putSubtodoProps(temp)
       .then(subtodo => {
         commit('TD_SUBTODO_UPDATED', {subtodo: subtodo, item: item})
       })

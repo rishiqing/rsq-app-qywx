@@ -54,7 +54,7 @@
   </div>
 </template>
 <script>
-  import SubInputDate from 'com/pub/SubInputDate'
+  import SubNewInputDate from 'com/pub/SubNewInputDate'
   import InputMember from 'com/pub/InputMember'
   import dateUtil from 'ut/dateUtil'
   import jsUtil from 'ut/jsUtil'
@@ -62,7 +62,7 @@
   export default {
     name: 'SubTodoNew',
     components: {
-      'r-input-date': SubInputDate,
+      'r-input-date': SubNewInputDate,
       'r-input-member': InputMember
     },
     data () {
@@ -96,25 +96,6 @@
       corpId () {
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
       }
-    },
-    beforeRouteEnter (to, from, next) {
-      next()
-      // beforeRouteEnter中不能获取到this，因为this还没有创建，只能通过next获取
-    },
-    beforeRouteLeave (to, from, next) {
-      if (to.name !== 'SubtodoEditDate') {
-        var backDate = {
-          dates: null,
-          endDate: '',
-          isCloseRepeat: true,
-          isLastDate: true,
-          repeatBaseTime: null,
-          repeatType: null,
-          startDate: ''
-        }
-        this.$store.commit('PUB_SUB_TODO_DATE_BACK', {title: '', backDate, id: ''})
-      }
-      next()
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建子任务'})
@@ -178,7 +159,7 @@
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
           .then(() => {
             //  触发标记重复修改
-            this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
+            // this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})

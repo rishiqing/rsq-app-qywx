@@ -103,7 +103,7 @@ const router = new Router({
     //  子任务日期
     {
       path: '/sche/todo/subdate',
-      name: 'SubtodoEditDate',
+      name: 'SubTodoEditDate',
       component: SubTodoEditDate,
       meta: {requireAuth: false}
     },

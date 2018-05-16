@@ -116,7 +116,18 @@ export default {
      *   repeatBaseTime: null
      * }
      */
-    currentTodoDate: null
+    currentTodoDate: null,
+    /**
+     * 编辑子任务
+     * @type {[type]}
+     */
+    currentTodoDateEdit: null,
+    /**
+     * 子任务标题
+     * @type {String}
+     */
+    subtitle: '',
+    pubid: ''
   },
   //  --------缓存相关--------
   /**

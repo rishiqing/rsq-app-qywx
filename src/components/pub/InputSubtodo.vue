@@ -61,6 +61,7 @@
           window.rsqadmg.execute('toast', {message: this.disabledText})
           return
         }
+        this.$store.commit('PUB_ID_SUB', this.item.id)
         this.$router.push('/' + this.todoType + '/todo/' + this.item.id + '/subtodo')
       }
     }

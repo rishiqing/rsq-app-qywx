@@ -122,8 +122,15 @@
       isEdit () {
         return !!this.currentTodo.id
       },
+      subId () {
+        return this.$store.state.todo.currentSubtodo.id
+      },
       currentTodoDate () {
-        return this.$store.state.todo.currentSubtodoDate
+        if (this.subId) {
+          return this.$store.state.todo.currentSubtodo
+        } else {
+          return this.$store.state.todo.currentSubtodoDate
+        }
       }
     },
     created () {
@@ -309,15 +316,17 @@
         var sorted = this.selectNumDate.sort((a, b) => { return a > b ? 1 : -1 })
         var resObj = dateUtil.frontend2backend({dateType: this.dateType, dateResult: sorted, sep: '/'})
         //  如果不是repeat类型，那么清除
-        if (this.dateType !== 'repeat') {
-          resObj['repeatType'] = null
-          resObj['repeatBaseTime'] = null
-          resObj['_selected'] = null
-          resObj['_uRepeatType'] = null
-          resObj['_uIsLastDate'] = false
-          resObj['_uRepeatStrTimeArray'] = null
+        resObj['repeatType'] = null
+        resObj['repeatBaseTime'] = null
+        resObj['_selected'] = null
+        resObj['_uRepeatType'] = null
+        resObj['_uIsLastDate'] = false
+        resObj['_uRepeatStrTimeArray'] = null
+        if (this.subId) {
+          this.$store.commit('PUB_SUB_TODO_DATE_UPDATE_EDIT', {data: resObj})
+        } else {
+          this.$store.commit('PUB_SUB_TODO_DATE_UPDATE', {data: resObj})
         }
-        this.$store.commit('PUB_SUB_TODO_DATE_UPDATE', {data: resObj})
       },
       getSubmitResult () {
         var c = this.currentTodoDate
@@ -371,16 +380,13 @@
       }
     },
     beforeRouteLeave (to, from, next) {
-      //  如果是从日期页面跳回到编辑页面的，那么即使不在收纳箱中了，那么也暂时不显示checkbox
-      if (this.currentTodo['pContainer'] === 'inbox') {
-        this.$store.commit('DELAY_SHOW_CHECKBOX')
-      }
       //  做pub区缓存
       this.saveTodoDateState()
-      if (to.name !== 'todoNew' && to.name !== 'todoEdit' && to.name !== 'demo') {
-        return next()
+      if (this.getSubmitResult().endDate === 'NaN/0NaN/0NaN') {
+        alert('请选择结束时间')
+        return
       }
-      this.submitTodo(next)
+      next()
     }
   }
 </script>

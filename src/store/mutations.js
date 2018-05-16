@@ -228,7 +228,8 @@ export default {
    * @constructor
    */
   TD_CURRENT_SUBTODO_SET (state, p) {
-    state.todo.currentSubtodo = p.item
+    state.todo.currentSubtodo = {...p.item}
+    state.todo.currentSubtodoDate = {...p.item}
   },
   TD_CURRENT_TODO_REPEAT_SET (state, p) {
     var i = p.item
@@ -386,16 +387,20 @@ export default {
   PUB_SUB_TODO_DATE_UPDATE (state, p) {
     util.extendObject(state.todo.currentSubtodoDate, p.data)
   },
-  PUB_SUB_TODO_DATE_BACK (state, p) {
-    state.todo.currentSubtodo.title = p.title
-    state.todo.currentSubtodoDate = p.backDate
-    state.subUserId = p.id
+  PUB_SUB_TODO_DATE_UPDATE_EDIT (state, p) {
+    util.extendObject(state.todo.currentSubtodo, p.data)
   },
   PUB_SUB_TODO_USER (state, p) {
     state.subUserId = p.id
   },
   PUB_TODO_TIME_DELETE (state, p) {
     state.pub.currentTodoTime = {}
+  },
+  PUB_TITLE_SUB (state, p) {
+    state.pub.subtitle = p
+  },
+  PUB_ID_SUB (state, p) {
+    state.pub.pubid = p
   },
   PUB_TODO_TIME_CLOCK_UPDATE (state, p) {
     util.extendObject(state.pub.currentTodoTime.clock, p.data)
@@ -408,6 +413,12 @@ export default {
       state.pub.currentTodoDate = {}
     }
     util.extendObject(state.pub.currentTodoDate, p.data)
+  },
+  PUB_TODO_DATE_UPDATE_EDIT (state, p) {
+    if (!state.pub.currentTodoDateEdit) {
+      state.pub.currentTodoDateEdit = {}
+    }
+    util.extendObject(state.pub.currentTodoDateEdit, p.data)
   },
   PUB_TODO_DATE_DELETE (state, p) {
     state.pub.currentTodoDate = null

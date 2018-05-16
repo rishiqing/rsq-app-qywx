@@ -10,7 +10,7 @@
   import dateUtil from 'ut/dateUtil'
 
   export default {
-    name: 'SubInputDate',
+    name: 'SubNewInputDate',
     props: {
       //  是否有左侧的空间，默认是没有的，编辑模式下是有左边的padding
       hasLeftSpace: {
@@ -46,11 +46,14 @@
       return {}
     },
     computed: {
+      datesItem () {
+        return this.$store.state.todo.currentSubtodoDate
+      },
       dateString () {
-        if (this.item.startDate === null && this.item.endDate === null && this.item.dates === null) {
-          return '今天'
+        if (this.datesItem.startDate === '' && this.datesItem.endDate === '' && this.datesItem.dates === null) {
+          return '日期'
         } else {
-          var result = dateUtil.repeatDate2Text(this.item)
+          var result = dateUtil.repeatDate2Text(this.datesItem)
           if (result.length > 20) {
             result = result.substring(0, 21)
           }
@@ -61,7 +64,7 @@
         }
       },
       fromInbox () {
-        return this.item.pContainer === 'inbox'
+        return this.datesItem.pContainer === 'inbox'
       }
     },
     methods: {
@@ -71,7 +74,7 @@
           return
         }
         //  将需要用到的属性设置到currentTodoDate中
-        var c = this.item
+        var c = this.datesItem
         var obj = {
           startDate: c.startDate || null,
           endDate: c.endDate || null,

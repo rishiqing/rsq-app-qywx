@@ -109,7 +109,7 @@
             //  触发标记重复修改
             that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
             window.rsqadmg.exec('hideLoader')
-            this.$router.go('-1')
+            this.$router.go(-1)
           })
       },
       saveMember (idArray) {

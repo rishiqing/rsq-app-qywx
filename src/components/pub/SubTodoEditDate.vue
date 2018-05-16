@@ -3,7 +3,7 @@
     <div class="date-picker">
       <div class="dp-sel-type">
         <v-touch
-          :class="{'is-active': dateType=='single'}"
+          :class="{'is-active': dateType ==='single'}"
           class="dp-btn"
           @tap="tapChangeType($event, 'single')">
           单日
@@ -12,7 +12,7 @@
           <div class="dp-v-sep v-h-center"/>
         </div>
         <v-touch
-          :class="{'is-active': dateType=='discrete'}"
+          :class="{'is-active': dateType ==='discrete'}"
           class="dp-btn"
           @tap="tapChangeType($event, 'discrete')">
           多日
@@ -21,7 +21,7 @@
           <div class="dp-v-sep v-h-center"/>
         </div>
         <v-touch
-          :class="{'is-active': dateType=='range'}"
+          :class="{'is-active': dateType ==='range'}"
           class="dp-btn"
           @tap="tapChangeType($event, 'range')">
           起止
@@ -314,6 +314,10 @@
       },
       saveTodoDateState () {
         var sorted = this.selectNumDate.sort((a, b) => { return a > b ? 1 : -1 })
+        if (this.selectNumDate.length === 1 && this.dateType === 'range') {
+          alert('请选择结束时间')
+          return false
+        }
         var resObj = dateUtil.frontend2backend({dateType: this.dateType, dateResult: sorted, sep: '/'})
         //  如果不是repeat类型，那么清除
         resObj['repeatType'] = null
@@ -327,6 +331,7 @@
         } else {
           this.$store.commit('PUB_SUB_TODO_DATE_UPDATE', {data: resObj})
         }
+        return true
       },
       getSubmitResult () {
         var c = this.currentTodoDate
@@ -381,12 +386,9 @@
     },
     beforeRouteLeave (to, from, next) {
       //  做pub区缓存
-      this.saveTodoDateState()
-      if (this.getSubmitResult().endDate === 'NaN/0NaN/0NaN') {
-        alert('请选择结束时间')
-        return
+      if (this.saveTodoDateState()) {
+        next()
       }
-      next()
     }
   }
 </script>

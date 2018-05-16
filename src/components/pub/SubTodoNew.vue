@@ -72,7 +72,7 @@
           isAllDay: true
         },
         sub: null,
-        joinUserRsqIds: '',
+        joinUserRsqIds: [],
         inputTitle: ''
       }
     },
@@ -151,7 +151,7 @@
         if (!this.sub.datas && !this.sub.startDate) {
           return window.rsqadmg.execute('alert', {message: '请选择时间'})
         }
-        if (!this.joinUserRsqIds) {
+        if (this.joinUserRsqIds.length === 0) {
           return window.rsqadmg.execute('alert', {message: '请选择执行人'})
         }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})

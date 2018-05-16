@@ -69,7 +69,7 @@
       return {
         editItem: {},
         newName: '',
-        joinUserRsqIds: ''
+        joinUserRsqIds: []
       }
     },
     computed: {
@@ -87,6 +87,7 @@
         this.editItem.name = this.$store.state.pub.subtitle
       }
       this.$store.commit('PUB_TITLE_SUB', this.editItem.name)
+      // TODO 等待选人框
       this.joinUserRsqIds = this.$store.state.todo.currentSubtodo.joinUsers
     },
     methods: {
@@ -113,7 +114,6 @@
           })
       },
       saveMember (idArray) {
-        alert(idArray)
         this.joinUserRsqIds = idArray
         this.editItem.receiverIds = idArray
         this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})

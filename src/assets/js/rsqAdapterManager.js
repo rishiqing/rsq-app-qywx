@@ -14,7 +14,7 @@
       'showLoader',
       'hideLoader',
       'actionsheet',
-      'toast', 'picker', 'datePicker', 'timePicker', 'deleteUserCache',
+      'toast', 'picker', 'datePicker', 'timePicker', 'timePicker2', 'deleteUserCache',
       'notify','pickConversation', 'getItem', 'setItem', 'deleteItem',
       'checkVersion', 'upgradeVersion','topTips',
       'checkDevice'

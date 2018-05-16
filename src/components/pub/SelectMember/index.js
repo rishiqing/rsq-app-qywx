@@ -2,9 +2,9 @@ import Vue from 'vue'
 
 import BaseSelectMember from './BaseSelectMember.vue'
 
-var SelectMember = Vue.extend(BaseSelectMember)
+let SelectMember = Vue.extend(BaseSelectMember)
 
-var selectMember = null
+let selectMember = null
 /**
  * selectMember单例模式
  * @returns {ActionSheet}
@@ -18,14 +18,18 @@ function getSelectMemberModal () {
 
 function show (options) {
   options = options || {}
-  var vm = getSelectMemberModal()
+  const vm = getSelectMemberModal()
 
   // vm.title = options.title || '选择成员'
+  vm.idAttribute = options.idAttribute || 'id'
+  vm.nameAttribute = options.nameAttribute || 'name'
+  vm.avatarAttribute = options.avatarAttribute || 'avatar'
   vm.btnText = options.btnText || '确定'
   vm.maximum = options.maximum || 5
   vm.memberList = options.memberList || []
-  vm.selectedList = options.selectedList || []
+  vm.selectedIdList = options.selectedIdList || []
   vm.disabledIdList = options.disabledIdList || []
+  vm.creatorIdList = options.creatorIdList || []
   vm.success = options.success || function () {}
   vm.cancel = options.cancel || function () {}
   vm.$on('self-close', close)
@@ -38,12 +42,12 @@ function show (options) {
 }
 
 function close () {
-  var vm = getSelectMemberModal()
+  const vm = getSelectMemberModal()
   vm.$el.remove()
 }
 
 function confirmSelect () {
-  var vm = getSelectMemberModal()
+  const vm = getSelectMemberModal()
   vm.confirmSelect()
 }
 

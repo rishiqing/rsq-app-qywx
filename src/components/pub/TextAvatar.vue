@@ -39,6 +39,10 @@
         type: Boolean,
         default: true
       },
+      roundRadius: {
+        type: String,
+        default: '50%'
+      },
       lighten: {
         type: Number,
         default: 80
@@ -77,7 +81,7 @@
         const style = {
           width: this.size + 'px',
           height: this.size + 'px',
-          borderRadius: (this.rounded) ? '50%' : 0,
+          borderRadius: (this.rounded) ? this.roundRadius : 0,
           textAlign: 'center',
           verticalAlign: 'middle'
         }

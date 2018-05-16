@@ -10,7 +10,7 @@
   import dateUtil from 'ut/dateUtil'
 
   export default {
-    name: 'InputDate',
+    name: 'SubInputDate',
     props: {
       //  是否有左侧的空间，默认是没有的，编辑模式下是有左边的padding
       hasLeftSpace: {
@@ -47,9 +47,7 @@
     },
     computed: {
       dateString () {
-        if (this.item.pContainer === 'inbox') {
-          return '添至日程'
-        } else if (this.item.startDate === null && this.item.endDate === null && this.item.dates === null) {
+        if (this.item.startDate === null && this.item.endDate === null && this.item.dates === null) {
           return '今天'
         } else {
           var result = dateUtil.repeatDate2Text(this.item)
@@ -83,7 +81,7 @@
           isLastDate: c.isLastDate === undefined || false
         }
         this.$store.commit('PUB_TODO_DATE_UPDATE', {data: obj})
-        this.$router.push('/' + this.todoType + '/todo/date')
+        this.$router.push('/' + this.todoType + '/todo/subdate')
       }
     }
   }

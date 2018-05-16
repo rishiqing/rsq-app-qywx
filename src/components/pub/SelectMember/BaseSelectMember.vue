@@ -3,32 +3,49 @@
     <div class="sel-header">
       <div class="sel-search-wrap">
         <input
+          v-model="nameSearch"
           type="text"
           class="sel-search"
           placeholder="搜索">
-        <i class="icon2-add-circle add sel-icon-search"/>
-        <i class="icon2-add-circle add sel-icon-reset"/>
+        <i class="icon2-search sel-icon-search"/>
+        <v-touch
+          v-show="nameSearch"
+          tag="i"
+          class="icon2-error sel-icon-reset"
+          @tap="clearNameSearch"/>
       </div>
     </div>
     <div class="sel-body">
       <div class="sel-member-list-container">
         <ul
-          v-if="true"
+          v-if="filteredUsers.length !== 0"
           class="sel-member-list">
           <li
-            v-for="member in mockList"
+            v-for="member in filteredUsers"
             :key="member.id">
-            <div class="sel-member-info">
-              <div class="sel-member-icon">
-                <i class="icon2-add-circle add"/>
+            <v-touch
+              class="sel-member-info"
+              @tap="changeSelect(member, !member.isSelected)">
+              <div
+                :class="{'sel-selected': member.isSelected}"
+                class="sel-member-icon">
+                <div class="sel-icon-selected-bg" />
+                <i class="icon2-selected sel-icon-selected"/>
               </div>
               <div class="sel-member-avatar">
-                <img :src="member.avatar">
+                <avatar
+                  :src="member.avatar"
+                  :username="member.name"
+                  :size="36"
+                  :round-radius="'2px'"
+                  :background-color="'#4A90E2'"/>
               </div>
-              <div class="sel-member-name">
+              <div
+                :class="{'sel-disabled': member.isDisabled}"
+                class="sel-member-name">
                 {{ member.name }}
               </div>
-            </div>
+            </v-touch>
             <div class="sel-member-tag">
               {{ member.isCreator ? '创建者' : '' }}
             </div>
@@ -38,7 +55,7 @@
           v-else
           class="sel-member-blank">
           <div>
-            <i class="icon2-add-circle add"/>
+            <i class="icon2-search"/>
           </div>
           <p>搜索无结果</p>
         </div>
@@ -47,14 +64,25 @@
     <div class="sel-footer">
       <div class="sel-footer-list-container">
         <ul class="sel-footer-list">
-          <li
-            v-for="i in [1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23]"
-            :key="i">
-            <img src="http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/">
-          </li>
+          <v-touch
+            v-for="m in localSelectedList"
+            :key="m.id"
+            tag="li"
+            @tap="changeSelect(m, false)">
+            <avatar
+              :src="m.avatar"
+              :username="m.name"
+              :size="34"
+              :round-radius="'2px'"
+              :background-color="'#4A90E2'"/>
+          </v-touch>
         </ul>
       </div>
-      <div class="sel-footer-confirm">确定(100)</div>
+      <v-touch
+        class="sel-footer-confirm"
+        @tap="confirmSelect">
+        确定({{ selectedCount }})
+      </v-touch>
     </div>
   </div>
 </template>
@@ -103,7 +131,7 @@
     position: absolute;top: 8px;left: 5px;
   }
   .sel-icon-reset {
-    position: absolute;top: 8px;right: 10px;
+    position: absolute;top: 8px;right: 10px;color: #8D8D92;
   }
   .sel-footer-list-container {
     position: absolute;
@@ -120,17 +148,15 @@
   }
   ul.sel-footer-list li {
     display: inline-block;
+    vertical-align: top;
     margin-left: 10px;
     margin-top: 8px;
   }
-  ul.sel-footer-list li img {
-    width: 34px;height: 34px;border-radius: 2px;
-  }
   .sel-footer-confirm {
     position: absolute;
-    top: 0;right: 0;height: 48px;
+    top: 0;right: 0;height: 50px;
     width: 92px;
-    line-height: 48px;
+    line-height: 50px;
     text-align: center;
     color: #5176AB;
     font-size: 18px;
@@ -153,12 +179,34 @@
     height: 100%;
     line-height: 56px;
   }
-  .sel-member-icon {}
-  .sel-member-avatar {
-    margin: 0 10px;
+  .sel-member-icon {
+    position: relative;width: 16px;
   }
-  .sel-member-avatar img {
-    width: 36px;height: 36px;margin-top: 10px;
+  .sel-icon-selected-bg {
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%; margin-top: -8px;
+    width: 16px;height: 16px;border-radius: 50%;
+    border: solid 1px #DADADE;
+    background: #FEFEFE;
+  }
+  .sel-selected .sel-icon-selected-bg {
+    border: solid 1px #5684BA;
+    background: #5684BA;
+  }
+  .sel-icon-selected {
+    display: none;
+    font-size: 10px;
+    padding: 3px;
+  }
+  .sel-selected .sel-icon-selected {
+    display: block;
+    color: #FFFFFF;
+    position: absolute;
+    top: 50%; margin-top: -8px;
+  }
+  .sel-member-avatar {
+    box-sizing: border-box;padding: 10px;
   }
   .sel-member-name {
     font-size: 16px;
@@ -180,6 +228,9 @@
   .sel-member-blank p {
     font-size: 14px;
   }
+  .sel-disabled {
+    color: #999999;
+  }
 </style>
 <script>
   import Avatar from 'com/pub/TextAvatar'
@@ -190,103 +241,117 @@
     },
     data () {
       return {
+        //  ------------------------------------------
+        //  传入的参数，只读，不要修改
         btnText: '',
+        idAttribute: '',
+        nameAttribute: '',
+        avatarAttribute: '',
         maximum: 0,    //  最多选择的用户数量
         memberList: [],    //  所有用户的列表
-        selectedList: [],  //  默认选中的用户列表
+        selectedIdList: [],  //  默认选中的用户列表
         disabledIdList: [],  //  不可更改选择状态的用户id列表
+        creatorIdList: [],  //  任务创建者的id列表
         success: function () {},  //  点击确定按钮的回调
         cancel: function () {},  //  点击取消按钮的回调
+        //  -------------------------------------------
+        //  选择框操作的临时存储对象
         localList: [],
-        memberName: '',
-        selectCount: 0,
-        mockList: [
-          {
-            id: 1,
-            name: '刘磊',
-            avatar: 'http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/',
-            isCreator: false
-          },
-          {
-            id: 2,
-            name: '刘浩',
-            avatar: 'http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/',
-            isCreator: true
-          },
-          {
-            id: 3,
-            name: '刘镇武',
-            avatar: 'http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/',
-            isCreator: false
-          }
-        ]
+        localSelectedList: [],
+        nameSearch: ''
       }
     },
     computed: {
       filteredUsers () {
-        var self = this
-        return self.localList.filter(function (staff) {
-          return staff.name.indexOf(self.memberName) !== -1
-        })
+        if (!this.nameSearch) {
+          return this.localList
+        } else {
+          return this.localList.filter(staff => {
+            return staff.name.indexOf(this.nameSearch) !== -1
+          })
+        }
+      },
+      selectedCount () {
+        return this.localSelectedList.length
+      }
+    },
+    mounted () {
+      this.makeLocalList()
+      //  如果通过任意方式跳出页面了，那么关闭当前选择框
+      window.onpopstate = () => {
+        this.selfClose()
       }
     },
     methods: {
-      selfClose (e) {
+      selfClose () {
         window.onpopstate = null
         this.cancel()
         this.$emit('self-close')
-        e.preventDefault()
       },
+      clearNameSearch () {
+        this.nameSearch = ''
+      },
+      /**
+       * 将memberList/selectedIdList/disabledIdList/creatorIdList整合成localList的对象格式。
+       * localList中单个对象的格式如下：
+       * {
+       *   id: 123，
+       *   name: 'aaa',
+       *   avatar: 'xxxxx',
+       *   isSelected: false,
+       *   isDisabled: false,
+       *   isCreator: false,
+       *   orgUser: {}
+       * }
+       * 其中orgUser表示的是memberList中的原始对象的指针，用来方便获取用户的选择，不要修改原始对象中的数据！
+       * @returns {any[]}
+       */
       makeLocalList () {
-        var selectIds = this.selectedList.map(function (obj) {
-          return obj.userId
-        })
-        var ct = 0
-        var list = this.memberList.map(function (mem) {
-          var isSelect = (selectIds.indexOf(mem.userId) !== -1)
-          if (isSelect) {
-            ct += 1
-          }
-          return {
-            id: mem.userId,
+        this.nameSearch = ''
+        this.localSelectedList = []
+        this.localList = this.memberList.map(mem => {
+          const id = mem[this.idAttribute]
+          const isSelect = this.selectedIdList.indexOf(id) !== -1
+          const isDisabled = this.disabledIdList.indexOf(id) !== -1
+          const isCreator = this.creatorIdList.indexOf(id) !== -1
+          const obj = {
+            id: id,
+            name: mem[this.nameAttribute],
+            avatar: mem[this.avatarAttribute],
             isSelected: isSelect,
-            name: mem.name,
-            avatar: mem.avatar,
+            isDisabled: isDisabled,
+            isCreator: isCreator,
             orgUser: mem
           }
+          if (isSelect) {
+            this.localSelectedList.push(obj)
+          }
+          return obj
         })
-        this.selectCount = ct
-        return list
       },
-      toggleSelect (mem) {
-        if (this.disabledIdList.indexOf(mem.id) !== -1) {
+      changeSelect (mem, isSelect) {
+        if (mem.isDisabled) {
           return
         }
-        var c = this.selectCount + (mem.isSelected ? -1 : 1)
-        if (c >= this.maximum || c < 0) {
+        if (this.selectedCount >= this.maximum) {
           return window.rsqadmg.exec('alert', {message: '超出最大数量限制'})
         }
-        this.selectCount = c
-        mem.isSelected = !mem.isSelected
-      },
-      confirmSelect (e) {
-        var arr = []
-        this.localList.forEach(function (mem) {
-          if (mem.isSelected) {
-            arr.push(mem.orgUser)
+        mem.isSelected = isSelect
+        if (isSelect) {
+          this.localSelectedList.push(mem)
+        } else {
+          const index = this.localSelectedList.indexOf(mem)
+          if (index !== -1) {
+            this.localSelectedList.splice(index, 1)
           }
+        }
+      },
+      confirmSelect () {
+        const arr = this.localSelectedList.map(mem => {
+          return mem.orgUser
         })
         this.success(arr)
         this.selfClose()
-        e.preventDefault()
-      }
-    },
-    attached () {
-      this.localList = this.makeLocalList()
-      var that = this
-      //  如果通过任意方式跳出页面了，那么关闭当前选择框
-      window.onpopstate = function () {
-        that.selfClose()
       }
     }
   }

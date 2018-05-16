@@ -100,6 +100,9 @@
         return this.loginUser.rsqUser.id
       }
     },
+    mounted () {
+      this.changeState1()
+    },
     methods: {
       getFileName (file) {
         if (!file.name) return ''

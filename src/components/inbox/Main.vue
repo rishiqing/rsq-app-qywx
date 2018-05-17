@@ -101,7 +101,7 @@
   }
   .topest{
     background-color: #F8F8F8;
-    height: 10px;
+    height: 20px;
     z-index: 2;
     position: fixed;
     width: 100%;
@@ -110,23 +110,23 @@
     box-sizing: border-box;
     display: block;
     text-align: center;
-    width:1.413rem;
-    height: 0.66rem;
+    width:45px;
+    height: 26px;
     line-height: 0.66rem;
-    border: 1px solid #55A8FD;
     border-radius: 2px;
-    font-size: 15px;
-    color:#55A8FD;
+    font-size: 13px;
+    color:#fff;
     position: absolute;
     margin-top: -0.33rem;
     top: 50%;
     right:0.35rem;
     z-index: 3;
+    line-height: 26px;
+    background-color: #2F7DCD;
   }
   .write{
     line-height: 0.612rem;
-    padding-bottom: 0.4rem;
-    padding-top: 0.4rem;
+    height: 56px;
     border-bottom:1px solid #E3E3E3;
     border-top:1px solid #E3E3E3;
     background: #FFFFFF;
@@ -149,6 +149,7 @@
   .margin-block {
     height: 1.9rem;
     z-index: 1;
+    margin-bottom: 20px
   }
   .input-panel {
     position: fixed;

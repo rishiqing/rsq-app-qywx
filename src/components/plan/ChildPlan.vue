@@ -746,7 +746,7 @@
   .card-top{
     display: flex;
     align-items: center;
-    height: 1.5rem;
+    height: 46px;
     justify-content: space-between;
   }
   .other{
@@ -763,9 +763,7 @@
     position: relative;
     background: white;
     border-radius: 2px;
-    margin: 0.4rem;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-left: 22px;
     transition: 0.1s;
     overflow: hidden;
   }
@@ -889,9 +887,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 1.3rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
+    height: 46px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   .top-sub-plan{
     display: flex;
@@ -922,8 +920,8 @@
     -webkit-overflow-scrolling: touch;
   }
   .card-border{
-    margin-top: 0.3rem;
-    padding-right: 0.7rem;
+    margin-top: 20px;
+    padding-right: 45px;
     border-radius: 2px;
   }
   .card-border:first-child{
@@ -953,7 +951,8 @@
     z-index: 50;
     background-color: white;
     width: 96%;
-    padding-left: 0.3rem;
+    padding-left: 15px;
+    padding-right: 15px;
     box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
   }
 </style>

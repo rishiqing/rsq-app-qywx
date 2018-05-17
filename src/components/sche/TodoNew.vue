@@ -227,8 +227,9 @@
 </script>
 <style lang="scss" scoped>
   .input-title{
-    border-top: 1px solid #DADADA;
-    border-bottom: 1px solid #DADADA;
+    border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
+    margin-top: 10px;
   }
   .router-view{
     height: 100%;
@@ -238,14 +239,14 @@
     height: 100%;
   }
   .firstGroup{
-    margin-top:10px;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+    margin-top:20px;
+    border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .secondGroup{
-    margin-top:10px;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+    margin-top:20px;
+    border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   p{
     font-family: PingFangSC-Regular;
@@ -280,7 +281,7 @@
     position: absolute;
     top:0.55rem;
     right:0.3rem;
-    border: 1px solid #dfdfdf;
+    border: 0.5px solid #D4D4D4;
     background-color: #fdfdfd;
     box-shadow: #dfdfdf 0 0 0 0 inset;
     border-radius: 20px;
@@ -313,4 +314,7 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
+  .btn-wrap {
+    padding: 22px 0.3rem 0;
+  }
 </style>

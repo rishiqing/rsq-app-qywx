@@ -45,35 +45,35 @@ Vue.use(VueTouch)
 Vue.use(weui)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-window.rsqadmg.exec('auth', {
-  success: function (rsqUser, authUser) {
-    store.state.loginUser = {
-      rsqUser: rsqUser,
-      authUser: authUser
-    }
-    //  去掉iOS的回弹效果
-    window.rsqadmg.exec('disableBounce')
-
-    store.state.env.isAddNav = true
-
-    /* eslint-disable no-new */
-    new Vue({
-      el: '#app',
-      router,
-      store,
-      components: { App },
-      template: '<App/>'
-    })
-  },
-  error: function () {
-    alert('验证失败')
-  }
-})
-
-// new Vue({
-//   el: '#app',
-//   router,
-//   store,
-//   template: '<App/>',
-//   components: { App }
+// window.rsqadmg.exec('auth', {
+//   success: function (rsqUser, authUser) {
+//     store.state.loginUser = {
+//       rsqUser: rsqUser,
+//       authUser: authUser
+//     }
+//     //  去掉iOS的回弹效果
+//     window.rsqadmg.exec('disableBounce')
+//
+//     store.state.env.isAddNav = true
+//
+//     /* eslint-disable no-new */
+//     new Vue({
+//       el: '#app',
+//       router,
+//       store,
+//       components: { App },
+//       template: '<App/>'
+//     })
+//   },
+//   error: function () {
+//     alert('验证失败')
+//   }
 // })
+
+new Vue({
+  el: '#app',
+  router,
+  store,
+  components: { App },
+  template: '<App/>'
+})

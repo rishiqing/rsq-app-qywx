@@ -34,6 +34,8 @@ import PlanSubtodoList from 'com/plan/PlanSubtodoList'
 import PlanTodoEditSubtodo from 'com/plan/PlanTodoEditSubtodo'
 import PlanTodoComment from 'com/plan/PlanTodoComment'
 
+import SelectRepeatDemo from 'com/demo/TodoRepeatDemo'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -270,6 +272,11 @@ const router = new Router({
       name: 'me',
       component: Me,
       meta: {requireAuth: true}
+    },
+    {
+      path: '/selectRepeatDemo',
+      name: 'selectRepeatDemo',
+      component: SelectRepeatDemo
     },
     {
       path: '/login',

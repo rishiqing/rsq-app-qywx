@@ -6,69 +6,106 @@
     <div class="popup popup-bottom">
       <div class="header">
         <v-touch
-          v-show="!isRootPage"
-          tag="span"
-          class="popup-button u-pull-left"
-          @tap="tapBack($event)">
-          <i class="icon2-arrow-left" />
-        </v-touch>
-        <v-touch
-          v-show="isRootPage"
           tag="span"
           class="popup-button u-pull-left"
           @tap="tapCancel($event)">
           取消
         </v-touch>
         <v-touch
-          v-show="isRootPage"
           tag="span"
           class="popup-button u-pull-right"
           @tap="tapConfirm($event)">
           确定
         </v-touch>
-        <p class="popup-title">{{ currentPage.title }}</p>
+        <p class="popup-title">重复频率</p>
+      </div>
+      <div class="tab-panel">
+        <v-touch
+          class="tab-bg"
+          @tap="setTab('everyDay')">
+          <span
+            :class="{'is-tab-active': localType === 'everyDay'}"
+            class="tab-text">
+            每天
+          </span>
+        </v-touch>
+        <v-touch
+          class="tab-bg"
+          @tap="setTab('everyWeek')">
+          <span
+            :class="{'is-tab-active': localType === 'everyWeek'}"
+            class="tab-text" >
+            每周
+          </span>
+        </v-touch>
+        <v-touch
+          class="tab-bg"
+          @tap="setTab('everyMonth')">
+          <span
+            :class="{'is-tab-active': localType === 'everyMonth'}"
+            class="tab-text" >
+            每月
+          </span>
+        </v-touch>
+        <v-touch
+          class="tab-bg"
+          @tap="setTab('everyYear')">
+          <span
+            :class="{'is-tab-active': localType === 'everyYear'}"
+            class="tab-text" >
+            每年
+          </span>
+        </v-touch>
       </div>
       <div class="body">
         <div
-          v-show="isRootPage">
-          <ul class="repeat-list">
-            <li>
-              <v-touch
-                class="list-item-info"
-                @tap="showSubPage('subType')">
-                <p class="list-item-key">重复方式</p>
-                <p class="list-item-value">每周</p>
-              </v-touch>
-            </li>
-            <li>
-              <div
-                class="list-item-info"
-                @tap="showSubPage('subPattern')">
-                <p class="list-item-key">重复形式</p>
-                <p class="list-item-value">周三、周五</p>
-              </div>
-            </li>
-            <li>
-              <div
-                class="list-item-info"
-                @tap="showSubPage('subDeadline')">
-                <p class="list-item-key">截止日期</p>
-                <p class="list-item-value">永不结束</p>
-              </div>
-            </li>
+          v-show="localType === 'everyDay'"
+          class="body-img">
+          <img src="../../../assets/img/repeat-day.png">
+        </div>
+        <div
+          v-show="localType === 'everyWeek'"
+          class="body-list" >
+          <ul>
+            <v-touch
+              v-for="d in days"
+              :key="d.val"
+              tag="li"
+              @tap="tapSelect(d)">
+              <span>{{ d.text }}</span>
+              <i
+                v-show="d.selected"
+                class="icon2-selected is-finish"/>
+            </v-touch>
           </ul>
         </div>
-        <div v-show="currentPage === pages.subType">
-          重复方式
+        <div
+          v-show="localType === 'everyMonth'"
+          class="body-table" >
+          <table class="dp-table">
+            <tbody>
+              <tr
+                v-for="(weekArray, index) in calDate"
+                :key="index">
+                <v-touch
+                  v-for="day in weekArray"
+                  :key="day.val"
+                  tag="td"
+                  @tap="tapSelect(day)">
+                  <div
+                    :class="{'dp-selected': day.selected, 'dp-is-last': day.isLast}"
+                    class="dp-day">
+                    {{ day.text }}
+                  </div>
+                </v-touch>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div v-show="currentPage === pages.subPattern && localType === 'everyWeek'">
-          重复形式——每周重复
-        </div>
-        <div v-show="currentPage === pages.subPattern && localType === 'everyMonth'">
-          重复形式——每月重复
-        </div>
-        <div v-show="currentPage === pages.subDeadline">
-          截止日期
+        <div
+          v-show="localType === 'everyYear'"
+          class="body-img">
+          <img src="../../../assets/img/repeat-year.png">
         </div>
       </div>
       <div class="footer">
@@ -79,28 +116,15 @@
 </template>
 <script>
   import dateUtil from 'ut/dateUtil'
-
-  const pages = {
-    //  显示的弹框的类型，不同的弹框对应不同的样式。
-    index: {title: '自定义重复'},
-    subType: {title: '重复方式'},
-    subPattern: {title: '重复形式'},
-    subDeadline: {title: '截止日期'}
-  }
   export default{
     data () {
       return {
-        //  --------------------------------------
-        //  传递过来的参数，不要改变
         baseNumTime: new Date().getTime(),
         repeatType: '',
         repeatStrTimeArray: [],
         isLastDate: false,
 
-        //  --------------------------------------
-        //  参数本地要用的一些参数,
-        pages: pages,
-        currentPage: pages.index,
+        localType: 'everyDay',  //  week or month
         dayName: ['日', '一', '二', '三', '四', '五', '六'],
         days: [
           {val: 1, text: '周一', selected: false},
@@ -145,15 +169,11 @@
           {val: 31, text: '31', selected: false},
           {val: 32, text: '最后一天', selected: false, isLast: true}
         ],
-        localType: 'everyDay',  //  week or month
         localStrTimeArray: [],
         localIsLastDate: false
       }
     },
     computed: {
-      isRootPage () {
-        return this.currentPage === pages.index
-      },
       calDate () {
         const d = this.dates
         return [
@@ -197,9 +217,6 @@
       this.initData()
     },
     methods: {
-      showSubPage (type) {
-        this.currentPage = pages[type]
-      },
       initData () {
         this.setTab(this.repeatType || 'everyDay')
       },
@@ -226,10 +243,6 @@
         var res = this.getResult()
         this.$emit('select-user-repeat-confirm', res)
         this.selfClose()
-        e.preventDefault()
-      },
-      tapBack (e) {
-        this.currentPage = pages.index
         e.preventDefault()
       },
       setTab (tb) {
@@ -343,24 +356,38 @@
     .header {
       font-size: 0.453rem; height: 1.07rem; line-height: 1.07rem; padding: 0 0.293rem;
       border-bottom: 1px solid #E0E0E0; overflow: hidden;
-      background: #FDFDFD;
     }
     .popup-title {text-align: center; color: #3D3D3D;}
     .popup-button {color: #007AFF;}
-    .body {}
-    .repeat-list {}
-    .repeat-list li {
-      padding-left: 15px;
+    .tab-panel {
+      font-size: 0.4rem; color: #8C8C8C; height: 1.17rem; line-height: 1.17rem;
+      border-bottom: 1px solid #E0E0E0; overflow: hidden; padding: 0 1.2rem;
     }
-    .list-item-info {
-      border-bottom: 1px solid #E3E3E3;
+    .tab-bg {
+      float: left; width: 25%; overflow: hidden;text-align: center;
     }
-    .list-item-info p.list-item-key {
-      font-size: 14px; color: #9B9B9B;padding: 12px 0 8px;line-height:22px;
+    .is-tab-active {color: #55A8FD;}
+    .body {height: 5.85rem;overflow: auto;}
+    .body-list {font-size: 0.453rem; color: #333333;}
+    .body-list li:first-child {border-top: 1px solid #E0E0E0;}
+    .body-list li {
+      position: relative;
+      box-sizing: border-box;
+      padding: 0 0.293rem; height: 1.17rem; line-height: 1.17rem;
+      border-bottom: 1px solid #E0E0E0; overflow: hidden;
     }
-    .list-item-info p.list-item-value {
-      font-size: 17px; color: #000000;padding-bottom: 14px;line-height:24px;
+    .body-table {
+      box-sizing: border-box; width: 100%; height: 100%; padding: 0.2rem 0.4rem;
+      font-size: 0.32rem; color: #666666;
     }
+    .body-table table {width:100%; height: 100%;}
+    .body-table table td {position: relative;}
+    .dp-day {margin:0 auto;width:30px;height:30px;line-height:30px;text-align: center;border-radius: 50%;}
+    div.dp-selected {background: #55A8FD; color:#fff;}
+    .dp-is-last {
+      position: absolute; top: 50%; left: 50%; width: 50px;
+      height: 30px; line-height: 30px;
+      margin-left: -10px; margin-top: -15px;font-size: 12px;}
     .footer {
       background: #FDFDFF; color: #3D3D3D; font-size: 0.347rem;padding: 0 0.293rem;
       height: 45px; line-height: 45px; border-top: 1px solid #E0E0E0;
@@ -369,6 +396,20 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .is-finish{
+      position:absolute;
+      right:0.63rem;
+      top:0.33rem;
+      color: #55A8FD;
+      font-weight: bold;
+    }
+    .body-img {
+      position:relative; height:100%; text-align: center;
+    }
+    .body-img > img {
+      position: absolute;margin: auto;
+      top: 0;right: 0;left: 0;bottom: 0;
     }
   }
 </style>

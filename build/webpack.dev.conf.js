@@ -34,6 +34,8 @@ module.exports = merge(baseWebpackConfig, {
       ossRegion: config.dev.aliOSS.region,
       ossBucket: config.dev.aliOSS.bucket,
       ossRoot: config.dev.aliOSS.root,
+      ossImageBucket: config.dev.aliOSS.imageBucket,
+      ossKanbanCoverImagePath: config.dev.aliOSS.kanbanCoverImagePath,
       version: config.dev.version,
       filename: 'index.html',
       template: 'index.html',

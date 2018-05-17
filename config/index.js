@@ -46,7 +46,9 @@ module.exports = {
     aliOSS: {
       region: 'oss-cn-beijing',
       bucket: 'rishiqing-file',
-      root: 'dingtalk/'
+      root: 'dingtalk/',
+      imageBucket: 'rishiqing-images',
+      kanbanCoverImagePath: 'cover/custom/kanban/'
     },
     version: 2000000
   },
@@ -76,7 +78,9 @@ module.exports = {
     aliOSS: {
       region: 'oss-cn-beijing',
       bucket: 'rishiqing-file',
-      root: 'dingtalk/'
+      root: 'dingtalk/',
+      imageBucket: 'rishiqing-images',
+      kanbanCoverImagePath: 'cover/custom/kanban/'
     },
     version: 2000000
   }

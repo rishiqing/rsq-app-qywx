@@ -29,46 +29,139 @@
         <p class="popup-title">{{ currentPage.title }}</p>
       </div>
       <div class="body">
-        <div
-          v-show="isRootPage">
+        <div v-show="isRootPage">
           <ul class="repeat-list">
             <li>
               <v-touch
                 class="list-item-info"
                 @tap="showSubPage('subType')">
                 <p class="list-item-key">重复方式</p>
-                <p class="list-item-value">每周</p>
+                <p class="list-item-value">{{ repeatTypeText }}</p>
               </v-touch>
             </li>
             <li>
-              <div
+              <v-touch
                 class="list-item-info"
                 @tap="showSubPage('subPattern')">
                 <p class="list-item-key">重复形式</p>
-                <p class="list-item-value">周三、周五</p>
-              </div>
+                <p class="list-item-value">{{ repeatPatternText }}</p>
+              </v-touch>
             </li>
             <li>
-              <div
+              <v-touch
                 class="list-item-info"
                 @tap="showSubPage('subDeadline')">
                 <p class="list-item-key">截止日期</p>
-                <p class="list-item-value">永不结束</p>
-              </div>
+                <p class="list-item-value">{{ deadlineText }}</p>
+              </v-touch>
             </li>
           </ul>
         </div>
         <div v-show="currentPage === pages.subType">
-          重复方式
+          <ul class="repeat-list">
+            <li>
+              <v-touch
+                class="list-item-info single-line"
+                @tap="tapRepeatType('everyDay')">
+                <span>每天</span>
+                <i
+                  v-show="localType === 'everyDay'"
+                  class="icon2-selected" />
+              </v-touch>
+            </li>
+            <li>
+              <v-touch
+                class="list-item-info single-line"
+                @tap="tapRepeatType('everyWeek')">
+                <span>每周</span>
+                <i
+                  v-show="localType === 'everyWeek'"
+                  class="icon2-selected" />
+              </v-touch>
+            </li>
+            <li>
+              <v-touch
+                class="list-item-info single-line"
+                @tap="tapRepeatType('everyMonth')">
+                <span>每月</span>
+                <i
+                  v-show="localType === 'everyMonth'"
+                  class="icon2-selected" />
+              </v-touch>
+            </li>
+            <li>
+              <v-touch
+                class="list-item-info single-line"
+                @tap="tapRepeatType('everyYear')">
+                <span>每年</span>
+                <i
+                  v-show="localType === 'everyYear'"
+                  class="icon2-selected" />
+              </v-touch>
+            </li>
+          </ul>
         </div>
         <div v-show="currentPage === pages.subPattern && localType === 'everyWeek'">
-          重复形式——每周重复
+          <div class="week-panel">
+            <div class="week-day-line">
+              <v-touch
+                v-for="d in calDay[0]"
+                :key="d.val"
+                :class="{'selected': d.selected}"
+                class="week-day"
+                @tap="tapWeekDay(d)">
+                周{{ d.text }}
+              </v-touch>
+            </div>
+            <div class="week-day-line">
+              <v-touch
+                v-for="d in calDay[1]"
+                :key="d.val"
+                :class="{'selected': d.selected}"
+                class="week-day"
+                @tap="tapWeekDay(d)">
+                周{{ d.text }}
+              </v-touch>
+            </div>
+          </div>
         </div>
         <div v-show="currentPage === pages.subPattern && localType === 'everyMonth'">
-          重复形式——每月重复
+          <div class="body-table">
+            <table class="dp-table">
+              <tr
+                v-for="(weekArray, index) in calDate"
+                :key="index">
+                <v-touch
+                  v-for="day in weekArray"
+                  :key="day.val"
+                  tag="td"
+                  @tap="tapSelect(day)">
+                  <div
+                    :class="{'dp-selected': day.selected, 'dp-is-last': day.isLast}"
+                    class="dp-day">
+                    {{ day.text }}
+                  </div>
+                </v-touch>
+              </tr>
+            </table>
+          </div>
         </div>
         <div v-show="currentPage === pages.subDeadline">
-          截止日期
+          <r-plain-date-picker
+            :focus-date-number="localDeadline"
+            :selected-date-number="localDeadline ? [localDeadline] : []"
+            @date-select-changed="tapChangeDeadline"/>
+          <div class="no-limit">
+            <span>永不结束</span>
+            <v-touch
+              class="checkbox-wrap"
+              @tap="toggleDeadline">
+              <input
+                :checked="!localDeadline"
+                class="mui-switch-deadline"
+                type="checkbox">
+            </v-touch>
+          </div>
         </div>
       </div>
       <div class="footer">
@@ -78,7 +171,9 @@
   </div>
 </template>
 <script>
+  import moment from 'moment'
   import dateUtil from 'ut/dateUtil'
+  import PlainDatePicker from 'com/pub/PlainDatePicker'
 
   const pages = {
     //  显示的弹框的类型，不同的弹框对应不同的样式。
@@ -87,7 +182,14 @@
     subPattern: {title: '重复形式'},
     subDeadline: {title: '截止日期'}
   }
+  const EVERY_DAY = 'everyDay'
+  const EVERY_WEEK = 'everyWeek'
+  const EVERY_MONTH = 'everyMonth'
+  const EVERY_YEAR = 'everyYear'
   export default{
+    components: {
+      'r-plain-date-picker': PlainDatePicker
+    },
     data () {
       return {
         //  --------------------------------------
@@ -103,13 +205,13 @@
         currentPage: pages.index,
         dayName: ['日', '一', '二', '三', '四', '五', '六'],
         days: [
-          {val: 1, text: '周一', selected: false},
-          {val: 2, text: '周二', selected: false},
-          {val: 3, text: '周三', selected: false},
-          {val: 4, text: '周四', selected: false},
-          {val: 5, text: '周五', selected: false},
-          {val: 6, text: '周六', selected: false},
-          {val: 0, text: '周日', selected: false}
+          {val: 1, text: '一', selected: false},
+          {val: 2, text: '二', selected: false},
+          {val: 3, text: '三', selected: false},
+          {val: 4, text: '四', selected: false},
+          {val: 5, text: '五', selected: false},
+          {val: 6, text: '六', selected: false},
+          {val: 0, text: '日', selected: false}
         ],
         dates: [
           {val: 1, text: '1', selected: false},
@@ -145,14 +247,22 @@
           {val: 31, text: '31', selected: false},
           {val: 32, text: '最后一天', selected: false, isLast: true}
         ],
-        localType: 'everyDay',  //  week or month
+        localType: EVERY_DAY,  //  week or month
         localStrTimeArray: [],
-        localIsLastDate: false
+        localIsLastDate: false,
+        localDeadline: null  //  对应后台model的repeatOverDate字段
       }
     },
     computed: {
       isRootPage () {
         return this.currentPage === pages.index
+      },
+      calDay () {
+        const d = this.days
+        return [
+          [d[0], d[1], d[2], d[3]],
+          [d[4], d[5], d[6]]
+        ]
       },
       calDate () {
         const d = this.dates
@@ -164,31 +274,91 @@
           [d[28], d[29], d[30], d[31]]
         ]
       },
-      selectedText () {
-        var sel = this.getSelected()
-        var valStr
+      selectedStruct () {
+        const list = this.localType === EVERY_WEEK ? this.days : this.dates
+        return list.filter(d => {
+          return d.selected
+        })
+      },
+      repeatTypeText () {
+        let str = ''
         switch (this.localType) {
-          case 'everyDay':
+          case EVERY_DAY:
+            str = '每天'
+            break
+          case EVERY_WEEK:
+            str = '每周'
+            break
+          case EVERY_MONTH:
+            str = '每月'
+            break
+          case EVERY_YEAR:
+            str = '每年'
+            break
+          default:
+            break
+        }
+        return str
+      },
+      repeatPatternText () {
+        let str = ''
+        switch (this.localType) {
+          case EVERY_DAY:
+            str = '每天'
+            break
+          case EVERY_WEEK:
+            str = this.selectWeekText
+            break
+          case EVERY_MONTH:
+            str = this.selectMonthText
+            break
+          case EVERY_YEAR:
+            str = '每年'
+            break
+          default:
+            break
+        }
+        return str
+      },
+      deadlineText () {
+        //  'YYYY-MM-DD HH:mm:ss'
+        return this.localDeadline ? moment(this.localDeadline).format('直到YYYY年MM月DD日') : '永不结束'
+      },
+      selectedText () {
+        const sel = this.selectedStruct
+        let valStr
+        switch (this.localType) {
+          case EVERY_DAY:
             valStr = '每天重复'
             break
-          case 'everyWeek':
-            valStr = sel.length === 0 ? '' : '每周' + sel.map(d => { return this.dayName[d.val] }).join('，') + '重复'
+          case EVERY_WEEK:
+            valStr = sel.length === 0 ? '' : '每' + this.selectWeekText + '重复'
             break
-          case 'everyMonth':
-            valStr = sel.length === 0 ? '' : '每月' + sel
-              .filter(function (d) { return !d.isLast })
-              .map(function (d) { return d.text }).join('，') + '号'
-            //  如果最后一天被选中，则特殊处理
-            if (this.dates[31].selected) {
-              valStr += ', 最后一天'
-            }
+          case EVERY_MONTH:
+            valStr = sel.length === 0 ? '' : '每月' + this.selectMonthText
             valStr += '重复'
             break
-          case 'everyYear':
+          case EVERY_YEAR:
             valStr = '每年' + '' + '重复'
             break
           default:
             break
+        }
+        return valStr
+      },
+      selectWeekText () {
+        return this.selectedStruct.map(d => { return '周' + this.dayName[d.val] }).join('，')
+      },
+      selectMonthText () {
+        let valStr = this.selectedStruct
+          .filter(function (d) { return !d.isLast })
+          .map(function (d) { return d.text + '日' }).join('，')
+        //  如果最后一天被选中，则特殊处理
+        if (this.dates[31].selected) {
+          if (valStr) {
+            valStr += '，'
+          }
+          valStr += '最后一天'
         }
         return valStr
       }
@@ -197,54 +367,33 @@
       this.initData()
     },
     methods: {
-      showSubPage (type) {
-        this.currentPage = pages[type]
-      },
+      /**
+       * 初始化分为两步：
+       * 1  重置所有的本地model
+       * 2  设置本地model的值，如果为空，那么就设置默认值
+       */
       initData () {
-        this.setTab(this.repeatType || 'everyDay')
+        this.resetData()
+        this.renderData(this.repeatType || EVERY_DAY)
       },
       resetData () {
         this.localType = ''
         this.localStrTimeArray = []
         this.localIsLastDate = false
+        this.localDeadline = null
       },
-      getSelected () {
-        var list = this.localType === 'everyWeek' ? this.days : this.dates
-        return list.filter(d => {
-          return d.selected
-        })
-      },
-      selfClose () {
-        this.$emit('self-close')
-      },
-      tapCancel (e) {
-        this.$emit('select-user-repeat-cancel')
-        this.selfClose()
-        e.preventDefault()
-      },
-      tapConfirm (e) {
-        var res = this.getResult()
-        this.$emit('select-user-repeat-confirm', res)
-        this.selfClose()
-        e.preventDefault()
-      },
-      tapBack (e) {
-        this.currentPage = pages.index
-        e.preventDefault()
-      },
-      setTab (tb) {
+      renderData (tb) {
         //  设置localType
-        this.resetData()
         this.localType = tb
         switch (tb) {
-          case 'everyDay':
-          case 'everyYear':
+          case EVERY_DAY:
+          case EVERY_YEAR:
             this.selectSingleDay()
             break
-          case 'everyWeek':
+          case EVERY_WEEK:
             this.selectDefaultDay()
             break
-          case 'everyMonth':
+          case EVERY_MONTH:
             this.selectDefaultDate()
             break
           default:
@@ -255,7 +404,7 @@
         this.localStrTimeArray = [dateUtil.dateNum2Text(this.baseNumTime)]
       },
       selectDefaultDay () {
-        var arr = this.repeatStrTimeArray.map(t => {
+        const arr = this.repeatStrTimeArray.map(t => {
           return new Date(dateUtil.dateText2Num(t)).getDay()
         })
         this.days.forEach(d => {
@@ -263,7 +412,7 @@
         })
       },
       selectDefaultDate () {
-        var arr = this.repeatStrTimeArray.map(t => {
+        const arr = this.repeatStrTimeArray.map(t => {
           return new Date(dateUtil.dateText2Num(t)).getDate()
         })
         this.dates.forEach(d => {
@@ -271,11 +420,69 @@
         })
         this.dates[this.dates.length - 1].selected = this.isLastDate
       },
+      showSubPage (type) {
+        if (type === 'subPattern' && this.localType !== EVERY_WEEK && this.localType !== EVERY_MONTH) {
+          return
+        }
+        this.currentPage = pages[type]
+      },
+      tapWeekDay (d) {
+        if (d.selected) {
+          //  如果是唯一的一天，则不允许取消
+          if (this.selectedStruct.length <= 1) {
+            return
+          }
+        }
+        d.selected = !d.selected
+      },
+      tapRepeatType (type) {
+        this.resetData()
+        this.renderData(type)
+      },
+      tapChangeDeadline (arr) {
+        this.localDeadline = arr.length === 0 ? null : arr[0]
+      },
+      tapCancel (e) {
+        this.$emit('select-user-repeat-cancel')
+        this.selfClose()
+        e.preventDefault()
+      },
+      tapConfirm (e) {
+        const res = this.getResult()
+        this.$emit('select-user-repeat-confirm', res)
+        this.selfClose()
+        e.preventDefault()
+      },
+      tapBack (e) {
+        this.currentPage = pages.index
+        e.preventDefault()
+      },
+      tapSelect (d) {
+        if (d.selected) {
+          const list = this.localType === EVERY_WEEK ? this.days : this.dates
+          //  如果是唯一的一天，则不允许取消
+          const sel = list.filter(function (l) {
+            return l.selected
+          })
+          if (sel.length <= 1) return
+        }
+        d.selected = !d.selected
+      },
+      toggleDeadline (e) {
+        // alert(111)
+        // if (this.localDeadline) {
+        //   this.localDeadline = null
+        // }
+        e.preventDefault()
+      },
+      selfClose () {
+        this.$emit('self-close')
+      },
       getSelectedDayValue () {
         const dayMills = 24 * 3600 * 1000
-        var selected = this.getSelected()
-        var base = new Date(this.baseNumTime)
-        var baseDay = base.getDay() === 0 ? 7 : base.getDay()  //  周日的getDay()为0，转换为7
+        const selected = this.selectedStruct
+        const base = new Date(this.baseNumTime)
+        const baseDay = base.getDay() === 0 ? 7 : base.getDay()  //  周日的getDay()为0，转换为7
         return selected.map(s => {
           const sDay = s.val === 0 ? 7 : s.val
           const offset = sDay >= baseDay ? 0 : 7
@@ -283,9 +490,9 @@
         })
       },
       getSelectedDateValue () {
-        var selected = this.getSelected()
-        var base = dateUtil.dateNum2Text(this.baseNumTime).substr(0, 6)
-        var result = []
+        const selected = this.selectedStruct
+        const base = dateUtil.dateNum2Text(this.baseNumTime).substr(0, 6)
+        const result = []
         for (var i = 0; i < selected.length; i++) {
           const s = selected[i]
           if (s.val === 32) continue
@@ -293,32 +500,21 @@
         }
         return result
       },
-      tapSelect (d) {
-        if (d.selected) {
-          var list = this.localType === 'everyWeek' ? this.days : this.dates
-          //  如果是唯一的一天，则不允许取消
-          var sel = list.filter(function (l) {
-            return l.selected
-          })
-          if (sel.length <= 1) return
-        }
-        d.selected = !d.selected
-      },
       getNumTimeArray () {
         switch (this.localType) {
-          case 'everyDay':
-          case 'everyYear':
+          case EVERY_DAY:
+          case EVERY_YEAR:
             return [dateUtil.dateNum2Text(this.baseNumTime)]
-          case 'everyWeek':
+          case EVERY_WEEK:
             return this.getSelectedDayValue()
-          case 'everyMonth':
+          case EVERY_MONTH:
             return this.getSelectedDateValue()
           default:
             break
         }
       },
       checkUseLast () {
-        return this.localType === 'everyMonth' && this.dates[this.dates.length - 1].selected
+        return this.localType === EVERY_MONTH && this.dates[this.dates.length - 1].selected
       },
       getResult () {
         return {
@@ -355,11 +551,76 @@
     .list-item-info {
       border-bottom: 1px solid #E3E3E3;
     }
+    .repeat-list li:last-child .list-item-info {
+      border-bottom: none;
+    }
     .list-item-info p.list-item-key {
       font-size: 14px; color: #9B9B9B;padding: 12px 0 8px;line-height:22px;
     }
     .list-item-info p.list-item-value {
       font-size: 17px; color: #000000;padding-bottom: 14px;line-height:24px;
+    }
+    .repeat-list li .single-line {
+      position: relative;height: 56px;line-height: 56px;color: #000000;
+    }
+    .single-line i.icon2-selected {
+      position: absolute; font-size: 20px;top: 18px; right: 15px;color: #55A8FD;
+    }
+    .week-panel {
+      padding: 48px 0 16px;
+    }
+    .week-day-line {
+      padding-bottom: 32px;
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: center;
+    }
+    .week-day {
+      box-sizing: border-box;
+      margin: 0 15px;
+      width: 48px;height: 48px;
+      border-radius: 50%;
+      background: #FFFFFF;color: #48A1FA;border: solid 1px #48A1FA;
+      text-align: center;line-height: 48px;
+    }
+    .week-day.selected {
+      background: #48A1FA;color: #FFFFFF;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    table td, table th {
+      border: 1px solid #EAEAEA;
+    }
+    table tr:first-child th {
+      border-top: 0;
+    }
+    table tr:last-child td {
+      border-bottom: 0;
+    }
+    table tr td:first-child,
+    table tr th:first-child {
+      border-left: 0;
+    }
+    table tr td:last-child,
+    table tr th:last-child {
+      border-right: 0;
+    }
+    .body-table {font-size: 14px; color: #3D3D3D;width: 100%;}
+    .dp-table {width:100%;}
+    .dp-table td {position: relative;}
+    .dp-day {margin:0 auto;width: 100%;height:44px;line-height:44px;text-align: center;}
+    div.dp-selected {background: #55A8FD; color:#FFFFFF;}
+    .dp-is-last {
+      position: absolute; top: 0; left: 0; width: 200%;
+      height: 44px; line-height: 44px;}
+    .no-limit {
+      position: relative;
+      height: 48px;line-height: 48px;padding: 0 15px;font-size: 17px;color: #000000;
+      border-top: solid 1px #EAEAEA;
+    }
+    .checkbox-wrap {
+      position: absolute;top: 8px;right: 15px;
     }
     .footer {
       background: #FDFDFF; color: #3D3D3D; font-size: 0.347rem;padding: 0 0.293rem;
@@ -370,5 +631,33 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    input.mui-switch-deadline {
+      display: block;
+      width: 50px;
+      height: 31px;
+      border: 1px solid #dfdfdf;
+      background-color: #fdfdfd;
+      box-shadow: #dfdfdf 0 0 0 0 inset;
+      border-radius: 20px;
+      background-clip: content-box;
+      -webkit-appearance: none;
+      user-select: none;
+      outline: none; }
+    input.mui-switch-deadline:before {
+      content: '';
+      width: 29px;
+      height: 30px;
+      position: absolute;
+      top: 0px;
+      left: 0;
+      border-radius: 20px;
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
+    input.mui-switch-deadline:checked {
+      border-color: #55A8FD;
+      box-shadow: #55A8FD 0 0 0 16px inset;
+      background-color: #55A8FD; }
+    input.mui-switch-deadline:checked:before {
+      left: 21px; }
   }
 </style>

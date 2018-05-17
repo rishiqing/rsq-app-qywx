@@ -61,6 +61,8 @@ var webpackConfig = merge(baseWebpackConfig, {
       ossRegion: config.build.aliOSS.region,
       ossBucket: config.build.aliOSS.bucket,
       ossRoot: config.build.aliOSS.root,
+      ossImageBucket: config.dev.aliOSS.imageBucket,
+      ossKanbanCoverImagePath: config.dev.aliOSS.kanbanCoverImagePath,
       filename: process.env.NODE_ENV === 'testing'
         ? 'index.html'
         : config.build.index,

@@ -6,16 +6,28 @@
       class="create-plan"
       placeholder="计划名称">
     <div class="wrap-plan-member">
-      <span class="plan-member-word">计划成员</span>
-      <v-touch
-        class="plan-member"
-        @tap="showNativeMemberEdit">
-        <span class="people-number">{{ nameConcat }}{{ selectedLocalList.length > 3 ? '等':'' }}{{ selectedLocalList.length }}人</span>
-        <i class="icon2-arrow-right-small arrow-right"/>
-      </v-touch>
+      <div class="plan-member-word">
+        <span>计划成员</span><span class="count">{{ selectedLocalList.length }}人</span>
+      </div>
+      <div class="plan-member">
+        <img
+          v-for="(avatar,index) in avatarConcat"
+          :key="index"
+          :src="avatar"
+          class="avatar"
+        >
+        <v-touch
+          class="add"
+          @tap="showNativeMemberEdit">
+          <img
+            src="../../assets/img/card.png"
+            class="avatar"
+          >
+        </v-touch>
+      </div>
     </div>
     <div class="wrap-most">
-      <div class="plan-templ">计划模板:</div>
+      <div class="plan-templ">计划模板</div>
       <div class="wrap-all">
         <div
           v-for="item in imgs"
@@ -80,11 +92,10 @@
       imgs () {
         return this.$store.state.plan.coverList
       },
-      nameConcat () {
-        const arr = this.selectedLocalList.length <= 3 ? this.selectedLocalList : this.selectedLocalList.slice(0, 3)
-        return arr.map(function (o) {
-          return o.name
-        }).join('、')
+      avatarConcat () {
+        return this.selectedLocalList.map(function (o) {
+          return o.avatar
+        })
       }
     },
     created () {
@@ -169,8 +180,12 @@
   }
 </script>
 <style lang="scss" scoped>
-  .plan-member avatar{
+  .plan-member .avatar{
     margin-right: 0.3rem;
+    width: 0.906rem;
+    height: 0.906rem;
+    border-radius: 50%;
+    margin: 0.48rem 0.213rem 0 0.213rem;
   }
   input::placeholder{
     color: #B1B1B1;
@@ -189,22 +204,29 @@
     color: rgba(25,31,37,0.56);
   }
   .plan-member-word{
+    display: flex;
+    justify-content: space-between;
     font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #333333;
+    font-size: 14px;
+    line-height: 1rem;
+    color: #9B9B9B;
+    height: 1rem;
+    width: 100%;
+    border-bottom: 1px solid #D9D9D9;
   }
   .wrap-plan-member{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-     height: 1.466rem;
+    align-items: left;
     background-color: white;
     margin-top: 0.3rem;
     padding-left: 0.3rem;
     padding-right: 0.2rem;
+    flex-direction:column;
   }
   .plan-member{
-    display: flex;
+    max-width: 100%;
+    width: 100%;
     align-items:  center;
   }
   .arrow-right{
@@ -233,8 +255,9 @@
   }
   .plan-templ{
     font-family: PingFangSC-Regular;
-    font-size: 16px;
-    color: #333333;
+    font-size: 17px;
+    color: #000000;
+    line-height: 24px;
     margin-left: 0.3rem;
   }
   .templ-name{
@@ -264,5 +287,11 @@
     margin-top: 0.2rem;
     font-family: PingFangSC-Regular;
     font-size: 17px;
+  }
+  .count{
+    align-items: right;
+  }
+  .add{
+    display: inline-block;
   }
 </style>

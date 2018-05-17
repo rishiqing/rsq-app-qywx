@@ -1,43 +1,31 @@
 <template>
   <div class="edit-time">
-    <!--<ul class="edit-time-all-day">-->
-    <!--<li>-->
-    <!--<span>全天</span>-->
-    <!--<v-touch class="switch-wrapper" @tap="toggleAllDay">-->
-    <!--&lt;!&ndash;v-touch有bug，暂时这样处理&ndash;&gt;-->
-    <!--<input class="mui-switch-time" type="checkbox" :checked="isChecked" @click.prevent="empty">-->
-    <!--</v-touch>-->
-    <!--</li>--><!--</ul>-->
-    <ul class="sec">
-      <v-touch tag="li">
+    <div class="sec">
+      <v-touch class="chosetime">
         <div @click="setStartTime">
-          <span class="list-key">开始时间</span>
-          <span class="list-value">
-            {{ clock.startTime }}
-          </span>
-          <i class="icon2-arrow-right-small arrow"/>
+          <div class="list-key">开始时间</div>
+          <div class="list-value">
+            {{ clock.startTime ? clock.startTime : '点击设置' }}
+          </div>
         </div>
       </v-touch>
-      <v-touch tag="li">
+      <i class="icon2-arrow-right-small arrow ab"/>
+      <v-touch class="chosetime">
         <div
           class="setEndTime"
-          @click="setEndTime">
-          <span class="list-key">结束时间</span>
-          <span class="list-value">
-            {{ clock.endTime }}
-          </span>
-          <i class="icon2-arrow-right-small arrow"/>
+          @click="setStartTime">
+          <div class="list-key">结束时间</div>
+          <div class="list-value">
+            {{ clock.endTime ? clock.endTime : '点击设置' }}
+          </div>
         </div>
       </v-touch>
-    </ul>
+    </div>
     <ul class="last">
       <v-touch
         tag="li"
         @tap="gotoAlert">
-        <span class="list-key">提醒</span>
-        <span class="list-value">
-          {{ alertText }}
-        </span>
+        <span class="list-key">{{ alertText }}</span>
         <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
@@ -160,15 +148,22 @@
       setStartTime () {
         var that = this
         const defStartTime = that.clock.startTime ? that.clock.startTime : moment().format('HH:mm')
-        window.rsqadmg.exec('timePicker', {
+        const defEndTime = that.clock.endTime ? that.clock.endTime : ''
+        window.rsqadmg.exec('timePicker2', {
           strInit: defStartTime,
-          success (result) {
-            if (that.clock.endTime && moment(result.value, 'HH:mm').isAfter(moment(that.clock.endTime, 'HH:mm'))) {
+          strInit2: defEndTime,
+          success (start, end) {
+            if (!start || !end) {
+              window.rsqadmg.exec('alert', {message: '请选择开始与结束时间'})
+              return
+            }
+            if (moment(start, 'HH:mm').isAfter(moment(end, 'HH:mm'))) {
               window.rsqadmg.exec('alert', {message: '开始时间不能晚于结束时间'})
             } else {
-              that.clock.startTime = result.value
+              that.clock.startTime = start
+              that.clock.endTime = end
               that.autoStart = false
-              that.autoChangeTime()
+              // that.autoChangeTime()
             }
           }
         })
@@ -394,12 +389,37 @@
     .sec{
       margin-top:0.231rem ;
       border-bottom:0.5px solid #DADADA;
+      height: 80px;
+      background-color: #fff;
+      text-align: center;
+      position: relative;
+      .chosetime{
+        float: left;
+        width: 50%;
+        height: 100%;
+        .list-key{
+          font-family: PingFangSC-Regular;
+          font-size: 14px;
+          color: #9B9B9B;
+          line-height: 22px;
+          margin-top: 13px;
+          margin-bottom: 6px;
+        }
+        .list-value{
+          font-family: PingFangSC-Regular;
+          font-size: 17px;
+          color: #000000;
+          line-height: 24px;
+        }
+      }
+      .ab{
+          position: absolute;
+          left: 0;
+          top: 50%;
+        }
     }
     .last{
       margin-top:0.391rem ;
-    }
-    .sec>li:last-child{
-      border: none;
     }
     span{
       display: block;
@@ -412,8 +432,6 @@
       max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
       color: #999999;
     }
-    .sec span{}
-    .last span{}
   }
   .date-clear {
     text-align: center;
@@ -423,5 +441,8 @@
     position: absolute;
     width: 100%;
     bottom: 0;
+  }
+  .weui-picker__action{
+    background:red;
   }
 </style>

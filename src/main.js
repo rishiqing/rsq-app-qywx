@@ -1,7 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import 'as/css/index.scss'
-
+import 'as/css/picker2.css'
+import 'as/js/picker.min.js'
 import 'as/js/rsqAdapterManager.js'
 import 'as/js/rsqQywxmAdapter.js'
 // xss漏洞

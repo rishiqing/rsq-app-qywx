@@ -11,6 +11,7 @@ import TodoEditSubtodo from 'com/pub/TodoEditSubtodo'
 import TodoEditTime from 'com/pub/TodoEditTime'
 import TodoEditAlert from 'com/pub/TodoEditAlert'
 import TodoEditDate from 'com/pub/TodoEditDate'
+import SubTodoEditDate from 'com/pub/SubTodoEditDate'
 import TodoEditRepeat from 'com/pub/TodoEditRepeat'
 import TodoComment from 'com/pub/TodoComment'
 import TodoNote from 'com/pub/TodoNote'
@@ -18,6 +19,7 @@ import Me from 'com/me/Main'
 import Kefu from 'com/me/Kefu'
 import Explain from 'com/pub/Explain'
 import SubtodoList from 'com/pub/SubtodoList'
+import SubTodoNew from 'com/pub/SubTodoNew'
 // import NoPermission from 'com/pub/NoPermission'
 import CheckFailure from 'com/pub/CheckFailure'
 import PcEnd from 'com/me/PcEnd'
@@ -25,6 +27,7 @@ import PlanList from 'com/plan/PlanList'
 import PlanNameEdit from 'com/plan/PlanNameEdit'
 import PlanNew from 'com/plan/PlanNew'
 import ChildPlan from 'com/plan/ChildPlan'
+import EditChildPlan from 'com/plan/EditChildPlan'
 import PlanSetting from 'com/plan/PlanSetting'
 import PlanTodoNew from 'com/plan/PlanTodoNew'
 import PlanTodoEdit from 'com/plan/PlanTodoEdit'
@@ -61,7 +64,6 @@ const router = new Router({
       component: Sche,
       meta: {requireAuth: true},
       beforeEnter: (to, from, next) => {
-        // window.rsqadmg.exec('removeItem', store.state.env.version)
         window.rsqadmg.exec('getItem', {
           name: store.state.env.version.name,
           success (p) {
@@ -99,6 +101,13 @@ const router = new Router({
       name: 'todoEditDate',
       component: TodoEditDate,
       meta: {requireAuth: false}
+    },
+    //  子任务日期
+    {
+      path: '/sche/todo/subdate',
+      name: 'SubTodoEditDate',
+      component: SubTodoEditDate,
+      meta: {requireAuth: true}
     },
     //  todo的日期重复页面，用于新增或者编辑日程时候的日期重复设置
     {
@@ -142,6 +151,13 @@ const router = new Router({
       component: SubtodoList,
       meta: {requireAuth: true}
     },
+    //  todo的子任务新建
+    {
+      path: '/sche/todo/:todoId/subtodo/create',
+      name: 'SubTodoNew',
+      component: SubTodoNew,
+      meta: {requireAuth: true}
+    },
     //  todo的子任务的详情页面
     {
       path: '/sche/todo/:todoId/subtodo/:subtodoId',
@@ -171,6 +187,12 @@ const router = new Router({
       path: '/plan/:planId/child-plan',
       name: 'childPlan',
       component: ChildPlan,
+      meta: {requireAuth: true}
+    },
+    {
+      path: '/plan/:planId/edit-child-plan',
+      name: 'editChildPlan',
+      component: EditChildPlan,
       meta: {requireAuth: true}
     },
     //  计划设置页面

@@ -322,12 +322,10 @@ export default {
   },
   deleteChildPlan (props) {
     var path = util.replaceUrlParams(mapping.DELETE_CHILD_PLAN, props)
-    alert(path)
     return new Promise((resolve, reject) => {
       Vue.http.delete(path)
         .then(res => {
-          alert('成功')
-          resolve(res.json())
+          resolve()
         }, err => {
           window.rsqadmg.error(JSON.stringify(err))
           reject(err)

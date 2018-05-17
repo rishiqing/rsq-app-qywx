@@ -2,8 +2,18 @@
   <v-touch @tap="showMemberEdit">
     <div
       class="outer-wrap bottom-border" >
-      <span class="inner-key">{{ indexTitle }}</span>
-      <span class="inner-value">{{ nameConcat }}{{ selectedLocalList.length > 3 ? '等':'' }}{{ selectedLocalList.length }}人</span>
+      <span
+        v-show="selectedLocalList.length === 0"
+        class="inner-key">
+        {{ indexTitle }}</span>
+      <div class="inner-value">
+        <img
+          v-for="(avatar,index) in avatarConcat"
+          :key="index"
+          :src="avatar"
+          class="avatar"
+        >
+      <span class="count">{{ selectedLocalList.length }}人</span></div>
       <i class="icon2-arrow-right-small arrow"/>
     </div>
   </v-touch>
@@ -70,11 +80,10 @@
       loginUser () {
         return this.$store.getters.loginUser
       },
-      nameConcat () {
-        const arr = this.selectedLocalList.length <= 3 ? this.selectedLocalList : this.selectedLocalList.slice(0, 3)
-        return arr.map(function (o) {
-          return o.name
-        }).join('、')
+      avatarConcat () {
+        return this.selectedLocalList.map(function (o) {
+          return o.avatar
+        })
       },
       memberCount () {
         return this.selectedLocalList.length <= 3
@@ -181,31 +190,25 @@
     display: flex;
     align-items: center;
     position: relative;
-    line-height: 1.3rem;
     background-color: white;
+    min-height: 1.493rem;
   }
   .inner-key{
     display: block;
+    position: absolute;
+    line-height: 1.3rem;
     font-family: PingFangSC-Regular;
     font-size: 17px;
+    width: 2rem;
     color: #333333;
+
   }
   .inner-value {
-    display: block;
-    position: absolute;
-    top:50%;
-    margin-top: -0.65rem;
-    right: 0.94rem;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #999999;
-    letter-spacing: 0;
-    /* 防止溢出 */
-    max-width: 7rem;
-    height: 100%;
+    min-width: 100%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    line-height: 100%;
+    height: 1rem;
+    width: 100%;
   }
   .arrow{
     color: #999999;
@@ -222,9 +225,26 @@
     padding-left: 3%;
   }
   .edit-padding-left{
-    left:1.3rem
+    left:1.3rem;
   }
   .bottom-border{
     border-bottom: 1px solid #E0E0E0;
+  }
+  .avatar{
+    margin-right: 0.3rem;
+    width: 0.906rem;
+    height: 0.906rem;
+    border-radius: 50%;
+    float: left;
+  }
+  .count{
+    position: absolute;
+    right: 0.82666rem;
+    font-family: PingFangSC-Regular;
+    font-size: 13px;
+    color: rgba(25,31,37,0.56);
+    letter-spacing: 0;
+    line-height: 1rem;
+
   }
 </style>

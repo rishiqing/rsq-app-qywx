@@ -1,17 +1,15 @@
 <template>
   <ul class="comment-list">
-    <v-touch @tap="changeState">
-      <div
-        :class="{'isDisplay': !more}"
-        class="operation">
-        收起操作记录
-      </div>
-      <div
-        :class="{'isDisplay': more}"
-        class="operation">
-        显示操作记录
-      </div>
-    </v-touch>
+    <div class="top">
+      <v-touch
+        :class="{chose:!more}"
+        class="operation"
+        @tap="changeState1">讨论</v-touch>
+      <v-touch
+        :class="{chose:more}"
+        class="operation"
+        @tap="changeState2">操作记录</v-touch>
+    </div>
     <r-record-comment
       v-for="item in recordItems"
       :disabled="disabled"
@@ -23,6 +21,7 @@
       :disabled="disabled"
       :item="item"
       :key="item.id"
+      :more="more"
       @comment-file-touch="showAction"
       @click-comment="handleCommentClick"/>
     <div
@@ -101,11 +100,25 @@
         return this.loginUser.rsqUser.id
       }
     },
+    mounted () {
+      this.changeState1()
+    },
     methods: {
       getFileName (file) {
         if (!file.name) return ''
         var arr = file.name.split('/')
         return arr[arr.length - 1].substr(14)
+      },
+      changeState1 () {
+        if (this.todoType === 'sche') {
+          this.$store.dispatch('getRecord', {id: this.todoId})
+            .then(() => {
+              this.more = false
+            })
+        }
+      },
+      changeState2 () {
+        this.more = true
       },
       changeState () {
         //  暂时这么处理：日程中的操作记录通过接口获取，计划中的不获取
@@ -197,7 +210,7 @@
     letter-spacing: 0;
   }
   .isDisplay{
-    display: none;
+    display: none !important;
   }
   .comment-list{
     background-color: white;
@@ -205,13 +218,19 @@
     padding-bottom: 2.9rem;
   }
   .operation{
+    font-family: PingFangSC-Regular;
+    font-size: 15px;
+    color: #9B9B9B;
+    display: inline-block;
     line-height:1.083rem;
     padding-left: 0.333rem;
-    font-family: PingFangSC-Regular;
-    color:#55A8FD;
-    font-size:15px ;
     background-color: white;
+  }
+  .top{
     border-bottom: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+  }
+  .chose{
+    color: #55A8FD;
+    border-bottom: 2px solid #55A8FD;
   }
 </style>

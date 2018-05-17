@@ -473,48 +473,50 @@
       },
       setPlan (e) {
         e.preventDefault()
-        var that = this
-        window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['计划设置', '重命名当前子计划', '删除当前子计划', '取消'],
-          success: function (res) {
-            switch (res.buttonIndex) {
-              case 0:
-                that.$router.push('/plan/' + that.currentPlan.id + '/plan-setting')
-                break
-              case 1:
-                that.$prompt('请输入子计划名称', '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  inputValue: that.currentSubPlan.name,
-                  inputValidator: value => {
-                    if (!value) {
-                      return '请输入子计划名称'
-                    }
-                  }
-                }).then(({ value }) => {
-                  var params = {
-                    name: value,
-                    id: that.currentSubPlan.id
-                  }
-                  that.$store.dispatch('updateName', params).then((res) => {
-                    that.$store.commit('UPDATE_SUBPLAN_NAME', res)
-                  })
-                }).catch(() => {})
-                break
-              case 2:
-                that.$store.dispatch('deleteChildPlan', that.currentSubPlan).then(() => {
-                  that.currentSubPlan = that.childPlanList[0]
-                  that.$store.dispatch('getCardList', that.childPlanList[0]).then(
-                    (res) => {
-                      that.$store.commit('SAVE_CARD', res.kanbanCardList)
-                    })
-                })
-                break
-              default:
-                break
-            }
-          }
-        })
+        // 提供弹窗或直接进入的方式
+        this.$router.push('/plan/' + this.currentPlan.id + '/plan-setting')
+        // var that = this
+        // window.rsqadmg.exec('actionsheet', {
+        //   buttonArray: ['计划设置', '重命名当前子计划', '删除当前子计划', '取消'],
+        //   success: function (res) {
+        //     switch (res.buttonIndex) {
+        //       case 0:
+        //         that.$router.push('/plan/' + that.currentPlan.id + '/plan-setting')
+        //         break
+        //       case 1:
+        //         that.$prompt('请输入子计划名称', '提示', {
+        //           confirmButtonText: '确定',
+        //           cancelButtonText: '取消',
+        //           inputValue: that.currentSubPlan.name,
+        //           inputValidator: value => {
+        //             if (!value) {
+        //               return '请输入子计划名称'
+        //             }
+        //           }
+        //         }).then(({ value }) => {
+        //           var params = {
+        //             name: value,
+        //             id: that.currentSubPlan.id
+        //           }
+        //           that.$store.dispatch('updateName', params).then((res) => {
+        //             that.$store.commit('UPDATE_SUBPLAN_NAME', res)
+        //           })
+        //         }).catch(() => {})
+        //         break
+        //       case 2:
+        //         that.$store.dispatch('deleteChildPlan', that.currentSubPlan).then(() => {
+        //           that.currentSubPlan = that.childPlanList[0]
+        //           that.$store.dispatch('getCardList', that.childPlanList[0]).then(
+        //             (res) => {
+        //               that.$store.commit('SAVE_CARD', res.kanbanCardList)
+        //             })
+        //         })
+        //         break
+        //       default:
+        //         break
+        //     }
+        //   }
+        // })
       },
       showEmpty () {
         this.emptyCard = true

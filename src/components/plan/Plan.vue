@@ -136,8 +136,9 @@
     height: 100%;
   }
   .plan-image{
-    width: 0.906rem;
-    height: 0.906rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 2px;
   }
   .plan-name{
     width: 7rem;
@@ -150,12 +151,10 @@
     margin-left: 0.3rem;
   }
   .slider {
-    height: 1rem;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
     border-bottom: 1px solid #EAEAEA;
     width: 131%;
     position: relative;

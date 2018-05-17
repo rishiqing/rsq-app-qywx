@@ -531,6 +531,9 @@ export default {
   PLAN_NAME_UPDATE (state, p) {
     state.currentPlan.name = p.name
   },
+  PLAN_IMG_UPDATE (state, p) {
+    state.currentPlan.cover = p.cover
+  },
   PLAN_CURRENT_KANBAN_ITEM_SET (state, p) {
     state.plan.currentKanbanItem = p.item
   },

@@ -135,10 +135,10 @@
     border-bottom: none;
     background-color: white;
     padding-left: 13px;
-    height: 1.2rem;
+    height: 56px;
   }
   .task-list:last-child{
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .progress-mask {
     position: absolute; top:0;bottom:0;left:0;width:1%;background: rgba(0,122,255,0.2);

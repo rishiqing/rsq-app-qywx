@@ -116,7 +116,7 @@
   .slider  .remove{
     /*position: absolute;*/
     width:2rem;
-    height:1.612rem;
+    height:56px;
     background:red;
     display: flex;
     align-items: center;

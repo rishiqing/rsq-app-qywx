@@ -79,5 +79,6 @@
   }
   div.space-padding{
     padding-left: 1.1rem;
+    height: 54px;
   }
 </style>

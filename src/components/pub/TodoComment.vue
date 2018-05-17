@@ -131,7 +131,7 @@
     display: inline-block;
     padding-left:10px ;
     padding-top:5px ;
-    height: 200px;
+    height: 138px;
     width: 100%;
     margin-top: 10px;
   }

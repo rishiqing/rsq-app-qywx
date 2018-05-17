@@ -46,7 +46,7 @@
 	border-right: 0;
 }
 .el-message-box__errormsg{
-	display: none
+	display: none;
 }
 .el-input__inner{
 	height: 46px;

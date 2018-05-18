@@ -57,7 +57,7 @@
 </script>
 <style lang="scss" scoped>
   .desp{
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding-top:0.193rem ;
     padding-bottom: 0.293rem;
     padding-right: 0.3rem;

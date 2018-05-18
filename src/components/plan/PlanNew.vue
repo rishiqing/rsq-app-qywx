@@ -219,7 +219,7 @@
     justify-content: space-between;
     align-items: left;
     background-color: white;
-    margin-top: 0.3rem;
+    margin-top: 20px;
     padding-left: 0.3rem;
     padding-right: 0.2rem;
     flex-direction:column;
@@ -249,7 +249,7 @@
   }
   .wrap-most{
     background-color: white;
-    margin-top: 0.3rem;
+    margin-top: 20px;
     padding-bottom: 0.3rem;
     padding-top: 0.3rem;
   }
@@ -284,7 +284,7 @@
     height: 1.466rem;
     background-color: white;
     padding: 0.3rem;
-    margin-top: 0.2rem;
+    margin-top:20px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
   }

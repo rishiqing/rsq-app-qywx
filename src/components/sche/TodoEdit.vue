@@ -660,4 +660,7 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
+    .itm-edt-fields{
+      padding-top: 20px;
+    }
 </style>

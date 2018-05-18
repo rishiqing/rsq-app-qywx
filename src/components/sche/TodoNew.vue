@@ -314,7 +314,4 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
-  .btn-wrap {
-    padding: 22px 0.3rem 0;
-  }
 </style>

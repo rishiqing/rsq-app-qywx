@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import 'as/css/index.scss'
 import 'as/css/picker2.css'
+import 'as/css/message-box.css'
 import 'as/js/picker.min.js'
 import 'as/js/rsqAdapterManager.js'
 import 'as/js/rsqQywxmAdapter.js'

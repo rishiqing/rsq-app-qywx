@@ -862,6 +862,39 @@ export default {
           })
       })
   },
+  /**
+   * 上传计划的封面图片
+   * @param commit
+   * @param state
+   * @param p.pathId：corpId，用来获取权限
+   * @param p.task：上传任务，其中需要包含file、progress和finished字段。
+   * @param p.savedName：保存到OSS之后的文件名，使用时间戳命名
+   */
+  uploadKanbanCoverImage ({commit, state}, p) {
+    const pathId = p.pathId
+    const path = window.rsqConfig.ossKanbanCoverImagePath
+    const task = p.task
+    const f = task.file
+    return api.system.getOSSClient({pathId: pathId}, {
+      stsServer: window.rsqConfig.stsServer + 'cover/custom/kanban/',
+      ossBucket: window.rsqConfig.ossImageBucket
+    })
+      .then(client => {
+        const name = path + p.savedName
+        return client.multipartUpload(name, f, {
+          progress: function (p) {
+            return function (done) {
+              const pro = Math.floor(p * 100)
+              task.progress = pro
+              if (pro >= 1) {
+                task.finished = true
+              }
+              done()
+            }
+          }
+        })
+      })
+  },
   //  dingtalk/130350304726297460/2126PictureUnlock_haokan1171162_16:9.pictureunlock.jpg
   getOSSUrl ({commit, state}, p) {},
   /**
@@ -1060,6 +1093,12 @@ export default {
     return api.todo.updatePlanName(p)
       .then((res) => {
         commit('PLAN_NAME_UPDATE', p)
+      })
+  },
+  updatePlanImg ({commit, state}, p) {
+    return api.todo.updatePlanName(p)
+      .then((res) => {
+        commit('PLAN_IMG_UPDATE', p)
       })
   },
   getLabels ({commit, state}, p) {

@@ -106,7 +106,7 @@
           type: 'pane',
           focusDate: null,  //  pane中当前月份中的一个日期
           daysArray: [],  //  有当前月份、前一个月份、后一个月份三个数组组成
-          height: 240,
+          height: 243,
           translateX: '0px',
           targetY: 0  //  paneView状态下垂直滑动元素垂直方向的translateY目标值
         },
@@ -395,7 +395,7 @@
   .cal-week-title {
     position: fixed;top: 53px;left: 0;right: 0;width: 100%;
     padding: 0;height: 31px;line-height: 30px;
-    margin-bottom: -1px;color:white;background: #4F77AA;font-size:1.2rem;
+    margin-bottom: -1px;color:white;background: #4F77AA;font-size:1.2rem;padding-top: 1px;
   }
   .c-cal-main table {
     text-align: center;table-layout: fixed;

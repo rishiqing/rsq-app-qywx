@@ -473,48 +473,50 @@
       },
       setPlan (e) {
         e.preventDefault()
-        var that = this
-        window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['计划设置', '重命名当前子计划', '删除当前子计划', '取消'],
-          success: function (res) {
-            switch (res.buttonIndex) {
-              case 0:
-                that.$router.push('/plan/' + that.currentPlan.id + '/plan-setting')
-                break
-              case 1:
-                that.$prompt('请输入子计划名称', '提示', {
-                  confirmButtonText: '确定',
-                  cancelButtonText: '取消',
-                  inputValue: that.currentSubPlan.name,
-                  inputValidator: value => {
-                    if (!value) {
-                      return '请输入子计划名称'
-                    }
-                  }
-                }).then(({ value }) => {
-                  var params = {
-                    name: value,
-                    id: that.currentSubPlan.id
-                  }
-                  that.$store.dispatch('updateName', params).then((res) => {
-                    that.$store.commit('UPDATE_SUBPLAN_NAME', res)
-                  })
-                }).catch(() => {})
-                break
-              case 2:
-                that.$store.dispatch('deleteChildPlan', that.currentSubPlan).then(() => {
-                  that.currentSubPlan = that.childPlanList[0]
-                  that.$store.dispatch('getCardList', that.childPlanList[0]).then(
-                    (res) => {
-                      that.$store.commit('SAVE_CARD', res.kanbanCardList)
-                    })
-                })
-                break
-              default:
-                break
-            }
-          }
-        })
+        // 提供弹窗或直接进入的方式
+        this.$router.push('/plan/' + this.currentPlan.id + '/plan-setting')
+        // var that = this
+        // window.rsqadmg.exec('actionsheet', {
+        //   buttonArray: ['计划设置', '重命名当前子计划', '删除当前子计划', '取消'],
+        //   success: function (res) {
+        //     switch (res.buttonIndex) {
+        //       case 0:
+        //         that.$router.push('/plan/' + that.currentPlan.id + '/plan-setting')
+        //         break
+        //       case 1:
+        //         that.$prompt('请输入子计划名称', '提示', {
+        //           confirmButtonText: '确定',
+        //           cancelButtonText: '取消',
+        //           inputValue: that.currentSubPlan.name,
+        //           inputValidator: value => {
+        //             if (!value) {
+        //               return '请输入子计划名称'
+        //             }
+        //           }
+        //         }).then(({ value }) => {
+        //           var params = {
+        //             name: value,
+        //             id: that.currentSubPlan.id
+        //           }
+        //           that.$store.dispatch('updateName', params).then((res) => {
+        //             that.$store.commit('UPDATE_SUBPLAN_NAME', res)
+        //           })
+        //         }).catch(() => {})
+        //         break
+        //       case 2:
+        //         that.$store.dispatch('deleteChildPlan', that.currentSubPlan).then(() => {
+        //           that.currentSubPlan = that.childPlanList[0]
+        //           that.$store.dispatch('getCardList', that.childPlanList[0]).then(
+        //             (res) => {
+        //               that.$store.commit('SAVE_CARD', res.kanbanCardList)
+        //             })
+        //         })
+        //         break
+        //       default:
+        //         break
+        //     }
+        //   }
+        // })
       },
       showEmpty () {
         this.emptyCard = true
@@ -744,7 +746,7 @@
   .card-top{
     display: flex;
     align-items: center;
-    height: 1.5rem;
+    height: 46px;
     justify-content: space-between;
   }
   .other{
@@ -761,9 +763,7 @@
     position: relative;
     background: white;
     border-radius: 2px;
-    margin: 0.4rem;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-left: 22px;
     transition: 0.1s;
     overflow: hidden;
   }
@@ -887,9 +887,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 1.3rem;
-    padding-left: 0.6rem;
-    padding-right: 0.6rem;
+    height: 46px;
+    padding-left: 15px;
+    padding-right: 15px;
   }
   .top-sub-plan{
     display: flex;
@@ -920,8 +920,8 @@
     -webkit-overflow-scrolling: touch;
   }
   .card-border{
-    margin-top: 0.3rem;
-    padding-right: 0.7rem;
+    margin-top: 20px;
+    padding-right: 45px;
     border-radius: 2px;
   }
   .card-border:first-child{
@@ -951,7 +951,8 @@
     z-index: 50;
     background-color: white;
     width: 96%;
-    padding-left: 0.3rem;
+    padding-left: 15px;
+    padding-right: 15px;
     box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
   }
 </style>

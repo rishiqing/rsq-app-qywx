@@ -85,17 +85,18 @@ export default {
         })
     })
   },
-  getOSSClient (data) {
-    var urllib = window.OSS.urllib
-    var OSS = window.OSS.Wrapper
-    var stsServer = window.rsqConfig.stsServer
-    var region = window.rsqConfig.ossRegion
-    var bucket = window.rsqConfig.ossBucket
+  getOSSClient (data, options) {
+    options = options || {}
+    const urllib = window.OSS.urllib
+    const OSS = window.OSS.Wrapper
+    const stsServer = options.stsServer || window.rsqConfig.stsServer
+    const region = options.ossRegion || window.rsqConfig.ossRegion
+    const bucket = options.ossBucket || window.rsqConfig.ossBucket
     return urllib.request(stsServer + data.pathId, {
       method: 'GET'
     }).then(function (result) {
       // alert('--')
-      var credential = JSON.parse(result.data)
+      const credential = JSON.parse(result.data)
       return new OSS({
         secure: true,  //  https
         region: region,

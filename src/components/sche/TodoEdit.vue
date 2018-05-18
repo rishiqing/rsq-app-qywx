@@ -79,15 +79,11 @@
                 </v-touch>
               </div>
             </div>
-            <div class="bottom">
-              <v-touch @tap="switchToComment">
-                <input
-                  class="bot"
-                  type="text"
-                  placeholder="输入讨论内容或发送文件"
-                  onfocus="this.blur();">
-              </v-touch>
-            </div>
+            <v-touch
+              class="bottom"
+              @tap="switchToComment">
+              参与讨论
+            </v-touch>
           </div>
         </div>
       </div>
@@ -587,6 +583,11 @@
     width:100%;
     border-top:1px solid #DADADA ;
     background-color: #FDFDFF ;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #4A4A4A;
+    letter-spacing: 0;
+    text-align: center;
   }
   .bot{
     padding-left: 2%;

@@ -1,24 +1,30 @@
 <template>
   <div>
     <div class="plan-set-top">
-      <div class="wrap-img">
+      <v-touch
+        class="set-plan"
+        @tap="upload">
+        <span class="set-text">计划封面</span>
+        <input
+          ref="uploadImg"
+          type="file"
+          class="upload-img"
+          @change="changeImg">
         <img
           :src="currentPlan.cover"
           class="plan-set-img">
+      </v-touch>
+      <v-touch
+        class="set-plan"
+        @tap="showEditName">
+        <span class="set-text">计划名称</span>
         <v-touch
-          class="wrap-name"
-          @tap="showEditName">
-          <div class="plan-set-name">
-            <span>{{ currentPlan.name }}</span>
-            <v-touch
-              class="plan-set-sec-img"
-              @tap="showEditPlanName">
-              <img src="../../assets/img/set.png">
-            </v-touch>
-          </div>
+          class="plan-set-name"
+          @tap="showEditPlanName">
+          <span>{{ currentPlan.name }}</span>
         </v-touch>
-        <span class="creator-time">由 {{ creatorName }} 于{{ standardTime }}创建</span>
-      </div>
+      </v-touch>
+      <!-- <span class="creator-time">由 {{ creatorName }} 于{{ standardTime }}创建</span> -->
     </div>
     <div class="plan-set-second">
       <div class="plan-member-count">
@@ -50,20 +56,27 @@
     <div class="btn-group">
       <div class="btn-wrap">
         <v-touch
+          tag="a"
+          class="delete-plan-btn weui-btn save"
+          href="javascript:;"
+          @tap="savePlan">
+          保存
+        </v-touch>
+        <v-touch
           v-if="isOwn"
           tag="a"
-          class="delete-plan-btn weui-btn weui-btn_warn"
+          class="delete-plan-btn weui-btnt out"
           href="javascript:;"
           @tap="deletePlan">
-          删除计划
+          删除
         </v-touch>
         <v-touch
           v-else
           tag="a"
-          class="delete-plan-btn weui-btn weui-btn_warn"
+          class="delete-plan-btn weui-btn out"
           href="javascript:;"
           @tap="deletePlan">
-          退出计划
+          退出
         </v-touch>
       </div>
     </div>
@@ -72,6 +85,7 @@
 <script>
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
+  import moment from 'moment'
 
   export default {
     name: 'PlanSetting',
@@ -99,6 +113,9 @@
       },
       userId () {
         return this.loginUser.authUser.userId ? this.loginUser.authUser.userId : 'dingtalkupload'
+      },
+      corpId () {
+        return this.loginUser.authUser.corpId
       },
       standardTime () {
         var date = this.currentPlan.dateCreated.substr(0, 10)
@@ -131,12 +148,39 @@
       showEditPlanName () {
         this.$router.push('/plan/' + this.currentPlan.id + '/edit-name')
       },
-      savePlanName () {
-        this.editState = false
-        this.$store.dispatch('updatePlanName', {'name': this.currentPlan.name, 'id': this.currentPlan.id})
+      upload () {
+        this.$refs.uploadImg.click()
+      },
+      changeImg (e) {
+        const file = this.$refs.uploadImg.files[0]
+        if (!new RegExp('image/').test(file.type)) {
+          alert('请传入图片')
+          return
+        }
+        const extNameArry = file.name.split('.')
+        const extName = extNameArry[extNameArry.length - 1]
+        const time = moment().format('YYYYMMDDHHmmss')
+        const savedName = time + '.' + extName
+        const task = {
+          finished: false,
+          isShowProgress: true,  //  刚创建未上传时显示进度条
+          progress: 0,
+          file: file
+        }
+        console.log(this.corpId)
+        return this.$store.dispatch('uploadKanbanCoverImage', {
+          pathId: this.corpId,
+          task: task,
+          savedName: savedName
+        }).then(res => {
+          this.$store.dispatch('updatePlanImg', {'cover': 'https://images.timetask.cn/cover/custom/kanban/' + savedName, 'id': this.currentPlan.id})
+        })
       },
       showEditName () {
         this.editState = true
+      },
+      savePlan () {
+        this.$router.go(-1)
       },
       toggleAllDay () {
         if (this.isStar) {
@@ -325,36 +369,62 @@
     text-align: center;
   }
   .plan-set-top{
-    display: flex;
-    justify-content: center;
     background-color: white;
-    height: 3.866rem;
-    padding: 0.5rem 1rem;
+    height: 112px;
     margin-top: 0.3rem;
   }
   .plan-set-name{
     position: relative;
     font-family: PingFangSC-Regular;
     font-size: 17px;
-    color: #666666;
     opacity: 0.66;
-    border: 0 solid #E4E4E4;
     border-radius: 1px;
-    height: 0.645rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    height: 56px;
+    line-height: 56px;
   }
   .plan-set-name > span {
+    float: right;
+    margin-right: 31px;
     white-space: nowrap;
-    max-width: 7rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #9C9C9C;
+    line-height: 56px;
   }
   .plan-set-img{
-    width: 1.386rem;
-    height: 1.386rem;
-    border-radius: 9px;
+    margin-right: 31px;
+    float: right;
+    margin-top: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    line-height: 56px;
+  }
+  .set-plan{
+    width: 100%;
+    height: 56px;
+    border-bottom: 1px solid #D9D9D9;
+  }
+  .set-text{
+    float: left;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #000000;
+    line-height: 56px;
+    margin-left: 15px;
+  }
+  .upload-img{
+    display: none;
+  }
+  .out{
+    color: #000;
+    border-radius: 5px;
+  }
+  .save{
+    color: #fff;
+    background: #2F7DCD;
+    border-radius: 5px;
   }
 </style>

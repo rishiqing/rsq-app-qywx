@@ -91,7 +91,7 @@
   }
   .itm-lst{
     text-align: center;
-    background-color: #F8F8F8;
+    background-color: #F5F5F5;
     height: 78%;
 
     img{

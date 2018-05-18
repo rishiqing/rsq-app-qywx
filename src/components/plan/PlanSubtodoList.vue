@@ -134,7 +134,7 @@
     height: 0.266rem;
     z-index:1;
     width: 100%;
-    background-color: #F8F8F8;
+    background-color: #F5F5F5;
     position: fixed;
   }
   .wrap {

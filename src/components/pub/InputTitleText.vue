@@ -117,6 +117,7 @@
     border-bottom: 1px solid #e0e0e0;
   }
   .edit{
+    font-size: 17px;
     display: flex;
     align-items: center;
     position: relative;
@@ -164,10 +165,10 @@
     padding-left: 0.1rem;
   }
   input[type='text']{
+    height: 64px;
     background: #FFFFFF;
-    line-height:0.72rem ;
+    line-height:24px ;
     padding: 0.3rem;
-    font-size: 0.506rem;
     border-radius: 0;
     color: #3D3D3D;
   }

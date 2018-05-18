@@ -1095,6 +1095,12 @@ export default {
         commit('PLAN_NAME_UPDATE', p)
       })
   },
+  updatePlanImg ({commit, state}, p) {
+    return api.todo.updatePlanName(p)
+      .then((res) => {
+        commit('PLAN_IMG_UPDATE', p)
+      })
+  },
   getLabels ({commit, state}, p) {
     return api.todo.getLabels(p)
       .then((result) => {

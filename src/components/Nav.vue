@@ -100,8 +100,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top:1px solid #CDCDCD;
-    height: 1.306rem;
+    border-top:0.5px solid #D4D4D4;
+    height: 50px;
     background-color: #FDFDFF;;
   }
   .richeng{

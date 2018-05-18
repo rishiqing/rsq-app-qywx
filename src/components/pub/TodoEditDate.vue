@@ -345,6 +345,7 @@
           resObj['_uRepeatType'] = null
           resObj['_uIsLastDate'] = false
           resObj['_uRepeatStrTimeArray'] = null
+          resObj['_uRepeatOverDate'] = null
         }
 
         this.$store.commit('PUB_TODO_DATE_UPDATE', {data: resObj})
@@ -386,6 +387,10 @@
           } else {
             editItem['pContainer'] = 'IE'
           }
+          //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
+          const overDate = editItem.repeatOverDate
+          editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+
           return this.$store.dispatch('updateTodoDate', {editItem: editItem})
             .then(() => {
               this.$store.commit('PUB_TODO_DATE_DELETE')

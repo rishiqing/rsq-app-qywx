@@ -63,7 +63,7 @@
     opacity: 0
   }
   .rsq-webview{
-    background-color: #F8F8F8;
+    background-color: #F5F5F5;
     height:100%;
     -webkit-overflow-scrolling: touch;
     overflow: auto;

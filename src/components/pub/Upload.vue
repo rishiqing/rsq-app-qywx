@@ -128,7 +128,7 @@
 </script>
 <style lang="scss" scoped>
   .ul-list{
-    margin-top: -15px;
+    margin-top: -8px;
   }
   .file-input {
     cursor: pointer;

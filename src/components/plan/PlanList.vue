@@ -86,12 +86,12 @@
   .plan-list{
     background-color: white;
     padding-left: 0.3rem;
-    margin-top: 0.1rem;
+    margin-top: 20px;
     overflow-x: hidden;
   }
   .itm-lst{
     text-align: center;
-    background-color: #F8F8F8;
+    background-color: #F5F5F5;
     height: 78%;
 
     img{

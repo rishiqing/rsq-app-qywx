@@ -16,6 +16,7 @@
       <p>repeatType: {{ repeatType }}</p>
       <p>repeatStrTimeArray: {{ repeatStrTimeArray }}</p>
       <p>isLastDate: {{ isLastDate }}</p>
+      <p>repeatOverDate: {{ repeatOverDate }}</p>
     </div>
   </div>
 </template>
@@ -31,7 +32,8 @@
         baseNumTime: new Date().getTime(),
         repeatType: 'everyDay',
         repeatStrTimeArray: [moment(this.baseNumTime).format('YYYYMMDD')],
-        isLastDate: false
+        isLastDate: false,
+        repeatOverDate: null
       }
     },
     methods: {
@@ -42,10 +44,12 @@
           repeatType: that.repeatType || 'everyDay',
           repeatStrTimeArray: that.repeatStrTimeArray,
           isLastDate: that.isLastDate,
+          repeatOverDate: that.repeatOverDate,
           success: function (result) {
             that.repeatType = result.repeatType
             that.repeatStrTimeArray = result.repeatStrTimeArray
             that.isLastDate = result.isLastDate
+            that.repeatOverDate = result.repeatOverDate
           }
         })
       }

@@ -80,7 +80,8 @@
           isCloseRepeat: !!c.isCloseRepeat,
           repeatType: c.repeatType || null,
           repeatBaseTime: c.repeatBaseTime || null,
-          isLastDate: c.isLastDate === undefined || false
+          isLastDate: c.isLastDate === undefined || false,
+          repeatOverDate: c.repeatOverDate || null
         }
         this.$store.commit('PUB_TODO_DATE_UPDATE', {data: obj})
         this.$router.push('/' + this.todoType + '/todo/date')

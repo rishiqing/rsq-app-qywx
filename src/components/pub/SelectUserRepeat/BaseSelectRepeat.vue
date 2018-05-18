@@ -148,19 +148,19 @@
         </div>
         <div v-show="currentPage === pages.subDeadline">
           <r-plain-date-picker
+            ref="datePicker"
             :focus-date-number="localDeadline"
-            :selected-date-number="localDeadline ? [localDeadline] : []"
+            :selected-date-number="selectedDateNumber"
             @date-select-changed="tapChangeDeadline"/>
           <div class="no-limit">
             <span>永不结束</span>
-            <v-touch
-              class="checkbox-wrap"
-              @tap="toggleDeadline">
+            <div class="checkbox-wrap">
               <input
-                :checked="!localDeadline"
+                ref="noLimitCheckbox"
+                v-model="isNoLimit"
                 class="mui-switch-deadline"
                 type="checkbox">
-            </v-touch>
+            </div>
           </div>
         </div>
       </div>
@@ -198,6 +198,7 @@
         repeatType: '',
         repeatStrTimeArray: [],
         isLastDate: false,
+        repeatOverDate: null,
 
         //  --------------------------------------
         //  参数本地要用的一些参数,
@@ -273,6 +274,24 @@
           [d[21], d[22], d[23], d[24], d[25], d[26], d[27]],
           [d[28], d[29], d[30], d[31]]
         ]
+      },
+      selectedDateNumber () {
+        return this.localDeadline ? [this.localDeadline] : []
+      },
+      isNoLimit: {
+        get () {
+          return !this.localDeadline
+        },
+        set (val) {
+          if (val) {
+            this.localDeadline = null
+            //  重置时间选择控件
+            this.$refs.datePicker.clearSelected()
+          } else {
+            //  强制设置回true，不通过切换改变
+            this.$refs.noLimitCheckbox.checked = true
+          }
+        }
       },
       selectedStruct () {
         const list = this.localType === EVERY_WEEK ? this.days : this.dates
@@ -380,7 +399,9 @@
         this.localType = ''
         this.localStrTimeArray = []
         this.localIsLastDate = false
-        this.localDeadline = null
+        if (this.repeatOverDate) {
+          this.localDeadline = moment(this.repeatOverDate, 'YYYY-MM-DD HH:mm:ss').valueOf()
+        }
       },
       renderData (tb) {
         //  设置localType
@@ -468,13 +489,6 @@
         }
         d.selected = !d.selected
       },
-      toggleDeadline (e) {
-        // alert(111)
-        // if (this.localDeadline) {
-        //   this.localDeadline = null
-        // }
-        e.preventDefault()
-      },
       selfClose () {
         this.$emit('self-close')
       },
@@ -517,11 +531,13 @@
         return this.localType === EVERY_MONTH && this.dates[this.dates.length - 1].selected
       },
       getResult () {
+        const date = this.localDeadline ? moment(this.localDeadline).format('YYYY-MM-DD HH:mm:ss') : null
         return {
           baseNumTime: this.baseNumTime,
           repeatType: this.localType,
           repeatStrTimeArray: this.getNumTimeArray(),
-          isLastDate: this.checkUseLast()
+          isLastDate: this.checkUseLast(),
+          repeatOverDate: date
         }
       }
     }

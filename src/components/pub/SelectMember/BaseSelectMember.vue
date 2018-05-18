@@ -333,8 +333,9 @@
         if (mem.isDisabled) {
           return
         }
-        if (this.selectedCount >= this.maximum) {
-          return window.rsqadmg.exec('alert', {message: '超出最大数量限制'})
+        if (this.selectedCount >= this.maximum && isSelect) {
+          alert('超出最大数量限制')
+          return
         }
         mem.isSelected = isSelect
         if (isSelect) {

@@ -16,6 +16,19 @@ function getSelectMemberModal () {
   return selectMember
 }
 
+/**
+ * 人员选择框，需要传入的成员对象有三个属性：id/name/avatar，
+ * 具体每个属性对应的对象的字段名可以分别通过idAttribute、nameAttribute、avatarAttribute三个属性指定
+ * 如果未设置idAttribute、nameAttribute、avatarAttribute属性的值，那么默认的属性名即为：id、name、avatar。
+ * 参数说明：
+ * memberList: 传入的可供选择的成员的列表
+ * selectedIdList: 已经选择的成员的id
+ * disabledIdList: 不可更改的成员的id
+ * creatorIdList:  创建者成员的id列表
+ * success: 成功的回调
+ * cancel: 取消选择的回调
+ * @param options
+ */
 function show (options) {
   options = options || {}
   const vm = getSelectMemberModal()

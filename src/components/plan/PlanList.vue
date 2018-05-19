@@ -86,7 +86,7 @@
   .plan-list{
     background-color: white;
     padding-left: 0.3rem;
-    margin-top: 0.1rem;
+    margin-top: 20px;
     overflow-x: hidden;
   }
   .itm-lst{

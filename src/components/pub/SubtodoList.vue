@@ -177,7 +177,7 @@
     width: 90%;
   }
   .for-cover{
-    height: 0.266rem;
+    height: 20px;
     z-index:1;
     width: 100%;
     background-color: #F8F8F8;
@@ -186,7 +186,7 @@
   .wrap {
     position: fixed;
     width: 100%;
-    top: 10px;
+    top: 20px;
     left: 0;
     right: 0;
     z-index: 2;
@@ -205,8 +205,8 @@
     z-index: 0;
   }
   .has-border{
-    border-top:1px solid #E0E0E0;
-    border-bottom:1px solid #E0E0E0;
+    border-top:0.5px solid #D4D4D4;
+    border-bottom:0.5px solid #D4D4D4;
   }
   .list-below{
     border:none;
@@ -224,7 +224,7 @@
   }
   .sublist-item{
     position: relative;
-    border-bottom:1px solid #DADADA ;
+    border-bottom:0.5px solid #D4D4D4;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     height: 1.22rem;
@@ -278,7 +278,7 @@
   }
   ul{
     position: relative;
-    margin-top:0.666rem;
+    margin-top:50px;
     padding-left: 5%;
   }
   .is-display-sub{
@@ -318,9 +318,9 @@
   }
   .write{
     background: #FFFFFF;
-    border-bottom:1px solid #E3E3E3;
-    border-top:1px solid #E3E3E3;
-    top: 0.266rem;
+    border-bottom:0.5px solid #D4D4D4;
+    border-top:0.5px solid #D4D4D4;
+    top:20px;
     padding-left:1.6rem;
     z-index: 1;
     line-height: 0.6rem;

@@ -86,7 +86,7 @@
   }
   .inbox-item{
     background-color: white;
-    border-bottom:1px solid #E3E3E3 ;
+    border-bottom:0.5px solid #D4D4D4 ;
     position: relative;
     z-index: 2;
   }
@@ -94,7 +94,7 @@
     position: fixed;
     height: 1.45rem;
     width: 100%;
-    top: 10px;
+    top: 20px;
     left: 0;
     right: 0;
     z-index: 2;
@@ -127,8 +127,8 @@
   .write{
     line-height: 0.612rem;
     height: 56px;
-    border-bottom:1px solid #E3E3E3;
-    border-top:1px solid #E3E3E3;
+    border-bottom:0.5px solid #D4D4D4;
+    border-top:0.5px solid #D4D4D4;
     background: #FFFFFF;
     padding-left:0.3rem;
     padding-right: 2.432rem;

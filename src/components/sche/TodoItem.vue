@@ -243,7 +243,7 @@
   li{
     padding:0;
     position: relative;
-    border-bottom:1px solid #E0E0E0 ;
+    border-bottom:0.5px solid #D4D4D4 ;
   }
   li:last-child{
     border-bottom: none;

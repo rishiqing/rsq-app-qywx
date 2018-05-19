@@ -112,10 +112,8 @@
       changeState1 () {
         if (this.todoType === 'sche') {
           this.$store.dispatch('getRecord', {id: this.todoId})
-            .then(() => {
-              this.more = false
-            })
         }
+        this.more = false
       },
       changeState2 () {
         this.more = true
@@ -214,7 +212,7 @@
   }
   .comment-list{
     background-color: white;
-    margin-top: 10px;
+    margin-top: 20px;
     padding-bottom: 2.9rem;
   }
   .operation{

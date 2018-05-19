@@ -387,7 +387,7 @@
       padding-left: 3%;
     }
     .sec{
-      margin-top:0.231rem ;
+      margin-top:20px;
       border-bottom:0.5px solid #DADADA;
       height: 80px;
       background-color: #fff;
@@ -419,7 +419,7 @@
         }
     }
     .last{
-      margin-top:0.391rem ;
+      margin-top:20px ;
     }
     span{
       display: block;

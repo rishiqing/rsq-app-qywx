@@ -288,17 +288,17 @@
     ul {
       position: relative;
       /*border-bottom: 0.5px solid #E3E3E3;*/
-      border-top: 0.5px solid #E3E3E3;
+      border-top: 0.5px solid #D4D4D4;
       background: #FFFFFF;
     }
     ul.bottom-border{
       border-bottom: 0.5px solid #E3E3E3;
     }
     .top-ul {
-      margin-top: 0.266rem;
+      margin-top: 20px;
     }
     .sec {
-      margin-top: 0.373rem;
+      margin-top: 20px;
     }
     span {
       /*line-height: 1.112rem;*/

@@ -446,6 +446,9 @@ export default {
   SAVE_PLANS (state, p) {
     state.planList = p
   },
+  UPDATA_PLAN (state, p) {
+    state.currentPlan.userRoles = [...p]
+  },
   SET_CURRENT_PLAN (state, p) {
     state.currentPlan = p
   },

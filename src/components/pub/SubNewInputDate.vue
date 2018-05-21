@@ -50,7 +50,7 @@
         return this.$store.state.todo.currentSubtodoDate
       },
       dateString () {
-        if (this.datesItem.startDate === '' && this.datesItem.endDate === '' && this.datesItem.dates === null) {
+        if (!this.datesItem.startDate && !this.datesItem.endDate && !this.datesItem.dates) {
           return '日期'
         } else {
           var result = dateUtil.repeatDate2Text(this.datesItem)

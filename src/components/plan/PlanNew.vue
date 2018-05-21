@@ -18,7 +18,7 @@
         >
         <v-touch
           class="add"
-          @tap="showNativeMemberEdit">
+          @tap="showWebMemberEdit">
           <img
             src="../../assets/img/card.png"
             class="avatar"
@@ -64,6 +64,8 @@
   import PlanList from 'com/plan/PlanList'
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
+  import { Promise } from 'es6-promise'
+  import SelectMember from 'com/pub/SelectMember'
 
   export default {
     name: 'PlanNew',
@@ -75,11 +77,21 @@
       return {
         content: '',
         currentTemplate: {},
-        selectedLocalList: [],
-        rsqIdArray: []
+        rsqIdArray: [],
+        localList: [],  //  人员选择列表
+        selectedLocalList: [],  //  已选择的人员选择列表
+        disabledLocalList: [],  //  本地禁用的人员列表
+        creatorList: [], // 创建者
+        memarr: []
       }
     },
     computed: {
+      userRsqIds () {
+        return this.$store.state.staff.list
+      },
+      selectedRsqIds () {
+        return [this.$store.state.loginUser.rsqUser.id]
+      },
       loginUser () {
         return this.$store.getters.loginUser || {}
       },
@@ -96,6 +108,45 @@
         return this.selectedLocalList.map(function (o) {
           return o.avatar
         })
+      },
+      memberCount () {
+        return this.selectedLocalList.length <= 3
+      },
+      userRsqIdArray () {
+        return this.userRsqIds.map(function (staff) {
+          return staff.id
+        })
+      },
+      creatorListArray () {
+        return this.creatorList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      selectRsqidArray () {
+        return this.selectedLocalList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      createrRsqIds () {
+        return this.selectedLocalList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      disableRsqidArray () {
+        return this.disabledRsqIds.map(function (staff) {
+          return staff.id
+        })
+      }
+    },
+    watch: {
+      selectedRsqIds () {
+        this.fetchUserIds(this.selectedRsqIds, 'selectedLocalList')
+      },
+      disabledRsqIds () {
+        this.fetchUserIds(this.disableRsqidArray, 'disabledLocalList')
+      },
+      createrRsqIds () {
+        this.fetchUserIds(this.createrRsqIds, 'creatorList')
       }
     },
     created () {
@@ -113,6 +164,7 @@
       window.rsqadmg.exec('setTitle', {title: '新建计划'})
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
+      this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
       create () {
@@ -121,12 +173,27 @@
           return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
         }
         window.rsqadmg.exec('showLoader', {text: '创建中...'})
+        var rsqId = this.memarr.join(',')
         var params = {
           name: this.content,
           cover: this.currentTemplate.cover,
           selectGroupId: 'all',
           tKanbanId: this.currentTemplate.id,
-          accessIds: this.rsqIdArray.toString()
+          accessIds: rsqId,
+          attribute: 'company',
+          childKanbanList: [],
+          deptIds: '',
+          editAuthority: 'all',
+          isDefault: false,
+          isKanban: true,
+          isLoaded: false,
+          kanbanAllKList: [],
+          kanbanAllTList: [],
+          processLoad: false,
+          userIds: '',
+          userRoles: [],
+          starMark: false,
+          position: 'bottom'
         }
         this.$store.dispatch('postPlan', params).then((res) => {
           window.rsqadmg.exec('hideLoader')
@@ -144,37 +211,41 @@
 //            window.rsqadmg.exec('hideLoader')
           })
       },
-      showNativeMemberEdit () {
-        var that = this
-        var corpId = that.loginUser.authUser.corpId
-        var selectedArray = util.extractProp(this.selectedLocalList, 'userId')
-//        var disabledArray = util.extractProp(this.disabledLocalList, 'userId')
-        window.rsqadmg.exec('selectDeptMember', {
-          btnText: '确定',  //  选择器按钮文本，pc端需要的参数
-          multiple: true, //  默认false，选择单人
-          maximum: -1,  //  可选择人数的上限，默认-1不限制人数
-          title: that.selectTitle, //  选择器标题，pc端需要的参数
-          corpId: corpId,  //  加密的企业 ID，
-          selectedIds: selectedArray,
-          disabledIds: [], //  不能选的人
-          success (res) {
-//            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
-//              that.memberList = res
-            if (res.length === 0) {
-              return this.$emit('member-changed', [])
-            }
-            var idArray = util.extractProp(res.result.userList, 'id')
-//            window.rsqadmg.exec('showLoader')
-            that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
-              .then(function (idMap) {
-//                  window.rsqadmg.exec('hideLoader')
-                var userArray = util.getMapValuePropArray(idMap)
-                that.selectedLocalList = userArray
-                that.rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-//                that.$emit('member-changed', rsqIdArray)
-              })
+      showWebMemberEdit () {
+        const that = this
+        SelectMember.show({
+          nameAttribute: 'name',
+          maximum: 5,
+          idAttribute: 'rsqUserId',
+          memberList: this.localList,
+          selectedIdList: this.selectRsqidArray,
+          disabledIdList: this.disabledLocalList,
+          // 转换为字符串
+          creatorIdList: [this.createrRsqIds[0].toString()],
+          success (selList) {
+            const arr = selList.map(m => {
+              return m.rsqUserId
+            })
+            that.selectedLocalList = [...selList]
+            that.memarr = [...arr]
+          },
+          cancel () {
           }
         })
+      },
+      fetchUserIds (ids, targetListName) {
+        if (!ids || ids.length === 0) {
+          this[targetListName] = []
+          return Promise.resolve()
+        }
+        var corpId = this.loginUser.authUser.corpId
+        //  暂时去掉loader
+//        window.rsqadmg.exec('showLoader')
+        return this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: ids})
+          .then(idMap => {
+            this[targetListName] = util.getMapValuePropArray(idMap)
+//            window.rsqadmg.exec('hideLoader')
+          })
       }
     }
   }
@@ -284,7 +355,7 @@
     height: 1.466rem;
     background-color: white;
     padding: 0.3rem;
-    margin-top:20px;
+    margin-top: 20px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
   }
@@ -293,5 +364,8 @@
   }
   .add{
     display: inline-block;
+  }
+  .display-none{
+    display: none;
   }
 </style>

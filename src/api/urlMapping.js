@@ -43,6 +43,7 @@ export default {
   'SAVE_STAR': 'task/v2/kanbans/saveStar',
   'QUIT_PLAN': 'task/v2/kanbans/quit/:id',
   'DELETE_PLAN': 'task/v2/kanbans/:id',
+  'UPDATA_PLAN': 'task/v2/kanbans/:id',
   'FINISH_CARD_ITEM': 'task/kanbanItem/:id',
   'POST_KANBAN_ITEM': 'task/kanbanItem',
   'PUT_KANBAN_ITEM': 'task/kanbanItem/:id',

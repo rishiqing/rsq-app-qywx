@@ -47,11 +47,12 @@
                   :is-disabled="!isEditable"
                   :disabled-text="disabledText"
                   :edit-time="true"
-                  :is-native="true"
+                  :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="[]"
+                  :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
+                  :creater-rsq-ids="pUserId"
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
@@ -133,6 +134,9 @@
       note () {
         return this.$store.state.todo.currentTodo.note
       },
+      pUserId () {
+        return [this.$store.state.todo.currentTodo.pUserId]
+      },
       isInbox () {
         return this.currentTodo.pContainer === 'inbox'
       },
@@ -151,6 +155,9 @@
         return this.todoComments.filter(i => {
           return i.type === 0
         })
+      },
+      userRsqId () {
+        return this.$store.state.staff.list
       },
       loginUser () {
         return this.$store.getters.loginUser || {}
@@ -289,7 +296,7 @@
         }
         window.rsqadmg.execute('showLoader', {text: '保存中...'})
         this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
-          this.joinUserRsqIds = idArray
+          // this.joinUserRsqIds = idArray
           window.rsqadmg.exec('hideLoader')
           // window.rsqadmg.execute('toast', {message: '保存成功'})
           //  重新获取用户头像
@@ -325,7 +332,7 @@
                   data: data
                 }).then(res => {
                   if (res.errcode !== 0) {
-                    alert('发送失败：' + JSON.stringify(res))
+                    // alert('发送失败：' + JSON.stringify(res))
                   } else {
                     console.log('发送成功！')
                   }
@@ -660,7 +667,7 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
-    .itm-edt-fields{
-      padding-top: 20px;
-    }
+  .itm-edt-fields{
+     padding-top: 20px;
+  }
 </style>

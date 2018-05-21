@@ -422,7 +422,7 @@
 </script>
 <style lang="scss" scoped>
   .backToday{
-    border: 1px solid #4A90E2;
+    border: 0.5px solid #D4D4D4;
     border-radius: 50%;
     color:#4A90E2;
     width: 25px;
@@ -438,9 +438,9 @@
   .edit-date {
     .light-color {color: #999999;}
     .date-picker {
-      box-sizing: border-box;margin-top: 0.25rem;background: #fff;
-      border-top: 1px solid #E0E0E0;
-      border-bottom:1px solid #E0E0E0 ;
+      box-sizing: border-box;margin-top: 20px;background: #fff;
+      border-top: 0.5px solid #D4D4D4;
+      border-bottom:0.5px solid #D4D4D4 ;
       padding-bottom: 0.4rem;
     }
     .dp-title {
@@ -463,13 +463,13 @@
       font-size: 1rem;
       color: #3D3D3D;
     }
-    .dp-title .dp-title-tag {font-size: 0.4rem;line-height:1;margin-top:12px;padding:5px;border: solid 1px #e8e8e8;border-radius: 50%;}
+    .dp-title .dp-title-tag {font-size: 0.4rem;line-height:1;margin-top:12px;padding:5px;border: solid 0.5px #D4D4D4;border-radius: 50%;}
     .dp-table {width:100%;height:8rem;text-align: center;}
     .dp-grey {color: #a8a8a8;}
     .dp-table .dp-selected {
       background: #55A8FD;
       color:white;}
-    .dp-sel-type {position: relative;border-bottom: solid 1px #e4e4e4;overflow: hidden;
+    .dp-sel-type {position: relative;border-bottom: solid 0.5px #D4D4D4;overflow: hidden;
       height: 40px;line-height: 40px;}
     .dp-btn {
       float: left;
@@ -529,12 +529,12 @@
       width: 100%;
       box-sizing: border-box;
       overflow: hidden;
-      margin-top: 0.25rem;
+      margin-top: 20px;
       padding: 0 0.4rem;
       background-color: white;
       align-items: center;
-      border-top: 1px solid #E0E0E0;
-      border-bottom:1px solid #E0E0E0;
+      border-top: 0.5px solid #D4D4D4;
+      border-bottom:0.5px solid #D4D4D4;
       font-family: PingFangSC-Regular;
       font-size: 17px;
     }

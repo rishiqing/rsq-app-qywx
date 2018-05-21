@@ -247,6 +247,7 @@
 </script>
 <style lang="scss" scoped>
   .edit-repeat {
+    margin-top: 20px;
     .arrow{
       font-size: 17px;
       color: #999999;
@@ -267,8 +268,8 @@
     }
     ul{
       position: relative;
-      border-bottom: 1px solid #E3E3E3;
-      border-top: 0.5px solid #E3E3E3;
+      border-bottom: 0.5px solid #D4D4D4;
+      border-top: 0.5px solid #D4D4D4;
       background: #FFFFFF;
     }
     .sec{
@@ -292,7 +293,7 @@
       padding:2px;
       height: 1.112rem;
       line-height:  1.112rem;;
-      border-bottom: 1px solid #E3E3E3;
+      border-bottom: 0.5px solid #D4D4D4;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
@@ -305,12 +306,12 @@
       width: 100%;
       box-sizing: border-box;
       overflow: hidden;
-      margin-top: 0.25rem;
+      margin-top: 20px;
       padding: 0 0.45rem 0 0;
       background-color: white;
       align-items: center;
-      border-top: 1px solid #E0E0E0;
-      border-bottom:1px solid #E0E0E0;
+      border-top: 0.5px solid #D4D4D4;
+      border-bottom:0.5px solid #D4D4D4;
       font-family: PingFangSC-Regular;
       font-size: 17px;
     }

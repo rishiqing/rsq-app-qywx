@@ -545,6 +545,7 @@ export default {
     var temp = {}
     temp.name = p.name
     temp.id = p.id
+    temp.joinUsers = p.joinUsers
     temp.endDate = p.endDate
     temp.startDate = p.startDate
     temp.isDone = p.isDone
@@ -1041,6 +1042,12 @@ export default {
   },
   updateName ({commit, state}, p) {
     return api.todo.updateName(p)
+      .then((res) => {
+        return res
+      })
+  },
+  updataPlan ({commit, state}, p) {
+    return api.todo.updataPlan(p)
       .then((res) => {
         return res
       })

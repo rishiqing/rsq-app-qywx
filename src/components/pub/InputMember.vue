@@ -67,13 +67,22 @@
       editTime: {
         type: Boolean,
         default: false
+      },
+      createrRsqIds: {
+        type: Array,
+        required: true
+      },
+      maximum: {
+        type: Number,
+        default: 5
       }
     },
     data () {
       return {
         localList: [],  //  人员选择列表
         selectedLocalList: [],  //  已选择的人员选择列表
-        disabledLocalList: []  //  本地禁用的人员列表
+        disabledLocalList: [],  //  本地禁用的人员列表
+        creatorList: []// 创建者
       }
     },
     computed: {
@@ -87,18 +96,41 @@
       },
       memberCount () {
         return this.selectedLocalList.length <= 3
+      },
+      userRsqIdArray () {
+        return this.userRsqIds.map(function (staff) {
+          return staff.id
+        })
+      },
+      creatorListArray () {
+        return this.creatorList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      selectRsqidArray () {
+        return this.selectedLocalList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      disableRsqidArray () {
+        return this.disabledRsqIds.map(function (staff) {
+          return staff.id
+        })
       }
     },
     watch: {
-      userRsqIds (ids) {
-        this.fetchUserIds(ids, 'localList')
+      selectedRsqIds () {
+        this.fetchUserIds(this.selectedRsqIds, 'selectedLocalList')
       },
-      selectedRsqIds (ids) {
-        this.fetchUserIds(ids, 'selectedLocalList')
+      disabledRsqIds () {
+        this.fetchUserIds(this.disableRsqidArray, 'disabledLocalList')
       },
-      disabledRsqIds (ids) {
-        this.fetchUserIds(ids, 'disabledLocalList')
+      createrRsqIds () {
+        this.fetchUserIds(this.createrRsqIds, 'creatorList')
       }
+    },
+    mounted () {
+      this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
       fetchUsers () {
@@ -114,55 +146,60 @@
 //        this.$router.push('/pub/MemberEdit')
         return this.isNative ? this.showNativeMemberEdit(e) : this.showWebMemberEdit(e)
       },
-      showNativeMemberEdit () {
-        var that = this
-        var corpId = that.loginUser.authUser.corpId
-        var selectedArray = util.extractProp(this.selectedLocalList, 'userId')
-        var disabledArray = util.extractProp(this.disabledLocalList, 'userId')
-        window.rsqadmg.exec('selectDeptMember', {
-          btnText: '确定',  //  选择器按钮文本，pc端需要的参数
-          multiple: true, //  默认false，选择单人
-          maximum: -1,  //  可选择人数的上限，默认-1不限制人数
-          title: that.selectTitle, //  选择器标题，pc端需要的参数
-          corpId: corpId,  //  加密的企业 ID，
-          selectedIds: selectedArray,
-          disabledIds: disabledArray || [], //  不能选的人
-          success (res) {
-//            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
-//              that.memberList = res
-            if (res.length === 0) {
-              return this.$emit('member-changed', [])
-            }
-            var idArray = util.extractProp(res.result.userList, 'id')
-//            window.rsqadmg.exec('showLoader')
-            that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
-                .then(function (idMap) {
-//                  window.rsqadmg.exec('hideLoader')
-                  var userArray = util.getMapValuePropArray(idMap)
-                  var rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-                  that.$emit('member-changed', rsqIdArray)
-                })
-          }
-        })
-      },
+//       showNativeMemberEdit () {
+//         var that = this
+//         var corpId = that.loginUser.authUser.corpId
+//         var selectedArray = util.extractProp(this.selectedLocalList, 'userId')
+//         var disabledArray = util.extractProp(this.disabledLocalList, 'userId')
+//         window.rsqadmg.exec('selectDeptMember', {
+//           btnText: '确定',  //  选择器按钮文本，pc端需要的参数
+//           multiple: true, //  默认false，选择单人
+//           maximum: -1,  //  可选择人数的上限，默认-1不限制人数
+//           title: that.selectTitle, //  选择器标题，pc端需要的参数
+//           corpId: corpId,  //  加密的企业 ID，
+//           selectedIds: selectedArray,
+//           disabledIds: disabledArray || [], //  不能选的人
+//           success (res) {
+// //            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
+// //              that.memberList = res
+//             if (res.length === 0) {
+//               return this.$emit('member-changed', [])
+//             }
+//             var idArray = util.extractProp(res.result.userList, 'id')
+// //            window.rsqadmg.exec('showLoader')
+//             that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
+//                 .then(function (idMap) {
+// //                  window.rsqadmg.exec('hideLoader')
+//                   var userArray = util.getMapValuePropArray(idMap)
+//                   var rsqIdArray = util.extractProp(userArray, 'rsqUserId')
+//                   that.$emit('member-changed', rsqIdArray)
+//                 })
+//           }
+//         })
+//       },
       showWebMemberEdit () {
-        // 显示之前先将所有获得焦点的元素失去焦点
-        if (document.activeElement) {
-          document.activeElement.blur()
-        }
-        var that = this
-        var corpId = that.loginUser.authUser.corpId
+        const that = this
         SelectMember.show({
+          nameAttribute: 'name',
+          maximum: this.maximum,
+          idAttribute: 'rsqUserId',
           memberList: this.localList,
-          selectedList: this.selectedLocalList,
+          selectedIdList: this.selectRsqidArray,
           disabledIdList: this.disabledLocalList,
+          // 转换为字符串
+          creatorIdList: [this.createrRsqIds[0].toString()],
           success (selList) {
-            var idArray = util.extractProp(selList, 'emplId')
-            that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
-                .then(function (idMap) {
-                  that.selectedLocalList = util.getMapValuePropArray(idMap)
-                  that.$emit('member-changed', that.selectedLocalList)
-                })
+            const arr = selList.map(m => {
+              return m.rsqUserId
+            })
+            that.selectedLocalList = [...selList]
+            // that.selectedLocalList = selList
+            // var idArray = util.extractProp(selList, 'emplId')
+            // that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
+            //   .then(function (idMap) {
+            //     that.selectedLocalList = util.getMapValuePropArray(idMap)
+            that.$emit('member-changed', arr)
+            //   })
           },
           cancel () {
           }

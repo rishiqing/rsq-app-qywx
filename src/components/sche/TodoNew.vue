@@ -29,11 +29,12 @@
               <div class="common-field">
                 <r-input-member
                   :has-left-space="true"
-                  :is-native="true"
+                  :is-native="false"
                   :index-title="''"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="[]"
+                  :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
+                  :creater-rsq-ids="joinUserRsqIds"
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
@@ -98,6 +99,9 @@
       },
       corpId () {
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
+      },
+      userRsqId () {
+        return this.$store.state.staff.list
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -142,7 +146,7 @@
         this.$store.commit('TD_TODO_UPDATED', {todo: {pTitle: newTitle}})
       },
       saveMember (idArray) {
-        this.joinUserRsqIds = idArray
+        // this.joinUserRsqIds = idArray
         var ids = idArray.join(',')
         this.editItem.receiverIds = ids
         this.$store.commit('TD_TODO_UPDATED', {todo: {receiverIds: ids}})
@@ -172,7 +176,6 @@
         }
 
         this.saveTodoState()
-//        var that = this
         var todoType = this.isInbox ? 'inbox' : 'schedule'
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入

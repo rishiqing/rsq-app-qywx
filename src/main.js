@@ -57,7 +57,8 @@ window.rsqadmg.exec('auth', {
     window.rsqadmg.exec('disableBounce')
 
     store.state.env.isAddNav = true
-
+    // 获取日事清用户信息
+    store.dispatch('fetchStaffList')
     /* eslint-disable no-new */
     new Vue({
       el: '#app',

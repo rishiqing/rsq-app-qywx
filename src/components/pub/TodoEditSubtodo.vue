@@ -20,11 +20,13 @@
         <div class="common-field">
           <r-input-member
             :has-left-space="true"
-            :is-native="true"
+            :is-native="false"
             :index-title="'执行人'"
             :select-title="'请选择成员'"
-            :user-rsq-ids="[]"
+            :user-rsq-ids="userRsqId"
+            :maximum= "1"
             :selected-rsq-ids="joinUserRsqIds"
+            :creater-rsq-ids="pUserId"
             :disabled-rsq-ids="[]"
             @member-changed="saveMember"/>
         </div>
@@ -69,7 +71,7 @@
       return {
         editItem: {},
         newName: '',
-        joinUserRsqIds: ''
+        joinUserRsqIds: []
       }
     },
     computed: {
@@ -78,6 +80,12 @@
       },
       pubid () {
         return this.$store.state.pub.pubid
+      },
+      userRsqId () {
+        return this.$store.state.staff.list
+      },
+      pUserId () {
+        return [this.$store.state.todo.currentTodo.pUserId]
       }
     },
     mounted () {
@@ -87,7 +95,10 @@
         this.editItem.name = this.$store.state.pub.subtitle
       }
       this.$store.commit('PUB_TITLE_SUB', this.editItem.name)
-      this.joinUserRsqIds = this.$store.state.todo.currentSubtodo.joinUsers
+      this.joinUserRsqIds = this.$store.state.todo.currentSubtodo.joinUsers.map(function (arr) {
+        return arr.id.toString()
+      })
+      this.$store.commit('PUB_SUB_TODO_USER', {id: this.joinUserRsqIds})
     },
     methods: {
       copyTitle (value) {
@@ -100,11 +111,11 @@
         const endDate = this.$store.state.todo.currentSubtodo.endDate
         const startDate = this.$store.state.todo.currentSubtodo.startDate
         const dates = this.$store.state.todo.currentSubtodo.dates
-        // console.log(this.editItem.name)
+        const joinUsers = this.$store.state.subUserId[0]
         const item = this.currentSubtodo
         const that = this
         window.rsqadmg.exec('showLoader', {text: '保存中...'})
-        this.$store.dispatch('updateSubtodo', {item, id, name, isDone, endDate, startDate, dates})
+        this.$store.dispatch('updateSubtodo', {item, id, name, isDone, endDate, startDate, dates, joinUsers})
           .then(() => {
             //  触发标记重复修改
             that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
@@ -113,8 +124,7 @@
           })
       },
       saveMember (idArray) {
-        alert(idArray)
-        this.joinUserRsqIds = idArray
+        // this.joinUserRsqIds = idArray
         this.editItem.receiverIds = idArray
         this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})
       },
@@ -165,7 +175,7 @@
 </script>
 <style lang="scss" scoped>
   .top-padding {
-    padding-top: 0.2rem;
+    padding-top: 20px;
   }
   .fblack{
     color: black

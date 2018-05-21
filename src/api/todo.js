@@ -263,6 +263,18 @@ export default {
         })
     })
   },
+  updataPlan (props) {
+    var path = util.replaceUrlParams(mapping.UPDATA_PLAN, props)
+    return new Promise((resolve, reject) => {
+      Vue.http.put(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.error(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
   getPlan () {
     return new Promise((resolve, reject) => {
       Vue.http.get(mapping.GET_PLAN)

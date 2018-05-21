@@ -86,6 +86,8 @@
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
   import moment from 'moment'
+  import { Promise } from 'es6-promise'
+  import SelectMember from 'com/pub/SelectMember'
 
   export default {
     name: 'PlanSetting',
@@ -96,12 +98,22 @@
       return {
         editState: false,
         planName: '',
-        selectedLocalList: [],
         isOwn: false,
-        creatorName: ''
+        creatorName: '',
+        localList: [],  //  人员选择列表
+        selectedLocalList: [],  //  已选择的人员选择列表
+        disabledLocalList: [],  //  本地禁用的人员列表
+        creatorList: [], // 创建者
+        memarr: []
       }
     },
     computed: {
+      userRsqIds () {
+        return this.$store.state.staff.list
+      },
+      selectedRsqIds () {
+        return [this.$store.state.loginUser.rsqUser.id]
+      },
       currentPlan () {
         return this.$store.state.currentPlan
       },
@@ -130,6 +142,45 @@
           rsqIdArray.push(item.userId)
         })
         return rsqIdArray
+      },
+      memberCount () {
+        return this.selectedLocalList.length <= 3
+      },
+      userRsqIdArray () {
+        return this.userRsqIds.map(function (staff) {
+          return staff.id
+        })
+      },
+      creatorListArray () {
+        return this.creatorList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      selectRsqidArray () {
+        return this.selectedLocalList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      createrRsqIds () {
+        return this.selectedLocalList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      disableRsqidArray () {
+        return this.disabledRsqIds.map(function (staff) {
+          return staff.id
+        })
+      }
+    },
+    watch: {
+      selectedRsqIds () {
+        this.fetchUserIds(this.selectedRsqIds, 'selectedLocalList')
+      },
+      disabledRsqIds () {
+        this.fetchUserIds(this.disableRsqidArray, 'disabledLocalList')
+      },
+      createrRsqIds () {
+        this.fetchUserIds(this.createrRsqIds, 'creatorList')
       }
     },
     mounted () {
@@ -143,6 +194,7 @@
             this.isOwn = true
           }
         })
+      this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
       showEditPlanName () {
@@ -157,8 +209,8 @@
           alert('请传入图片')
           return
         }
-        const extNameArry = file.name.split('.')
-        const extName = extNameArry[extNameArry.length - 1]
+        const extNameArray = file.name.split('.')
+        const extName = extNameArray[extNameArray.length - 1]
         const time = moment().format('YYYYMMDDHHmmss')
         const savedName = time + '.' + extName
         const task = {
@@ -167,7 +219,6 @@
           progress: 0,
           file: file
         }
-        console.log(this.corpId)
         return this.$store.dispatch('uploadKanbanCoverImage', {
           pathId: this.corpId,
           task: task,
@@ -230,49 +281,45 @@
           })
       },
       showNativeMemberEdit () {
-        var that = this
-        var corpId = that.loginUser.authUser.corpId
-        var selectedArray = util.extractProp(this.selectedLocalList, 'userId')
-//        var disabledArray = util.extractProp(this.disabledLocalList, 'userId')
-        window.rsqadmg.exec('selectDeptMember', {
-          btnText: '确定',  //  选择器按钮文本，pc端需要的参数
-          multiple: true, //  默认false，选择单人
-          maximum: -1,  //  可选择人数的上限，默认-1不限制人数
-          title: that.selectTitle, //  选择器标题，pc端需要的参数
-          corpId: corpId,  //  加密的企业 ID，
-          selectedIds: selectedArray,
-          disabledIds: [], //  不能选的人
-          success (res) {
-            if (res.length === 0) {
-              return this.$emit('member-changed', [])
-            }
-            var idArray = util.extractProp(res.result.userList, 'id')
-//            window.rsqadmg.exec('showLoader')
-            that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
-              .then(function (idMap) {
-                var userArray = util.getMapValuePropArray(idMap)
-                var rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-                that.$store.dispatch('updatePlanMember', { id: that.currentPlan.id, accessIds: rsqIdArray.toString() }).then((res) => {
-                  that.selectedLocalList = userArray
-                  that.currentPlan.userRoles = res.userRoles
-                })
-//                var params = {
-//                  receiverIds: idArray.join(','),
-//                  addJoinUsers: compRes.addList.join(','),
-//                  deleteJoinUsers: compRes.delList.join(',')
-//                }
-//                window.rsqadmg.execute('showLoader', {text: '保存中...'})
-//                this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
-//                  this.joinUserRsqIds = idArray
-//                  window.rsqadmg.exec('hideLoader')
-//                  window.rsqadmg.execute('toast', {message: '保存成功'})
-//                that.selectedLocalList = userArray
-//                  alert('userArray' + JSON.stringify(userArray))
-//                  alert('rsqIdArray' + JSON.stringify(rsqIdArray))
-//                that.$emit('member-changed', rsqIdArray)
+        const that = this
+        SelectMember.show({
+          nameAttribute: 'name',
+          maximum: 5,
+          idAttribute: 'rsqUserId',
+          memberList: this.localList,
+          selectedIdList: this.selectRsqidArray,
+          disabledIdList: this.disabledLocalList,
+          // 转换为字符串
+          creatorIdList: [this.createrRsqIds[0].toString()],
+          success (selList) {
+            const arr = selList.map(m => {
+              return m.rsqUserId
+            })
+            that.selectedLocalList = [...selList]
+            that.memarr = [...arr]
+            var arrstr = arr.join(',')
+            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr})
+              .then(function (res) {
+                that.$store.commit('UPDATA_PLAN', res.userRoles)
               })
+          },
+          cancel () {
           }
         })
+      },
+      fetchUserIds (ids, targetListName) {
+        if (!ids || ids.length === 0) {
+          this[targetListName] = []
+          return Promise.resolve()
+        }
+        var corpId = this.loginUser.authUser.corpId
+        //  暂时去掉loader
+//        window.rsqadmg.exec('showLoader')
+        return this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: ids})
+          .then(idMap => {
+            this[targetListName] = util.getMapValuePropArray(idMap)
+//            window.rsqadmg.exec('hideLoader')
+          })
       }
     }
   }

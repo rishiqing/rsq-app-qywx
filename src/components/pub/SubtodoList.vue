@@ -224,7 +224,7 @@
   }
   .sublist-item{
     position: relative;
-    border-bottom:0.5px solid #D4D4D4 ;
+    border-bottom:0.5px solid #D4D4D4;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     height: 1.22rem;

@@ -103,7 +103,7 @@
         localList: [],  //  人员选择列表
         selectedLocalList: [],  //  已选择的人员选择列表
         disabledLocalList: [],  //  本地禁用的人员列表
-        createrList: [], // 创建者
+        creatorList: [], // 创建者
         memarr: []
       }
     },
@@ -146,17 +146,17 @@
       memberCount () {
         return this.selectedLocalList.length <= 3
       },
-      userRsqidArry () {
+      userRsqIdArray () {
         return this.userRsqIds.map(function (staff) {
           return staff.id
         })
       },
-      createrListArry () {
-        return this.createrList.map(function (staff) {
+      creatorListArray () {
+        return this.creatorList.map(function (staff) {
           return staff.rsqUserId
         })
       },
-      selectRsqidArry () {
+      selectRsqidArray () {
         return this.selectedLocalList.map(function (staff) {
           return staff.rsqUserId
         })
@@ -166,7 +166,7 @@
           return staff.rsqUserId
         })
       },
-      disableRsqidArry () {
+      disableRsqidArray () {
         return this.disabledRsqIds.map(function (staff) {
           return staff.id
         })
@@ -177,10 +177,10 @@
         this.fetchUserIds(this.selectedRsqIds, 'selectedLocalList')
       },
       disabledRsqIds () {
-        this.fetchUserIds(this.disableRsqidArry, 'disabledLocalList')
+        this.fetchUserIds(this.disableRsqidArray, 'disabledLocalList')
       },
       createrRsqIds () {
-        this.fetchUserIds(this.createrRsqIds, 'createrList')
+        this.fetchUserIds(this.createrRsqIds, 'creatorList')
       }
     },
     mounted () {
@@ -194,7 +194,7 @@
             this.isOwn = true
           }
         })
-      this.fetchUserIds(this.userRsqidArry, 'localList')
+      this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
       showEditPlanName () {
@@ -209,8 +209,8 @@
           alert('请传入图片')
           return
         }
-        const extNameArry = file.name.split('.')
-        const extName = extNameArry[extNameArry.length - 1]
+        const extNameArray = file.name.split('.')
+        const extName = extNameArray[extNameArray.length - 1]
         const time = moment().format('YYYYMMDDHHmmss')
         const savedName = time + '.' + extName
         const task = {
@@ -287,7 +287,7 @@
           maximum: 5,
           idAttribute: 'rsqUserId',
           memberList: this.localList,
-          selectedIdList: this.selectRsqidArry,
+          selectedIdList: this.selectRsqidArray,
           disabledIdList: this.disabledLocalList,
           // 转换为字符串
           creatorIdList: [this.createrRsqIds[0].toString()],

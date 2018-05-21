@@ -1,4 +1,5 @@
 var path = require('path')
+var url = require('url')
 var utils = require('./utils')
 var webpack = require('webpack')
 var config = require('../config')
@@ -24,7 +25,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: config.beta.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
+    publicPath: url.resolve(config.beta.frontServer, config.beta.assetsPublicPath)
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html

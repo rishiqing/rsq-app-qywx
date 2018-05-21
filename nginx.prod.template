@@ -15,10 +15,10 @@ server {
 #        index index.html;
 #    }
     location /qywxbackauth/alert/set {
-        proxy_pass https://qywx-beta.rishiqing.com/qywxbackauth-alert/alert/set;
+        proxy_pass https://qywx.rishiqing.com/qywxbackauth-alert/alert/set;
     }
     location /task {
-        proxy_pass https://beta.rishiqing.com;
-        proxy_redirect ~^[^:]+://beta.rishiqing.com/(.*)$ https://qywx-beta.rishiqing.com/$1;
+        proxy_pass https://www.rishiqing.com;
+        proxy_redirect ~^[^:]+://www.rishiqing.com/(.*)$ https://qywx.rishiqing.com/$1;
     }
 }

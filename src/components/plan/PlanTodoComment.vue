@@ -118,7 +118,7 @@
     padding-top:5px ;
     height: 200px;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 20px;
   }
   ul{
     border-bottom: 0.5px solid #E3E3E3;

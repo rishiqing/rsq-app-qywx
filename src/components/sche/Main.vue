@@ -15,7 +15,7 @@
       @on-cal-pan-end="onPanEnd"/>
     <div
       id="bounceDiv"
-      style="width:100%;height:100%;overflow: auto;-webkit-overflow-scrolling: touch;">
+      style="width:100%;height:100%;overflow: auto;-webkit-overflow-scrolling: touch;margin-top: 27px">
       <r-pull-to-refresh
         :enabled="enablePullToRefresh"
         @on-list-pan-move="checkScroll"
@@ -226,7 +226,7 @@
   }
   .itm-lst{
     text-align: center;
-    background-color: #F8F8F8;
+    background-color: #F5F5F5;
     height: 78%;
   }
   img{

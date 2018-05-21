@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="inbox-main">
     <div class="topest"/>
     <div class="wrap">
       <input
@@ -15,13 +15,15 @@
       </v-touch>
     </div>
     <div class="margin-block"/>
-    <div class="InboxItem">
+    <div class="inbox-item">
       <r-todo-item-list
         v-if="items != null && items.length > 0"
         :items="items"
         :is-checkable="false"/>
     </div>
+    <div class="tips">收纳箱中的任务没有具体的日期，它可能是灵光乍现的想法，可能是同事拜托你的一件小事…</div>
   </div>
+
 </template>
 <script>
   import TodoItemList from 'com/sche/TodoItemList'
@@ -65,22 +67,41 @@
   }
 </script>
 <style lang="scss" scoped>
-  .InboxItem{
+  .inbox-main{
+    min-height: 100%;
+  }
+  .tips{
+    position: fixed;
+    bottom: 3.8%;
+    z-index: 0;
+    color: #9B9B9B;
+    font-size: 14px;
+    line-height: 18px;
+    width: 93.2%;
+    text-align: center;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    height: 4.9%;
+  }
+  .inbox-item{
     background-color: white;
     border-bottom:1px solid #E3E3E3 ;
+    position: relative;
+    z-index: 2;
   }
   .wrap{
     position: fixed;
     height: 1.45rem;
     width: 100%;
-    top: 10px;
+    top: 20px;
     left: 0;
     right: 0;
     z-index: 2;
   }
   .topest{
-    background-color: #F8F8F8;
-    height: 10px;
+    background-color: #F5F5F5;
+    height: 20px;
     z-index: 2;
     position: fixed;
     width: 100%;
@@ -89,23 +110,23 @@
     box-sizing: border-box;
     display: block;
     text-align: center;
-    width:1.413rem;
-    height: 0.66rem;
+    width:45px;
+    height: 26px;
     line-height: 0.66rem;
-    border: 1px solid #55A8FD;
     border-radius: 2px;
-    font-size: 15px;
-    color:#55A8FD;
+    font-size: 13px;
+    color:#fff;
     position: absolute;
     margin-top: -0.33rem;
     top: 50%;
     right:0.35rem;
     z-index: 3;
+    line-height: 26px;
+    background-color: #2F7DCD;
   }
   .write{
     line-height: 0.612rem;
-    padding-bottom: 0.4rem;
-    padding-top: 0.4rem;
+    height: 56px;
     border-bottom:1px solid #E3E3E3;
     border-top:1px solid #E3E3E3;
     background: #FFFFFF;
@@ -128,6 +149,7 @@
   .margin-block {
     height: 1.9rem;
     z-index: 1;
+    margin-bottom: 20px
   }
   .input-panel {
     position: fixed;

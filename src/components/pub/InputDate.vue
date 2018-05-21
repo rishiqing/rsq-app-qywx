@@ -2,9 +2,7 @@
   <v-touch @tap="gotoDate">
     <div
       class="outer-wrap bottom-border">
-      <span class="inner-key">日期</span>
-      <span class="inner-value">{{ dateString }}</span>
-      <i class="icon2-arrow-right-small arrow"/>
+      <span class="inner-key">{{ dateString }}</span>
     </div>
   </v-touch>
 </template>
@@ -82,24 +80,11 @@
           isCloseRepeat: !!c.isCloseRepeat,
           repeatType: c.repeatType || null,
           repeatBaseTime: c.repeatBaseTime || null,
-          isLastDate: c.isLastDate === undefined || false
+          isLastDate: c.isLastDate === undefined || false,
+          repeatOverDate: c.repeatOverDate || null
         }
         this.$store.commit('PUB_TODO_DATE_UPDATE', {data: obj})
         this.$router.push('/' + this.todoType + '/todo/date')
-//        // 显示之前先将所有获得焦点的元素失去焦点
-//        if (document.activeElement) {
-//          document.activeElement.blur()
-//        }
-//        var that = this
-//        var defDate = dateUtil.backend2frontend({dates: this.itemDates, startDate: this.itemStartDate, endDate: this.itemEndDate})
-//        SelectDate.show({
-//          type: defDate.dateType,
-//          selectNumDate: defDate.dateResult,
-//          success: function (result) {
-//            var resObj = dateUtil.frontend2backend({dateType: result.type, dateResult: result.selectNumDate, sep: that.itemSep})
-//            that.$emit('date-changed', resObj)
-//          }
-//        })
       }
     }
   }
@@ -118,27 +103,8 @@
     font-size: 17px;
     color: #333333;
   }
-  .inner-value {
-    display: block;
-    position: absolute;
-    top:50%;
-    margin-top: -0.65rem;
-    right: 0.94rem;
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #999999;
-    letter-spacing: 0;
-  }
-  .arrow{
-    color: #999999;
-    font-size: 21px;
-    position: absolute;
-    top:50%;
-    margin-top: -0.25rem;
-    right: 0.2rem;
-  }
   .bottom-border{
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 0.5px solid #D4D4D4;
   }
 </style>
 

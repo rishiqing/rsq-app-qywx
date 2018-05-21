@@ -70,16 +70,12 @@
         this.$router.replace(page)
       },
       createNew () {
-        if (this.currentPath === '/plan/list') {
-          this.$router.push('/plan/create')
-        } else {
-          //  过去的日期不允许创建任务
-          if (this.currentNumDate + 24 * 3600 * 1000 < new Date().getTime()) {
-            return window.rsqadmg.exec('topTips', {message: '过去的日期不能创建日程'})
-          }
-          this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
-          this.$router.push('/sche/todo/create')
+        // 过去的日期不能创建日程
+        if (this.currentNumDate + 24 * 3600 * 1000 < new Date().getTime()) {
+          return window.rsqadmg.exec('topTips', {message: '过去的日期不能创建日程'})
         }
+        this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
+        this.$router.push('/sche/todo/create')
       }
     }
   }
@@ -104,8 +100,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top:1px solid #CDCDCD;
-    height: 1.306rem;
+    border-top:0.5px solid #D4D4D4;
+    height: 50px;
     background-color: #FDFDFF;;
   }
   .richeng{

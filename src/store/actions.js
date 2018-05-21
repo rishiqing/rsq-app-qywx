@@ -225,8 +225,14 @@ export default {
       })
   },
   createSubtodo ({commit, state, dispatch}, p) {
-    var name = p.newItem.pTitle
-    return api.todo.postSubtodo({name: name, todoId: p.todoId})
+    var datas = {}
+    datas.name = p.name
+    datas.todoId = p.todoId
+    datas.startDate = p.startDate
+    datas.endDate = p.endDate
+    datas.joinUsers = p.joinUsers
+    datas.dates = p.dates
+    return api.todo.postSubtodo(datas)
       .then(item => {
         commit('CHILDTASK_TODO_CREATED', {item: item})
       })
@@ -535,29 +541,15 @@ export default {
   },
   updateSubtodo ({commit, state}, p) {
     //  p.todo不存在，则默认读取currentTod
-    // var id = state.todo.currentTodo.subTodos[0].id
-    // var id = p.item.id
-    p.item.name = p.name
     var item = p.item
-    //  如果id存在，则ajax更新
-    // var editItem = p.editItem
-    // console.log('todo的id是' + id)
-    // editItem['id'] = id
-    return api.todo.putSubtodoProps(item)
-      .then(subtodo => {
-        commit('TD_SUBTODO_UPDATED', {subtodo: subtodo, item: item})
-      })
-  },
-  updateSubtodoCheck ({commit, state}, p) {
-    //  p.todo不存在，则默认读取currentTodo
-    // var id = state.todo.currentTodo.subtodos[0].id
-    // var id = p.item.id
-    p.item.name = p.name
-    var item = p.item
-    //  如果id存在，则ajax更新
-    // var editItem = p.editItem
-    // editItem['id'] = id
-    return api.todo.putSubtodoProps(item)
+    var temp = {}
+    temp.name = p.name
+    temp.id = p.id
+    temp.endDate = p.endDate
+    temp.startDate = p.startDate
+    temp.isDone = p.isDone
+    temp.dates = p.dates
+    return api.todo.putSubtodoProps(temp)
       .then(subtodo => {
         commit('TD_SUBTODO_UPDATED', {subtodo: subtodo, item: item})
       })
@@ -870,6 +862,39 @@ export default {
           })
       })
   },
+  /**
+   * 上传计划的封面图片
+   * @param commit
+   * @param state
+   * @param p.pathId：corpId，用来获取权限
+   * @param p.task：上传任务，其中需要包含file、progress和finished字段。
+   * @param p.savedName：保存到OSS之后的文件名，使用时间戳命名
+   */
+  uploadKanbanCoverImage ({commit, state}, p) {
+    const pathId = p.pathId
+    const path = window.rsqConfig.ossKanbanCoverImagePath
+    const task = p.task
+    const f = task.file
+    return api.system.getOSSClient({pathId: pathId}, {
+      stsServer: window.rsqConfig.stsServer + 'cover/custom/kanban/',
+      ossBucket: window.rsqConfig.ossImageBucket
+    })
+      .then(client => {
+        const name = path + p.savedName
+        return client.multipartUpload(name, f, {
+          progress: function (p) {
+            return function (done) {
+              const pro = Math.floor(p * 100)
+              task.progress = pro
+              if (pro >= 1) {
+                task.finished = true
+              }
+              done()
+            }
+          }
+        })
+      })
+  },
   //  dingtalk/130350304726297460/2126PictureUnlock_haokan1171162_16:9.pictureunlock.jpg
   getOSSUrl ({commit, state}, p) {},
   /**
@@ -1010,8 +1035,7 @@ export default {
   },
   deleteChildPlan ({commit, state}, p) {
     return api.todo.deleteChildPlan(p)
-      .then(() => {
-        // alert('删除返回')
+      .then((res) => {
         commit('DELETE_CHILD_PLAN', p)
       })
   },
@@ -1069,6 +1093,12 @@ export default {
     return api.todo.updatePlanName(p)
       .then((res) => {
         commit('PLAN_NAME_UPDATE', p)
+      })
+  },
+  updatePlanImg ({commit, state}, p) {
+    return api.todo.updatePlanName(p)
+      .then((res) => {
+        commit('PLAN_IMG_UPDATE', p)
       })
   },
   getLabels ({commit, state}, p) {

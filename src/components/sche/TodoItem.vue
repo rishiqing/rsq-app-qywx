@@ -175,8 +175,8 @@
   .receive{
     border: 1px solid #55A8FD;
     border-radius: 2px;
-    width: 1.55rem;
-    height: 0.594rem;
+    width: 56px;
+    height: 22px;
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #55A8FD;
@@ -201,7 +201,9 @@
     font-size: 17px;
     text-overflow: ellipsis;
     overflow: hidden;
-    height: 1.6rem;
+    height: 56px;
+    line-height: 56px;
+    // height: 1.6rem;
     white-space:nowrap
   }
   .delay-width{
@@ -233,16 +235,15 @@
   }
   .delayer{
     font-family: PingFangSC-Regular;
-    font-size: 15px;
+    font-size: 12px;
     color: #FF7A7A;
     letter-spacing: 0;
     margin-right: 0.5rem;
   }
   li{
     padding:0;
-    line-height:1.612rem ;
     position: relative;
-    border-bottom:1px solid #E0E0E0 ;
+    border-bottom:0.5px solid #D4D4D4 ;
   }
   li:last-child{
     border-bottom: none;
@@ -260,9 +261,9 @@
   .item-title{}
   .select{
     color:#b9b9bc;
-    font-size: 17px;
+    font-size: 20px;
     display: block;
-    margin: 0.58rem 0 0 0.3rem;
+    margin: 0.45rem 0 0 0.3rem;
     /*position: absolute;*/
     /*top:0.58rem;*/
     /*<!--top:50%;-->*/
@@ -276,6 +277,7 @@
     top: 0;
     left: -0.1rem;
     width: 1rem;
-    height: 1.6rem;
+    height: 56px;
+    line-height: 56px;
   }
 </style>

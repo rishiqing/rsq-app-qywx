@@ -3,11 +3,21 @@
     <ul
       v-if="planItems.length > 0"
       :class="{'plan-count': planCount}"
-      class="PlanList">
+      class="plan-list">
       <r-plan
         v-for="item in planItems"
         :key="item.id"
         :item="item"/>
+      <li
+        class="plan"
+        @click="toCreate">
+        <div class="forward-plan">
+          <img
+            src="../../assets/img/add2.png"
+            class="plan-image">
+          <span class="plan-name">新建计划</span>
+        </div>
+      </li>
     </ul>
     <v-touch
       v-else
@@ -73,14 +83,15 @@
     width: 1rem;
     height: 1rem;
   }
-  .PlanList{
+  .plan-list{
     background-color: white;
     padding-left: 0.3rem;
-    margin-top: 0.1rem;
+    margin-top: 20px;
+    overflow-x: hidden;
   }
   .itm-lst{
     text-align: center;
-    background-color: #F8F8F8;
+    background-color: #F5F5F5;
     height: 78%;
 
     img{
@@ -95,7 +106,32 @@
       font-family: PingFangSC-Regular;
       font-size: 15px;
       color: #55A8FD;
-      letter-spacing: 0
+      letter-spacing: 0;
     }
+  }
+  .forward-plan{
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .plan-image{
+    width: 0.906rem;
+    height: 0.906rem;
+  }
+  .plan-name{
+    width: 7rem;
+    font-size: 17px;
+    color: #3D3D3D;
+    margin-left: 0.3rem;
+    color: #2F7DCD;
+  }
+  .plan{
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid #EAEAEA;
   }
 </style>

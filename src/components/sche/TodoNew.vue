@@ -30,7 +30,7 @@
                 <r-input-member
                   :has-left-space="true"
                   :is-native="true"
-                  :index-title="'执行人'"
+                  :index-title="''"
                   :select-title="'请选择成员'"
                   :user-rsq-ids="[]"
                   :selected-rsq-ids="joinUserRsqIds"
@@ -166,6 +166,9 @@
           //  坑爹啊。。。格式不统一，需要做额外的hack
           this.editItem.pPlanedTime = dateUtil.dateNum2Text(planTime, '-') + ' 00:00:00'
           this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
+          //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
+          const overDate = this.editItem.repeatOverDate
+          this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
         }
 
         this.saveTodoState()
@@ -227,8 +230,9 @@
 </script>
 <style lang="scss" scoped>
   .input-title{
-    border-top: 1px solid #DADADA;
-    border-bottom: 1px solid #DADADA;
+    border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
+    margin-top: 10px;
   }
   .router-view{
     height: 100%;
@@ -238,14 +242,14 @@
     height: 100%;
   }
   .firstGroup{
-    margin-top:10px;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+    margin-top:20px;
+    border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .secondGroup{
-    margin-top:10px;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+    margin-top:20px;
+    border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   p{
     font-family: PingFangSC-Regular;
@@ -280,7 +284,7 @@
     position: absolute;
     top:0.55rem;
     right:0.3rem;
-    border: 1px solid #dfdfdf;
+    border: 0.5px solid #D4D4D4;
     background-color: #fdfdfd;
     box-shadow: #dfdfdf 0 0 0 0 inset;
     border-radius: 20px;

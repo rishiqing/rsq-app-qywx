@@ -1,0 +1,59 @@
+._cancel:first-child,.weui-picker__action:first-child{
+    color: #2F7DCD;
+}
+._title{
+	height: 28px;
+}
+._time{
+	font-family: PingFangSC-Regular;
+	font-size: 18px;
+	color: #000000;
+	text-align: center;
+	line-height: 28.15px;
+}
+._chose{
+	height: 89px;
+	background-color: #fff;
+}
+._tt{
+	float: left;
+	width: 50%;
+	height: 100%;
+	text-align: center;
+	color: #9B9B9B;
+}
+._mb{
+	margin-bottom: -100px;
+}
+._ctitle{
+	height: 45px;
+	font-family: PingFangSC-Regular;
+	font-size: 14px;
+	line-height: 45px;
+}
+._c{
+	color: #000;
+}
+._s-time{
+	font-family: PingFangSC-Regular;
+	font-size: 17px;
+	line-height: 24px;
+}
+.weui-picker__group:first-child ._item{
+	text-align: right;
+}
+
+.weui-picker__group:nth-child(3) ._item{
+	text-align: left;
+}
+.weui-picker__group:first-child .weui-picker__item{
+	text-align: right;
+	padding-right:10px;
+}
+.weui-picker__group:nth-child(2) .weui-picker__item{
+	text-align: left;
+	padding-left:10px;
+}
+.delete_IOS .weui-actionsheet__cell:nth-child(2){
+	color: red;
+}

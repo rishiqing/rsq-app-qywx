@@ -337,7 +337,7 @@ rsqAdapterManager.register({
           onClose: function(){
             console.log('关闭');
           }
-        });
+        }, {isAndroid:false});
     } else {
       weui.actionSheet([
           {
@@ -363,7 +363,7 @@ rsqAdapterManager.register({
           onClose: function(){
             console.log('关闭');
           }
-        });
+        }, {isAndroid:false, className: params.className});
     }
   },
   /**
@@ -422,6 +422,42 @@ rsqAdapterManager.register({
   },
   timePicker: function(params){
     var hours = [],
+    minites = [];
+    if (!hours.length) {
+      for (var i = 0; i< 24; i++) {
+        var hours_item = {};
+        hours_item.label = ('' + i).length === 1 ? '0' + i : '' + i;
+        hours_item.value = i;
+        hours.push(hours_item);
+      }
+    }
+    if (!minites.length) {
+      for (var j= 0; j < 60; j++) {
+        var minites_item = {};
+        minites_item.label = ('' + j).length === 1 ? '0' + j : '' + j;
+        minites_item.value = j;
+        minites.push(minites_item);
+      }
+    }
+    var defString = params.strInit || '00:00';
+    var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
+    weui.picker(hours, minites, {
+      id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
+      defaultValue: defArray,
+      onConfirm: function(result) {
+        var time = result[0].label + ':' + result[2].label;
+        var result = {value: time}
+        rsqChk(params.success, [result]);
+      }
+    });
+  },
+  /**
+   * timePicker2魔改版
+   * @param  {[type]} params [description]
+   * @return {[type]}        [description]
+   */
+  timePicker2: function(params){
+    var hours = [],
     minites = [],
     symbol = [{ label: ':', value: 0 }];
     if (!hours.length) {
@@ -442,15 +478,33 @@ rsqAdapterManager.register({
     }
     var defString = params.strInit || '00:00';
     var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
-    weui.picker(hours, symbol, minites, {
+    var defString2 = params.strInit2 || '';
+    var defArray2 = [defString2.substr(0, 2), ':', defString2.substr(3, 2)];
+    weui2.picker(hours, symbol, minites, {
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
+      onChange: function (result) {
+        var time = result[0].label + ':' + result[2].label
+        document.querySelector('._c ._s-time').innerHTML = time
+      },
       onConfirm: function(result) {
-        var time = result[0].label + ':' + result[2].label;
-        var result = {value: time}
-        rsqChk(params.success, [result]);
+        let startTime =  document.querySelector('#startTime').innerHTML
+        let endTime = document.querySelector('#endTime').innerHTML
+        // var time = result[0].label + ':' + result[2].label;
+        // var result = {value: time}
+        rsqChk(params.success, [startTime, endTime]);
       }
     });
+    document.querySelector('#endTime').innerHTML = defString2
+    //设定左右切换
+    document.querySelector("#_tl").addEventListener('click', () => {
+      document.querySelector("#_tr").classList.remove('_c')
+      document.querySelector("#_tl").classList.add('_c')
+    })
+    document.querySelector("#_tr").addEventListener('click', () => {
+      document.querySelector("#_tl").classList.remove('_c')
+      document.querySelector("#_tr").classList.add('_c')
+    })
   },
   disableBounce: function(){
     //  去掉iOS的回弹效果

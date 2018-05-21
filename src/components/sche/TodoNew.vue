@@ -193,6 +193,9 @@
           })
           .then(item => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
+            if (todoType === 'inbox') {
+              this.$router.replace('/sche')
+            }
             if (item.receiverIds) {
               var url = window.location.href.split('#')
 //                var note = this.editItem.pNote

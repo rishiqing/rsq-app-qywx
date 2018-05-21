@@ -194,7 +194,7 @@
           .then(item => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
             if (todoType === 'inbox') {
-              this.$router.replace('/sche')
+              this.$router.replace('/inbox')
             }
             if (item.receiverIds) {
               var url = window.location.href.split('#')

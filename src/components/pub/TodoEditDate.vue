@@ -381,7 +381,6 @@
             window.rsqadmg.exec('showLoader', {text: '保存中...'})
           }
           var editItem = this.getSubmitResult()
-
           //  如果日期均为空，则容器为收纳箱
           if (!editItem.startDate && !editItem.endDate && !editItem.dates) {
             editItem['pContainer'] = 'inbox'
@@ -389,8 +388,10 @@
             editItem['pContainer'] = 'IE'
           }
           //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
-          // const overDate = editItem.repeatOverDate
-          // editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          const overDate = editItem.repeatOverDate
+          if (overDate) {
+            editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          }
           return this.$store.dispatch('updateTodoDate', {editItem: editItem})
             .then(() => {
               this.$store.commit('PUB_TODO_DATE_DELETE')

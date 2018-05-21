@@ -94,13 +94,13 @@
     position: fixed;
     height: 1.45rem;
     width: 100%;
-    top: 10px;
+    top: 20px;
     left: 0;
     right: 0;
     z-index: 2;
   }
   .topest{
-    background-color: #F8F8F8;
+    background-color: #F5F5F5;
     height: 20px;
     z-index: 2;
     position: fixed;

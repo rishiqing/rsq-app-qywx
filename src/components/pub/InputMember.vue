@@ -219,7 +219,7 @@
     right: 0.2rem;
   }
   .isInbox{
-    border-bottom: 1px solid #E3E3E3;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .has-padding{
     padding-left: 3%;
@@ -228,7 +228,7 @@
     left:1.3rem;
   }
   .bottom-border{
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .avatar{
     margin-right: 0.3rem;

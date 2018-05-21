@@ -48,7 +48,7 @@
 </template>
 <style lang="scss">
   .init-form {
-    position: absolute;left: 10%;width: 80%;top: 20%;background: #f8f8f8;padding: 10px;font-size: 16px;
+    position: absolute;left: 10%;width: 80%;top: 20%;background: #f5F5F5;padding: 10px;font-size: 16px;
   }
 </style>
 <script>

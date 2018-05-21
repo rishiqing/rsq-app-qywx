@@ -155,7 +155,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #EAEAEA;
+    border-bottom: 0.5px solid #D4D4D4;
     width: 131%;
     position: relative;
     user-select: none;

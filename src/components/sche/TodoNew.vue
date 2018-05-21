@@ -166,6 +166,9 @@
           //  坑爹啊。。。格式不统一，需要做额外的hack
           this.editItem.pPlanedTime = dateUtil.dateNum2Text(planTime, '-') + ' 00:00:00'
           this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
+          //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
+          const overDate = this.editItem.repeatOverDate
+          this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
         }
 
         this.saveTodoState()
@@ -314,7 +317,4 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
-  .btn-wrap {
-    padding: 22px 0.3rem 0;
-  }
 </style>

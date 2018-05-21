@@ -79,7 +79,8 @@
         //  初始化时是否有repeat
         uRepeatType: null,
         uRepeatStrTimeArray: [],
-        uIsLastDate: false
+        uIsLastDate: false,
+        uRepeatOverDate: null
       }
     },
     computed: {
@@ -104,9 +105,10 @@
         return text ? text + '重复' : ''
       },
       comRepeat () {
-        var type = null
-        var baseArray = []
-        var isLastDate = false
+        let type = null
+        let baseArray = []
+        let isLastDate = false
+        let repeatOverDate = null
         if (this.selected) {
           type = this.selected.repeatType
           baseArray = this.selected.strTime
@@ -114,12 +116,14 @@
           type = this.uRepeatType
           baseArray = this.uRepeatStrTimeArray
           isLastDate = this.uIsLastDate
+          repeatOverDate = this.uRepeatOverDate
         }
         return {
           selected: this.selected,
           type,
           baseArray,
-          isLastDate
+          isLastDate,
+          repeatOverDate
         }
       }
     },
@@ -132,18 +136,20 @@
       initData () {
         //  有修改缓存读修改缓存，否则从原数据读
         var t = this.todoDate
-        if (t._selected || t._uRepeatType) { // 无论是自定义的还是按照系统选的，总之就是有重复值
+        if (t._selected || t._uRepeatType) {
           this.uRepeatType = t._uRepeatType
           this.uRepeatStrTimeArray = t._uRepeatStrTimeArray
           this.uIsLastDate = t._uIsLastDate
+          this.uRepeatOverDate = t._uRepeatOverDate
           if (t._selected) {
-            this.selected = this.findSelect(t._selected.cid) // 直接赋值不就好了吗，为啥还得调用这个方法
+            this.selected = this.findSelect(t._selected.cid)
           }
-        } else { // 一开始都是空的没有选择，赋值与没赋值有什么区别呢？
+        } else {
           this.uRepeatType = t.repeatType
           var base = t.repeatBaseTime
           this.uRepeatStrTimeArray = (base === null || base === '' ? [] : base.split(','))
           this.uIsLastDate = !!t.isLastDate
+          this.uRepeatOverDate = t.repeatOverDate
           //  无缓存的情况下，如果存在repeatType则设置selected为null，如果不存在repeatType，则默认选中noRepeat
           this.selected = t.repeatType ? null : this.noRepeat
         }
@@ -184,11 +190,12 @@
           strTimeArray = [moment(this.baseNumTime).format('YYYYMMDD')]
         }
         var that = this
-        selectRepeat.show({ // 这个函数的作用很简单，就是把数据传过来然后把结果数据再传给this,只是这几个属性要好好理解下
+        selectRepeat.show({
           baseNumTime: that.baseNumTime,
           repeatType: that.uRepeatType || 'everyDay',
           repeatStrTimeArray: strTimeArray,
           isLastDate: that.uIsLastDate,
+          repeatOverDate: that.uRepeatOverDate,
           success: function (result) {
             if (result.repeatType) {
               that.selected = null
@@ -196,6 +203,7 @@
             that.uRepeatType = result.repeatType
             that.uRepeatStrTimeArray = result.repeatStrTimeArray
             that.uIsLastDate = result.isLastDate
+            that.uRepeatOverDate = result.repeatOverDate
           }
         })
       },
@@ -204,17 +212,20 @@
           _selected: this.selected,
           _uRepeatType: this.uRepeatType,
           _uRepeatStrTimeArray: this.uRepeatStrTimeArray,
-          _uIsLastDate: this.uIsLastDate
+          _uIsLastDate: this.uIsLastDate,
+          _uRepeatOverDate: this.repeatOverDate
         }
         //  表示选择的是“不重复”
         if (this.comRepeat.type === 'none') {
           params['isCloseRepeat'] = true
           params['repeatType'] = null
           params['repeatBaseTime'] = null
+          params['repeatOverDate'] = null
         } else {
           params['isCloseRepeat'] = false
           params['repeatType'] = this.comRepeat.type
           params['isLastDate'] = this.comRepeat.isLastDate
+          params['repeatOverDate'] = this.comRepeat.repeatOverDate
           params['repeatBaseTime'] = this.comRepeat.baseArray.join(',')
           var strDate = dateUtil.dateNum2Text(this.baseNumTime, '/')
           params['startDate'] = strDate

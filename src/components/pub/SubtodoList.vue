@@ -180,7 +180,7 @@
     height: 20px;
     z-index:1;
     width: 100%;
-    background-color: #F8F8F8;
+    background-color: #F5F5F5;
     position: fixed;
   }
   .wrap {
@@ -320,7 +320,7 @@
     background: #FFFFFF;
     border-bottom:0.5px solid #D4D4D4;
     border-top:0.5px solid #D4D4D4;
-    top:20px;
+    top: 20px;
     padding-left:1.6rem;
     z-index: 1;
     line-height: 0.6rem;

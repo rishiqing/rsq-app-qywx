@@ -225,7 +225,7 @@
     background-color: white;
   }
   .top{
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .chose{
     color: #55A8FD;

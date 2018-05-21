@@ -292,7 +292,7 @@
       background: #FFFFFF;
     }
     ul.bottom-border{
-      border-bottom: 0.5px solid #E3E3E3;
+      border-bottom: 0.5px solid #D4D4D4;
     }
     .top-ul {
       margin-top: 20px;

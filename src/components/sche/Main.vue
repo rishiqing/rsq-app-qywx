@@ -15,7 +15,7 @@
       @on-cal-pan-end="onPanEnd"/>
     <div
       id="bounceDiv"
-      style="width:100%;-webkit-overflow-scrolling: touch;margin-top: 27px">
+      style="width:100%;-webkit-overflow-scrolling: touch;margin-top: 16px">
       <r-pull-to-refresh
         :enabled="enablePullToRefresh"
         @on-list-pan-move="checkScroll"
@@ -216,10 +216,10 @@
 <style lang="scss" scoped>
   .main_inbox{
     position: fixed;
-    bottom: 1.6rem;
-    right: 0.5rem;
-    width: 1.2rem;
-    height: 1.2rem;
+    bottom: 80px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
   }
   .calendar {
     overflow-y: auto;

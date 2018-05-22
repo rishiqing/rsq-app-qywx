@@ -42,7 +42,9 @@ if (window.rsqConfig.env === 'prod') {
     ele.parentNode.removeChild(ele)
   }
 }
-
+document.querySelector('body').addEventListener('touchend', function () {
+  document.querySelector('input').blur()
+})
 Vue.use(VueTouch)
 Vue.use(weui)
 Vue.config.productionTip = false

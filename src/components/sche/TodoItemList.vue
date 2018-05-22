@@ -57,12 +57,9 @@
 <style lang="scss" scoped>
   .sche-list{
     background-color: white;
-    border-top:1px solid #DADADA ;
+    border-top:0.5px solid #D4D4D4 ;
     padding-left: 3%;
     overflow-y: auto;
     overflow-x: hidden;
-  }
-  .itemList{
-    padding-bottom:1.306rem;
   }
 </style>

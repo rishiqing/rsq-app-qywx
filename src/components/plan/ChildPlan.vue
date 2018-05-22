@@ -405,9 +405,11 @@
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
-                that.$prompt('请输入卡片名称', '提示', {
+                that.$prompt('', {
+                  title: '编辑任务列表',
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
+                  center: true,
                   inputValue: item.name,
                   inputValidator: value => {
                     if (!value) {

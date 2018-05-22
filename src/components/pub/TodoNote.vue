@@ -14,14 +14,14 @@
           href="javascript:;"
           class="weui-btn weui-btn_primary"
           @tap="submit">
-          提交
+          完成
         </v-touch>
       </div>
     </div>
   </div>
 </template>
 <script>
-  const DEFAULT_NOTE = '输入任务描述'
+  const DEFAULT_NOTE = '<span style="color:#ccc">输入任务描述</span>'
 
   export default {
     name: 'TodoNote',
@@ -41,6 +41,7 @@
       }
     },
     mounted () {
+      window.rsqadmg.exec('setTitle', {title: '任务描述'})
       const noteElement = this.$refs.todoNote
       noteElement.innerHTML = this.isOriginalEmpty ? DEFAULT_NOTE : this.note
     },

@@ -64,8 +64,9 @@
   }
   .rsq-webview{
     background-color: #F5F5F5;
-    max-height: 95%;
-    height:95%;
+    max-height: 100%;
+    height:100%;
+    z-index: -9999;
     -webkit-overflow-scrolling: touch;
     overflow: auto;
   }

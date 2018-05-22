@@ -15,51 +15,47 @@
           @tap="clearNameSearch"/>
       </div>
     </div>
-    <div class="sel-body">
-      <div class="sel-member-list-container">
-        <ul
-          v-if="filteredUsers.length !== 0"
-          class="sel-member-list">
-          <li
-            v-for="member in filteredUsers"
-            :key="member.id">
-            <v-touch
-              class="sel-member-info"
-              @tap="changeSelect(member, !member.isSelected)">
-              <div
-                :class="{'sel-selected': member.isSelected}"
-                class="sel-member-icon">
-                <div class="sel-icon-selected-bg" />
-                <i class="icon2-selected sel-icon-selected"/>
-              </div>
-              <div class="sel-member-avatar">
-                <avatar
-                  :src="member.avatar"
-                  :username="member.name"
-                  :size="36"
-                  :round-radius="'2px'"
-                  :background-color="'#4A90E2'"/>
-              </div>
-              <div
-                :class="{'sel-disabled': member.isDisabled}"
-                class="sel-member-name">
-                {{ member.name }}
-              </div>
-            </v-touch>
-            <div class="sel-member-tag">
-              {{ member.isCreator ? '创建者' : '' }}
-            </div>
-          </li>
-        </ul>
-        <div
-          v-else
-          class="sel-member-blank">
-          <div>
-            <i class="icon2-search"/>
+    <ul
+      v-if="filteredUsers.length !== 0"
+      class="sel-member-list">
+      <li
+        v-for="member in filteredUsers"
+        :key="member.id">
+        <v-touch
+          class="sel-member-info"
+          @tap="changeSelect(member, !member.isSelected)">
+          <div
+            :class="{'sel-selected': member.isSelected}"
+            class="sel-member-icon">
+            <div class="sel-icon-selected-bg" />
+            <i class="icon2-selected sel-icon-selected"/>
           </div>
-          <p>搜索无结果</p>
+          <div class="sel-member-avatar">
+            <avatar
+              :src="member.avatar"
+              :username="member.name"
+              :size="36"
+              :round-radius="'2px'"
+              :background-color="'#4A90E2'"/>
+          </div>
+          <div
+            :class="{'sel-disabled': member.isDisabled}"
+            class="sel-member-name">
+            {{ member.name }}
+          </div>
+        </v-touch>
+        <div class="sel-member-tag">
+          {{ member.isCreator ? '创建者' : '' }}
         </div>
+      </li>
+    </ul>
+    <div
+      v-else
+      class="sel-member-blank">
+      <div>
+        <i class="icon2-search"/>
       </div>
+      <p>搜索无结果</p>
     </div>
     <div class="sel-footer">
       <div class="sel-footer-list-container">
@@ -111,10 +107,6 @@
     background: #FAFAFA;
     border-top: solid 1px #D5D5D5;
   }
-  .sel-body {
-    overflow: auto;
-    padding: 51px 0 51px;
-  }
   .sel-search-wrap {
     position: relative;
     box-sizing: border-box;
@@ -164,6 +156,13 @@
   }
   ul.sel-member-list {
     background-color: #FFF;
+    overflow: auto;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding: 51px 0 51px;
+    height: -moz-calc(100% - 100px);
+    height: -webkit-calc(100% - 100px);
+    height: calc(100% - 100px);
   }
   ul.sel-member-list li {
     position: relative;

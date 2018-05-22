@@ -6,7 +6,7 @@
         v-model="inputTitle"
         class="write"
         type="text"
-        placeholder="在这里写下想法">
+        placeholder="输入内容快速添加任务">
       <v-touch
         v-show="inputTitle !== ''"
         class="btn-create"

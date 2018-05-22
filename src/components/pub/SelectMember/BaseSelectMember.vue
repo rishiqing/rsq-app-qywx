@@ -88,7 +88,7 @@
 </template>
 <style lang="scss" scoped>
   .sel-canvas {
-    position: fixed;
+    position: absolute;
     top: 0;right: 0;bottom: 0;left: 0;
     z-index: 10000;
     background: #FFFFFF;
@@ -162,7 +162,9 @@
     font-size: 18px;
     background: #FAFAFA;
   }
-  ul.sel-member-list {}
+  ul.sel-member-list {
+    background-color: #FFF;
+  }
   ul.sel-member-list li {
     position: relative;
     height: 57px;
@@ -171,7 +173,7 @@
   .sel-member-info {
     box-sizing: border-box;
     height: 100%;
-    border-bottom: solid 1px #E3E3E3;
+    border-bottom: solid 0.5px #D4D4D4;
     overflow: hidden;
   }
   .sel-member-info > * {

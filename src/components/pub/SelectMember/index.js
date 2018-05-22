@@ -38,7 +38,7 @@ function show (options) {
   vm.nameAttribute = options.nameAttribute || 'name'
   vm.avatarAttribute = options.avatarAttribute || 'avatar'
   vm.btnText = options.btnText || '确定'
-  vm.maximum = options.maximum || 5
+  vm.maximum = options.maximum || 299
   vm.memberList = options.memberList || []
   vm.selectedIdList = options.selectedIdList || []
   vm.disabledIdList = options.disabledIdList || []

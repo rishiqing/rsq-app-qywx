@@ -124,7 +124,7 @@
     text-size-adjust: none;
   }
   .scroller{
-    min-height: 101%;/*修正内容高度不够无法scroll*/
+    min-height: 100%;/*修正内容高度不够无法scroll*/
     -webkit-tap-highlight-color:rgba(0,0,0,0);
   }
   .animate{

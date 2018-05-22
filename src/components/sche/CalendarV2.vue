@@ -395,7 +395,7 @@
   .cal-week-title {
     position: fixed;top: 53px;left: 0;right: 0;width: 100%;
     padding: 0;height: 31px;line-height: 30px;
-    margin-bottom: -1px;color:white;background: #4F77AA;font-size:1.2rem;padding-top: 1px;
+    margin-bottom: -1px;color:white;background: #4F77AA;font-size:1.2rem;
   }
   .c-cal-main table {
     text-align: center;table-layout: fixed;

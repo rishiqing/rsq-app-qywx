@@ -22,7 +22,7 @@
             v-if="!isCheckable"
             v-show="isFromSche"
             class="receive">
-            我收到的
+            来自同事
           </span>
           <span
             v-if="!isCheckable"

@@ -8,13 +8,13 @@
           v-for="day in days"
           :key="day.date.getTime()"
           class="cal-weekday">
-          <div
-            :class="{'tag-active': day.showTag&&!isHighLight(day.date)}"
-            class="cal-day-tag" />
           <v-touch
             :class="{'cal-day--focus': isHighLight(day.date)}"
             class="cal-day"
             @tap="calDayClick(day.date)">
+            <div
+              :class="{'tag-active': day.showTag&&!isHighLight(day.date)}"
+              class="cal-day-tag" />
             {{ dateText(day) }}
           </v-touch>
         </td>
@@ -92,7 +92,7 @@
     color: #FFFFFF;
     line-height: 12px;
   }
-  .cal-day-tag {position:absolute;top:5px;right: 0.666rem;border-radius:50%;}
+  .cal-day-tag {position:absolute;top:-7px;right: 13px;border-radius:50%;}
   .tag-active {width:4px;height:4px;background:#30FFA8;}
   .cal-day {
     margin:0 auto;
@@ -102,6 +102,7 @@
     font-family: PingFangSC-Medium;
     font-size: 15px;
     color: #FFFFFF;
+    position: relative;
   }
   .cal-day--focus {
     background:white;

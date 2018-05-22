@@ -43,7 +43,12 @@ if (window.rsqConfig.env === 'prod') {
   }
 }
 document.querySelector('body').addEventListener('touchend', function () {
-  document.querySelector('input').blur()
+  let inputArrays = document.querySelectorAll('input')
+  if (inputArrays.length !== 0) {
+    for (let key = 0; key < inputArrays.length; key++) {
+      inputArrays[key].blur()
+    }
+  }
 })
 Vue.use(VueTouch)
 Vue.use(weui)

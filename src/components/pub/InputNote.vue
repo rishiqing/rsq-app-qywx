@@ -73,12 +73,13 @@
   }
   .default-padding{
     padding-left: 0.3rem;
+    height: 54px;
+    overflow: hidden;
   }
   div.content-color{
     color: #333333
   }
   div.space-padding{
     padding-left: 1.1rem;
-    height: 54px;
   }
 </style>

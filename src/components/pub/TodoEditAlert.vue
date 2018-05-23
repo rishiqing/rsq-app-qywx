@@ -237,7 +237,6 @@
             })
           }
         })
-        console.log(result)
         return result
       },
       mergeList () {

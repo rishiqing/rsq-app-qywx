@@ -41,7 +41,7 @@
             </li>
             <li>
               <v-touch
-                v-show="repeatPatternText != '每天'"
+                v-show="repeatPatternText !== '每天'"
                 class="list-item-info"
                 @tap="showSubPage('subPattern')">
                 <p class="list-item-key">重复形式</p>

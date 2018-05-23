@@ -57,3 +57,23 @@
 .delete_IOS .weui-actionsheet__cell:nth-child(2){
 	color: red;
 }
+._picker2{
+	height: 368px;
+}
+._pick{
+	border-top: 0.5px solid #D4D4D4;
+	border-bottom: 0.5px solid #D4D4D4;
+}
+._c ._s-time:after{
+	display: block;
+    content: '';
+    width: 66px;
+    margin: 0 auto;
+    border-bottom: 3px solid #108EE9;
+}
+.b-ab{
+	position: absolute;
+    left: 47%;
+    top: 20%;
+    font-size: 26px;
+}

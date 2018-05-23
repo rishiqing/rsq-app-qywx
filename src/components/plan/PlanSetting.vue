@@ -162,9 +162,7 @@
         })
       },
       createrRsqIds () {
-        return this.selectedLocalList.map(function (staff) {
-          return staff.rsqUserId
-        })
+        return [this.$store.getters.loginUser.rsqUser.id]
       },
       disableRsqidArray () {
         return this.disabledRsqIds.map(function (staff) {

@@ -445,7 +445,7 @@ rsqAdapterManager.register({
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onConfirm: function(result) {
-        var time = result[0].label + ':' + result[2].label;
+        var time = result[0].label + ':' + result[1].label;
         var result = {value: time}
         rsqChk(params.success, [result]);
       }
@@ -459,7 +459,7 @@ rsqAdapterManager.register({
   timePicker2: function(params){
     var hours = [],
     minites = [],
-    symbol = [{ label: ':', value: 0 }];
+    symbol = [{ label: ' ', value: 0 }];
     if (!hours.length) {
       for (var i = 0; i< 24; i++) {
         var hours_item = {};
@@ -478,8 +478,11 @@ rsqAdapterManager.register({
     }
     var defString = params.strInit || '00:00';
     var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
-    var defString2 = params.strInit2 || '';
-    var defArray2 = [defString2.substr(0, 2), ':', defString2.substr(3, 2)];
+    var defArray2 = [defString.substr(0, 2), ':', defString.substr(3, 2)];
+    if (defString.substr(0, 2) !== '23') {
+      defArray2[0] =defString.substr(0, 1) + (defString.substr(1, 1) * 1 + 1)
+    }
+    var defString2 = params.strInit2 || defArray2.join('');
     weui2.picker(hours, symbol, minites, {
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,

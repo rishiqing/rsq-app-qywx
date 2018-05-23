@@ -69,5 +69,7 @@
     z-index: -9999;
     -webkit-overflow-scrolling: touch;
     overflow: auto;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 </style>

@@ -133,7 +133,6 @@
               promise.then(() => {
                 window.rsqadmg.exec('hideLoader')
                 window.rsqadmg.execute('toast', {message: '删除成功'})
-//                  that.$router.replace(window.history.back())
               })
             }
           })
@@ -145,7 +144,9 @@
         var that = this
         this.$store.dispatch('setCurrentTodo', this.item).then(
           () => {
-            that.prepareDelete()
+            window.setTimeout(() => {
+              that.prepareDelete()
+            }, 50)
           }
         )
       },

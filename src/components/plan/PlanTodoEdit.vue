@@ -223,6 +223,7 @@
                 }).then(res => {
                   if (res.errcode !== 0) {
                     alert('发送失败：' + JSON.stringify(res))
+                    // alert('发送失败：' + JSON.stringify(res))
                   } else {
                     console.log('发送成功！')
                   }

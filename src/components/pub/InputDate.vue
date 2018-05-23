@@ -65,9 +65,6 @@
         return this.item.pContainer === 'inbox'
       }
     },
-    mounted () {
-      console.log(this.item)
-    },
     methods: {
       gotoDate () {
         if (this.isDisabled) {

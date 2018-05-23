@@ -282,7 +282,6 @@
         const that = this
         SelectMember.show({
           nameAttribute: 'name',
-          maximum: 5,
           idAttribute: 'rsqUserId',
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,

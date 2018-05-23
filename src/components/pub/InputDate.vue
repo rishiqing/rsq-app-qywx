@@ -2,7 +2,7 @@
   <v-touch @tap="gotoDate">
     <div
       class="outer-wrap bottom-border">
-      <span class="inner-key">{{ dateString }}</span>
+      <span class="inner-key">{{ dateString ? dateString : '日期' }}</span>
     </div>
   </v-touch>
 </template>
@@ -64,6 +64,9 @@
       fromInbox () {
         return this.item.pContainer === 'inbox'
       }
+    },
+    mounted () {
+      console.log(this.item)
     },
     methods: {
       gotoDate () {

@@ -151,6 +151,7 @@
         this.$store.commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: {name: newTitle}})
       },
       saveMember (idArray) {
+        window.rsqadmg.exec('setTitle', {title: '新建任务'})
         this.joinUserRsqIds = idArray
         var ids = idArray.join(',')
         this.editItem.joinUser = ids

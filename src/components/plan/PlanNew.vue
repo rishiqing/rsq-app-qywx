@@ -223,6 +223,7 @@
             const arr = selList.map(m => {
               return m.rsqUserId
             })
+            window.rsqadmg.exec('setTitle', {title: '新建计划'})
             that.selectedLocalList = [...selList]
             that.memarr = [...arr]
           },

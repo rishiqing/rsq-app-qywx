@@ -287,6 +287,7 @@
         }
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        window.rsqadmg.execute('setTitle', {title: '日程详情'})
         var that = this
         var compRes = util.compareList(this.joinUserRsqIds, idArray)
         var params = {

@@ -145,6 +145,7 @@
         this.$store.commit('SYS_SUB_TILTE', {title: this.inputTitle})
       },
       saveMember (idArray) {
+        window.rsqadmg.exec('setTitle', {title: '新建子任务'})
         // this.joinUserRsqIds = idArray
         this.editItem.receiverIds = idArray
         this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})

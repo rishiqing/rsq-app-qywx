@@ -146,6 +146,7 @@
         this.$store.commit('TD_TODO_UPDATED', {todo: {pTitle: newTitle}})
       },
       saveMember (idArray) {
+        window.rsqadmg.exec('setTitle', {title: '新建任务'})
         // this.joinUserRsqIds = idArray
         var ids = idArray.join(',')
         this.editItem.receiverIds = ids

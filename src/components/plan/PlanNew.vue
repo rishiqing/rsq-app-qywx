@@ -128,9 +128,7 @@
         })
       },
       createrRsqIds () {
-        return this.selectedLocalList.map(function (staff) {
-          return staff.rsqUserId
-        })
+        return [this.$store.getters.loginUser.rsqUser.id]
       },
       disableRsqidArray () {
         return this.disabledRsqIds.map(function (staff) {
@@ -215,7 +213,6 @@
         const that = this
         SelectMember.show({
           nameAttribute: 'name',
-          maximum: 5,
           idAttribute: 'rsqUserId',
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
@@ -226,6 +223,7 @@
             const arr = selList.map(m => {
               return m.rsqUserId
             })
+            window.rsqadmg.exec('setTitle', {title: '新建计划'})
             that.selectedLocalList = [...selList]
             that.memarr = [...arr]
           },

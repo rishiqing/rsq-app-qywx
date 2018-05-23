@@ -2,7 +2,7 @@
   <v-touch @tap="gotoDate">
     <div
       class="outer-wrap bottom-border">
-      <span class="inner-key">{{ dateString }}</span>
+      <span class="inner-key">{{ dateString ? dateString : '日期' }}</span>
     </div>
   </v-touch>
 </template>

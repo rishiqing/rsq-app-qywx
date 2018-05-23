@@ -124,6 +124,7 @@
           })
       },
       saveMember (idArray) {
+        window.rsqadmg.execute('setTitle', {title: '编辑子任务'})
         // this.joinUserRsqIds = idArray
         this.editItem.receiverIds = idArray
         this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})

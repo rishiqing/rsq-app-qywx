@@ -278,6 +278,7 @@
     },
     mounted () {
       this.makeLocalList()
+      window.rsqadmg.exec('setTitle', {title: '编辑成员'})
       //  如果通过任意方式跳出页面了，那么关闭当前选择框
       window.onpopstate = () => {
         this.selfClose()

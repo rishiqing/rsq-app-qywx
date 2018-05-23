@@ -181,6 +181,7 @@
         this.$router.push('/plan/todo/comment')
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        window.rsqadmg.execute('setTitle', {title: '任务详情'})
         const that = this
         const compRes = util.compareList(this.joinUserRsqIds, idArray)
         const params = {
@@ -222,7 +223,7 @@
                   data: data
                 }).then(res => {
                   if (res.errcode !== 0) {
-                    alert('发送失败：' + JSON.stringify(res))
+                    // alert('发送失败：' + JSON.stringify(res))
                   } else {
                     console.log('发送成功！')
                   }

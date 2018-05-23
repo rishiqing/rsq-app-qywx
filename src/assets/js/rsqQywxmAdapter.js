@@ -445,7 +445,7 @@ rsqAdapterManager.register({
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onConfirm: function(result) {
-        var time = result[0].label + ':' + result[2].label;
+        var time = result[0].label + ':' + result[1].label;
         var result = {value: time}
         rsqChk(params.success, [result]);
       }

@@ -32,7 +32,7 @@
       <v-touch
         tag="li"
         @tap="showTimePicker">
-        <span class="list-key">自定义</span>
+        <span class="list-key">自定义提醒时间</span>
         <span class="list-value">
           {{ userDefinedAlertText }}
         </span>
@@ -55,10 +55,10 @@
         displayedRuleList: [
           {schedule: 'begin_0_hour', selected: false},
           {schedule: 'begin_-5_min', selected: false},
-          {schedule: 'begin_-15_min', selected: false},
-          {schedule: 'begin_-30_min', selected: false},
-          {schedule: 'begin_-1_hour', selected: false},
-          {schedule: 'end_-1_hour', selected: false}
+          {schedule: 'begin_-30_min', selected: false}
+          // {schedule: 'begin_-30_min', selected: false},
+          // {schedule: 'begin_-1_hour', selected: false},
+          // {schedule: 'end_-1_hour', selected: false}
         ],
         //  用户自定义的提醒时间
         //  {numTime: 123214345453, selected: true}
@@ -101,7 +101,7 @@
     },
     created () {
       this.initData()
-      window.rsqadmg.execute('setTitle', {title: '提醒'})
+      window.rsqadmg.execute('setTitle', {title: '时间和提醒'})
       window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     methods: {

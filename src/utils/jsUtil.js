@@ -252,11 +252,11 @@ export default {
     if (Number(codeArr[1]) === 0) {
       return codeArr[0] === 'begin' ? '任务开始时' : '任务结束时'
     }
-    var pre = codeArr[0] === 'begin' ? '开始' : '结束'
+    var pre = codeArr[0] === 'begin' ? '提前' : '延后'
     var num = Math.round(Number(codeArr[1]))
-    var numDir = num < 0 ? '前' : '后'
+    // var numDir = num < 0 ? '前' : '后'
     var last = codeArr[2] === 'min' ? '分钟' : '小时'
-    return pre + numDir + Math.abs(num) + last
+    return pre + Math.abs(num) + last
   },
   alertCode2RemindText (code) {
     var codeArr = code

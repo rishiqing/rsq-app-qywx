@@ -187,16 +187,16 @@
             return a.selected
           })
       },
-      getSelectedUserRuleList () {
-        return this.displayedTimeList
-          .filter(a => {
-            return a.selected
-          }).map(sel => {
-            return {
-              schedule: jsUtil.alertTime2Rule(sel.numTime, this.numStartTime, this.numEndTime)
-            }
-          })
-      },
+      // getSelectedUserRuleList () {
+      //   return this.displayedTimeList
+      //     .filter(a => {
+      //       return a.selected
+      //     }).map(sel => {
+      //       return {
+      //         schedule: jsUtil.alertTime2Rule(sel.numTime, this.numStartTime, this.numEndTime)
+      //       }
+      //     })
+      // },
       //  比对displayedRuleList与sysRuleList，计算最终的提醒列表,为什么不以displayedRuleList为标准？
       mergeRuleList () {
         var selected = this.getSelected(this.displayedRuleList) // 这一步是拿到选中状态的list
@@ -237,6 +237,7 @@
             })
           }
         })
+        console.log(result)
         return result
       },
       mergeList () {

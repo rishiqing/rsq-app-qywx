@@ -294,10 +294,10 @@ export default {
     var pre = 'begin'
     var num = (time - numStartTime) / (60 * 1000)
     var unit = 'min'
-    if (Math.abs(num) > 60) {
-      unit = 'hour'
-      num /= 60
-    }
+    // if (Math.abs(num) > 60) {
+    //   unit = 'hour'
+    //   num /= 60
+    // }
     return pre + '_' + num + '_' + unit
   },
   /**

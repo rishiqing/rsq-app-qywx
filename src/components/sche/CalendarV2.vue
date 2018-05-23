@@ -22,7 +22,7 @@
       </table>
     </div>
     <div
-      :style="{height: calHeight + 'px', top: (topBase + titleHeight) + 'px'}"
+      :style="{height: calHeight + 'px', top: (topBase + titleHeight) - 1 + 'px'}"
       :class="{'animate': transDirection === 'v'}"
       class="cal-content z-index-3xs">
       <div

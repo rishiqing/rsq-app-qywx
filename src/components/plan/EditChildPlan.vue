@@ -52,10 +52,7 @@
           title: '新建子计划',
           inputPlaceholder: '请输入子计划名称',
           inputValidator: value => {
-            if (!value) {
-              return '请输入子计划名称'
-            }
-            if (/^\s+$/.test(value)) {
+            if (!value || /^\s+$/.test(value)) {
               return '请输入子计划名称'
             }
           }

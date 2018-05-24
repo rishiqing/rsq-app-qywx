@@ -167,10 +167,7 @@
     methods: {
       create () {
         var that = this
-        if (!this.content) {
-          return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
-        }
-        if (/^\s+$/.test(that.content)) {
+        if (!this.content || /^\s+$/.test(that.content)) {
           return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
         }
         window.rsqadmg.exec('showLoader', {text: '创建中...'})

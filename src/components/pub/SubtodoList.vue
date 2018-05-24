@@ -3,7 +3,7 @@
     <div class="for-cover"/>
     <div class="wrap">
       <img
-        src="../../assets/img/add2.png"
+        src="../../assets/img/addmenmber.png"
         class="add">
       <v-touch
         class="write"
@@ -243,7 +243,6 @@
   .add{
       position: absolute;
       top: 30%;
-      background-color: #55A8FD;
       left:0.55rem;
       -webkit-appearance: none;
       width: 0.5333rem;
@@ -278,7 +277,7 @@
   }
   ul{
     position: relative;
-    margin-top:50px;
+    margin-top:37px;
     padding-left: 5%;
   }
   .is-display-sub{
@@ -287,7 +286,7 @@
     top:0.36rem;
     left: 0.05rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999999;
   }
   .for-hide-sub{
     position: absolute;

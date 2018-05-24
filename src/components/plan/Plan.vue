@@ -169,7 +169,7 @@
   .slider  .star{
     margin-right: 0;
     width: 100%;
-    height:1.612rem;
+    height:56px;
     background:#F8E71C;
     display: flex;
     align-items: center;

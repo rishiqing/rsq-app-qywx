@@ -272,9 +272,9 @@ export default {
       noRepeat: '不重复',
       userRepeat: '自定义重复',
       everyDay: '每天重复',
-      everyWeek: '每周重复',
-      everyMonth: '每月重复',
-      everyYear: '每年重复',
+      everyWeek: '每周重复 ',
+      everyMonth: '每月重复 ',
+      everyYear: '每年重复 ',
       weekday: '工作日重复（周一至周五）'
     }
     return map[code]

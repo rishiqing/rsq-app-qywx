@@ -88,6 +88,7 @@
     padding-left: 0.3rem;
     margin-top: 20px;
     overflow-x: hidden;
+    border-top: 0.5px solid #d4d4d4;
   }
   .itm-lst{
     text-align: center;

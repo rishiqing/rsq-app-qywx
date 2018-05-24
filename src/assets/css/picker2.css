@@ -77,3 +77,26 @@
     top: 20%;
     font-size: 26px;
 }
+#fix-input input{
+	height: 54px;
+	padding: 15px;
+    font-size: 24px;
+}
+#fix-input{
+	height: 98px;
+	background-color: #fff;
+}
+#fix-ico .common-field .outer-wrap{
+	padding-left: 46px;
+}
+.mui-switch:checked{
+	border-color: #4C84C4;
+    -webkit-box-shadow: #4C84C4 0 0 0 16px inset;
+    box-shadow:  #4C84C4 0 0 0 16px inset;
+    background-color: #4C84C4;
+}
+.wrap-plan-member .avatar{
+	margin: 0 8px;
+	width: 34px;
+	height: 34px;
+}

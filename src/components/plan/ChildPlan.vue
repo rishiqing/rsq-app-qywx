@@ -11,7 +11,9 @@
         <v-touch
           class="set-plan"
           @tap="delayCall('setPlan', $event)" >
-          <i class="icon2-set set"/>
+          <img
+            src="../../assets/img/setting.png"
+            class="icon2-set set">
         </v-touch>
       </div>
     </div>
@@ -32,7 +34,9 @@
                 </span>
               </div>
               <v-touch @tap="delayCall('editCard', $event, item)">
-                <i class="icon2-other other"/>
+                <img
+                  src="../../assets/img/moreset.png"
+                  class="icon2-other other">
               </v-touch>
             </div>
             <ul class="task-border">
@@ -620,7 +624,7 @@
   .label-name{
     font-family: PingFangSC-Regular;
     font-size: 12px;
-    color: #FF7A7A
+    color: #F5F5F5
   }
   .wrap-sub-item-finish{
     height: 0.453rem;
@@ -692,8 +696,10 @@
     font-size: 14px;
   }
   .wrap-card-border{
-    background-color: #F7F7F7;
+    background-color: #F5F5F5;
     padding: 0.3rem;
+    border: 0.5px solid #D4D4D4;
+    border-right: 3px;
   }
   .wrap{
     position: relative;
@@ -754,6 +760,7 @@
   .other{
     color: #D8D8D8;
     border-radius: 100px;
+    width: 20px
   }
   .finish-number{
     font-family: PingFangSC-Regular;
@@ -871,6 +878,8 @@
   .set{
     font-size: 14px;
     color: #4F77AA;
+    width: 19px;
+    height: 19px;
   }
   .arrow-down{
     font-size: 14px;
@@ -941,7 +950,7 @@
     z-index: 100;
     position: relative;
     background-color: white;
-    border-bottom: 1px solid #EAEAEA;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   ul.show-child{
     top: 1.3rem

@@ -5,7 +5,7 @@
         class="new"
         @tap="delayCall('saveTodo',$event)">
         <img
-          src="../../assets/img/card.png"
+          src="../../assets/img/addmenmber.png"
           class="add">
         <span class="new-child-plan">新建子计划</span>
       </v-touch>
@@ -146,5 +146,6 @@
     font-size: 17px;
     color: #000000;
     line-height: 0.8rem;
+    margin-left: 14px;
   }
 </style>

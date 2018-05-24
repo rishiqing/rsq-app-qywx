@@ -77,3 +77,15 @@
     top: 20%;
     font-size: 26px;
 }
+#fix-input input{
+	height: 54px;
+	padding: 15px;
+    font-size: 24px;
+}
+#fix-input{
+	height: 98px;
+	background-color: #fff;
+}
+#fix-ico .common-field .outer-wrap{
+	padding-left: 46px;
+}

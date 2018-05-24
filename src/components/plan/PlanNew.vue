@@ -373,4 +373,7 @@
   .display-none{
     display: none;
   }
+  .weui-btn{
+    border: 0;
+  }
 </style>

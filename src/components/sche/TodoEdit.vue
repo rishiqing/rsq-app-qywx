@@ -546,7 +546,7 @@
       this.$store.commit('RESET_DELAY_SHOW_CHECKBOX')
       //  判断是否需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
       if (to.name === 'sche') {
-        next(false)
+        // next(false)
         this.checkIfRepeatEdited(next)
       } else {
         return next()

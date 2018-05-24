@@ -132,9 +132,10 @@ rsqAdapterManager.register({
             nonceStr: res.nonceStr,
             signature: res.signature,
             success: function(authUser){
-              rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-                j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
-              }, function(result){
+              alert('----debug----authUser: ' + JSON.stringify(authUser))
+              rsqAdapterManager.ajax.get(rsqConfig.apiServer + 'task/qywxOauth/tokenDirectSignIn?token=' + authUser.rsqLoginToken,
+                function(result){
+                alert('----debug----rsqUser: ' + result);
                 var resJson = JSON.parse(result);
                 if(resJson.success){
                   rsqChk(params.success, [resJson, authUser]);
@@ -142,6 +143,16 @@ rsqAdapterManager.register({
                   rsqChk(params.error, [resJson]);
                 }
               });
+              // rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
+              //   j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
+              // }, function(result){
+              //   var resJson = JSON.parse(result);
+              //   if(resJson.success){
+              //     rsqChk(params.success, [resJson, authUser]);
+              //   }else{
+              //     rsqChk(params.error, [resJson]);
+              //   }
+              // });
             },
             error: function(authResult){
               rsqChk(params.error, [authResult]);
@@ -159,6 +170,7 @@ rsqAdapterManager.register({
       corpId: pa.corpid,
       agentId: pa.agentid
     }, function(resSign){
+      alert('----debug----suiteKey from server: ' + resSign);
       var resJson = JSON.parse(resSign);
       rsqChk(params.success, [resJson]);
     });

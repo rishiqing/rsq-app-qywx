@@ -686,4 +686,7 @@
     margin-right: 9.3px;
     margin-top: 3px;
   }
+  .itm-group{
+    border-top: 0.5px solid #d4d4d4;
+  }
 </style>

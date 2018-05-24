@@ -57,16 +57,22 @@ rsqadmg.store.app.appid = rsqadmg.store.app.agentid;
 rsqadmg.store.oauth = {
   url: 'https://open.weixin.qq.com/connect/oauth2/authorize',
   params: {
-    appid: rsqadmg.store.app.corpid,
-    agentid: rsqadmg.store.app.agentid,
     response_type: 'code',
     scope: 'snsapi_base',
     state: 'STATE',
     redirect_uri: encodeURIComponent(rsqConfig.authServer + 'oauth/after?corpId=' + rsqadmg.store.app.corpid + '&agentId=' + rsqadmg.store.app.agentid)
   }
 };
-function getOauthUrl(){
+
+/**
+ * 关于企业微信webview中的oauth授权，企业微信改过几个版本，目前的版本为：
+ * https://work.weixin.qq.com/api/doc#10975/%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83%E7%99%BB%E5%BD%95%E7%AC%AC%E4%B8%89%E6%96%B9
+ * @param suiteKey
+ * @returns {string}
+ */
+function getOauthUrl(suiteKey){
   var data = rsqadmg.store.oauth;
+  data.params.appid = suiteKey;
   var base = data.url;
   var pArray = [];
   for(var key in data.params){
@@ -120,10 +126,11 @@ rsqAdapterManager.register({
     rsqadmg.execute('sign', {
         success: function(res){
           rsqadmg.execute('init', {
-            appId: res.appId,
-            "timeStamp": res.timeStamp,
-            "nonceStr": res.nonceStr,
-            "signature": res.signature,
+            suiteKey: res.suiteKey,
+            appId: res.corpId,
+            timeStamp: res.timeStamp,
+            nonceStr: res.nonceStr,
+            signature: res.signature,
             success: function(authUser){
               rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
                 j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
@@ -157,6 +164,8 @@ rsqAdapterManager.register({
     });
   },
   init: function(params){
+    var suiteKey = params.suiteKey
+    alert("----debug----suiteKey: " + suiteKey)
     wx.config({
       beta: true,  // 必须这么写，否则在微信插件有些jsapi会有问题
       debug: false,  // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -191,7 +200,7 @@ rsqAdapterManager.register({
           }
         });
       }else{
-        var oauthUrl = getOauthUrl();
+        var oauthUrl = getOauthUrl(suiteKey);
         window.location.href = oauthUrl;
       }
     });

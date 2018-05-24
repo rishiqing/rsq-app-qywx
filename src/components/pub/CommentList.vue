@@ -214,6 +214,7 @@
     background-color: white;
     margin-top: 20px;
     padding-bottom: 2.9rem;
+    border-top: 0.5px solid #D4D4D4;
   }
   .operation{
     font-family: PingFangSC-Regular;
@@ -221,8 +222,10 @@
     color: #9B9B9B;
     display: inline-block;
     line-height:1.083rem;
-    padding-left: 0.333rem;
-    background-color: white;
+    margin-left: 0.333rem;
+    width: 72px;
+    text-align: center;
+    height: 40px;
   }
   .top{
     border-bottom: 0.5px solid #D4D4D4;

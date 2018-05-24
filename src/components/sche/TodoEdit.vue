@@ -8,7 +8,7 @@
             <r-input-title
               ref="title"
               :is-edit="true"
-              :is-checkable="!(delayShowCheckbox || isInbox)"
+              :is-checkable="false"
               :item-title="editItem.pTitle "
               :item-checked="editItem.pIsDone"
               :is-disabled="!isEditable"
@@ -57,7 +57,9 @@
                   @member-changed="saveMember"/>
               </div>
               <div class="common-field">
-                <i class="icon2-subplan-web sche"/>
+                <img
+                  src="../../assets/img/subtodo.png"
+                  class="sub-todo-png sche">
                 <r-input-subtodo
                   :is-disabled="!isEditable"
                   :disabled-text="disabledText"
@@ -83,6 +85,9 @@
             <v-touch
               class="bottom"
               @tap="switchToComment">
+              <img
+                class="talk-png"
+                src="../../assets/img/talk.png">
               参与讨论
             </v-touch>
           </div>
@@ -192,7 +197,7 @@
     created () {
       this.initData()
 //      var that = this
-      window.rsqadmg.execute('setTitle', {title: '日程详情'})
+      window.rsqadmg.execute('setTitle', {title: '任务详情'})
 //      window.rsqadmg.execute('setOptionButtons', {
 //        btns: [{key: 'more', name: '更多'}],
 //        success (res) {
@@ -287,7 +292,7 @@
         }
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
-        window.rsqadmg.execute('setTitle', {title: '日程详情'})
+        window.rsqadmg.execute('setTitle', {title: '任务详情'})
         var that = this
         var compRes = util.compareList(this.joinUserRsqIds, idArray)
         var params = {
@@ -579,7 +584,7 @@
     width:6.8rem;
   }
   .bottom{
-    height: 1.333rem;
+    height: 46px;
     display: flex;
     align-items: center;
     background-color: white;
@@ -670,5 +675,15 @@
     transition: border-color 0.4s, background-color ease 0.4s; }
   .itm-edt-fields{
      padding-top: 20px;
+  }
+  .sub-todo-png{
+    width: 25px;
+    height: 25px;
+  }
+  .talk-png{
+    width: 17px;
+    height: 17px;
+    margin-right: 9.3px;
+    margin-top: 3px;
   }
 </style>

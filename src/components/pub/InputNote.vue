@@ -80,6 +80,7 @@
     color: #333333
   }
   div.space-padding{
-    padding-left: 1.1rem;
+    padding-left: 20px;
+    border-bottom: 0.5px solid #D4D4D4;
   }
 </style>

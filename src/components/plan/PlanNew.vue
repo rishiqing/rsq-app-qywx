@@ -20,7 +20,7 @@
           class="add"
           @tap="showWebMemberEdit">
           <img
-            src="../../assets/img/card.png"
+            src="../../assets/img/addmenmber.png"
             class="avatar"
           >
         </v-touch>
@@ -254,7 +254,7 @@
     width: 0.906rem;
     height: 0.906rem;
     border-radius: 50%;
-    margin: 0.48rem 0.213rem 0 0.213rem;
+    margin: 0.48rem 4px 0 4px;
   }
   input::placeholder{
     color: #B1B1B1;
@@ -292,6 +292,8 @@
     padding-left: 0.3rem;
     padding-right: 0.2rem;
     flex-direction:column;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .plan-member{
     max-width: 100%;
@@ -321,6 +323,8 @@
     margin-top: 20px;
     padding-bottom: 0.3rem;
     padding-top: 0.3rem;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .plan-templ{
     font-family: PingFangSC-Regular;
@@ -348,6 +352,7 @@
   .templ{
     width: 2.08rem;
     height: 1.173rem;
+    border-radius: 3px;
   }
   .create-plan{
     height: 1.466rem;
@@ -356,6 +361,8 @@
     margin-top: 20px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .count{
     align-items: right;

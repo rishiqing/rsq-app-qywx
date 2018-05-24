@@ -55,6 +55,9 @@
             if (!value) {
               return '请输入子计划名称'
             }
+            if (/^\s+$/.test(value)) {
+              return '请输入子计划名称'
+            }
           }
         }).then(({ value }) => {
           var params = {

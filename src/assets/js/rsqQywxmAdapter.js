@@ -105,11 +105,12 @@ rsqAdapterManager.register({
     //   "rsqPassword":"DKOPQr",
     //   "rsqUserId":"15211",
     //   "rsqUsername":"lKAFc_1520334538410@qywxtest.rishiqing.com",
+    //   "rsqLoginToken":"jDejqbUaGQLaWm7qLjnsajk4D4ZCBbJDqmSWg7fcxesrcE2N5Ow64CHi9hJvNl4q",
     //   "status":1,
     //   "userId":"0002"
     // }
-    // rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-    //   j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
+    // rsqAdapterManager.ajax.get(rsqConfig.apiServer + 'task/qywxOauth/tokenLogin', {
+    //   token: authUser.rsqLoginToken
     // }, function(result){
     //   var resJson = JSON.parse(result);
     //   // console.log(JSON.stringify(resJson))
@@ -132,32 +133,19 @@ rsqAdapterManager.register({
             nonceStr: res.nonceStr,
             signature: res.signature,
             success: function(authUser){
-              alert('----debug----authUser: ' + JSON.stringify(authUser));
               var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin';
               alert('----debug----loginUrl: ' + loginUrl + ", token is: " + authUser.rsqLoginToken);
               rsqAdapterManager.ajax.get(loginUrl, {
                 token: authUser.rsqLoginToken
-              }, [function(result){
-                alert('----debug----rsqUser: ' + result);
+              }, function(result){
                 var resJson = JSON.parse(result);
+                // console.log(JSON.stringify(resJson))
                 if(resJson.success){
                   rsqChk(params.success, [resJson, authUser]);
                 }else{
                   rsqChk(params.error, [resJson]);
                 }
-              }, function(err){
-                rsqChk(params.error, [err]);
-              }]);
-              // rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-              //   j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
-              // }, function(result){
-              //   var resJson = JSON.parse(result);
-              //   if(resJson.success){
-              //     rsqChk(params.success, [resJson, authUser]);
-              //   }else{
-              //     rsqChk(params.error, [resJson]);
-              //   }
-              // });
+              });
             },
             error: function(authResult){
               rsqChk(params.error, [authResult]);

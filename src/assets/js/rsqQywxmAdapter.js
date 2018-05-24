@@ -137,7 +137,6 @@ rsqAdapterManager.register({
               rsqAdapterManager.ajax.get(loginUrl, {
                 token: authUser.rsqLoginToken
               }, function(result){
-                alert('result: ' + result)
                 var resJson = JSON.parse(result);
                 // console.log(JSON.stringify(resJson))
                 if(resJson.success){

@@ -132,8 +132,10 @@ rsqAdapterManager.register({
             nonceStr: res.nonceStr,
             signature: res.signature,
             success: function(authUser){
-              alert('----debug----authUser: ' + JSON.stringify(authUser))
-              rsqAdapterManager.ajax.get(rsqConfig.apiServer + 'task/qywxOauth/tokenDirectSignIn?token=' + authUser.rsqLoginToken,
+              alert('----debug----authUser: ' + JSON.stringify(authUser));
+              var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin?token=' + authUser.rsqLoginToken;
+              alert('----debug----loginUrl: ' + loginUrl);
+              rsqAdapterManager.ajax.get(loginUrl,
                 function(result){
                 alert('----debug----rsqUser: ' + result);
                 var resJson = JSON.parse(result);

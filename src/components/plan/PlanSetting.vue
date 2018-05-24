@@ -40,7 +40,8 @@
           v-for="item in selectedLocalList"
           :key="item.rsqUserId"
           :src="item.avatar"
-          :username="item.name"/>
+          :username="item.name"
+          :background-color="'rgb(74, 144, 226)'"/>
         <i class="icon2-add add-member"/>
       </v-touch>
     </div>

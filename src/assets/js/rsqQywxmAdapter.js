@@ -105,7 +105,7 @@ rsqAdapterManager.register({
     //   "rsqPassword":"DKOPQr",
     //   "rsqUserId":"15211",
     //   "rsqUsername":"lKAFc_1520334538410@qywxtest.rishiqing.com",
-    //   "rsqLoginToken":"jDejqbUaGQLaWm7qLjnsajk4D4ZCBbJDqmSWg7fcxesrcE2N5Ow64CHi9hJvNl4q",
+    //   "rsqLoginToken":"HgiXqPJPS1vS9l/E6HTpMX32xIodsVgdP4o0vXD7Qzi3di+mO/el0Zh2a6/+WCeU",
     //   "status":1,
     //   "userId":"0002"
     // }
@@ -133,9 +133,7 @@ rsqAdapterManager.register({
             nonceStr: res.nonceStr,
             signature: res.signature,
             success: function(authUser){
-              alert('authUser: ' + JSON.stringify(authUser))
               var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin';
-              alert('loginUrl: ' + loginUrl)
               rsqAdapterManager.ajax.get(loginUrl, {
                 token: authUser.rsqLoginToken
               }, function(result){

@@ -201,6 +201,7 @@ rsqAdapterManager.register({
         });
       }else{
         var oauthUrl = getOauthUrl(suiteKey);
+        alert('------debug--------oauthUrl: ' + oauthUrl);
         window.location.href = oauthUrl;
       }
     });

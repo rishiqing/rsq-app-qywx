@@ -134,7 +134,6 @@ rsqAdapterManager.register({
             signature: res.signature,
             success: function(authUser){
               var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin';
-              alert('----debug----loginUrl: ' + loginUrl + ", token is: " + authUser.rsqLoginToken);
               rsqAdapterManager.ajax.get(loginUrl, {
                 token: authUser.rsqLoginToken
               }, function(result){
@@ -163,14 +162,12 @@ rsqAdapterManager.register({
       corpId: pa.corpid,
       agentId: pa.agentid
     }, function(resSign){
-      alert('----debug----suiteKey from server: ' + resSign);
       var resJson = JSON.parse(resSign);
       rsqChk(params.success, [resJson]);
     });
   },
   init: function(params){
     var suiteKey = params.suiteKey
-    alert("----debug----suiteKey: " + suiteKey)
     wx.config({
       beta: true,  // 必须这么写，否则在微信插件有些jsapi会有问题
       debug: false,  // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -206,14 +203,12 @@ rsqAdapterManager.register({
         });
       }else{
         var oauthUrl = getOauthUrl(suiteKey);
-        alert('------debug--------oauthUrl: ' + oauthUrl);
         window.location.href = oauthUrl;
       }
     });
     wx.error(function(err){
       //  如果是config:fail，那么就刷新jsapi ticket
       if(err['errMsg'] !== null){
-        // alert(JSON.stringify(err));
         var pa = rsqadmg.store.app;
         rsqAdapterManager.ajax.get(rsqConfig.authServer + 'refresh_js_ticket', {
           corpId: pa.corpid,

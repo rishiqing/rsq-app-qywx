@@ -7,12 +7,14 @@
         class="inner-key">
         {{ indexTitle }}</span>
       <div class="inner-value">
-        <img
+        <div
           v-for="(avatar,index) in avatarConcat"
           :key="index"
-          :src="avatar"
+          :style="{ backgroundImage: 'url(' + avatar.avatar + ')' }"
           class="avatar"
         >
+          <span v-if="!avatar.avatar">{{ avatar.name }}</span>
+        </div>
       <span class="count">{{ selectedLocalList.length }}人</span></div>
       <i class="icon2-arrow-right-small arrow"/>
     </div>
@@ -91,7 +93,7 @@
       },
       avatarConcat () {
         return this.selectedLocalList.map(function (o) {
-          return o.avatar
+          return o
         })
       },
       memberCount () {
@@ -269,9 +271,6 @@
   }
   .avatar{
     margin-right: 0.3rem;
-    width: 0.906rem;
-    height: 0.906rem;
-    border-radius: 50%;
     float: left;
   }
   .count{
@@ -282,6 +281,23 @@
     color: rgba(25,31,37,0.56);
     letter-spacing: 0;
     line-height: 1rem;
-
+  }
+  .avatar{
+    width: 36px;
+    height: 36px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(74, 144, 226);
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 14px;
+    line-height: 37px;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    border-radius: 50%;
+    background-position: center center;
+    background-size: 100% 100%;
   }
 </style>

@@ -352,11 +352,13 @@
             valStr = '每天重复'
             break
           case EVERY_WEEK:
-            valStr = sel.length === 0 ? '' : '每' + this.selectWeekText + '重复'
+            // valStr = sel.length === 0 ? '' : '每' + this.selectWeekText + '重复'
+            valStr = sel.length === 0 ? '' : '按周重复'
             break
           case EVERY_MONTH:
-            valStr = sel.length === 0 ? '' : '每月' + this.selectMonthText
-            valStr += '重复'
+            // valStr = sel.length === 0 ? '' : '每月' + this.selectMonthText
+            // valStr += '重复'
+            valStr = sel.length === 0 ? '' : '按月重复'
             break
           case EVERY_YEAR:
             valStr = '每年' + '' + '重复'

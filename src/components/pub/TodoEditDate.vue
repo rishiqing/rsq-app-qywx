@@ -214,6 +214,11 @@
         e.preventDefault()
       },
       tapDay (e, day) {
+        // 过去的时间不允许点击,计算的时候，增加了1分钟的毫秒数作为误差
+        var timeHaveGo = new Date().getHours() * 3600000 + (new Date().getMinutes() + 1) * 60000 + new Date().getSeconds() * 1000
+        if (new Date(day.date).getTime() < new Date().getTime() - timeHaveGo) {
+          return
+        }
         //  如果是在repeat状态下点击日期，那么清除重复，进入single状态
         if (this.dateType === 'repeat' || this.dateType === 'none') {
           this.dateType = 'single'

@@ -55,7 +55,7 @@
         } else {
           var result = dateUtil.repeatDate2Text(this.datesItem)
           if (result.length > 20) {
-            result = result.substring(0, 21)
+            result = result.substring(0, 18) + '...'
           }
           var time = new Date()
           var newTime = time.getMonth() + 1 + '月' + time.getDate() + '日'

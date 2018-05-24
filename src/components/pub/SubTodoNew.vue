@@ -17,6 +17,7 @@
           <div class="itm-group itm--edit-todo">
             <div class="firstGroup">
               <div class="common-field">
+                <i class="icon2-schedule sche"/>
                 <r-input-date
                   :item="editItem"
                   :sep="'/'"
@@ -25,6 +26,7 @@
             </div>
             <div class="secondGroup">
               <div class="common-field">
+                <i class="icon2-member sche"/>
                 <r-input-member
                   :has-left-space="true"
                   :is-native="false"
@@ -45,7 +47,7 @@
                   class="weui-btn weui-btn_primary"
                   href="javascript:;"
                   @tap="submitTodo">
-                  创建任务
+                  创建
                 </v-touch>
               </div>
             </div>
@@ -209,11 +211,8 @@
   .firstGroup{
     margin-top:20px;
     border-top: 0.5px solid #D4D4D4;
-    border-bottom: 0.5px solid #D4D4D4;
   }
   .secondGroup{
-    margin-top:20px;
-    border-top: 0.5px solid #D4D4D4;
     border-bottom: 0.5px solid #D4D4D4;
   }
   p{
@@ -304,5 +303,17 @@
     font-size: 0.506rem;
     border-radius: 0;
     color: #3D3D3D;
+  }
+  .sche{
+   font-size: 0.586rem;
+    color: #55A8FD;
+    position: absolute;
+    top: 47%;
+    margin-top: -0.29rem;
+    left: 25px;
+    z-index: 1000;
+  }
+  .common-field{
+    padding-left: 46px;
   }
 </style>

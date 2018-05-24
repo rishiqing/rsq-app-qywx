@@ -59,7 +59,6 @@
           }
           var time = new Date()
           var newTime = time.getMonth() + 1 + '月' + time.getDate() + '日'
-          console.log(result)
           return newTime === result ? '今天' : result
         }
       },
@@ -105,7 +104,7 @@
     color: #333333;
   }
   .bottom-border{
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 0.5px solid #d4d4d4 !important;
   }
 </style>
 

@@ -10,18 +10,20 @@
         <span>计划成员</span><span class="count">{{ selectedLocalList.length }}人</span>
       </div>
       <div class="plan-member">
-        <img
+        <div
           v-for="(avatar,index) in avatarConcat"
           :key="index"
-          :src="avatar"
+          :style="{ backgroundImage: 'url(' + avatar.avatar + ')' }"
           class="avatar"
         >
+          <span v-if="!avatar.avatar">{{ avatar.name }}</span>
+        </div>
         <v-touch
           class="add"
           @tap="showWebMemberEdit">
           <img
             src="../../assets/img/addmenmber.png"
-            class="avatar"
+            class="avatar avataradd"
           >
         </v-touch>
       </div>
@@ -106,7 +108,7 @@
       },
       avatarConcat () {
         return this.selectedLocalList.map(function (o) {
-          return o.avatar
+          return o
         })
       },
       memberCount () {
@@ -251,10 +253,7 @@
 <style lang="scss" scoped>
   .plan-member .avatar{
     margin-right: 0.3rem;
-    width: 0.906rem;
-    height: 0.906rem;
-    border-radius: 50%;
-    margin: 0.48rem 4px 0 4px;
+    float: left;
   }
   input::placeholder{
     color: #B1B1B1;
@@ -375,5 +374,27 @@
   }
   .weui-btn{
     border: 0;
+  }
+  .avatar{
+    width: 36px;
+    height: 36px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(74, 144, 226);
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 14px;
+    line-height: 37px;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    border-radius: 50%;
+    background-position: center center;
+    background-size: 100% 100%;
+    margin: 0.48rem 4px 0 4px;
+  }
+  .avataradd{
+    background-color: transparent
   }
 </style>

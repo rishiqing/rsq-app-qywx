@@ -133,10 +133,11 @@ rsqAdapterManager.register({
             signature: res.signature,
             success: function(authUser){
               alert('----debug----authUser: ' + JSON.stringify(authUser));
-              var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin?token=' + authUser.rsqLoginToken;
-              alert('----debug----loginUrl: ' + loginUrl);
-              rsqAdapterManager.ajax.get(loginUrl,
-                function(result){
+              var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin';
+              alert('----debug----loginUrl: ' + loginUrl + ", token is: " + authUser.rsqLoginToken);
+              rsqAdapterManager.ajax.get(loginUrl, {
+                token: authUser.rsqLoginToken
+              }, [function(result){
                 alert('----debug----rsqUser: ' + result);
                 var resJson = JSON.parse(result);
                 if(resJson.success){
@@ -144,7 +145,9 @@ rsqAdapterManager.register({
                 }else{
                   rsqChk(params.error, [resJson]);
                 }
-              });
+              }, function(err){
+                rsqChk(params.error, [err]);
+              }]);
               // rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
               //   j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
               // }, function(result){

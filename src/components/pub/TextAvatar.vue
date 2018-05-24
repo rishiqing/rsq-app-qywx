@@ -93,7 +93,7 @@
         }
 
         const initialBackgroundAndFontStyle = {
-          backgroundColor: this.background,
+          backgroundColor: 'rgb(74, 144, 226)',
           font: Math.floor(this.size / 2.5) + 'px/100px Helvetica, Arial, sans-serif',
           fontWeight: 'bold',
           color: this.fontColor,

@@ -13,6 +13,9 @@
         <img
           :src="currentPlan.cover"
           class="plan-set-img">
+        <img
+          src="../../assets/img/right.png"
+          class="rightab">
       </v-touch>
       <v-touch
         class="set-plan"
@@ -22,6 +25,9 @@
           class="plan-set-name"
           @tap="showEditPlanName">
           <span>{{ currentPlan.name }}</span>
+          <img
+            src="../../assets/img/right.png"
+            class="rightab">
         </v-touch>
       </v-touch>
       <!-- <span class="creator-time">由 {{ creatorName }} 于{{ standardTime }}创建</span> -->
@@ -41,7 +47,8 @@
           :key="item.rsqUserId"
           :src="item.avatar"
           :username="item.name"
-          :background-color="'rgb(74, 144, 226)'"/>
+          :background-color="'rgb(74, 144, 226)'"
+          :size="34"/>
         <i class="icon2-add add-member"/>
       </v-touch>
     </div>
@@ -77,7 +84,7 @@
           class="delete-plan-btn weui-btn out"
           href="javascript:;"
           @tap="deletePlan">
-          退出
+          删除
         </v-touch>
       </div>
     </div>
@@ -337,11 +344,14 @@
     padding-right: 0.3rem;
     background-color: white;
     margin: 0.5rem 0;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .wrap-plan-member{
     display: flex;
     align-items: center;
     height: 1.333rem;
+    overflow: auto
   }
   .plan-member-word{
     font-family: PingFangSC-Regular;
@@ -410,11 +420,14 @@
     justify-content: space-between;
     position: relative;
     margin-top: 0.3rem;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .wrap-img{
     text-align: center;
   }
   .plan-set-top{
+    border-top: 0.5px solid #d4d4d4;
     background-color: white;
     height: 112px;
     margin-top: 0.3rem;
@@ -451,7 +464,8 @@
   .set-plan{
     width: 100%;
     height: 56px;
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 0.5px solid #d4d4d4;
+    position: relative;
   }
   .set-text{
     float: left;
@@ -467,10 +481,21 @@
   .out{
     color: #000;
     border-radius: 5px;
+    background-color: #fff;
   }
   .save{
     color: #fff;
     background: #2F7DCD;
     border-radius: 5px;
+  }
+  .rightab{
+    position: absolute;
+    right: 15px;
+    top: 22px;
+    width: 8px;
+    height: 13px;
+  }
+  .weui-btn{
+    border: 0;
   }
 </style>

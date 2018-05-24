@@ -8,18 +8,23 @@
           style="padding-bottom: 80px;">
           <div class="itm-group input-title">
             <r-input-title
+              id="fix-input"
               :item-title="editItem.pTitle"
               @text-change="saveTitle"/>
           </div>
-          <div class="itm-group itm--edit-todo">
+          <div
+            id="fix-ico"
+            class="itm-group itm--edit-todo">
             <div class="firstGroup">
               <div class="common-field">
+                <i class="icon2-schedule sche"/>
                 <r-input-date
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
               </div>
               <div class="common-field">
+                <i class="icon2-alarm sche" />
                 <r-input-time
                   :item="editItem"
                   :has-left-space="true"/>
@@ -27,6 +32,7 @@
             </div>
             <div class="secondGroup">
               <div class="common-field">
+                <i class="icon2-member sche"/>
                 <r-input-member
                   :has-left-space="true"
                   :is-native="false"
@@ -46,7 +52,7 @@
                   class="weui-btn weui-btn_primary"
                   href="javascript:;"
                   @tap="submitTodo">
-                  创建任务
+                  创建
                 </v-touch>
               </div>
             </div>
@@ -324,4 +330,19 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
+  .common-field{
+    padding-left: 15px;
+  }
+  .sche{
+   font-size: 0.586rem;
+    color: #55A8FD;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.29rem;
+    left: 25px;
+    z-index: 1000;
+  }
+  .common-field .outer-wrap{
+    padding-left: 46px;
+  }
 </style>

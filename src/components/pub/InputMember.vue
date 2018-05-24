@@ -246,7 +246,7 @@
     min-width: 100%;
     overflow: hidden;
     line-height: 100%;
-    height: 1rem;
+    height: 100%;
     width: 100%;
   }
   .arrow{

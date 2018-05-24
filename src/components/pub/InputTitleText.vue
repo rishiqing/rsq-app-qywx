@@ -65,7 +65,7 @@
     },
     data () {
       return {
-        placeholder: '输入任务标题'
+        placeholder: '请输入任务标题'
       }
     },
     computed: {},

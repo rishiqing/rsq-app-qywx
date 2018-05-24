@@ -133,10 +133,13 @@ rsqAdapterManager.register({
             nonceStr: res.nonceStr,
             signature: res.signature,
             success: function(authUser){
+              alert('authUser: ' + JSON.stringify(authUser))
               var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin';
+              alert('loginUrl: ' + loginUrl)
               rsqAdapterManager.ajax.get(loginUrl, {
                 token: authUser.rsqLoginToken
               }, function(result){
+                alert('result: ' + result)
                 var resJson = JSON.parse(result);
                 // console.log(JSON.stringify(resJson))
                 if(resJson.success){

@@ -350,8 +350,13 @@
   .wrap-plan-member{
     display: flex;
     align-items: center;
-    height: 1.333rem;
-    overflow: auto
+    min-height: 1.333rem;
+    height: 1.33rem;
+    overflow: auto;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    width: 100%;
   }
   .plan-member-word{
     font-family: PingFangSC-Regular;

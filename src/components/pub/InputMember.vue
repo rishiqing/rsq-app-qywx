@@ -76,7 +76,7 @@
       },
       maximum: {
         type: Number,
-        default: 5
+        default: 299
       }
     },
     data () {

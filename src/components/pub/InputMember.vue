@@ -9,6 +9,7 @@
       <div class="inner-value">
         <div
           v-for="(avatar,index) in avatarConcat"
+          v-if="index < 5"
           :key="index"
           :style="{ backgroundImage: 'url(' + avatar.avatar + ')' }"
           class="avatar"

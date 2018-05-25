@@ -5,7 +5,9 @@
       type="text"
       placeholder="输入评论" />
     <div class="icon-wrap">
-      <i class="icon-attachment upload-icon" />
+      <img
+        src="../../assets/img/upload.png"
+        class="uploadpng">
     </div>
     <r-upload
       @get-file-id="setFileId"
@@ -119,6 +121,9 @@
     height: 200px;
     width: 100%;
     margin-top: 20px;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
+    resize:none
   }
   ul{
     border-bottom: 0.5px solid #E3E3E3;
@@ -145,5 +150,13 @@
     left:2rem;
     top:4.468rem;
     font-size:20px;
+  }
+  .uploadpng{
+    width: 18px;
+    height: 15px;
+    display: inline-block;
+    position: absolute;
+    top: -46px;
+    left: 20px;
   }
 </style>

@@ -210,6 +210,7 @@
           })
           .then(item => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
+            this.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
             if (todoType === 'inbox') {
               this.$router.replace('/inbox')
             }

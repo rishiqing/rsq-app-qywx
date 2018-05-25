@@ -4,7 +4,10 @@
       v-for="item in local"
       :key="item.rsqUserId"
       :src="item.avatar"
-      :username="item.name"/>
+      :username="item.name"
+      :background-color="'rgb(74, 144, 226)'"
+      class="avatar"/>
+    <div class="fix" />
   </div>
 </template>
 <script>
@@ -37,7 +40,7 @@
     },
     mounted () {
       var corpId = this.loginUser.authUser.corpId
-      this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.item.joinUserIds]})
+      this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: this.item.joinUserIds.split(',')})
         .then(idMap => {
           this.local = util.getMapValuePropArray(idMap)
         })
@@ -51,5 +54,12 @@
   }
   .task-member> *{
     border-radius: 0;
+  }
+  .avatar{
+    float: left;
+    margin-right: 3px;
+  }
+  .fix{
+    clear: both
   }
 </style>

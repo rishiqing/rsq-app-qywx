@@ -162,9 +162,9 @@
         if (!this.inputTitle) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
-        if (!this.sub.datas && !this.sub.startDate) {
-          return window.rsqadmg.execute('alert', {message: '请选择时间'})
-        }
+        // if (!this.sub.datas && !this.sub.startDate) {
+        //   return window.rsqadmg.execute('alert', {message: '请选择时间'})
+        // }
         if (this.joinUserRsqIds.length === 0) {
           return window.rsqadmg.execute('alert', {message: '请选择执行人'})
         }
@@ -172,10 +172,10 @@
         var datas = {}
         datas.name = this.inputTitle
         datas.todoId = this.todoId
-        datas.startDate = this.sub.startDate
-        datas.endDate = this.sub.endDate
+        datas.startDate = this.sub.startDate || ''
+        datas.endDate = this.sub.endDate || ''
         datas.joinUsers = this.joinUserRsqIds[0]
-        datas.dates = this.sub.dates
+        datas.dates = this.sub.dates || ''
         this.$store.dispatch('createSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
           .then(() => {

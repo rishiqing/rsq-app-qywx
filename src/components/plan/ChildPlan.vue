@@ -244,6 +244,9 @@
       },
       userRoles () {
         return this.currentPlan.userRoles
+      },
+      removePlanControl () {
+        return this.currentPlan.editControl.removeKB
       }
     },
     mounted () {
@@ -436,6 +439,10 @@
                 }).catch(() => {})
                 break
               case 1:
+                if (!that.removePlanControl) {
+                  alert('没有权限')
+                  break
+                }
                 window.rsqadmg.exec('confirm', {
                   message: '确定删除卡片：' + item.name + '?',
                   success () {

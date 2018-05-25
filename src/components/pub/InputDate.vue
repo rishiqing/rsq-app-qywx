@@ -103,8 +103,5 @@
     font-size: 17px;
     color: #333333;
   }
-  .bottom-border-2{
-    border-bottom: 0.5px solid #D4D4D4;
-  }
 </style>
 

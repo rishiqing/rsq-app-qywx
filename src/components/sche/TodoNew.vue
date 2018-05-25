@@ -15,7 +15,9 @@
           <div
             id="fix-ico"
             class="itm-group itm--edit-todo">
-            <div class="firstGroup">
+            <div
+              id="firstGroup"
+              class="firstGroup">
               <div class="common-field">
                 <i class="icon2-schedule sche"/>
                 <r-input-date

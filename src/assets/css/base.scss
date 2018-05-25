@@ -366,6 +366,11 @@ button.el-message-box__headerbtn i.el-message-box__close {
 .icon-field-group{
   border-top: 0.5px solid #D4D4D4;
   border-bottom: 0.5px solid #D4D4D4;
+  background-color: #fff;
+  padding-left: 20px;
+}
+.common-field .bottom-border{
+  border-bottom: 0 !important;
 }
   .weui-btn:after{
     border: 0

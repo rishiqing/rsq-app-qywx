@@ -677,8 +677,8 @@
      padding-top: 20px;
   }
   .sub-todo-png{
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
   }
   .talk-png{
     width: 17px;
@@ -688,5 +688,10 @@
   }
   .itm-group{
     border-top: 0.5px solid #d4d4d4;
+  }
+  .common-field{
+    border-bottom: 0.5px solid #d4d4d4;
+    height: 56px;
+    line-height: 56px
   }
 </style>

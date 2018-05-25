@@ -230,7 +230,7 @@
     align-items: center;
     position: relative;
     background-color: white;
-    min-height: 1.493rem;
+    min-height: 1.25rem;
   }
   .inner-key{
     display: block;

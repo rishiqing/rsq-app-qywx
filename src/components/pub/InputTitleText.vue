@@ -171,6 +171,6 @@
     padding: 0.3rem;
     border-radius: 0;
     color: #3D3D3D;
-    padding-left: 20px;
+    margin-left: 20px;
   }
 </style>

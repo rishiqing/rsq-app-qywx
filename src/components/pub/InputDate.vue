@@ -1,7 +1,7 @@
 <template>
   <v-touch @tap="gotoDate">
     <div
-      class="outer-wrap bottom-border">
+      class="outer-wrap bottom-border-2">
       <span class="inner-key">{{ dateString ? dateString : '日期' }}</span>
     </div>
   </v-touch>
@@ -103,7 +103,7 @@
     font-size: 17px;
     color: #333333;
   }
-  .bottom-border{
+  .bottom-border-2{
     border-bottom: 0.5px solid #D4D4D4;
   }
 </style>

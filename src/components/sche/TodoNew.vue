@@ -181,9 +181,11 @@
           this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
           //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
           const overDate = this.editItem.repeatOverDate
-          this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          console.log(this.editItem)
+          if (overDate) {
+            this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          }
         }
-
         this.saveTodoState()
         var todoType = this.isInbox ? 'inbox' : 'schedule'
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})

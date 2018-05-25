@@ -15,7 +15,7 @@
       @on-cal-pan-end="onPanEnd"/>
     <div
       id="bounceDiv"
-      style="width:100%;-webkit-overflow-scrolling: touch;margin-top: 16px">
+      style="width:100%;-webkit-overflow-scrolling: touch;margin-top: 16px;margin-bottom:60px;border-bottom: 1px solid #d4d4d4 ">
       <r-pull-to-refresh
         :enabled="enablePullToRefresh"
         @on-list-pan-move="checkScroll"

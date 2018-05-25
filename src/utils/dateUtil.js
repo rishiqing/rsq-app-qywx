@@ -275,7 +275,7 @@ export default {
       everyWeek: '每周重复 ',
       everyMonth: '每月重复 ',
       everyYear: '每年重复 ',
-      weekday: '工作日重复（周一至周五）'
+      weekday: '工作日重复 (周一至周五)'
     }
     return map[code]
   },

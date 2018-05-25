@@ -54,7 +54,6 @@
         if (new RegExp('image/').test(type)) {
           return this.task.img.src
         } else {
-          console.log(type)
           switch (type) {
             case 'application/pdf':
               return 'https://res-front-cdn.timetask.cn/beta/images/pdf.692b9767b9.png'

@@ -703,7 +703,7 @@
     background-color: #F5F5F5;
     padding: 0.3rem;
     border: 0.5px solid #D4D4D4;
-    border-right: 3px;
+    border-radius: 3px;
   }
   .wrap{
     position: relative;

@@ -24,12 +24,18 @@
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
+                <img
+                  src="../../assets/img/right.png"
+                  class="right-png">
               </div>
               <div class="common-field">
                 <i class="icon2-alarm sche" />
                 <r-input-time
                   :item="editItem"
                   :has-left-space="true"/>
+                <img
+                  src="../../assets/img/right.png"
+                  class="right-png">
               </div>
             </div>
             <div class="secondGroup">
@@ -348,5 +354,13 @@
   }
   .common-field .outer-wrap{
     padding-left: 46px;
+    position: relative;
+  }
+  .right-png{
+    position: absolute;
+    right: 13px;
+    top: 40%;
+    width: 13px;
+    // height: 8px;
   }
 </style>

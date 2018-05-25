@@ -54,7 +54,7 @@ module.exports = {
   },
   beta: {
     env: require('./beta.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../dist/index.template.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: './',
     assetsPublicPath: './',

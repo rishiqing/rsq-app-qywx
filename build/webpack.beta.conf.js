@@ -66,7 +66,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       ossImageBucket: config.dev.aliOSS.imageBucket,
       ossKanbanCoverImagePath: config.dev.aliOSS.kanbanCoverImagePath,
       filename: process.env.NODE_ENV === 'testing'
-        ? 'index.template.html'
+        ? 'index.html'
         : config.beta.index,
       template: 'index-server.template.html',
       inject: true,

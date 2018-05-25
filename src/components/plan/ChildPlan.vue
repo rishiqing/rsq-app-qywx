@@ -244,6 +244,9 @@
       },
       userRoles () {
         return this.currentPlan.userRoles
+      },
+      removePlanControl () {
+        return this.currentPlan.editControl.removeKB
       }
     },
     mounted () {
@@ -346,10 +349,14 @@
         } else if (item.dates) {
           var result = ''
           var dates = item.dates.split(',')
-          for (var i = 0; i < dates - 1; i++) {
+          for (let i = 0; i < dates.length - 1; i++) {
+            if (i === 3) {
+              result += '...'
+              break
+            }
             result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + ','
           }
-          return result + parseInt(dates[dates.length - 1].substring(4, 6)) + '月' + parseInt(dates[dates.length - 1].substring(6, 8)) + '日'
+          return result
         } else {
           return null
         }
@@ -432,6 +439,10 @@
                 }).catch(() => {})
                 break
               case 1:
+                if (!that.removePlanControl) {
+                  alert('没有权限')
+                  break
+                }
                 window.rsqadmg.exec('confirm', {
                   message: '确定删除卡片：' + item.name + '?',
                   success () {
@@ -699,7 +710,7 @@
     background-color: #F5F5F5;
     padding: 0.3rem;
     border: 0.5px solid #D4D4D4;
-    border-right: 3px;
+    border-radius: 3px;
   }
   .wrap{
     position: relative;
@@ -729,7 +740,7 @@
     opacity: 0.6;
   }
   .card-selected{
-    font-size: 14px;
+    font-size: 20px;
     /*border: 1px solid #D8D8D8;*/
     border-radius: 1px;
     color: #D8D8D8;
@@ -811,6 +822,7 @@
     height: 3.173rem;
     background: #F5F5F5;
     padding: 0.3rem;
+    border: 0.5px solid #d4d4d4
   }
   .child-plan-main{
     background-color: white;
@@ -825,6 +837,7 @@
     background: #F5F5F5;
     border-radius: 1px;
     margin: 0 auto;
+    border: 0.5px solid #d4d4d4;
   }
   .post-card{
     font-family: PingFangSC-Medium;

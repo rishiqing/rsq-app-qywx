@@ -101,7 +101,7 @@
     color: #333333;
   }
   .bottom-border{
-    border-bottom: 1px solid #E0E0E0;
+    // border-bottom: 1px solid #E0E0E0;
   }
 </style>
 

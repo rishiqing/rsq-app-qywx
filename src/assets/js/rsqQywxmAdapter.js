@@ -91,36 +91,42 @@ rsqAdapterManager.register({
   auth: function(params){
 
     //------------------------------------------------------------
-    // var authUser = {
-    //   "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
-    //   "corpId":"wxec002534a59ea2e7",
-    //   "department":"[8]",
-    //   "englishName":"",
-    //   "gender":"1",
-    //   "id":340,
-    //   "isLeaderInDepts":"0",
-    //   "name":"毛文强",
-    //   "orderInDepts":"[0]",
-    //   "position":"",
-    //   "rsqPassword":"DKOPQr",
-    //   "rsqUserId":"15211",
-    //   "rsqUsername":"lKAFc_1520334538410@qywxtest.rishiqing.com",
-    //   "rsqLoginToken":"HgiXqPJPS1vS9l/E6HTpMX32xIodsVgdP4o0vXD7Qzi3di+mO/el0Zh2a6/+WCeU",
-    //   "status":1,
-    //   "userId":"0002"
-    // }
-    // rsqAdapterManager.ajax.get(rsqConfig.apiServer + 'task/qywxOauth/tokenLogin', {
-    //   token: authUser.rsqLoginToken
-    // }, function(result){
-    //   var resJson = JSON.parse(result);
-    //   // console.log(JSON.stringify(resJson))
-    //   if(resJson.success){
-    //     rsqChk(params.success, [resJson, authUser]);
-    //   }else{
-    //     rsqChk(params.error, [resJson]);
-    //   }
-    // });
-    // return
+//     var authUser = {
+//   "id": 2,
+//   "corpId": "wwe485b663d56c2ec2",
+//   "userId": "MaoWenQiang",
+//   "name": "毛文强",
+//   "department": "[1]",
+//   "orderInDepts": "[0]",
+//   "isLeaderInDepts": "null",
+//   "position": null,
+//   "mobile": null,
+//   "gender": "1",
+//   "email": null,
+//   "avatar": "http://p.qlogo.cn/bizmail/6E9R4OlZkj3iaEQ15IFmaoGRicFBW2FeaVvq3GGWbHSmXF6xNWvhWxFA/0",
+//   "tel": null,
+//   "englishName": null,
+//   "status": 1,
+//   "extattr": null,
+//   "adminType": 1,
+//   "unionId": null,
+//   "rsqUserId": "17245",
+//   "rsqUsername": "tEfNI_1525241922301@qywxtest.rishiqing.com",
+//   "rsqPassword": "IZQXGs",
+//   "rsqLoginToken": "r7A/Ib8HMJ5AehM2+9CmuR7z6d9iDu8qLNzUvYwkaXQthqnm9szAsNENKhqbia4X"
+// }
+//     rsqAdapterManager.ajax.get(rsqConfig.apiServer + 'task/qywxOauth/tokenLogin', {
+//       token: authUser.rsqLoginToken
+//     }, function(result){
+//       var resJson = JSON.parse(result);
+//       // console.log(JSON.stringify(resJson))
+//       if(resJson.success){
+//         rsqChk(params.success, [resJson, authUser]);
+//       }else{
+//         rsqChk(params.error, [resJson]);
+//       }
+//     });
+//     return
     //--------------------------------------------------------
 
     //先取签名

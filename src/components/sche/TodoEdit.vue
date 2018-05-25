@@ -58,7 +58,7 @@
               </div>
               <div class="common-field">
                 <img
-                  src="../../assets/img/subtodo.png"
+                  src="../../assets/img/subtodo.svg"
                   class="sub-todo-png sche">
                 <r-input-subtodo
                   :is-disabled="!isEditable"
@@ -546,7 +546,7 @@
       this.$store.commit('RESET_DELAY_SHOW_CHECKBOX')
       //  判断是否需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
       if (to.name === 'sche') {
-        next(false)
+        // next(false)
         this.checkIfRepeatEdited(next)
       } else {
         return next()
@@ -677,13 +677,21 @@
      padding-top: 20px;
   }
   .sub-todo-png{
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
   }
   .talk-png{
     width: 17px;
     height: 17px;
     margin-right: 9.3px;
     margin-top: 3px;
+  }
+  .itm-group{
+    border-top: 0.5px solid #d4d4d4;
+  }
+  .common-field{
+    border-bottom: 0.5px solid #d4d4d4;
+    height: 56px;
+    line-height: 56px
   }
 </style>

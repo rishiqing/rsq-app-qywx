@@ -66,9 +66,9 @@ var webpackConfig = merge(baseWebpackConfig, {
       ossImageBucket: config.dev.aliOSS.imageBucket,
       ossKanbanCoverImagePath: config.dev.aliOSS.kanbanCoverImagePath,
       filename: process.env.NODE_ENV === 'testing'
-        ? 'index.html'
+        ? 'index.template.html'
         : config.beta.index,
-      template: 'index.html',
+      template: 'index-server.html.template',
       inject: true,
       minify: {
         removeComments: true,

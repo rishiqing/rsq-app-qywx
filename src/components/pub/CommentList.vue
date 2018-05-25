@@ -100,6 +100,13 @@
         return this.loginUser.rsqUser.id
       }
     },
+    watch: {
+      todoId (newId) {
+        if (newId) {
+          this.changeState1(newId)
+        }
+      }
+    },
     mounted () {
       this.changeState1()
     },
@@ -110,7 +117,7 @@
         return arr[arr.length - 1].substr(14)
       },
       changeState1 () {
-        if (this.todoType === 'sche') {
+        if (this.todoType === 'sche' || this.todoId) {
           this.$store.dispatch('getRecord', {id: this.todoId})
         }
         this.more = false

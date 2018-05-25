@@ -63,7 +63,7 @@
             case 'application/pptx':
               return 'https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png'
             case 'application/doc':
-            case 'application/docx':
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
               return 'https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png'
             default:
               return 'https://res-front-cdn.timetask.cn/beta/images/file.46449ccbd9.png'

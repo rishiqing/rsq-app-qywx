@@ -4,7 +4,7 @@
     class="sche-list">
     <r-todo-item
       v-for="item in items"
-      :key="item.id + new Date().getTime()"
+      :key="item.id + strCurrentDate"
       :item="item"
       :is-checkable="isCheckable"
       @todo-item-click="showEdit"

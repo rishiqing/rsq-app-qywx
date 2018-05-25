@@ -24,12 +24,18 @@
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
+                <img
+                  src="../../assets/img/right.png"
+                  class="right-png">
               </div>
               <div class="common-field">
                 <i class="icon2-alarm sche" />
                 <r-input-time
                   :item="editItem"
                   :has-left-space="true"/>
+                <img
+                  src="../../assets/img/right.png"
+                  class="right-png">
               </div>
             </div>
             <div class="secondGroup">
@@ -181,9 +187,11 @@
           this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
           //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
           const overDate = this.editItem.repeatOverDate
-          this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          console.log(this.editItem)
+          if (overDate) {
+            this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          }
         }
-
         this.saveTodoState()
         var todoType = this.isInbox ? 'inbox' : 'schedule'
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})
@@ -202,6 +210,7 @@
           })
           .then(item => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
+            this.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
             if (todoType === 'inbox') {
               this.$router.replace('/inbox')
             }
@@ -346,5 +355,13 @@
   }
   .common-field .outer-wrap{
     padding-left: 46px;
+    position: relative;
+  }
+  .right-png{
+    position: absolute;
+    right: 13px;
+    top: 40%;
+    width: 13px;
+    // height: 8px;
   }
 </style>

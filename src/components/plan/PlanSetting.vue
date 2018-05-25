@@ -170,7 +170,7 @@
         })
       },
       createrRsqIds () {
-        return [this.$store.getters.loginUser.rsqUser.id]
+        return [this.$store.state.currentPlan.creatorId]
       },
       disableRsqidArray () {
         return this.disabledRsqIds.map(function (staff) {

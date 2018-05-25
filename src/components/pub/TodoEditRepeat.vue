@@ -284,6 +284,7 @@
     }
     .user-define {
       color:#3D3D3D;
+      border-bottom: 0;
     }
     .repeat{
       margin-left: 0.2rem;

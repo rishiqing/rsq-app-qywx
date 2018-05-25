@@ -354,6 +354,9 @@ div.el-message-box input.el-input__inner {
 .icon-field-group .common-field {
   padding-left: 1.2rem;
 }
+.icon-field-group .common-field:last-child {
+  border-bottom: 0;
+}
 .icon-field-group .common-field .outer-wrap {
   padding-left: 0;
 }

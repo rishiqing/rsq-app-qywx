@@ -227,12 +227,14 @@
     letter-spacing: 0;
   }
   .comment-content{
-    width: 94%;
+    width: 81vw;
     font-family: STHeitiSC-Light;
     font-size: 15px;
     color: #111111;
     letter-spacing: 0;
     line-height: 21px;
+    word-wrap:break-word
+
   }
   .reply-comment{
     margin-right: 5px;

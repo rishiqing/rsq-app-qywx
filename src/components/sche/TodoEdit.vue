@@ -58,7 +58,7 @@
               </div>
               <div class="common-field">
                 <img
-                  src="../../assets/img/subtodo.png"
+                  src="../../assets/img/subtodo.svg"
                   class="sub-todo-png sche">
                 <r-input-subtodo
                   :is-disabled="!isEditable"

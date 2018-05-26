@@ -456,7 +456,8 @@
     font-size: 14px;
     color: #9C9C9C;
     line-height: 56px;
-    width: 50%
+    width: 50%;
+    text-align: right;
   }
   .plan-set-img{
     margin-right: 31px;

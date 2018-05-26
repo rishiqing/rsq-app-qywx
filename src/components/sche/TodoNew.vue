@@ -24,18 +24,14 @@
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
-                <img
-                  src="../../assets/img/right.png"
-                  class="right-png">
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
               <div class="common-field">
                 <i class="icon2-alarm sche" />
                 <r-input-time
                   :item="editItem"
                   :has-left-space="true"/>
-                <img
-                  src="../../assets/img/right.png"
-                  class="right-png">
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
             </div>
             <div class="secondGroup">
@@ -364,4 +360,12 @@
     width: 13px;
     // height: 8px;
   }
+  .arrow {
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+}
 </style>

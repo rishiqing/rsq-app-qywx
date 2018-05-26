@@ -25,7 +25,7 @@
       @comment-file-touch="showAction"
       @click-comment="handleCommentClick"/>
     <div
-      v-if="commentCount"
+      v-if="commentCount && !more"
       class="no-comment">
       <img
         src="../../assets/img/nocomment.png"
@@ -222,6 +222,7 @@
     margin-top: 20px;
     padding-bottom: 2.9rem;
     border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .operation{
     font-family: PingFangSC-Regular;

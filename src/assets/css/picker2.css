@@ -81,6 +81,7 @@
 	height: 54px;
 	padding: 15px;
     font-size: 24px;
+    padding-left: 0;
 }
 #fix-input{
 	height: 98px;
@@ -102,4 +103,10 @@
 }
 #firstGroup .bottom-border-2{
 	border-bottom: 0.5px solid #d4d4d4;
+}
+#plantofix .common-field:not(:last-child){
+	border-bottom: 0.5px solid #d4d4d4;
+}
+#plantofix input[type='text']{
+	padding-left: 20px;
 }

@@ -102,7 +102,7 @@
     display: flex;
     align-items: center;
     height: 1.28rem;
-    position: relative;
+    position: absolute;
   }
   .edit-text{
     font-family: PingFangSC-Medium;
@@ -172,5 +172,6 @@
     border-radius: 0;
     color: #3D3D3D;
     margin-left: 20px;
+    padding-left: 0;
   }
 </style>

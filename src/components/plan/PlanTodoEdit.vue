@@ -3,7 +3,9 @@
   <div class="router-view">
     <div class="itm-edt z-index-xs">
       <div class="content">
-        <div class="itm-edt-fields" >
+        <div
+          id="plantofix"
+          class="itm-edt-fields" >
           <div class="itm-group itm--edit-todo">
             <r-input-title
               ref="title"
@@ -432,5 +434,6 @@
     transition: border-color 0.4s, background-color ease 0.4s; }
   .itm-group{
     margin-top: 10px;
+    border-top: 0.5px solid #d4d4d4;
   }
 </style>

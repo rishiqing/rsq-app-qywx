@@ -13,7 +13,7 @@
         @click="toCreate">
         <div class="forward-plan">
           <img
-            src="../../assets/img/add2.png"
+            src="../../assets/img/planlistadd.svg"
             class="plan-image">
           <span class="plan-name">新建计划</span>
         </div>

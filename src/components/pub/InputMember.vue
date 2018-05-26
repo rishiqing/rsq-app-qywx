@@ -130,10 +130,11 @@
       },
       createrRsqIds () {
         this.fetchUserIds(this.createrRsqIds, 'creatorList')
+      },
+      userRsqIds (newIds) {
+        this.userRsqIds = newIds
+        this.fetchUserIds(this.userRsqIdArray, 'localList')
       }
-    },
-    mounted () {
-      this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
       fetchUsers () {
@@ -231,7 +232,7 @@
     align-items: center;
     position: relative;
     background-color: white;
-    min-height: 1.25rem;
+    min-height: 1.45rem;
   }
   .inner-key{
     display: block;

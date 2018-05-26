@@ -136,7 +136,7 @@
               v-model="cardName"
               class="post-card-input"
               type="text"
-              placeholder="输入列表名称">
+              placeholder="输入任务列表名称">
             <div class="wrap-button">
               <v-touch @tap="showEmpty">
                 <span class="card-input-btn no">取消</span>
@@ -794,24 +794,24 @@
   }
   .yes{
     color: #FFFFFF;
-    background-color: #48A1FA ;
-    border-radius: 3px;
+    background-color: #2F7DCD;
+    border-radius: 2px;
   }
   .no{
-    background-color: #F5F5F5;
-    color: #959595;
-    border: 1px solid #959595;
+    background-color: #fff;
+    color: #000;
+    border: 0.5px solid #d4d4d4;
     border-radius: 3px;
     margin-right: 0.3rem;
   }
   .card-input-btn{
-    width: 1.76rem;
-    height: 0.93rem;
+    width: 46px;
+    height: 26px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: PingFangSC-Regular;
-    font-size: 17px;
+    font-size: 13px;
   }
   .post-card-input{
     height: 1.25rem;
@@ -895,8 +895,9 @@
     height: 19px;
   }
   .arrow-down{
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 0.1rem;
+    color: #c7c7c7;
   }
   .top-sub-plan-name{
     max-width: 4rem;

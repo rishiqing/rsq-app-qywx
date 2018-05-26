@@ -304,7 +304,7 @@
             that.selectedLocalList = [...selList]
             that.memarr = [...arr]
             var arrstr = arr.join(',')
-            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr})
+            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr, editAuthority: 'member'})
               .then(function (res) {
                 that.$store.commit('UPDATA_PLAN', res.userRoles)
               })
@@ -456,6 +456,8 @@
     font-size: 14px;
     color: #9C9C9C;
     line-height: 56px;
+    width: 50%;
+    text-align: right;
   }
   .plan-set-img{
     margin-right: 31px;

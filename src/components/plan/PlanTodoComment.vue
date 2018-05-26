@@ -3,7 +3,7 @@
     <textarea
       v-model="content"
       type="text"
-      placeholder="输入评论" />
+      placeholder="请输入评论内容" />
     <div class="icon-wrap">
       <img
         src="../../assets/img/upload.png"
@@ -51,7 +51,7 @@
       }
     },
     mounted () {
-      window.rsqadmg.execute('setTitle', {title: '评论'})
+      window.rsqadmg.execute('setTitle', {title: '发送讨论'})
     },
     beforeRouteLeave (to, from, next) {
       //  清理回复评论的缓存
@@ -120,7 +120,7 @@
     padding-top:5px ;
     height: 200px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 40px;
     border-top: 0.5px solid #d4d4d4;
     border-bottom: 0.5px solid #d4d4d4;
     resize:none

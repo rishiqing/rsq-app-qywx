@@ -181,6 +181,7 @@
         if (e) e.preventDefault()
       },
       tapChangeType (e, type) {
+        this.tapEmpty()
         this.dateType = type
         this.resetType()
         if (e) e.preventDefault()

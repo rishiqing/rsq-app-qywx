@@ -69,7 +69,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    line-height: 1.3rem;
+    line-height: 1.45rem;
     background-color: white;
   }
   .inner-key{

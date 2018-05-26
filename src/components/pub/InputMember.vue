@@ -232,7 +232,7 @@
     align-items: center;
     position: relative;
     background-color: white;
-    min-height: 1.25rem;
+    min-height: 1.45rem;
   }
   .inner-key{
     display: block;

@@ -183,7 +183,7 @@
           attribute: 'company',
           childKanbanList: [],
           deptIds: '',
-          editAuthority: 'all',
+          editAuthority: 'member',
           isDefault: false,
           isKanban: true,
           isLoaded: false,

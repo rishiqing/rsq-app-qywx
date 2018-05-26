@@ -5,7 +5,7 @@
       class="small-img"
       alt="task.img.name">
     <div class="file-name">
-      <div class="word">{{ task.img.name.substr(0,30) }}</div>
+      <div class="word">{{ task.img.name }}</div>
       <div class="file-size">{{ format(uploadedSize) }}/{{ format(task.file.size) }}</div>
     </div>
     <v-touch
@@ -108,9 +108,13 @@
     color: #DEDEDE;
     font-size: 18px;
     z-index:9;
+    height: 56px;
+    line-height: 56px
   }
   .done-text {
     color: #9B9B9B;font-size: 12px;padding-right:0.3rem;
+    height: 56px;
+    line-height: 56px
   }
   .file-name {
     font-family:AppleSystemUIFont;
@@ -131,7 +135,7 @@
     position: relative;
     display:flex;
     align-items: center;
-    border-top: 1px solid #E0E0E0;
+    border-top: 0.5px solid #d4d4d4;
     border-bottom: none;
     background-color: white;
     padding-left: 13px;

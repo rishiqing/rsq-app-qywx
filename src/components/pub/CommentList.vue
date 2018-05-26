@@ -103,7 +103,7 @@
     watch: {
       todoId (newId) {
         if (newId) {
-          this.changeState1(newId)
+          this.$store.dispatch('getRecord', {id: newId})
         }
       }
     },
@@ -117,7 +117,7 @@
         return arr[arr.length - 1].substr(14)
       },
       changeState1 () {
-        if (this.todoType === 'sche' || this.todoId) {
+        if (this.todoType === 'sche' && this.todoId) {
           this.$store.dispatch('getRecord', {id: this.todoId})
         }
         this.more = false

@@ -130,10 +130,11 @@
       },
       createrRsqIds () {
         this.fetchUserIds(this.createrRsqIds, 'creatorList')
+      },
+      userRsqIds (newIds) {
+        this.userRsqIds = newIds
+        this.fetchUserIds(this.userRsqIdArray, 'localList')
       }
-    },
-    mounted () {
-      this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
       fetchUsers () {

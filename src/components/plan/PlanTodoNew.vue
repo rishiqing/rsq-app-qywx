@@ -167,7 +167,7 @@
         this.$store.commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: this.editItem})
       },
       submitTodo () {
-        if (!this.editItem.name) {
+        if (!this.editItem.name || /^\s+$/.test(this.editItem.name)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
 

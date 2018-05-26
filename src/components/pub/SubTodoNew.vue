@@ -159,7 +159,7 @@
         this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
       },
       submitTodo () {
-        if (!this.inputTitle) {
+        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
         // if (!this.sub.datas && !this.sub.startDate) {

@@ -174,7 +174,7 @@
         this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
       },
       submitTodo () {
-        if (!this.editItem.pTitle) {
+        if (!this.editItem.pTitle || /^\s+$/.test(this.editItem.pTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
         if (!this.isInbox) {

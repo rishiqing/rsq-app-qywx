@@ -116,3 +116,7 @@
 .secondGroup, .firstGroup{
 	background-color: #fff;
 }
+#plantofix .is-display-title{
+	top: 0.5rem;
+	left: 0.55rem;
+}

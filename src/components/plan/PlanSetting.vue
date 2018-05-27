@@ -43,13 +43,20 @@
         class="wrap-plan-member"
         @tap="showNativeMemberEdit">
         <avatar
-          v-for="item in selectedLocalList"
+          v-for="(item, index) in selectedLocalList"
+          v-if="index <= 5"
           :key="item.rsqUserId"
           :src="item.avatar"
           :username="item.name"
           :background-color="'rgb(74, 144, 226)'"
           :size="34"/>
-        <i class="icon2-add add-member"/>
+        <i
+          v-if="countAdd < 7"
+          class="icon2-add add-member"/>
+        <img
+          v-if="countAdd >=7"
+          src="../../assets/img/mp.png"
+          class="mp">
       </v-touch>
     </div>
     <div class="set-star">
@@ -124,6 +131,9 @@
       },
       currentPlan () {
         return this.$store.state.currentPlan
+      },
+      countAdd () {
+        return this.currentPlan.userRoles.length
       },
       isStar () {
         return this.currentPlan.starMark
@@ -293,7 +303,7 @@
           idAttribute: 'rsqUserId',
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
-          disabledIdList: this.disabledLocalList,
+          disabledIdList: [this.createrRsqIds[0].toString(), this.$store.state.loginUser.rsqUser.id.toString()],
           // 转换为字符串
           creatorIdList: [this.createrRsqIds[0].toString()],
           success (selList) {
@@ -504,5 +514,11 @@
   }
   .weui-btn{
     border: 0;
+  }
+  .mp{
+    width: 21px;
+    height: 5px;
+    position: absolute;
+    right: 15px
   }
 </style>

@@ -538,6 +538,7 @@
       position: absolute;
       width: 100%;
       bottom: 0;
+      border-top: 0.5px solid #d4d4d4;
     }
   }
   tr{

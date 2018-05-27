@@ -537,6 +537,11 @@ export default {
   PLAN_IMG_UPDATE (state, p) {
     state.currentPlan.cover = p.cover
   },
+  PLAN_NEW_TODO_DATE (state, p) {
+    state.plan.currentKanbanItem.dates = p.dates
+    state.plan.currentKanbanItem.startDate = p.startDate
+    state.plan.currentKanbanItem.endDate = p.endDate
+  },
   PLAN_CURRENT_KANBAN_ITEM_SET (state, p) {
     state.plan.currentKanbanItem = p.item
   },

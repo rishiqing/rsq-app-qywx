@@ -50,7 +50,7 @@
         if (finishedCount === 0 && unfinishedCount === 0) {
           return ''
         } else {
-          result = finishedCount + '条已完成, ' + unfinishedCount + '条未完成'
+          result = '已完成' + finishedCount + '/' + (unfinishedCount + finishedCount) + '条'
           return result
         }
       }
@@ -73,7 +73,7 @@
     align-items: center;
     position: relative;
     line-height: 1.45rem;
-    background-color: white;
+    background-color: transparent;
   }
   .inner-key{
     display: block;

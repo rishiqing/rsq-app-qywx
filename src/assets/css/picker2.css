@@ -80,7 +80,7 @@
 #fix-input input{
 	height: 54px;
 	padding: 15px;
-    font-size: 24px;
+    font-size: 17px;
     padding-left: 0;
 }
 #fix-input{
@@ -108,5 +108,15 @@
 	border-bottom: 0.5px solid #d4d4d4;
 }
 #plantofix input[type='text']{
-	padding-left: 20px;
+	padding-left: 0.8rem;
+}
+.fixpadding input[type='text']{
+	padding-left: 0.45rem !important;
+}
+.secondGroup, .firstGroup{
+	background-color: #fff;
+}
+#plantofix .is-display-title{
+	top: 0.5rem;
+	left: 0.55rem;
 }

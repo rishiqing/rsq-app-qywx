@@ -13,12 +13,15 @@
               @text-change="saveTitle"/>
           </div>
           <div class="itm-group itm--edit-todo">
-            <!--<div class="firstGroup">-->
-            <!--<r-input-date-->
-            <!--:item="editItem"-->
-            <!--:sep="'/'"-->
-            <!--:has-left-space="true"/>-->
-            <!--</div>-->
+            <div class="common-field input-date-backgrand">
+              <i class="icon2-schedule sche"/>
+              <r-input-date
+                :item="editItem"
+                :sep="'/'"
+                :edit-time="true"
+                :has-left-space="true"
+                :todo-type="'plan'"/>
+            </div>
             <div class="secondGroup">
               <div class="common-field">
                 <i class="icon2-member sche"/>
@@ -53,7 +56,7 @@
 </template>
 <script>
   import InputTitleText from 'com/pub/InputTitleText'
-  import InputDate from 'com/pub/InputDate'
+  import InputDate from 'com/pub/PlanNewDate'
   import InputMember from 'com/pub/InputMember'
   import InputTime from 'com/pub/InputTime'
   import dateUtil from 'ut/dateUtil'
@@ -195,8 +198,8 @@
 </script>
 <style lang="scss" scoped>
   .input-title{
-    border-top: 1px solid #DADADA;
-    border-bottom: 1px solid #DADADA;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .router-view{
     height: 100%;
@@ -208,12 +211,14 @@
   .firstGroup{
     margin-top:10px;
     border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+
+    // border-bottom: 1px solid #E0E0E0;
   }
   .secondGroup{
-    margin-top:10px;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+    background-color: #fff;
+    // margin-top:10px;
+    // border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   p{
     font-family: PingFangSC-Regular;
@@ -292,5 +297,10 @@
   }
   .common-field{
     padding-left: 46px;
+  }
+  .input-date-backgrand{
+    margin-top: 10px;
+    border-top: 0.5px solid #d4d4d4;
+    background-color: #fff  !important;
   }
 </style>

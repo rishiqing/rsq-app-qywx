@@ -280,7 +280,7 @@
       color: #3D3D3D;
       font-family: PingFangSC-Regular;
       font-size: 17px;
-      border-bottom: 0.5px solid #D4D4D4;
+      // border-bottom: 0.5px solid #D4D4D4;
     }
     .user-define {
       color:#3D3D3D;
@@ -323,9 +323,9 @@
     }
     .top-ul{
       border-top: 0.5px solid #d4d4d4;
-      border-bottom: 0;
+      border-bottom: 0.5px solid #d4d4d4;
       li:last-child span{
-        border-bottom: 0.5px solid #d4d4d4;
+        // border-bottom: 0.5px solid #d4d4d4;
       }
     }
   }

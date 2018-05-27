@@ -317,9 +317,9 @@
       getSubmitResult () {
         var c = this.currentTodoDate
         var o = {
-          startDate: c.startDate,
-          endDate: c.endDate,
-          dates: c.dates
+          startDate: c.startDate || null,
+          endDate: c.endDate || null,
+          dates: c.dates || null
         }
         //  如果重复相关属性存在，那么处理重复相关的其他属性
         if (c.repeatType) {
@@ -342,15 +342,17 @@
       submitTodo (next) {
         if (this.isModified()) {
           const editItem = this.getSubmitResult()
-          return this.$store.dispatch('updateKanbanItem', {
-            id: this.currentKanbanItem.id,
-            dates: editItem.dates,
-            startDate: editItem.startDate,
-            endDate: editItem.endDate
-          })
-            .then(() => {
-              next()
-            })
+          this.$store.commit('PLAN_NEW_TODO_DATE', editItem)
+          next()
+          // return this.$store.dispatch('updateKanbanItem', {
+          //   id: this.currentKanbanItem.id,
+          //   dates: editItem.dates,
+          //   startDate: editItem.startDate,
+          //   endDate: editItem.endDate
+          // })
+          //   .then(() => {
+          //     next()
+          //   })
         } else {
           next()
         }
@@ -359,7 +361,7 @@
     beforeRouteLeave (to, from, next) {
       //  做pub区缓存
       this.saveTodoDateState()
-      if (to.name !== 'planTodoEdit') {
+      if (to.name !== 'planTodoNew') {
         return next()
       }
 //      next()

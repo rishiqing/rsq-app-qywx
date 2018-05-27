@@ -185,6 +185,7 @@
     align-items: center;
     justify-content: center;
     margin-right: -0.405rem;
+    line-height: 22px
   }
   .contain-tag {position:absolute;left:0;height:20px;width:2px;top:50%;margin-top:-10px;}
   .title-todo{
@@ -219,10 +220,10 @@
   .isdisplay{
     display: block;
     position:absolute;
-    top:0.58rem;
-    right: 0.3rem;
+    top:0.49rem;
+    right: 0.22rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999;
   }
   .for-hide{
     position: absolute;

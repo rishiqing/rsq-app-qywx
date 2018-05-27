@@ -142,7 +142,7 @@
                 <span class="card-input-btn no">取消</span>
               </v-touch>
               <v-touch @tap="postCard">
-                <span class="card-input-btn yes">确定</span>
+                <span class="card-input-btn yes">创建</span>
               </v-touch>
             </div>
           </div>
@@ -264,7 +264,7 @@
       } else if (this.childPlanList) {
         this.currentSubPlan = this.childPlanList[0]
       }
-      window.rsqadmg.exec('showLoader', {'text': '加载中'})
+      // window.rsqadmg.exec('showLoader', {'text': '加载中'})
       if (this.currentSubPlanOfTask) {
         this.$store.dispatch('getCardList', this.currentSubPlanOfTask).then(
           (res) => {
@@ -272,7 +272,7 @@
           }).then(() => {
             that.$nextTick(() => {
               that.initLayout()
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       } else {
@@ -282,7 +282,7 @@
           }).then(() => {
             that.$nextTick(() => {
               that.initLayout()
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       }
@@ -412,7 +412,8 @@
         e.preventDefault()
         var that = this
         window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['编辑卡片名称', '删除卡片'],
+          buttonArray: ['编辑任务列表', '删除任务列表'],
+          className: 'delete_IOS',
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
@@ -556,7 +557,7 @@
         var that = this
         this.initialState = false
         this.currentSubPlan = item
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         this.$store.dispatch('getCardList', item).then(
           (res) => {
             that.$store.commit('SAVE_CARD', res.kanbanCardList)
@@ -568,7 +569,7 @@
               for (var i = 0; i < aLi.length; i++) {
                 aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
               }
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       },
@@ -725,7 +726,7 @@
   }
   .card-item-left{
     float: left;
-    padding: 0.07rem 0 0.5rem 0.2rem;
+    padding: 0 0 0.5rem 0.2rem;
   }
   .card-item-right{
     margin-left: 1rem;
@@ -819,10 +820,11 @@
     border-radius: 4px;
   }
   .post-card-input-main{
-    height: 3.173rem;
+    height: 2.473rem;
     background: #F5F5F5;
     padding: 0.3rem;
-    border: 0.5px solid #d4d4d4
+    border: 0.5px solid #d4d4d4;
+    border-radius: 3px;
   }
   .child-plan-main{
     background-color: white;
@@ -835,7 +837,7 @@
     width: 95%;
     height: 1.7rem;
     background: #F5F5F5;
-    border-radius: 1px;
+    border-radius: 3px;
     margin: 0 auto;
     border: 0.5px solid #d4d4d4;
   }

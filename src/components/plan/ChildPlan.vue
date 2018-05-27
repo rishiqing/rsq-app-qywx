@@ -272,7 +272,7 @@
           }).then(() => {
             that.$nextTick(() => {
               that.initLayout()
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       } else {
@@ -282,7 +282,7 @@
           }).then(() => {
             that.$nextTick(() => {
               that.initLayout()
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       }
@@ -569,7 +569,7 @@
               for (var i = 0; i < aLi.length; i++) {
                 aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
               }
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       },

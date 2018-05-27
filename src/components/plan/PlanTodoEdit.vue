@@ -286,7 +286,7 @@
           })
           .then(() => {
             this.fetchCommentIds()
-            window.rsqadmg.exec('hideLoader')
+            // window.rsqadmg.exec('hideLoader')
           })
       }
     }

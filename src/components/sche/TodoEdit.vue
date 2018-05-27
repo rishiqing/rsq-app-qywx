@@ -223,7 +223,7 @@
             })
           .then(() => {
             this.fetchCommentIds()
-            window.rsqadmg.exec('hideLoader')
+            // window.rsqadmg.exec('hideLoader')
           })
 //          .catch(err => {
 //            window.rsqadmg.exec('hideLoader')

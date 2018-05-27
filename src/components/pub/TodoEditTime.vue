@@ -218,11 +218,11 @@
        * 当设置提醒的时候开始时间不能早于当前时间
        */
       checkWarn () {
-        if (this.clockData.alert &&
-          this.clockData.alert.length > 0 &&
-          moment().isAfter(moment(this.clock.startTime, 'HH:mm'))) {
-          return '提醒时间早于当前时间，可能不会收到提醒!'
-        }
+        // if (this.clockData.alert &&
+        //   this.clockData.alert.length > 0 &&
+        //   moment().isAfter(moment(this.clock.startTime, 'HH:mm'))) {
+        //   return '提醒时间早于当前时间，可能不会收到提醒!'
+        // }
       },
       /**
        * 检查用户是否更新过，

@@ -244,6 +244,13 @@
       },
       saveTodoAlert () {
         var list = this.mergeList()
+        var that = this
+        var alertNew = list.some(function (o) {
+          return jsUtil.alertRule2Time(o.schedule, that.numStartTime, that.numEndTime) < new Date().getTime()
+        })
+        if (alertNew) {
+          alert('提醒时间早于当前时间，可能不会收到提醒!')
+        }
         this.$store.commit('PUB_TODO_TIME_CLOCK_UPDATE', {
           data: {
             alert: list

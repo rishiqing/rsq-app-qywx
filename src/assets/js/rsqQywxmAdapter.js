@@ -496,7 +496,7 @@ rsqAdapterManager.register({
     var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
     var defArray2 = [defString.substr(0, 2), ':', defString.substr(3, 2)];
     if (defString.substr(0, 2) !== '23') {
-      defArray2[0] = defString.substr(0, 1) * 1 + (defString.substr(1, 1) * 1 + 1)
+      defArray2[0] = Number(defString.substr(0, 1) + (defString.substr(1, 1) * 1 + 1))
     }
     var defString2 = params.strInit2 || defArray2.join('');
     weui2.picker(hours, symbol, minites, {

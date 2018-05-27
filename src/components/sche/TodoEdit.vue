@@ -212,7 +212,7 @@
     },
     methods: {
       initData () {
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getTodo', {todo: {id: this.dynamicId}})
             .then(item => {
               util.extendObject(this.editItem, item)

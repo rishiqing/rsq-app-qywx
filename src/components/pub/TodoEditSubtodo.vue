@@ -1,5 +1,5 @@
 <template>
-  <div class="top-padding">
+  <div class="top-padding fixpadding">
     <r-input-title
       ref="title"
       :is-checkable="true"

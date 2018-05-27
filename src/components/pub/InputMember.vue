@@ -136,6 +136,9 @@
         this.fetchUserIds(this.userRsqIdArray, 'localList')
       }
     },
+    created () {
+      this.fetchUserIds(this.userRsqIdArray, 'localList')
+    },
     methods: {
       fetchUsers () {
         this.$store.dispatch('fetchUsers')
@@ -183,6 +186,7 @@
 //       },
       showWebMemberEdit () {
         const that = this
+        console.log(this.maximum)
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,
@@ -231,7 +235,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    background-color: white;
+    background-color: transparent;
     min-height: 1.45rem;
   }
   .inner-key{
@@ -250,6 +254,7 @@
     line-height: 100%;
     height: 100%;
     width: 100%;
+    min-height: 36px
   }
   .arrow{
     color: #999999;

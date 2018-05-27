@@ -95,7 +95,7 @@
     align-items: center;
     position: relative;
     line-height: 1.45rem;
-    background-color: white;
+    background-color: transparent;
   }
   .inner-key{
     display: block;

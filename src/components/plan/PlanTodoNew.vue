@@ -195,8 +195,8 @@
 </script>
 <style lang="scss" scoped>
   .input-title{
-    border-top: 1px solid #DADADA;
-    border-bottom: 1px solid #DADADA;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .router-view{
     height: 100%;

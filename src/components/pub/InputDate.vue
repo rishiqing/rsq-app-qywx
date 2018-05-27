@@ -4,6 +4,7 @@
       class="outer-wrap bottom-border-2">
       <span class="inner-key">{{ dateString ? dateString : '日期' }}</span>
     </div>
+    <i class="icon2-arrow-right-small arrow"/>
   </v-touch>
 </template>
 <script>
@@ -95,7 +96,7 @@
     align-items: center;
     position: relative;
     line-height: 1.45rem;
-    background-color: white;
+    background-color: transparent;
   }
   .inner-key{
     display: block;
@@ -103,5 +104,13 @@
     font-size: 17px;
     color: #333333;
   }
+  .arrow{
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+}
 </style>
 

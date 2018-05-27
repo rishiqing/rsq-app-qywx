@@ -66,7 +66,7 @@
 </script>
 <style lang="scss" scoped>
   .plan-count{
-    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
   }
   .post-new-plan{
     font-size: 18px;
@@ -89,6 +89,7 @@
     margin-top: 20px;
     overflow-x: hidden;
     border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .itm-lst{
     text-align: center;
@@ -133,6 +134,6 @@
     justify-content: space-between;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
-    border-bottom: 1px solid #EAEAEA;
+    // border-bottom: 1px solid #EAEAEA;
   }
 </style>

@@ -68,6 +68,9 @@
             <v-touch
               class="bottom"
               @tap="switchToComment">
+              <img
+                class="talk-png"
+                src="../../assets/img/talk.png">
               参与讨论
             </v-touch>
           </div>
@@ -275,7 +278,7 @@
         })
       },
       initPlan () {
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getKanbanItem', {id: this.itemId})
           .then(item => {
             util.extendObject(this.editItem, item)
@@ -343,7 +346,7 @@
     width:6.8rem;
   }
   .bottom{
-    height: 1.333rem;
+    height: 46px;
     display: flex;
     align-items: center;
     background-color: white;
@@ -435,5 +438,11 @@
   .itm-group{
     margin-top: 10px;
     border-top: 0.5px solid #d4d4d4;
+  }
+  .talk-png{
+    width: 17px;
+    height: 17px;
+    margin-right: 9.3px;
+    margin-top: 3px;
   }
 </style>

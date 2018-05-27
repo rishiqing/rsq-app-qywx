@@ -308,9 +308,9 @@ rsqAdapterManager.register({
    * @param params.onFail
    */
   hideLoader: function(params){
-    loading.hide(function() {
-      console.log('`loading` has been hidden');
-    });
+    // loading.hide(function() {
+    //   console.log('`loading` has been hidden');
+    // });
   },
   topTips: function (params) {
     weui.topTips(params.message, 2000);

@@ -91,7 +91,7 @@
           class="delete-plan-btn weui-btn out"
           href="javascript:;"
           @tap="deletePlan">
-          删除
+          退出计划
         </v-touch>
       </div>
     </div>

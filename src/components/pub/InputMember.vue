@@ -186,7 +186,6 @@
 //       },
       showWebMemberEdit () {
         const that = this
-        console.log(this.maximum)
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,

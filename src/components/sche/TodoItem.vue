@@ -265,7 +265,7 @@
     color:#b9b9bc;
     font-size: 20px;
     display: block;
-    margin: 0.45rem 0 0 0.3rem;
+    margin: 20px 0 0 0.3rem;
     /*position: absolute;*/
     /*top:0.58rem;*/
     /*<!--top:50%;-->*/

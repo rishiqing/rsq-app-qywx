@@ -77,7 +77,7 @@
                   tag="a"
                   class="weui-btn weui-btn_warn"
                   href="javascript:;"
-                  @tap="prepareDelete">
+                  @tap="delayCallFix">
                   删除任务
                 </v-touch>
               </div>
@@ -211,6 +211,11 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     methods: {
+      delayCallFix (e) {
+        window.setTimeout(() => {
+          this.prepareDelete(e)
+        }, 50)
+      },
       initData () {
         // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getTodo', {todo: {id: this.dynamicId}})

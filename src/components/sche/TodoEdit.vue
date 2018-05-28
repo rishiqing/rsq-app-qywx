@@ -8,7 +8,7 @@
             <r-input-title
               ref="title"
               :is-edit="true"
-              :is-checkable="!(delayShowCheckbox || isInbox)"
+              :is-checkable="false"
               :item-title="editItem.pTitle "
               :item-checked="editItem.pIsDone"
               :is-disabled="!isEditable"
@@ -47,16 +47,19 @@
                   :is-disabled="!isEditable"
                   :disabled-text="disabledText"
                   :edit-time="true"
-                  :is-native="true"
+                  :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="[]"
+                  :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
+                  :creater-rsq-ids="pUserId"
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
               <div class="common-field">
-                <i class="icon2-subplan-web sche"/>
+                <img
+                  src="../../assets/img/subtodo.svg"
+                  class="sub-todo-png sche">
                 <r-input-subtodo
                   :is-disabled="!isEditable"
                   :disabled-text="disabledText"
@@ -74,7 +77,7 @@
                   tag="a"
                   class="weui-btn weui-btn_warn"
                   href="javascript:;"
-                  @tap="prepareDelete">
+                  @tap="delayCallFix">
                   删除任务
                 </v-touch>
               </div>
@@ -82,6 +85,9 @@
             <v-touch
               class="bottom"
               @tap="switchToComment">
+              <img
+                class="talk-png"
+                src="../../assets/img/talk.png">
               参与讨论
             </v-touch>
           </div>
@@ -133,6 +139,9 @@
       note () {
         return this.$store.state.todo.currentTodo.note
       },
+      pUserId () {
+        return [this.$store.state.todo.currentTodo.pUserId]
+      },
       isInbox () {
         return this.currentTodo.pContainer === 'inbox'
       },
@@ -151,6 +160,9 @@
         return this.todoComments.filter(i => {
           return i.type === 0
         })
+      },
+      userRsqId () {
+        return this.$store.state.staff.list
       },
       loginUser () {
         return this.$store.getters.loginUser || {}
@@ -185,7 +197,7 @@
     created () {
       this.initData()
 //      var that = this
-      window.rsqadmg.execute('setTitle', {title: '日程详情'})
+      window.rsqadmg.execute('setTitle', {title: '任务详情'})
 //      window.rsqadmg.execute('setOptionButtons', {
 //        btns: [{key: 'more', name: '更多'}],
 //        success (res) {
@@ -199,8 +211,14 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     methods: {
+      delayCallFix (e) {
+        window.setTimeout(() => {
+          this.prepareDelete(e)
+        }, 50)
+      },
       initData () {
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        var that = this
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getTodo', {todo: {id: this.dynamicId}})
             .then(item => {
               util.extendObject(this.editItem, item)
@@ -211,16 +229,16 @@
             })
           .then(() => {
             this.fetchCommentIds()
-            window.rsqadmg.exec('hideLoader')
+            // window.rsqadmg.exec('hideLoader')
           })
-//          .catch(err => {
-//            window.rsqadmg.exec('hideLoader')
-//            if (err.code === 400320) {
-//              this.$router.push('/pub/check-failure')
-//            } else if (err.code === 400318) {
-//              this.$router.push('/pub/noPermission')
-//            }
-//          })
+         .catch(err => {
+           // window.rsqadmg.exec('hideLoader')
+           if (err.code === 400320) {
+             that.$router.push('/pub/check-failure')
+           } else if (err.code === 400318) {
+             that.$router.push('/pub/noPermission')
+           }
+         })
       },
       fetchCommentIds () {
         //  根据评论中的rsqId获取userId，用来显示头像
@@ -280,6 +298,7 @@
         }
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        window.rsqadmg.execute('setTitle', {title: '任务详情'})
         var that = this
         var compRes = util.compareList(this.joinUserRsqIds, idArray)
         var params = {
@@ -289,7 +308,7 @@
         }
         window.rsqadmg.execute('showLoader', {text: '保存中...'})
         this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
-          this.joinUserRsqIds = idArray
+          // this.joinUserRsqIds = idArray
           window.rsqadmg.exec('hideLoader')
           // window.rsqadmg.execute('toast', {message: '保存成功'})
           //  重新获取用户头像
@@ -325,7 +344,7 @@
                   data: data
                 }).then(res => {
                   if (res.errcode !== 0) {
-                    alert('发送失败：' + JSON.stringify(res))
+                    // alert('发送失败：' + JSON.stringify(res))
                   } else {
                     console.log('发送成功！')
                   }
@@ -533,7 +552,7 @@
       this.$store.commit('RESET_DELAY_SHOW_CHECKBOX')
       //  判断是否需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
       if (to.name === 'sche') {
-        next(false)
+        // next(false)
         this.checkIfRepeatEdited(next)
       } else {
         return next()
@@ -571,7 +590,7 @@
     width:6.8rem;
   }
   .bottom{
-    height: 1.333rem;
+    height: 46px;
     display: flex;
     align-items: center;
     background-color: white;
@@ -660,7 +679,25 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
-    .itm-edt-fields{
-      padding-top: 20px;
-    }
+  .itm-edt-fields{
+     padding-top: 20px;
+  }
+  .sub-todo-png{
+    width: 20px;
+    height: 20px;
+  }
+  .talk-png{
+    width: 17px;
+    height: 17px;
+    margin-right: 9.3px;
+    margin-top: 3px;
+  }
+  .itm-group{
+    border-top: 0.5px solid #d4d4d4;
+  }
+  .common-field{
+    border-bottom: 0.5px solid #d4d4d4;
+    height: 56px;
+    line-height: 56px
+  }
 </style>

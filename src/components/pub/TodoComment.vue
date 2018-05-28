@@ -3,9 +3,11 @@
     <textarea
       v-model="content"
       type="text"
-      placeholder="输入评论" />
+      placeholder="请输入评论内容" />
     <div class="icon-wrap">
-      <i class="icon-attachment upload-icon" />
+      <img
+        src="../../assets/img/upload.png"
+        class="uploadpng">
     </div>
     <r-upload
       @get-file-id="setFileId"
@@ -50,7 +52,7 @@
     },
     mounted () {
 //      var that = this
-      window.rsqadmg.execute('setTitle', {title: '评论'})
+      window.rsqadmg.execute('setTitle', {title: '发送讨论'})
 //      window.rsqadmg.execute('setOptionButtons', {
 //        btns: [{key: 'sendComent', name: '发送'}],
 //        success (res) {
@@ -133,7 +135,10 @@
     padding-top:5px ;
     height: 138px;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 40px;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
+    resize:none
   }
   ul{
     border-bottom: 0.5px solid #E3E3E3;
@@ -160,5 +165,13 @@
     left:2rem;
     top:4.468rem;
     font-size:20px;
+  }
+  .uploadpng{
+    width: 18px;
+    height: 15px;
+    display: inline-block;
+    position: absolute;
+    top: -46px;
+    left: 20px;
   }
 </style>

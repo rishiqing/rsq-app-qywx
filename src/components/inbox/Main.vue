@@ -6,12 +6,12 @@
         v-model="inputTitle"
         class="write"
         type="text"
-        placeholder="在这里写下想法">
+        placeholder="输入内容快速添加任务">
       <v-touch
         v-show="inputTitle !== ''"
         class="btn-create"
         @tap="saveTodo">
-        <div class="create">创建</div>
+        <span class="create">创建</span>
       </v-touch>
     </div>
     <div class="margin-block"/>
@@ -86,7 +86,7 @@
   }
   .inbox-item{
     background-color: white;
-    border-bottom:1px solid #E3E3E3 ;
+    border-bottom:0.5px solid #D4D4D4 ;
     position: relative;
     z-index: 2;
   }
@@ -107,12 +107,11 @@
     width: 100%;
   }
   .create{
-    box-sizing: border-box;
-    display: block;
+    // box-sizing: border-box;
+    // display: block;
     text-align: center;
     width:45px;
     height: 26px;
-    line-height: 0.66rem;
     border-radius: 2px;
     font-size: 13px;
     color:#fff;
@@ -121,14 +120,17 @@
     top: 50%;
     right:0.35rem;
     z-index: 3;
-    line-height: 26px;
+    padding-top: 2px;
     background-color: #2F7DCD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .write{
     line-height: 0.612rem;
     height: 56px;
-    border-bottom:1px solid #E3E3E3;
-    border-top:1px solid #E3E3E3;
+    border-bottom:0.5px solid #D4D4D4;
+    border-top:0.5px solid #D4D4D4;
     background: #FFFFFF;
     padding-left:0.3rem;
     padding-right: 2.432rem;

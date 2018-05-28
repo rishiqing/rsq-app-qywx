@@ -57,16 +57,22 @@ rsqadmg.store.app.appid = rsqadmg.store.app.agentid;
 rsqadmg.store.oauth = {
   url: 'https://open.weixin.qq.com/connect/oauth2/authorize',
   params: {
-    appid: rsqadmg.store.app.corpid,
-    agentid: rsqadmg.store.app.agentid,
     response_type: 'code',
     scope: 'snsapi_base',
     state: 'STATE',
     redirect_uri: encodeURIComponent(rsqConfig.authServer + 'oauth/after?corpId=' + rsqadmg.store.app.corpid + '&agentId=' + rsqadmg.store.app.agentid)
   }
 };
-function getOauthUrl(){
+
+/**
+ * 关于企业微信webview中的oauth授权，企业微信改过几个版本，目前的版本为：
+ * https://work.weixin.qq.com/api/doc#10975/%E7%BD%91%E9%A1%B5%E6%8E%88%E6%9D%83%E7%99%BB%E5%BD%95%E7%AC%AC%E4%B8%89%E6%96%B9
+ * @param suiteKey
+ * @returns {string}
+ */
+function getOauthUrl(suiteKey){
   var data = rsqadmg.store.oauth;
+  data.params.appid = suiteKey;
   var base = data.url;
   var pArray = [];
   for(var key in data.params){
@@ -85,50 +91,60 @@ rsqAdapterManager.register({
   auth: function(params){
 
     //------------------------------------------------------------
-    // var authUser = {
-    //   "avatar":"http://shp.qpic.cn/bizmp/sfD9v8uDETrX0O6zM5Aw0nkDxHyPPc2on1Ca5qsibmtE6b5lDhvY2TA/",
-    //   "corpId":"wxec002534a59ea2e7",
-    //   "department":"[8]",
-    //   "englishName":"",
-    //   "gender":"1",
-    //   "id":340,
-    //   "isLeaderInDepts":"0",
-    //   "name":"毛文强",
-    //   "orderInDepts":"[0]",
-    //   "position":"",
-    //   "rsqPassword":"DKOPQr",
-    //   "rsqUserId":"15211",
-    //   "rsqUsername":"lKAFc_1520334538410@qywxtest.rishiqing.com",
-    //   "status":1,
-    //   "userId":"0002"
-    // }
-    // rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-    //   j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
-    // }, function(result){
-    //   var resJson = JSON.parse(result);
-    //   // console.log(JSON.stringify(resJson))
-    //   if(resJson.success){
-    //     rsqChk(params.success, [resJson, authUser]);
-    //   }else{
-    //     rsqChk(params.error, [resJson]);
-    //   }
-    // });
-    // return
+//     var authUser = {
+//   "id": 2,
+//   "corpId": "wwe485b663d56c2ec2",
+//   "userId": "MaoWenQiang",
+//   "name": "毛文强",
+//   "department": "[1]",
+//   "orderInDepts": "[0]",
+//   "isLeaderInDepts": "null",
+//   "position": null,
+//   "mobile": null,
+//   "gender": "1",
+//   "email": null,
+//   "avatar": "http://p.qlogo.cn/bizmail/6E9R4OlZkj3iaEQ15IFmaoGRicFBW2FeaVvq3GGWbHSmXF6xNWvhWxFA/0",
+//   "tel": null,
+//   "englishName": null,
+//   "status": 1,
+//   "extattr": null,
+//   "adminType": 1,
+//   "unionId": null,
+//   "rsqUserId": "17245",
+//   "rsqUsername": "tEfNI_1525241922301@qywxtest.rishiqing.com",
+//   "rsqPassword": "IZQXGs",
+//   "rsqLoginToken": "r7A/Ib8HMJ5AehM2+9CmuR7z6d9iDu8qLNzUvYwkaXQthqnm9szAsNENKhqbia4X"
+// }
+//     rsqAdapterManager.ajax.get(rsqConfig.apiServer + 'task/qywxOauth/tokenLogin', {
+//       token: authUser.rsqLoginToken
+//     }, function(result){
+//       var resJson = JSON.parse(result);
+//       // console.log(JSON.stringify(resJson))
+//       if(resJson.success){
+//         rsqChk(params.success, [resJson, authUser]);
+//       }else{
+//         rsqChk(params.error, [resJson]);
+//       }
+//     });
+//     return
     //--------------------------------------------------------
 
     //先取签名
     rsqadmg.execute('sign', {
         success: function(res){
           rsqadmg.execute('init', {
-            appId: res.appId,
-            "timeStamp": res.timeStamp,
-            "nonceStr": res.nonceStr,
-            "signature": res.signature,
+            suiteKey: res.suiteKey,
+            appId: res.corpId,
+            timeStamp: res.timeStamp,
+            nonceStr: res.nonceStr,
+            signature: res.signature,
             success: function(authUser){
-              rsqAdapterManager.ajax.post(rsqConfig.apiServer + 'task/j_spring_security_check', {
-                j_username: authUser.rsqUsername, j_password: authUser.rsqPassword, _spring_security_remember_me: true
+              var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin';
+              rsqAdapterManager.ajax.get(loginUrl, {
+                token: authUser.rsqLoginToken
               }, function(result){
                 var resJson = JSON.parse(result);
+                // console.log(JSON.stringify(resJson))
                 if(resJson.success){
                   rsqChk(params.success, [resJson, authUser]);
                 }else{
@@ -157,6 +173,7 @@ rsqAdapterManager.register({
     });
   },
   init: function(params){
+    var suiteKey = params.suiteKey
     wx.config({
       beta: true,  // 必须这么写，否则在微信插件有些jsapi会有问题
       debug: false,  // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -191,14 +208,13 @@ rsqAdapterManager.register({
           }
         });
       }else{
-        var oauthUrl = getOauthUrl();
+        var oauthUrl = getOauthUrl(suiteKey);
         window.location.href = oauthUrl;
       }
     });
     wx.error(function(err){
       //  如果是config:fail，那么就刷新jsapi ticket
       if(err['errMsg'] !== null){
-        // alert(JSON.stringify(err));
         var pa = rsqadmg.store.app;
         rsqAdapterManager.ajax.get(rsqConfig.authServer + 'refresh_js_ticket', {
           corpId: pa.corpid,
@@ -222,7 +238,7 @@ rsqAdapterManager.register({
     console.log(params.message)
   },
   error: function(params){
-    window.alert(JSON.stringify(params))
+    console.log(JSON.stringify(params))
   },
   setTitle: function(params){
     document.title = params.title;
@@ -445,7 +461,7 @@ rsqAdapterManager.register({
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onConfirm: function(result) {
-        var time = result[0].label + ':' + result[2].label;
+        var time = result[0].label + ':' + result[1].label;
         var result = {value: time}
         rsqChk(params.success, [result]);
       }
@@ -459,7 +475,7 @@ rsqAdapterManager.register({
   timePicker2: function(params){
     var hours = [],
     minites = [],
-    symbol = [{ label: ':', value: 0 }];
+    symbol = [{ label: ' ', value: 0 }];
     if (!hours.length) {
       for (var i = 0; i< 24; i++) {
         var hours_item = {};
@@ -478,8 +494,11 @@ rsqAdapterManager.register({
     }
     var defString = params.strInit || '00:00';
     var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
-    var defString2 = params.strInit2 || '';
-    var defArray2 = [defString2.substr(0, 2), ':', defString2.substr(3, 2)];
+    var defArray2 = [defString.substr(0, 2), ':', defString.substr(3, 2)];
+    if (defString.substr(0, 2) !== '23') {
+      defArray2[0] = Number(defString.substr(0, 1) + (defString.substr(1, 1) * 1 + 1))
+    }
+    var defString2 = params.strInit2 || defArray2.join('');
     weui2.picker(hours, symbol, minites, {
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,

@@ -545,6 +545,7 @@ export default {
     var temp = {}
     temp.name = p.name
     temp.id = p.id
+    temp.joinUsers = p.joinUsers
     temp.endDate = p.endDate
     temp.startDate = p.startDate
     temp.isDone = p.isDone
@@ -1045,6 +1046,12 @@ export default {
         return res
       })
   },
+  updataPlan ({commit, state}, p) {
+    return api.todo.updataPlan(p)
+      .then((res) => {
+        return res
+      })
+  },
   cancelStar ({commit, state}, p) {
     return api.todo.cancelStar(p)
       .then((res) => {
@@ -1060,15 +1067,13 @@ export default {
   deletePlan  ({commit, state}, p) {
     return api.todo.deletePlan(p)
       .then((res) => {
-        // commit('DELETE_PLAN', p)
+        commit('DELETE_PLAN', p)
       })
   },
   quitPlan ({commit, state}, p) {
     return api.todo.quitPlan(p)
       .then((res) => {
-        // commit('QUIT_PLAN', p) // 这里用不用该前端的参与人呢？
-      }).catch((err) => {
-        return err.body
+        commit('DELETE_PLAN', p) // 暂使用delete
       })
   },
   finishCardItem ({commit, state}, p) {

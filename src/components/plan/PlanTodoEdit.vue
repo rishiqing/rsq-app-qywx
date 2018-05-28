@@ -3,7 +3,9 @@
   <div class="router-view">
     <div class="itm-edt z-index-xs">
       <div class="content">
-        <div class="itm-edt-fields" >
+        <div
+          id="plantofix"
+          class="itm-edt-fields" >
           <div class="itm-group itm--edit-todo">
             <r-input-title
               ref="title"
@@ -32,11 +34,12 @@
                 <i class="icon2-member sche"/>
                 <r-input-member
                   :edit-time="true"
-                  :is-native="true"
+                  :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="[]"
+                  :user-rsq-ids="planMember"
                   :selected-rsq-ids="joinUserRsqIds"
+                  :creater-rsq-ids="createdId"
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
@@ -65,6 +68,9 @@
             <v-touch
               class="bottom"
               @tap="switchToComment">
+              <img
+                class="talk-png"
+                src="../../assets/img/talk.png">
               参与讨论
             </v-touch>
           </div>
@@ -102,6 +108,29 @@
       }
     },
     computed: {
+      planMember () {
+        var that = this
+        var arr = []
+        var all = 0
+        var plan = 0
+        for (all in that.staff) {
+          for (plan in that.currentPlan.userRoles) {
+            if (that.staff[all].id === that.currentPlan.userRoles[plan].userId) {
+              arr.push(that.staff[all])
+            }
+          }
+        }
+        return arr
+      },
+      currentPlan () {
+        return this.$store.state.currentPlan
+      },
+      staff () {
+        return this.$store.state.staff.list
+      },
+      createdId () {
+        return [this.currentPlan.creatorId]
+      },
       currentKanbanItem () {
         return this.$store.state.plan.currentKanbanItem || {}
       },
@@ -157,6 +186,7 @@
         this.$router.push('/plan/todo/comment')
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        window.rsqadmg.execute('setTitle', {title: '任务详情'})
         const that = this
         const compRes = util.compareList(this.joinUserRsqIds, idArray)
         const params = {
@@ -198,7 +228,7 @@
                   data: data
                 }).then(res => {
                   if (res.errcode !== 0) {
-                    alert('发送失败：' + JSON.stringify(res))
+                    // alert('发送失败：' + JSON.stringify(res))
                   } else {
                     console.log('发送成功！')
                   }
@@ -248,7 +278,7 @@
         })
       },
       initPlan () {
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getKanbanItem', {id: this.itemId})
           .then(item => {
             util.extendObject(this.editItem, item)
@@ -256,7 +286,7 @@
           })
           .then(() => {
             this.fetchCommentIds()
-            window.rsqadmg.exec('hideLoader')
+            // window.rsqadmg.exec('hideLoader')
           })
       }
     }
@@ -316,7 +346,7 @@
     width:6.8rem;
   }
   .bottom{
-    height: 1.333rem;
+    height: 46px;
     display: flex;
     align-items: center;
     background-color: white;
@@ -407,5 +437,12 @@
     transition: border-color 0.4s, background-color ease 0.4s; }
   .itm-group{
     margin-top: 10px;
+    border-top: 0.5px solid #d4d4d4;
+  }
+  .talk-png{
+    width: 17px;
+    height: 17px;
+    margin-right: 9.3px;
+    margin-top: 3px;
   }
 </style>

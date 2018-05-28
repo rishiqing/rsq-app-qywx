@@ -13,5 +13,5 @@ ENV HTML_ROOT /usr/share/nginx/html
 ENV CONFIG_ROOT /etc/nginx/conf.d
 WORKDIR $HTML_ROOT
 
-COPY nginx.template $CONFIG_ROOT/default.conf
+# COPY config/nginx.template $CONFIG_ROOT/default.conf
 COPY dist .

@@ -31,11 +31,11 @@
         @tap="reload('/plan/list')">
         <img
           v-show="'/plan/list' === currentPath"
-          src="../assets/img/Group18.png"
+          src="../assets/img/plans.svg"
           class="plan-icon">
         <img
           v-show="'/plan/list' !== currentPath"
-          src="../assets/img/Group18Copy.png"
+          src="../assets/img/planns.svg"
           class="plan-icon">
         <p
           :class="{'is-active': '/plan/list' === currentPath}"

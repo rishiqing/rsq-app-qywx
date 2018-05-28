@@ -42,7 +42,14 @@ if (window.rsqConfig.env === 'prod') {
     ele.parentNode.removeChild(ele)
   }
 }
-
+document.querySelector('body').addEventListener('touchend', function () {
+  let inputArrays = document.querySelectorAll('input')
+  if (inputArrays.length !== 0) {
+    for (let key = 0; key < inputArrays.length; key++) {
+      inputArrays[key].blur()
+    }
+  }
+})
 Vue.use(VueTouch)
 Vue.use(weui)
 Vue.config.productionTip = false
@@ -57,7 +64,8 @@ window.rsqadmg.exec('auth', {
     window.rsqadmg.exec('disableBounce')
 
     store.state.env.isAddNav = true
-
+    // 获取日事清用户信息
+    store.dispatch('fetchStaffList')
     /* eslint-disable no-new */
     new Vue({
       el: '#app',

@@ -25,7 +25,7 @@
       @comment-file-touch="showAction"
       @click-comment="handleCommentClick"/>
     <div
-      v-if="commentCount"
+      v-if="commentCount && !more"
       class="no-comment">
       <img
         src="../../assets/img/nocomment.png"
@@ -100,6 +100,13 @@
         return this.loginUser.rsqUser.id
       }
     },
+    watch: {
+      todoId (newId) {
+        if (newId) {
+          this.$store.dispatch('getRecord', {id: newId})
+        }
+      }
+    },
     mounted () {
       this.changeState1()
     },
@@ -110,7 +117,7 @@
         return arr[arr.length - 1].substr(14)
       },
       changeState1 () {
-        if (this.todoType === 'sche') {
+        if (this.todoType === 'sche' && this.todoId) {
           this.$store.dispatch('getRecord', {id: this.todoId})
         }
         this.more = false
@@ -214,6 +221,8 @@
     background-color: white;
     margin-top: 20px;
     padding-bottom: 2.9rem;
+    border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .operation{
     font-family: PingFangSC-Regular;
@@ -221,8 +230,10 @@
     color: #9B9B9B;
     display: inline-block;
     line-height:1.083rem;
-    padding-left: 0.333rem;
-    background-color: white;
+    margin-left: 0.333rem;
+    width: 72px;
+    text-align: center;
+    height: 40px;
   }
   .top{
     border-bottom: 0.5px solid #D4D4D4;

@@ -8,25 +8,31 @@
           style="padding-bottom: 80px;">
           <div class="itm-group input-title">
             <r-input-title
+              id="fix-input"
               :item-title="editItem.name"
               @text-change="saveTitle"/>
           </div>
           <div class="itm-group itm--edit-todo">
-            <!--<div class="firstGroup">-->
-            <!--<r-input-date-->
-            <!--:item="editItem"-->
-            <!--:sep="'/'"-->
-            <!--:has-left-space="true"/>-->
-            <!--</div>-->
+            <div class="common-field input-date-backgrand">
+              <i class="icon2-schedule sche"/>
+              <r-input-date
+                :item="editItem"
+                :sep="'/'"
+                :edit-time="true"
+                :has-left-space="true"
+                :todo-type="'plan'"/>
+            </div>
             <div class="secondGroup">
               <div class="common-field">
+                <i class="icon2-member sche"/>
                 <r-input-member
                   :has-left-space="true"
-                  :is-native="true"
+                  :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="[]"
+                  :user-rsq-ids="planMember"
                   :selected-rsq-ids="joinUserRsqIds"
+                  :creater-rsq-ids="createdId"
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
@@ -38,7 +44,7 @@
                   class="weui-btn weui-btn_primary"
                   href="javascript:;"
                   @tap="submitTodo">
-                  创建任务
+                  创建
                 </v-touch>
               </div>
             </div>
@@ -50,7 +56,7 @@
 </template>
 <script>
   import InputTitleText from 'com/pub/InputTitleText'
-  import InputDate from 'com/pub/InputDate'
+  import InputDate from 'com/pub/PlanNewDate'
   import InputMember from 'com/pub/InputMember'
   import InputTime from 'com/pub/InputTime'
   import dateUtil from 'ut/dateUtil'
@@ -74,6 +80,29 @@
       }
     },
     computed: {
+      planMember () {
+        var that = this
+        var arr = []
+        var all = 0
+        var plan = 0
+        for (all in that.staff) {
+          for (plan in that.currentPlan.userRoles) {
+            if (that.staff[all].id === that.currentPlan.userRoles[plan].userId) {
+              arr.push(that.staff[all])
+            }
+          }
+        }
+        return arr
+      },
+      currentPlan () {
+        return this.$store.state.currentPlan
+      },
+      staff () {
+        return this.$store.state.staff.list
+      },
+      createdId () {
+        return [this.currentPlan.creatorId]
+      },
       currentKanbanItem () {
         return this.$store.state.plan.currentKanbanItem
       },
@@ -127,6 +156,7 @@
         this.$store.commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: {name: newTitle}})
       },
       saveMember (idArray) {
+        window.rsqadmg.exec('setTitle', {title: '新建任务'})
         this.joinUserRsqIds = idArray
         var ids = idArray.join(',')
         this.editItem.joinUser = ids
@@ -140,7 +170,7 @@
         this.$store.commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: this.editItem})
       },
       submitTodo () {
-        if (!this.editItem.name) {
+        if (!this.editItem.name || /^\s+$/.test(this.editItem.name)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
 
@@ -168,8 +198,8 @@
 </script>
 <style lang="scss" scoped>
   .input-title{
-    border-top: 1px solid #DADADA;
-    border-bottom: 1px solid #DADADA;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .router-view{
     height: 100%;
@@ -181,12 +211,14 @@
   .firstGroup{
     margin-top:10px;
     border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+
+    // border-bottom: 1px solid #E0E0E0;
   }
   .secondGroup{
-    margin-top:10px;
-    border-top: 1px solid #E0E0E0;
-    border-bottom: 1px solid #E0E0E0;
+    background-color: #fff;
+    // margin-top:10px;
+    // border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   p{
     font-family: PingFangSC-Regular;
@@ -254,4 +286,21 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
+  .sche{
+   font-size: 0.586rem;
+    color: #55A8FD;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.29rem;
+    left: 25px;
+    z-index: 1000;
+  }
+  .common-field{
+    padding-left: 46px;
+  }
+  .input-date-backgrand{
+    margin-top: 10px;
+    border-top: 0.5px solid #d4d4d4;
+    background-color: #fff  !important;
+  }
 </style>

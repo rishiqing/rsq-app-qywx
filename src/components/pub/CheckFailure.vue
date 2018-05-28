@@ -19,9 +19,6 @@
       returnTo () {
         this.$router.replace('/sche')
       }
-    },
-    beforeRouteLeave (to, from, next) {
-      next('/')
     }
   }
 </script>
@@ -31,7 +28,7 @@
     position: absolute;
     top: 50%;
     left:50%;
-    margin-top:-2.51rem ;
+    margin-top:-3.31rem ;
     margin-left:-1.351rem ;
   }
   .deletedSche{
@@ -45,7 +42,7 @@
     letter-spacing: 0;
   }
   .returnTo{
-    background: #55A8FD;
+    background: #2F7DCD;
     border-radius: 4px;
     width: 97px;
     height: 35px;
@@ -56,7 +53,7 @@
     display:flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
+    margin: 50px auto;
   }
 
 </style>

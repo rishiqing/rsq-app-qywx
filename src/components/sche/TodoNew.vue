@@ -8,32 +8,43 @@
           style="padding-bottom: 80px;">
           <div class="itm-group input-title">
             <r-input-title
+              id="fix-input"
               :item-title="editItem.pTitle"
               @text-change="saveTitle"/>
           </div>
-          <div class="itm-group itm--edit-todo">
-            <div class="firstGroup">
+          <div
+            id="fix-ico"
+            class="itm-group itm--edit-todo">
+            <div
+              id="firstGroup"
+              class="firstGroup">
               <div class="common-field">
+                <i class="icon2-schedule sche"/>
                 <r-input-date
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
               <div class="common-field">
+                <i class="icon2-alarm sche" />
                 <r-input-time
                   :item="editItem"
                   :has-left-space="true"/>
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
             </div>
             <div class="secondGroup">
               <div class="common-field">
+                <i class="icon2-member sche"/>
                 <r-input-member
                   :has-left-space="true"
-                  :is-native="true"
+                  :is-native="false"
                   :index-title="''"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="[]"
+                  :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
+                  :creater-rsq-ids="joinUserRsqIds"
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
@@ -45,7 +56,7 @@
                   class="weui-btn weui-btn_primary"
                   href="javascript:;"
                   @tap="submitTodo">
-                  创建任务
+                  创建
                 </v-touch>
               </div>
             </div>
@@ -98,6 +109,9 @@
       },
       corpId () {
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
+      },
+      userRsqId () {
+        return this.$store.state.staff.list
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -142,7 +156,8 @@
         this.$store.commit('TD_TODO_UPDATED', {todo: {pTitle: newTitle}})
       },
       saveMember (idArray) {
-        this.joinUserRsqIds = idArray
+        window.rsqadmg.exec('setTitle', {title: '新建任务'})
+        // this.joinUserRsqIds = idArray
         var ids = idArray.join(',')
         this.editItem.receiverIds = ids
         this.$store.commit('TD_TODO_UPDATED', {todo: {receiverIds: ids}})
@@ -155,7 +170,7 @@
         this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
       },
       submitTodo () {
-        if (!this.editItem.pTitle) {
+        if (!this.editItem.pTitle || /^\s+$/.test(this.editItem.pTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
         if (!this.isInbox) {
@@ -168,11 +183,12 @@
           this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
           //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
           const overDate = this.editItem.repeatOverDate
-          this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          console.log(this.editItem)
+          if (overDate) {
+            this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          }
         }
-
         this.saveTodoState()
-//        var that = this
         var todoType = this.isInbox ? 'inbox' : 'schedule'
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
@@ -190,6 +206,10 @@
           })
           .then(item => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
+            this.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
+            if (todoType === 'inbox') {
+              this.$router.replace('/inbox')
+            }
             if (item.receiverIds) {
               var url = window.location.href.split('#')
 //                var note = this.editItem.pNote
@@ -317,4 +337,35 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
+  .common-field{
+    padding-left: 15px;
+  }
+  .sche{
+   font-size: 0.586rem;
+    color: #55A8FD;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.29rem;
+    left: 25px;
+    z-index: 1000;
+  }
+  .common-field .outer-wrap{
+    padding-left: 46px;
+    position: relative;
+  }
+  .right-png{
+    position: absolute;
+    right: 13px;
+    top: 40%;
+    width: 13px;
+    // height: 8px;
+  }
+  .arrow {
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+}
 </style>

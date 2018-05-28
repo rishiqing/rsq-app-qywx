@@ -32,7 +32,7 @@
       <v-touch
         tag="li"
         @tap="showTimePicker">
-        <span class="list-key">自定义</span>
+        <span class="list-key">自定义提醒时间</span>
         <span class="list-value">
           {{ userDefinedAlertText }}
         </span>
@@ -55,10 +55,10 @@
         displayedRuleList: [
           {schedule: 'begin_0_hour', selected: false},
           {schedule: 'begin_-5_min', selected: false},
-          {schedule: 'begin_-15_min', selected: false},
-          {schedule: 'begin_-30_min', selected: false},
-          {schedule: 'begin_-1_hour', selected: false},
-          {schedule: 'end_-1_hour', selected: false}
+          {schedule: 'begin_-30_min', selected: false}
+          // {schedule: 'begin_-30_min', selected: false},
+          // {schedule: 'begin_-1_hour', selected: false},
+          // {schedule: 'end_-1_hour', selected: false}
         ],
         //  用户自定义的提醒时间
         //  {numTime: 123214345453, selected: true}
@@ -101,7 +101,7 @@
     },
     created () {
       this.initData()
-      window.rsqadmg.execute('setTitle', {title: '提醒'})
+      window.rsqadmg.execute('setTitle', {title: '时间和提醒'})
       window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     methods: {
@@ -187,16 +187,16 @@
             return a.selected
           })
       },
-      getSelectedUserRuleList () {
-        return this.displayedTimeList
-          .filter(a => {
-            return a.selected
-          }).map(sel => {
-            return {
-              schedule: jsUtil.alertTime2Rule(sel.numTime, this.numStartTime, this.numEndTime)
-            }
-          })
-      },
+      // getSelectedUserRuleList () {
+      //   return this.displayedTimeList
+      //     .filter(a => {
+      //       return a.selected
+      //     }).map(sel => {
+      //       return {
+      //         schedule: jsUtil.alertTime2Rule(sel.numTime, this.numStartTime, this.numEndTime)
+      //       }
+      //     })
+      // },
       //  比对displayedRuleList与sysRuleList，计算最终的提醒列表,为什么不以displayedRuleList为标准？
       mergeRuleList () {
         var selected = this.getSelected(this.displayedRuleList) // 这一步是拿到选中状态的list
@@ -244,6 +244,13 @@
       },
       saveTodoAlert () {
         var list = this.mergeList()
+        var that = this
+        var alertNew = list.some(function (o) {
+          return jsUtil.alertRule2Time(o.schedule, that.numStartTime, that.numEndTime) < new Date().getTime()
+        })
+        if (alertNew) {
+          alert('提醒时间早于当前时间，可能不会收到提醒!')
+        }
         this.$store.commit('PUB_TODO_TIME_CLOCK_UPDATE', {
           data: {
             alert: list

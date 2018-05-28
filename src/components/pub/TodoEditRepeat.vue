@@ -247,6 +247,7 @@
 </script>
 <style lang="scss" scoped>
   .edit-repeat {
+    margin-top: 20px;
     .arrow{
       font-size: 17px;
       color: #999999;
@@ -267,9 +268,8 @@
     }
     ul{
       position: relative;
-      border-bottom: 1px solid #E3E3E3;
-      border-top: 0.5px solid #E3E3E3;
       background: #FFFFFF;
+      border-bottom: 0.5px solid #d4d4d4;
     }
     .sec{
       margin-top: 0.373rem;
@@ -280,9 +280,11 @@
       color: #3D3D3D;
       font-family: PingFangSC-Regular;
       font-size: 17px;
+      // border-bottom: 0.5px solid #D4D4D4;
     }
     .user-define {
       color:#3D3D3D;
+      border-bottom: 0;
     }
     .repeat{
       margin-left: 0.2rem;
@@ -292,12 +294,11 @@
       padding:2px;
       height: 1.112rem;
       line-height:  1.112rem;;
-      border-bottom: 1px solid #E3E3E3;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
     }
-    li:last-child{
+    li:last-child span{
       border:none;
     }
     .user-repeat {
@@ -305,12 +306,12 @@
       width: 100%;
       box-sizing: border-box;
       overflow: hidden;
-      margin-top: 0.25rem;
+      margin-top: 20px;
       padding: 0 0.45rem 0 0;
       background-color: white;
       align-items: center;
-      border-top: 1px solid #E0E0E0;
-      border-bottom:1px solid #E0E0E0;
+      border-top: 0.5px solid #D4D4D4;
+      border-bottom:0.5px solid #D4D4D4;
       font-family: PingFangSC-Regular;
       font-size: 17px;
     }
@@ -320,5 +321,13 @@
     .user-repeat > * {
       line-height: 1.2rem;
     }
+    .top-ul{
+      border-top: 0.5px solid #d4d4d4;
+      border-bottom: 0.5px solid #d4d4d4;
+      li:last-child span{
+        // border-bottom: 0.5px solid #d4d4d4;
+      }
+    }
   }
+
 </style>

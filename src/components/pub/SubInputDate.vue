@@ -52,7 +52,7 @@
         } else {
           var result = dateUtil.repeatDate2Text(this.item)
           if (result.length > 20) {
-            result = result.substring(0, 21)
+            result = result.substring(0, 18) + '...'
           }
           var time = new Date()
           var newTime = time.getMonth() + 1 + '月' + time.getDate() + '日'
@@ -91,8 +91,8 @@
     display: flex;
     align-items: center;
     position: relative;
-    line-height: 1.3rem;
-    background-color: white;
+    line-height: 1.45rem;
+    background-color: transparent;
   }
   .inner-key{
     display: block;
@@ -101,7 +101,7 @@
     color: #333333;
   }
   .bottom-border{
-    border-bottom: 1px solid #E0E0E0;
+    // border-bottom: 1px solid #E0E0E0;
   }
 </style>
 

@@ -192,6 +192,7 @@
         this.clock.endTime = ''
         this.autoStart = false
         this.autoEnd = false
+        this.clock.alert = ''
       },
       /**
        * 保存当前todoTime的数据并跳转到提醒页面
@@ -217,11 +218,11 @@
        * 当设置提醒的时候开始时间不能早于当前时间
        */
       checkWarn () {
-        if (this.clockData.alert &&
-          this.clockData.alert.length > 0 &&
-          moment().isAfter(moment(this.clock.startTime, 'HH:mm'))) {
-          return '提醒时间早于当前时间，可能不会收到提醒!'
-        }
+        // if (this.clockData.alert &&
+        //   this.clockData.alert.length > 0 &&
+        //   moment().isAfter(moment(this.clock.startTime, 'HH:mm'))) {
+        //   return '提醒时间早于当前时间，可能不会收到提醒!'
+        // }
       },
       /**
        * 检查用户是否更新过，
@@ -382,13 +383,13 @@
       position: relative;
       line-height:1.2rem ;
       height: 1.2rem;
-      border-bottom:0.5px solid #DADADA;
+      border-bottom:0.5px solid #d4d4d4;
       box-sizing: border-box;
       padding-left: 3%;
     }
     .sec{
       margin-top:20px;
-      border-bottom:0.5px solid #DADADA;
+      border-bottom:0.5px solid #d4d4d4;
       height: 80px;
       background-color: #fff;
       text-align: center;
@@ -427,7 +428,15 @@
       font-size: 17px;
       letter-spacing: 0;
     }
-    span.list-key {float:left;}
+    span.list-key {
+      float:left;
+      width: 80%;
+      height: 100%;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;;
+
+    }
     span.list-value {float:right;margin-right:0.94rem;
       max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
       color: #999999;

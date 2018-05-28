@@ -9,22 +9,25 @@
       <div class="plan-member-word">
         <span>计划成员</span><span class="count">{{ selectedLocalList.length }}人</span>
       </div>
-      <div class="plan-member">
-        <img
+      <v-touch
+        class="plan-member"
+        @tap="showWebMemberEdit">
+        <div
           v-for="(avatar,index) in avatarConcat"
+          v-if="index <= 5"
           :key="index"
-          :src="avatar"
-          class="avatar"
-        >
-        <v-touch
-          class="add"
-          @tap="showNativeMemberEdit">
-          <img
-            src="../../assets/img/card.png"
-            class="avatar"
-          >
-        </v-touch>
-      </div>
+          :style="{ backgroundImage: 'url(' + avatar.avatar + ')' }"
+          class="avatar">
+          <span v-if="!avatar.avatar">{{ avatar.name }}</span>
+        </div>
+        <i
+          v-if="selectedLocalList.length < 7"
+          class="icon2-add add-member"/>
+        <img
+          v-if="selectedLocalList.length >=7"
+          src="../../assets/img/mp.png"
+          class="mp">
+      </v-touch>
     </div>
     <div class="wrap-most">
       <div class="plan-templ">计划模板</div>
@@ -64,6 +67,8 @@
   import PlanList from 'com/plan/PlanList'
   import util from 'ut/jsUtil'
   import Avatar from 'com/pub/TextAvatar'
+  import { Promise } from 'es6-promise'
+  import SelectMember from 'com/pub/SelectMember'
 
   export default {
     name: 'PlanNew',
@@ -75,11 +80,21 @@
       return {
         content: '',
         currentTemplate: {},
-        selectedLocalList: [],
-        rsqIdArray: []
+        rsqIdArray: [],
+        localList: [],  //  人员选择列表
+        selectedLocalList: [],  //  已选择的人员选择列表
+        disabledLocalList: [],  //  本地禁用的人员列表
+        creatorList: [], // 创建者
+        memarr: []
       }
     },
     computed: {
+      userRsqIds () {
+        return this.$store.state.staff.list
+      },
+      selectedRsqIds () {
+        return [this.$store.state.loginUser.rsqUser.id]
+      },
       loginUser () {
         return this.$store.getters.loginUser || {}
       },
@@ -94,8 +109,45 @@
       },
       avatarConcat () {
         return this.selectedLocalList.map(function (o) {
-          return o.avatar
+          return o
         })
+      },
+      memberCount () {
+        return this.selectedLocalList.length <= 3
+      },
+      userRsqIdArray () {
+        return this.userRsqIds.map(function (staff) {
+          return staff.id
+        })
+      },
+      creatorListArray () {
+        return this.creatorList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      selectRsqidArray () {
+        return this.selectedLocalList.map(function (staff) {
+          return staff.rsqUserId
+        })
+      },
+      createrRsqIds () {
+        return [this.$store.getters.loginUser.rsqUser.id]
+      },
+      disableRsqidArray () {
+        return this.disabledRsqIds.map(function (staff) {
+          return staff.id
+        })
+      }
+    },
+    watch: {
+      selectedRsqIds () {
+        this.fetchUserIds(this.selectedRsqIds, 'selectedLocalList')
+      },
+      disabledRsqIds () {
+        this.fetchUserIds(this.disableRsqidArray, 'disabledLocalList')
+      },
+      createrRsqIds () {
+        this.fetchUserIds(this.createrRsqIds, 'creatorList')
       }
     },
     created () {
@@ -113,20 +165,36 @@
       window.rsqadmg.exec('setTitle', {title: '新建计划'})
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
+      this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
       create () {
         var that = this
-        if (!this.content) {
+        if (!this.content || /^\s+$/.test(that.content)) {
           return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
         }
         window.rsqadmg.exec('showLoader', {text: '创建中...'})
+        var rsqId = this.memarr.join(',')
         var params = {
           name: this.content,
           cover: this.currentTemplate.cover,
           selectGroupId: 'all',
           tKanbanId: this.currentTemplate.id,
-          accessIds: this.rsqIdArray.toString()
+          accessIds: rsqId,
+          attribute: 'company',
+          childKanbanList: [],
+          deptIds: '',
+          editAuthority: 'all',
+          isDefault: false,
+          isKanban: true,
+          isLoaded: false,
+          kanbanAllKList: [],
+          kanbanAllTList: [],
+          processLoad: false,
+          userIds: '',
+          userRoles: [],
+          starMark: false,
+          position: 'bottom'
         }
         this.$store.dispatch('postPlan', params).then((res) => {
           window.rsqadmg.exec('hideLoader')
@@ -144,37 +212,41 @@
 //            window.rsqadmg.exec('hideLoader')
           })
       },
-      showNativeMemberEdit () {
-        var that = this
-        var corpId = that.loginUser.authUser.corpId
-        var selectedArray = util.extractProp(this.selectedLocalList, 'userId')
-//        var disabledArray = util.extractProp(this.disabledLocalList, 'userId')
-        window.rsqadmg.exec('selectDeptMember', {
-          btnText: '确定',  //  选择器按钮文本，pc端需要的参数
-          multiple: true, //  默认false，选择单人
-          maximum: -1,  //  可选择人数的上限，默认-1不限制人数
-          title: that.selectTitle, //  选择器标题，pc端需要的参数
-          corpId: corpId,  //  加密的企业 ID，
-          selectedIds: selectedArray,
-          disabledIds: [], //  不能选的人
-          success (res) {
-//            var list = res; //返回选中的成员列表[{openid:'联系人openid',name:'联系人姓名',headImg:'联系人头像url'}]
-//              that.memberList = res
-            if (res.length === 0) {
-              return this.$emit('member-changed', [])
-            }
-            var idArray = util.extractProp(res.result.userList, 'id')
-//            window.rsqadmg.exec('showLoader')
-            that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
-              .then(function (idMap) {
-//                  window.rsqadmg.exec('hideLoader')
-                var userArray = util.getMapValuePropArray(idMap)
-                that.selectedLocalList = userArray
-                that.rsqIdArray = util.extractProp(userArray, 'rsqUserId')
-//                that.$emit('member-changed', rsqIdArray)
-              })
+      showWebMemberEdit () {
+        const that = this
+        SelectMember.show({
+          nameAttribute: 'name',
+          idAttribute: 'rsqUserId',
+          memberList: this.localList,
+          selectedIdList: this.selectRsqidArray,
+          disabledIdList: this.disabledLocalList,
+          // 转换为字符串
+          creatorIdList: [this.createrRsqIds[0].toString()],
+          success (selList) {
+            const arr = selList.map(m => {
+              return m.rsqUserId
+            })
+            window.rsqadmg.exec('setTitle', {title: '新建计划'})
+            that.selectedLocalList = [...selList]
+            that.memarr = [...arr]
+          },
+          cancel () {
           }
         })
+      },
+      fetchUserIds (ids, targetListName) {
+        if (!ids || ids.length === 0) {
+          this[targetListName] = []
+          return Promise.resolve()
+        }
+        var corpId = this.loginUser.authUser.corpId
+        //  暂时去掉loader
+//        window.rsqadmg.exec('showLoader')
+        return this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: ids})
+          .then(idMap => {
+            this[targetListName] = util.getMapValuePropArray(idMap)
+//            window.rsqadmg.exec('hideLoader')
+          })
       }
     }
   }
@@ -182,10 +254,7 @@
 <style lang="scss" scoped>
   .plan-member .avatar{
     margin-right: 0.3rem;
-    width: 0.906rem;
-    height: 0.906rem;
-    border-radius: 50%;
-    margin: 0.48rem 0.213rem 0 0.213rem;
+    float: left;
   }
   input::placeholder{
     color: #B1B1B1;
@@ -223,11 +292,15 @@
     padding-left: 0.3rem;
     padding-right: 0.2rem;
     flex-direction:column;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .plan-member{
+    display: flex;
     max-width: 100%;
     width: 100%;
     align-items:  center;
+    height: 1.33rem
   }
   .arrow-right{
     font-size: 20px;
@@ -252,6 +325,8 @@
     margin-top: 20px;
     padding-bottom: 0.3rem;
     padding-top: 0.3rem;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .plan-templ{
     font-family: PingFangSC-Regular;
@@ -279,19 +354,61 @@
   .templ{
     width: 2.08rem;
     height: 1.173rem;
+    border-radius: 3px;
   }
   .create-plan{
     height: 1.466rem;
     background-color: white;
     padding: 0.3rem;
-    margin-top:20px;
+    margin-top: 20px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .count{
     align-items: right;
   }
   .add{
     display: inline-block;
+  }
+  .display-none{
+    display: none;
+  }
+  .weui-btn{
+    border: 0;
+  }
+  .avatar{
+    width: 36px;
+    height: 36px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(74, 144, 226);
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 14px;
+    line-height: 37px;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    border-radius: 50%;
+    background-position: center center;
+    background-size: 100% 100%;
+    margin: 0 4px 0 4px;
+  }
+  .avataradd{
+    background-color: transparent
+  }
+  .mp{
+    width: 21px;
+    height: 5px;
+    position: absolute;
+    right: 15px
+  }
+    .add-member{
+    color: #D6D6D6;
+    font-size: 23px;
+    margin-left: 0.3rem;
   }
 </style>

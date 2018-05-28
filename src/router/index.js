@@ -33,6 +33,7 @@ import PlanTodoNew from 'com/plan/PlanTodoNew'
 import PlanTodoEdit from 'com/plan/PlanTodoEdit'
 import PlanTodoEditNote from 'com/plan/PlanTodoEditNote'
 import PlanTodoEditDate from 'com/plan/PlanTodoEditDate'
+import PlanTodoNewDate from 'com/plan/PlanTodoNewDate'
 import PlanSubtodoList from 'com/plan/PlanSubtodoList'
 import PlanTodoEditSubtodo from 'com/plan/PlanTodoEditSubtodo'
 import PlanTodoComment from 'com/plan/PlanTodoComment'
@@ -226,6 +227,13 @@ const router = new Router({
       path: '/plan/todo/date',
       name: 'planTodoEditDate',
       component: PlanTodoEditDate,
+      meta: {requireAuth: false}
+    },
+    //  计划新建页面时间
+    {
+      path: '/plan/todo/newdate',
+      name: 'planTodoNewDate',
+      component: PlanTodoNewDate,
       meta: {requireAuth: false}
     },
     //  计划日程评论页面

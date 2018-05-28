@@ -246,7 +246,7 @@
     top:0.36rem;
     left: 0.05rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999;
   }
   .for-hide-sub{
     position: absolute;

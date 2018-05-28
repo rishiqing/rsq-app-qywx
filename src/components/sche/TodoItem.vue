@@ -22,7 +22,7 @@
             v-if="!isCheckable"
             v-show="isFromSche"
             class="receive">
-            我收到的
+            来自同事
           </span>
           <span
             v-if="!isCheckable"
@@ -133,7 +133,6 @@
               promise.then(() => {
                 window.rsqadmg.exec('hideLoader')
                 window.rsqadmg.execute('toast', {message: '删除成功'})
-//                  that.$router.replace(window.history.back())
               })
             }
           })
@@ -145,7 +144,9 @@
         var that = this
         this.$store.dispatch('setCurrentTodo', this.item).then(
           () => {
-            that.prepareDelete()
+            window.setTimeout(() => {
+              that.prepareDelete()
+            }, 50)
           }
         )
       },
@@ -184,6 +185,7 @@
     align-items: center;
     justify-content: center;
     margin-right: -0.405rem;
+    line-height: 22px
   }
   .contain-tag {position:absolute;left:0;height:20px;width:2px;top:50%;margin-top:-10px;}
   .title-todo{
@@ -218,10 +220,10 @@
   .isdisplay{
     display: block;
     position:absolute;
-    top:0.58rem;
-    right: 0.3rem;
+    top:0.49rem;
+    right: 0.22rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999;
   }
   .for-hide{
     position: absolute;

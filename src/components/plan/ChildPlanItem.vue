@@ -7,7 +7,9 @@
     <v-touch
       class="down"
       @tap="delayCall('setPlan',$event)">
-      <img src="../../assets/img/moreplan.png">
+      <img
+        src="../../assets/img/cplan.png"
+        class="cplan">
     </v-touch>
   </li>
 </template>
@@ -109,7 +111,13 @@
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #000000;
-    line-height: 0.8rem;
+    line-height: 17px;
+    margin-left: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 46%;
+    display: inline-block;
   }
   .down{
     width: 0.5333rem;
@@ -117,5 +125,11 @@
     vertical-align: text-bottom;
     float: right;
     margin-right: 0.4rem;
+  }
+  .cplan{
+    width: 20px;
+    height: 20px;
+    vertical-align: text-bottom;
+    margin-top: 4px;
   }
 </style>

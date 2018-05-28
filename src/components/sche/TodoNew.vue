@@ -183,7 +183,6 @@
           this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
           //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
           const overDate = this.editItem.repeatOverDate
-          console.log(this.editItem)
           if (overDate) {
             this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
           }
@@ -194,6 +193,9 @@
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
         var clockAlert = JSON.parse(JSON.stringify(this.currentTodo.clock.alert || null))
         var that = this
+        if (!this.currentTodo.clock.startTime && !this.currentTodo.clock.endtTime) {
+          this.currentTodo.clock = {}
+        }
         this.$store.dispatch('submitCreateTodoItem', {newItem: this.currentTodo, todoType: todoType})
           .then(item => {
             if (this.currentTodo.clock && this.currentTodo.clock.startTime && item.clock && item.clock.alert) {

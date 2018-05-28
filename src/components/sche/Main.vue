@@ -3,7 +3,7 @@
     id="calMain"
     :class="{'animate': isShowAnimate}"
     :style="{'padding-top': paddingTop + 'px'}"
-    class="router-view content--cal calendar"
+    class="router-view content--cal calendar main-sche"
     style="box-sizing:border-box;">
     <r-calendar
       :default-select-date="dateSelect"
@@ -253,6 +253,6 @@
     transition: padding-top 0.3s ease;
   }
   .ul-b{
-    border-bottom: 1px solid #d4d4d4
+    border-bottom: 0.5px solid #d4d4d4
   }
 </style>

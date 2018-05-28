@@ -38,6 +38,17 @@
         {{ repeatText }}
       </span>
     </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="accept">
+          完成
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -133,6 +144,9 @@
       window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     methods: {
+      accept () {
+        this.$router.go(-1)
+      },
       initData () {
         //  有修改缓存读修改缓存，否则从原数据读
         var t = this.todoDate

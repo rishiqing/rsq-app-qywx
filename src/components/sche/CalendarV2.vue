@@ -256,6 +256,10 @@
         }
       },
       onPanMove (ev) {
+        //   屏蔽上下滑动功能 by 赵旭
+        if (ev.offsetDirection === 8 || ev.offsetDirection === 16) {
+          return
+        }
         if (this.checkLocked(ev)) {
           return
         }
@@ -298,6 +302,10 @@
         }
       },
       onPanEnd (ev) {
+        //   屏蔽上下滑动功能 by 赵旭
+        if (ev.offsetDirection === 8 || ev.offsetDirection === 16) {
+          return
+        }
         this.clearLock()
         if (this.transDirection) {
           return

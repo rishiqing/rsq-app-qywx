@@ -14,7 +14,7 @@
               placeholder="请输入任务标题"
               @input="inputNew"/>
           </div>
-          <div class="itm-group itm--edit-todo">
+          <div class="itm-group itm--edit-todo fix-create">
             <div class="firstGroup">
               <div class="common-field">
                 <i class="icon2-schedule sche"/>
@@ -22,6 +22,7 @@
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
             </div>
             <div class="secondGroup">
@@ -309,11 +310,16 @@
     color: #55A8FD;
     position: absolute;
     top: 47%;
-    margin-top: -0.29rem;
+    margin-top: -0.26rem;
     left: 25px;
     z-index: 1000;
   }
-  .common-field{
-    padding-left: 46px;
-  }
+  .arrow {
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+}
 </style>

@@ -212,7 +212,7 @@
     width: 70%;
   }
   .common-width{
-    width: 95%;
+    width: 85%;
   }
   .hide{
     display: none;

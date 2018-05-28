@@ -37,6 +37,9 @@
       },
       currentPlan () {
         return this.$store.state.currentPlan
+      },
+      createPlanControl () {
+        return this.currentPlan.editControl.createCK
       }
     },
     mounted () {
@@ -44,6 +47,10 @@
     },
     methods: {
       saveTodo () {
+        if (!this.createPlanControl) {
+          alert('没有权限')
+          return
+        }
         this.initialState = !this.initialState
         this.$prompt('', {
           confirmButtonText: '确定',

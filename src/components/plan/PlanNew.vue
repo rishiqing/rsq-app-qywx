@@ -9,24 +9,25 @@
       <div class="plan-member-word">
         <span>计划成员</span><span class="count">{{ selectedLocalList.length }}人</span>
       </div>
-      <div class="plan-member">
+      <v-touch
+        class="plan-member"
+        @tap="showWebMemberEdit">
         <div
           v-for="(avatar,index) in avatarConcat"
+          v-if="index <= 5"
           :key="index"
           :style="{ backgroundImage: 'url(' + avatar.avatar + ')' }"
-          class="avatar"
-        >
+          class="avatar">
           <span v-if="!avatar.avatar">{{ avatar.name }}</span>
         </div>
-        <v-touch
-          class="add"
-          @tap="showWebMemberEdit">
-          <img
-            src="../../assets/img/addmenmber.png"
-            class="avatar avataradd"
-          >
-        </v-touch>
-      </div>
+        <i
+          v-if="selectedLocalList.length < 7"
+          class="icon2-add add-member"/>
+        <img
+          v-if="selectedLocalList.length >=7"
+          src="../../assets/img/mp.png"
+          class="mp">
+      </v-touch>
     </div>
     <div class="wrap-most">
       <div class="plan-templ">计划模板</div>
@@ -295,9 +296,11 @@
     border-bottom: 0.5px solid #d4d4d4;
   }
   .plan-member{
+    display: flex;
     max-width: 100%;
     width: 100%;
     align-items:  center;
+    height: 1.33rem
   }
   .arrow-right{
     font-size: 20px;
@@ -392,9 +395,20 @@
     border-radius: 50%;
     background-position: center center;
     background-size: 100% 100%;
-    margin: 0.48rem 4px 0 4px;
+    margin: 0 4px 0 4px;
   }
   .avataradd{
     background-color: transparent
+  }
+  .mp{
+    width: 21px;
+    height: 5px;
+    position: absolute;
+    right: 15px
+  }
+    .add-member{
+    color: #D6D6D6;
+    font-size: 23px;
+    margin-left: 0.3rem;
   }
 </style>

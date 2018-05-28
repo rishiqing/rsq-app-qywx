@@ -77,7 +77,7 @@
 </script>
 <style lang="scss" scoped>
   .descrip{
-    border-top: 1px solid #E0E0E0;
+    border-top: 0.5px solid #d4d4d4;
     margin-top: 10px;
     padding: 3%;
     line-height: 0.7rem;
@@ -89,6 +89,7 @@
     overflow-y: auto;
     box-sizing: border-box;
     outline: none;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .editable-blank{
     color: #A5A5A5;

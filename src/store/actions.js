@@ -1067,15 +1067,13 @@ export default {
   deletePlan  ({commit, state}, p) {
     return api.todo.deletePlan(p)
       .then((res) => {
-        // commit('DELETE_PLAN', p)
+        commit('DELETE_PLAN', p)
       })
   },
   quitPlan ({commit, state}, p) {
     return api.todo.quitPlan(p)
       .then((res) => {
-        // commit('QUIT_PLAN', p) // 这里用不用该前端的参与人呢？
-      }).catch((err) => {
-        return err.body
+        commit('DELETE_PLAN', p) // 暂使用delete
       })
   },
   finishCardItem ({commit, state}, p) {

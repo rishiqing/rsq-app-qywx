@@ -291,7 +291,7 @@ export default {
    * 将time mills依据startTime转换为形如"begin_-5_min"这样的规则
    */
   alertTime2Rule (time, numStartTime, numEndTime) {
-    var pre = 'begin'
+    var pre = time < numStartTime ? 'begin' : 'after'
     var num = (time - numStartTime) / (60 * 1000)
     var unit = 'min'
     // if (Math.abs(num) > 60) {

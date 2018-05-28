@@ -74,7 +74,7 @@
   .default-padding{
     padding-left: 0.3rem;
     height: 54px;
-    overflow: hidden;
+    overflow: auto;
   }
   div.content-color{
     color: #333333

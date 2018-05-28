@@ -58,7 +58,7 @@
               </div>
               <div class="common-field">
                 <img
-                  src="../../assets/img/subtodo.png"
+                  src="../../assets/img/subtodo.svg"
                   class="sub-todo-png sche">
                 <r-input-subtodo
                   :is-disabled="!isEditable"
@@ -77,7 +77,7 @@
                   tag="a"
                   class="weui-btn weui-btn_warn"
                   href="javascript:;"
-                  @tap="prepareDelete">
+                  @tap="delayCallFix">
                   删除任务
                 </v-touch>
               </div>
@@ -211,8 +211,14 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     methods: {
+      delayCallFix (e) {
+        window.setTimeout(() => {
+          this.prepareDelete(e)
+        }, 50)
+      },
       initData () {
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        var that = this
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getTodo', {todo: {id: this.dynamicId}})
             .then(item => {
               util.extendObject(this.editItem, item)
@@ -223,16 +229,16 @@
             })
           .then(() => {
             this.fetchCommentIds()
-            window.rsqadmg.exec('hideLoader')
+            // window.rsqadmg.exec('hideLoader')
           })
-//          .catch(err => {
-//            window.rsqadmg.exec('hideLoader')
-//            if (err.code === 400320) {
-//              this.$router.push('/pub/check-failure')
-//            } else if (err.code === 400318) {
-//              this.$router.push('/pub/noPermission')
-//            }
-//          })
+         .catch(err => {
+           // window.rsqadmg.exec('hideLoader')
+           if (err.code === 400320) {
+             that.$router.push('/pub/check-failure')
+           } else if (err.code === 400318) {
+             that.$router.push('/pub/noPermission')
+           }
+         })
       },
       fetchCommentIds () {
         //  根据评论中的rsqId获取userId，用来显示头像
@@ -546,7 +552,7 @@
       this.$store.commit('RESET_DELAY_SHOW_CHECKBOX')
       //  判断是否需要用户选择“仅修改当前日程”、“修改当前以及以后日程”、“修改所有重复日程”
       if (to.name === 'sche') {
-        next(false)
+        // next(false)
         this.checkIfRepeatEdited(next)
       } else {
         return next()
@@ -677,13 +683,21 @@
      padding-top: 20px;
   }
   .sub-todo-png{
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
   }
   .talk-png{
     width: 17px;
     height: 17px;
     margin-right: 9.3px;
     margin-top: 3px;
+  }
+  .itm-group{
+    border-top: 0.5px solid #d4d4d4;
+  }
+  .common-field{
+    border-bottom: 0.5px solid #d4d4d4;
+    height: 56px;
+    line-height: 56px
   }
 </style>

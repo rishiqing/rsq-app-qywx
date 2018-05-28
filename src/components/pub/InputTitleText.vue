@@ -8,9 +8,6 @@
         <i
           :class="{'icon-check_box_outline_blank': !itemChecked, 'icon-check': itemChecked}"
           class="icon2-check-box select-title"/>
-        <div
-          :class="{'for-hide-title':itemChecked}"
-          class="hide" />
         <i
           :class="{'is-display-title':itemChecked}"
           class="icon2-selected hide"/>
@@ -102,7 +99,7 @@
     display: flex;
     align-items: center;
     height: 1.28rem;
-    position: relative;
+    position: absolute;
   }
   .edit-text{
     font-family: PingFangSC-Medium;
@@ -132,17 +129,17 @@
     color:#b1b1b1;
     font-size: 0.506rem;
     top:0.39rem;
-    margin-left:0.35rem;
+    margin-left:20px;
     background: #FFFFFF;
     border-radius: 1px;
   }
   .is-display-title{
     display: block;
     position:absolute;
-    top:0.34rem;
-    left: 0.45rem;
+    top:0.44rem;
+    left: 0.4rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999;
   }
   .for-hide-title{
     position: absolute;
@@ -171,6 +168,7 @@
     padding: 0.3rem;
     border-radius: 0;
     color: #3D3D3D;
-    padding-left: 20px;
+    margin-left: 20px;
+    padding-left: 0;
   }
 </style>

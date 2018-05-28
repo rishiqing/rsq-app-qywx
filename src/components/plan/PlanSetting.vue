@@ -43,13 +43,20 @@
         class="wrap-plan-member"
         @tap="showNativeMemberEdit">
         <avatar
-          v-for="item in selectedLocalList"
+          v-for="(item, index) in selectedLocalList"
+          v-if="index <= 5"
           :key="item.rsqUserId"
           :src="item.avatar"
           :username="item.name"
           :background-color="'rgb(74, 144, 226)'"
           :size="34"/>
-        <i class="icon2-add add-member"/>
+        <i
+          v-if="countAdd < 7"
+          class="icon2-add add-member"/>
+        <img
+          v-if="countAdd >=7"
+          src="../../assets/img/mp.png"
+          class="mp">
       </v-touch>
     </div>
     <div class="set-star">
@@ -73,7 +80,7 @@
         <v-touch
           v-if="isOwn"
           tag="a"
-          class="delete-plan-btn weui-btnt out"
+          class="delete-plan-btn weui-btn out"
           href="javascript:;"
           @tap="deletePlan">
           删除
@@ -84,7 +91,7 @@
           class="delete-plan-btn weui-btn out"
           href="javascript:;"
           @tap="deletePlan">
-          删除
+          退出计划
         </v-touch>
       </div>
     </div>
@@ -125,6 +132,9 @@
       currentPlan () {
         return this.$store.state.currentPlan
       },
+      countAdd () {
+        return this.currentPlan.userRoles.length
+      },
       isStar () {
         return this.currentPlan.starMark
       },
@@ -132,7 +142,7 @@
         return this.$store.getters.loginUser || {}
       },
       userId () {
-        return this.loginUser.authUser.userId ? this.loginUser.authUser.userId : 'dingtalkupload'
+        return this.loginUser.authUser.userId
       },
       corpId () {
         return this.loginUser.authUser.corpId
@@ -170,7 +180,7 @@
         })
       },
       createrRsqIds () {
-        return [this.$store.getters.loginUser.rsqUser.id]
+        return [this.$store.state.currentPlan.creatorId]
       },
       disableRsqidArray () {
         return this.disabledRsqIds.map(function (staff) {
@@ -196,7 +206,7 @@
       this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.currentPlan.creatorId]})
         .then(idMap => {
           this.creatorName = util.getMapValuePropArray(idMap)[0].name
-          if (parseInt(util.getMapValuePropArray(idMap)[0].userId) === parseInt(this.userId)) {
+          if (util.getMapValuePropArray(idMap)[0].userId === this.userId) {
             this.isOwn = true
           }
         })
@@ -263,13 +273,9 @@
               } else {
                 window.rsqadmg.exec('showLoader', {'text': '退出中'})
                 that.$store.dispatch('quitPlan', {id: that.currentPlan.id}).then((e) => {
-                  if (e.message) {
-                    window.rsqadmg.exec('alert', {message: e.message})
-                  } else {
-                    window.rsqadmg.exec('hideLoader')
-                    window.rsqadmg.exec('toast', {message: '已退出'})
-                    that.$router.replace('/plan/list')
-                  }
+                  window.rsqadmg.exec('hideLoader')
+                  window.rsqadmg.exec('toast', {message: '已退出'})
+                  that.$router.replace('/plan/list')
                 })
               }
             }
@@ -293,7 +299,7 @@
           idAttribute: 'rsqUserId',
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
-          disabledIdList: this.disabledLocalList,
+          disabledIdList: [this.createrRsqIds[0].toString(), this.$store.state.loginUser.rsqUser.id.toString()],
           // 转换为字符串
           creatorIdList: [this.createrRsqIds[0].toString()],
           success (selList) {
@@ -304,7 +310,7 @@
             that.selectedLocalList = [...selList]
             that.memarr = [...arr]
             var arrstr = arr.join(',')
-            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr})
+            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr, editAuthority: 'all'})
               .then(function (res) {
                 that.$store.commit('UPDATA_PLAN', res.userRoles)
               })
@@ -350,8 +356,13 @@
   .wrap-plan-member{
     display: flex;
     align-items: center;
-    height: 1.333rem;
-    overflow: auto
+    min-height: 1.333rem;
+    height: 1.33rem;
+    overflow: auto;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    width: 100%;
   }
   .plan-member-word{
     font-family: PingFangSC-Regular;
@@ -451,6 +462,8 @@
     font-size: 14px;
     color: #9C9C9C;
     line-height: 56px;
+    width: 50%;
+    text-align: right;
   }
   .plan-set-img{
     margin-right: 31px;
@@ -497,5 +510,11 @@
   }
   .weui-btn{
     border: 0;
+  }
+  .mp{
+    width: 21px;
+    height: 5px;
+    position: absolute;
+    right: 15px
   }
 </style>

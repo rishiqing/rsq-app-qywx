@@ -3,7 +3,7 @@
     id="calMain"
     :class="{'animate': isShowAnimate}"
     :style="{'padding-top': paddingTop + 'px'}"
-    class="router-view content--cal calendar"
+    class="router-view content--cal calendar main-sche"
     style="box-sizing:border-box;">
     <r-calendar
       :default-select-date="dateSelect"
@@ -15,7 +15,8 @@
       @on-cal-pan-end="onPanEnd"/>
     <div
       id="bounceDiv"
-      style="width:100%;-webkit-overflow-scrolling: touch;margin-top: 16px">
+      :class="{ 'ul-b' : items.length === 0 ? false : true}"
+      style="width:100%;-webkit-overflow-scrolling: touch;margin-top: 16px;margin-bottom:60px;">
       <r-pull-to-refresh
         :enabled="enablePullToRefresh"
         @on-list-pan-move="checkScroll"
@@ -250,5 +251,8 @@
   }
   .animate {
     transition: padding-top 0.3s ease;
+  }
+  .ul-b{
+    border-bottom: 0.5px solid #d4d4d4
   }
 </style>

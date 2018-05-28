@@ -86,6 +86,9 @@
         this.$router.push('/plan/todo/' + this.currentKanbanItem.id + '/subtodo/' + item.id)
       },
       saveTodo () {
+        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
+          return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
+        }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.kanbanItemId})
           .then(() => {
@@ -246,7 +249,7 @@
     top:0.36rem;
     left: 0.05rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999;
   }
   .for-hide-sub{
     position: absolute;

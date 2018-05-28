@@ -9,6 +9,7 @@
       <div class="inner-value">
         <div
           v-for="(avatar,index) in avatarConcat"
+          v-if="index < 5"
           :key="index"
           :style="{ backgroundImage: 'url(' + avatar.avatar + ')' }"
           class="avatar"
@@ -76,7 +77,7 @@
       },
       maximum: {
         type: Number,
-        default: 5
+        default: 299
       }
     },
     data () {
@@ -129,9 +130,13 @@
       },
       createrRsqIds () {
         this.fetchUserIds(this.createrRsqIds, 'creatorList')
+      },
+      userRsqIds (newIds) {
+        this.userRsqIds = newIds
+        this.fetchUserIds(this.userRsqIdArray, 'localList')
       }
     },
-    mounted () {
+    created () {
       this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
@@ -229,8 +234,8 @@
     display: flex;
     align-items: center;
     position: relative;
-    background-color: white;
-    min-height: 1.493rem;
+    background-color: transparent;
+    min-height: 1.45rem;
   }
   .inner-key{
     display: block;
@@ -248,6 +253,7 @@
     line-height: 100%;
     height: 100%;
     width: 100%;
+    min-height: 36px
   }
   .arrow{
     color: #999999;

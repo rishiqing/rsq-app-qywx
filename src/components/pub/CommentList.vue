@@ -25,7 +25,7 @@
       @comment-file-touch="showAction"
       @click-comment="handleCommentClick"/>
     <div
-      v-if="commentCount"
+      v-if="commentCount && !more"
       class="no-comment">
       <img
         src="../../assets/img/nocomment.png"
@@ -100,6 +100,13 @@
         return this.loginUser.rsqUser.id
       }
     },
+    watch: {
+      todoId (newId) {
+        if (newId) {
+          this.$store.dispatch('getRecord', {id: newId})
+        }
+      }
+    },
     mounted () {
       this.changeState1()
     },
@@ -110,7 +117,7 @@
         return arr[arr.length - 1].substr(14)
       },
       changeState1 () {
-        if (this.todoType === 'sche') {
+        if (this.todoType === 'sche' && this.todoId) {
           this.$store.dispatch('getRecord', {id: this.todoId})
         }
         this.more = false
@@ -132,27 +139,42 @@
       showAction (f) {
         var that = this
         const device = window.rsqadmg.exec('checkDevice')
-        const btnArray = ['预览文件']
         if (device.os !== 'iOS') {
-          btnArray.push('下载文件')
-        }
-        window.rsqadmg.exec('actionsheet', {
-          buttonArray: btnArray,
-          success: function (res) {
-            switch (res.buttonIndex) {
-              case 0:
-                Previewer.show({
-                  file: f
-                })
-                break
-              case 1:
-                that.downloadFile(f)
-                break
-              default:
-                break
+          var btnArray = ['预览文件', '下载文件']
+          window.rsqadmg.exec('actionsheet', {
+            buttonArray: btnArray,
+            success: function (res) {
+              switch (res.buttonIndex) {
+                case 0:
+                  Previewer.show({
+                    file: f
+                  })
+                  break
+                case 1:
+                  that.downloadFile(f)
+                  break
+                default:
+                  break
+              }
             }
-          }
-        })
+          })
+        } else {
+          var btnArray2 = ['预览文件']
+          window.rsqadmg.exec('actionsheet', {
+            buttonArray: btnArray2,
+            success: function (res) {
+              switch (res.buttonIndex) {
+                case 0:
+                  Previewer.show({
+                    file: f
+                  })
+                  break
+                default:
+                  break
+              }
+            }
+          })
+        }
       },
       downloadFile (f) {
         var link = document.createElement('a')
@@ -215,6 +237,7 @@
     margin-top: 20px;
     padding-bottom: 2.9rem;
     border-top: 0.5px solid #D4D4D4;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   .operation{
     font-family: PingFangSC-Regular;

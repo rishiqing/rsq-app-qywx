@@ -14,7 +14,7 @@
               placeholder="请输入任务标题"
               @input="inputNew"/>
           </div>
-          <div class="itm-group itm--edit-todo">
+          <div class="itm-group itm--edit-todo fix-create">
             <div class="firstGroup">
               <div class="common-field">
                 <i class="icon2-schedule sche"/>
@@ -22,6 +22,7 @@
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
             </div>
             <div class="secondGroup">
@@ -159,12 +160,12 @@
         this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
       },
       submitTodo () {
-        if (!this.inputTitle) {
+        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
-        if (!this.sub.datas && !this.sub.startDate) {
-          return window.rsqadmg.execute('alert', {message: '请选择时间'})
-        }
+        // if (!this.sub.datas && !this.sub.startDate) {
+        //   return window.rsqadmg.execute('alert', {message: '请选择时间'})
+        // }
         if (this.joinUserRsqIds.length === 0) {
           return window.rsqadmg.execute('alert', {message: '请选择执行人'})
         }
@@ -172,10 +173,10 @@
         var datas = {}
         datas.name = this.inputTitle
         datas.todoId = this.todoId
-        datas.startDate = this.sub.startDate
-        datas.endDate = this.sub.endDate
+        datas.startDate = this.sub.startDate || ''
+        datas.endDate = this.sub.endDate || ''
         datas.joinUsers = this.joinUserRsqIds[0]
-        datas.dates = this.sub.dates
+        datas.dates = this.sub.dates || ''
         this.$store.dispatch('createSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
           .then(() => {
@@ -309,11 +310,16 @@
     color: #55A8FD;
     position: absolute;
     top: 47%;
-    margin-top: -0.29rem;
+    margin-top: -0.26rem;
     left: 25px;
     z-index: 1000;
   }
-  .common-field{
-    padding-left: 46px;
-  }
+  .arrow {
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+}
 </style>

@@ -11,7 +11,7 @@
         v-show="inputTitle !== ''"
         class="btn-create"
         @tap="saveTodo">
-        <div class="create">创建</div>
+        <span class="create">创建</span>
       </v-touch>
     </div>
     <div class="margin-block"/>
@@ -107,12 +107,11 @@
     width: 100%;
   }
   .create{
-    box-sizing: border-box;
-    display: block;
+    // box-sizing: border-box;
+    // display: block;
     text-align: center;
     width:45px;
     height: 26px;
-    line-height: 0.66rem;
     border-radius: 2px;
     font-size: 13px;
     color:#fff;
@@ -121,8 +120,11 @@
     top: 50%;
     right:0.35rem;
     z-index: 3;
-    line-height: 26px;
+    padding-top: 2px;
     background-color: #2F7DCD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .write{
     line-height: 0.612rem;

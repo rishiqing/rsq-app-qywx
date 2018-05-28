@@ -72,15 +72,6 @@
         </table>
       </div>
     </div>
-    <v-touch
-      class="date-repeat"
-      @tap="gotoRepeat">
-      <span class="list-key u-pull-left">重复</span>
-      <i class="icon2-arrow-right arrow u-pull-right light-color"/>
-      <span class="list-value u-pull-right light-color">
-        {{ repeatText }}
-      </span>
-    </v-touch>
     <div class="btn-group">
       <div class="btn-wrap">
         <v-touch
@@ -135,26 +126,11 @@
       numToday () {
         return dateUtil.clearTime(new Date()).getTime()
       },
-      currentTodo () {
-        return this.$store.state.todo.currentTodo
-      },
-      isEdit () {
-        return !!this.currentTodo.id
+      currentKanbanItem () {
+        return this.$store.state.plan.currentKanbanItem
       },
       currentTodoDate () {
         return this.$store.state.pub.currentTodoDate
-      },
-      repeatText () {
-        var text
-        var c = this.currentTodoDate
-        if (this.dateType === 'repeat' && c.repeatType) {
-          var arr = this.currentTodoDate.repeatBaseTime.split(',')
-          text = dateUtil.repeatDayText(c.repeatType, arr)
-          if (c.isLastDate) {
-            text += '、最后一天'
-          }
-        }
-        return (text || '不') + '重复'
       }
     },
     created () {
@@ -223,11 +199,6 @@
         e.preventDefault()
       },
       tapDay (e, day) {
-        // 过去的时间不允许点击,计算的时候，增加了1分钟的毫秒数作为误差
-        var timeHaveGo = new Date().getHours() * 3600000 + (new Date().getMinutes() + 1) * 60000 + new Date().getSeconds() * 1000
-        if (new Date(day.date).getTime() < new Date().getTime() - timeHaveGo) {
-          return
-        }
         //  如果是在repeat状态下点击日期，那么清除重复，进入single状态
         if (this.dateType === 'repeat' || this.dateType === 'none') {
           this.dateType = 'single'
@@ -237,13 +208,13 @@
         e.preventDefault()
       },
       resetType () {
-        this.resetMonth() // 这是干吗用的
+        this.resetMonth()
       },
       resetMonth (offset) {
         if (offset) {
           this.focusDate = dateUtil.firstDayOfMonth(this.focusDate, offset)
         }
-        this.days = dateUtil.getMonthDays(this.focusDate) //  this.days数据结构很有意思
+        this.days = dateUtil.getMonthDays(this.focusDate)
         this.selectDays()
       },
       toggleSelect (day) {
@@ -336,21 +307,15 @@
       },
       isModified () {
         //  TODO  判断是否更新过
-        var oldObj = this.currentTodo
+        var oldObj = this.currentKanbanItem
         var newObj = this.currentTodoDate
         return newObj.startDate !== oldObj.startDate ||
           newObj.endDate !== oldObj.endDate ||
-          newObj.dates !== oldObj.dates ||
-          newObj.repeatType !== oldObj.repeatType ||
-          newObj.repeatBaseTime !== oldObj.repeatBaseTime ||
-          newObj.isLastDate !== oldObj.isLastDate
-      },
-      gotoRepeat () {
-        this.$router.push('/sche/todo/repeat')
+          newObj.dates !== oldObj.dates
       },
       saveTodoDateState () {
         var sorted = this.selectNumDate.sort((a, b) => { return a > b ? 1 : -1 })
-        var resObj = dateUtil.frontend2backend({dateType: this.dateType, dateResult: sorted, sep: '/'})
+        var resObj = dateUtil.frontend2backend({dateType: this.dateType, dateResult: sorted, sep: ''})
         //  如果不是repeat类型，那么清除
         if (this.dateType !== 'repeat') {
           resObj['repeatType'] = null
@@ -359,7 +324,6 @@
           resObj['_uRepeatType'] = null
           resObj['_uIsLastDate'] = false
           resObj['_uRepeatStrTimeArray'] = null
-          resObj['_uRepeatOverDate'] = null
         }
 
         this.$store.commit('PUB_TODO_DATE_UPDATE', {data: resObj})
@@ -367,9 +331,9 @@
       getSubmitResult () {
         var c = this.currentTodoDate
         var o = {
-          startDate: c.startDate,
-          endDate: c.endDate,
-          dates: c.dates
+          startDate: c.startDate || null,
+          endDate: c.endDate || null,
+          dates: c.dates || null
         }
         //  如果重复相关属性存在，那么处理重复相关的其他属性
         if (c.repeatType) {
@@ -391,43 +355,27 @@
       },
       submitTodo (next) {
         if (this.isModified()) {
-          if (this.isEdit) {
-            window.rsqadmg.exec('showLoader', {text: '保存中...'})
-          }
-          var editItem = this.getSubmitResult()
-          //  如果日期均为空，则容器为收纳箱
-          if (!editItem.startDate && !editItem.endDate && !editItem.dates) {
-            editItem['pContainer'] = 'inbox'
-          } else {
-            editItem['pContainer'] = 'IE'
-          }
-          //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
-          const overDate = editItem.repeatOverDate
-          if (overDate) {
-            editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
-          }
-          return this.$store.dispatch('updateTodoDate', {editItem: editItem})
-            .then(() => {
-              this.$store.commit('PUB_TODO_DATE_DELETE')
-              if (this.isEdit) {
-                window.rsqadmg.exec('hideLoader')
-                // window.rsqadmg.execute('toast', {message: '保存成功'})
-              }
-              next()
-            })
+          const editItem = this.getSubmitResult()
+          this.$store.commit('PLAN_NEW_TODO_DATE', editItem)
+          next()
+          // return this.$store.dispatch('updateKanbanItem', {
+          //   id: this.currentKanbanItem.id,
+          //   dates: editItem.dates,
+          //   startDate: editItem.startDate,
+          //   endDate: editItem.endDate
+          // })
+          //   .then(() => {
+          //     next()
+          //   })
         } else {
           next()
         }
       }
     },
     beforeRouteLeave (to, from, next) {
-      //  如果是从日期页面跳回到编辑页面的，那么即使不在收纳箱中了，那么也暂时不显示checkbox
-      if (this.currentTodo['pContainer'] === 'inbox') {
-        this.$store.commit('DELAY_SHOW_CHECKBOX')
-      }
       //  做pub区缓存
       this.saveTodoDateState()
-      if (to.name !== 'todoNew' && to.name !== 'todoEdit' && to.name !== 'demo') {
+      if (to.name !== 'planTodoNew') {
         return next()
       }
 //      next()
@@ -437,7 +385,7 @@
 </script>
 <style lang="scss" scoped>
   .backToday{
-    border: 0.5px solid #D4D4D4;
+    border: 1px solid #4A90E2;
     border-radius: 50%;
     color:#4A90E2;
     width: 25px;
@@ -529,12 +477,12 @@
       width: 100%;
       box-sizing: border-box;
       overflow: hidden;
-      margin-top: 20px;
+      margin-top: 0.25rem;
       padding: 0 0.4rem;
       background-color: white;
       align-items: center;
-      border-top: 0.5px solid #D4D4D4;
-      border-bottom:0.5px solid #D4D4D4;
+      border-top: 1px solid #E0E0E0;
+      border-bottom:1px solid #E0E0E0;
       font-family: PingFangSC-Regular;
       font-size: 17px;
     }
@@ -551,7 +499,7 @@
       background-color: #FFF;
       position: absolute;
       width: 100%;
-      // bottom: 0;
+      bottom: 0;
       border-top: 0.5px solid #d4d4d4;
     }
   }

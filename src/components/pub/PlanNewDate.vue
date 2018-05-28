@@ -1,16 +1,17 @@
 <template>
   <v-touch @tap="gotoDate">
     <div
-      class="outer-wrap bottom-border">
-      <span class="inner-key">{{ dateString }}</span>
+      class="outer-wrap bottom-border-2">
+      <span class="inner-key">{{ dateString ? dateString : '日期' }}</span>
     </div>
+    <i class="icon2-arrow-right-small arrow"/>
   </v-touch>
 </template>
 <script>
   import dateUtil from 'ut/dateUtil'
 
   export default {
-    name: 'SubNewInputDate',
+    name: 'PlanNewDate',
     props: {
       //  是否有左侧的空间，默认是没有的，编辑模式下是有左边的padding
       hasLeftSpace: {
@@ -46,14 +47,13 @@
       return {}
     },
     computed: {
-      datesItem () {
-        return this.$store.state.todo.currentSubtodoDate
-      },
       dateString () {
-        if (!this.datesItem.startDate && !this.datesItem.endDate && !this.datesItem.dates) {
-          return '日期'
+        if (this.item.pContainer === 'inbox') {
+          return '添至日程'
+        } else if (this.item.startDate === null && this.item.endDate === null && this.item.dates === null) {
+          return '今天'
         } else {
-          var result = dateUtil.repeatDate2Text(this.datesItem)
+          var result = dateUtil.repeatDate2Text(this.item)
           if (result.length > 20) {
             result = result.substring(0, 18) + '...'
           }
@@ -63,7 +63,7 @@
         }
       },
       fromInbox () {
-        return this.datesItem.pContainer === 'inbox'
+        return this.item.pContainer === 'inbox'
       }
     },
     methods: {
@@ -73,7 +73,7 @@
           return
         }
         //  将需要用到的属性设置到currentTodoDate中
-        var c = this.datesItem
+        var c = this.item
         var obj = {
           startDate: c.startDate || null,
           endDate: c.endDate || null,
@@ -81,10 +81,11 @@
           isCloseRepeat: !!c.isCloseRepeat,
           repeatType: c.repeatType || null,
           repeatBaseTime: c.repeatBaseTime || null,
-          isLastDate: c.isLastDate === undefined || false
+          isLastDate: c.isLastDate === undefined || false,
+          repeatOverDate: c.repeatOverDate || null
         }
         this.$store.commit('PUB_TODO_DATE_UPDATE', {data: obj})
-        this.$router.push('/' + this.todoType + '/todo/subdate')
+        this.$router.push('/' + this.todoType + '/todo/newdate')
       }
     }
   }
@@ -103,8 +104,16 @@
     font-size: 17px;
     color: #333333;
   }
-  .bottom-border{
-    border-bottom: 0.5px solid #d4d4d4 !important;
+  .arrow{
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+  }
+  .bottom-border-2{
+    border-bottom: 0.5px solid #d4d4d4;
   }
 </style>
 

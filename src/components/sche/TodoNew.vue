@@ -15,19 +15,23 @@
           <div
             id="fix-ico"
             class="itm-group itm--edit-todo">
-            <div class="firstGroup">
+            <div
+              id="firstGroup"
+              class="firstGroup">
               <div class="common-field">
                 <i class="icon2-schedule sche"/>
                 <r-input-date
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
               <div class="common-field">
                 <i class="icon2-alarm sche" />
                 <r-input-time
                   :item="editItem"
                   :has-left-space="true"/>
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
             </div>
             <div class="secondGroup">
@@ -166,7 +170,7 @@
         this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
       },
       submitTodo () {
-        if (!this.editItem.pTitle) {
+        if (!this.editItem.pTitle || /^\s+$/.test(this.editItem.pTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
         if (!this.isInbox) {
@@ -179,15 +183,19 @@
           this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
           //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
           const overDate = this.editItem.repeatOverDate
-          this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          if (overDate) {
+            this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
+          }
         }
-
         this.saveTodoState()
         var todoType = this.isInbox ? 'inbox' : 'schedule'
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
         var clockAlert = JSON.parse(JSON.stringify(this.currentTodo.clock.alert || null))
         var that = this
+        if (!this.currentTodo.clock.startTime && !this.currentTodo.clock.endtTime) {
+          this.currentTodo.clock = {}
+        }
         this.$store.dispatch('submitCreateTodoItem', {newItem: this.currentTodo, todoType: todoType})
           .then(item => {
             if (this.currentTodo.clock && this.currentTodo.clock.startTime && item.clock && item.clock.alert) {
@@ -200,6 +208,7 @@
           })
           .then(item => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
+            this.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
             if (todoType === 'inbox') {
               this.$router.replace('/inbox')
             }
@@ -344,5 +353,21 @@
   }
   .common-field .outer-wrap{
     padding-left: 46px;
+    position: relative;
   }
+  .right-png{
+    position: absolute;
+    right: 13px;
+    top: 40%;
+    width: 13px;
+    // height: 8px;
+  }
+  .arrow {
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+}
 </style>

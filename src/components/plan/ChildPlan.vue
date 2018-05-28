@@ -136,13 +136,13 @@
               v-model="cardName"
               class="post-card-input"
               type="text"
-              placeholder="输入列表名称">
+              placeholder="输入任务列表名称">
             <div class="wrap-button">
               <v-touch @tap="showEmpty">
                 <span class="card-input-btn no">取消</span>
               </v-touch>
               <v-touch @tap="postCard">
-                <span class="card-input-btn yes">确定</span>
+                <span class="card-input-btn yes">创建</span>
               </v-touch>
             </div>
           </div>
@@ -244,6 +244,9 @@
       },
       userRoles () {
         return this.currentPlan.userRoles
+      },
+      removePlanControl () {
+        return this.currentPlan.editControl.removeKB
       }
     },
     mounted () {
@@ -261,7 +264,7 @@
       } else if (this.childPlanList) {
         this.currentSubPlan = this.childPlanList[0]
       }
-      window.rsqadmg.exec('showLoader', {'text': '加载中'})
+      // window.rsqadmg.exec('showLoader', {'text': '加载中'})
       if (this.currentSubPlanOfTask) {
         this.$store.dispatch('getCardList', this.currentSubPlanOfTask).then(
           (res) => {
@@ -269,7 +272,7 @@
           }).then(() => {
             that.$nextTick(() => {
               that.initLayout()
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       } else {
@@ -279,7 +282,7 @@
           }).then(() => {
             that.$nextTick(() => {
               that.initLayout()
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       }
@@ -346,10 +349,14 @@
         } else if (item.dates) {
           var result = ''
           var dates = item.dates.split(',')
-          for (var i = 0; i < dates - 1; i++) {
+          for (let i = 0; i < dates.length - 1; i++) {
+            if (i === 3) {
+              result += '...'
+              break
+            }
             result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + ','
           }
-          return result + parseInt(dates[dates.length - 1].substring(4, 6)) + '月' + parseInt(dates[dates.length - 1].substring(6, 8)) + '日'
+          return result
         } else {
           return null
         }
@@ -405,7 +412,8 @@
         e.preventDefault()
         var that = this
         window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['编辑卡片名称', '删除卡片'],
+          buttonArray: ['编辑任务列表', '删除任务列表'],
+          className: 'delete_IOS',
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
@@ -432,6 +440,10 @@
                 }).catch(() => {})
                 break
               case 1:
+                if (!that.removePlanControl) {
+                  alert('没有权限')
+                  break
+                }
                 window.rsqadmg.exec('confirm', {
                   message: '确定删除卡片：' + item.name + '?',
                   success () {
@@ -545,7 +557,7 @@
         var that = this
         this.initialState = false
         this.currentSubPlan = item
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         this.$store.dispatch('getCardList', item).then(
           (res) => {
             that.$store.commit('SAVE_CARD', res.kanbanCardList)
@@ -557,7 +569,7 @@
               for (var i = 0; i < aLi.length; i++) {
                 aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
               }
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       },
@@ -699,7 +711,7 @@
     background-color: #F5F5F5;
     padding: 0.3rem;
     border: 0.5px solid #D4D4D4;
-    border-right: 3px;
+    border-radius: 3px;
   }
   .wrap{
     position: relative;
@@ -714,7 +726,7 @@
   }
   .card-item-left{
     float: left;
-    padding: 0.07rem 0 0.5rem 0.2rem;
+    padding: 0 0 0.5rem 0.2rem;
   }
   .card-item-right{
     margin-left: 1rem;
@@ -729,7 +741,7 @@
     opacity: 0.6;
   }
   .card-selected{
-    font-size: 14px;
+    font-size: 20px;
     /*border: 1px solid #D8D8D8;*/
     border-radius: 1px;
     color: #D8D8D8;
@@ -783,24 +795,24 @@
   }
   .yes{
     color: #FFFFFF;
-    background-color: #48A1FA ;
-    border-radius: 3px;
+    background-color: #2F7DCD;
+    border-radius: 2px;
   }
   .no{
-    background-color: #F5F5F5;
-    color: #959595;
-    border: 1px solid #959595;
+    background-color: #fff;
+    color: #000;
+    border: 0.5px solid #d4d4d4;
     border-radius: 3px;
     margin-right: 0.3rem;
   }
   .card-input-btn{
-    width: 1.76rem;
-    height: 0.93rem;
+    width: 46px;
+    height: 26px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: PingFangSC-Regular;
-    font-size: 17px;
+    font-size: 13px;
   }
   .post-card-input{
     height: 1.25rem;
@@ -808,9 +820,11 @@
     border-radius: 4px;
   }
   .post-card-input-main{
-    height: 3.173rem;
+    height: 2.473rem;
     background: #F5F5F5;
     padding: 0.3rem;
+    border: 0.5px solid #d4d4d4;
+    border-radius: 3px;
   }
   .child-plan-main{
     background-color: white;
@@ -823,8 +837,9 @@
     width: 95%;
     height: 1.7rem;
     background: #F5F5F5;
-    border-radius: 1px;
+    border-radius: 3px;
     margin: 0 auto;
+    border: 0.5px solid #d4d4d4;
   }
   .post-card{
     font-family: PingFangSC-Medium;
@@ -882,8 +897,9 @@
     height: 19px;
   }
   .arrow-down{
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 0.1rem;
+    color: #c7c7c7;
   }
   .top-sub-plan-name{
     max-width: 4rem;

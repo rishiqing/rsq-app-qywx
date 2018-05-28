@@ -72,12 +72,23 @@
         </table>
       </div>
     </div>
-    <v-touch
-      class="date-clear"
-      tag="p"
-      @tap="tapEmpty">
-      清除日期
-    </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="accept">
+          完成
+        </v-touch>
+        <v-touch
+          class="weui-btn clear"
+          tag="a"
+          @tap="tapEmpty">
+          清除日期
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -137,6 +148,9 @@
       this.$store.dispatch('setNav', {isShow: false})
     },
     methods: {
+      accept () {
+        this.$router.go(-1)
+      },
       backToToday () {
         this.focusDate = new Date()
         this.dateType = 'single'
@@ -500,5 +514,10 @@
   }
   .is-active{
     box-shadow:0px -2px 0px 0px #0082EF inset;
+  }
+  .clear{
+    color: #000 !important;
+    background-color: #fff;
+    border: 0.5px solid #d4d4d4
   }
 </style>

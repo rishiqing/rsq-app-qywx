@@ -39,6 +39,17 @@
         <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="accept">
+          完成
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -105,6 +116,9 @@
       window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     methods: {
+      accept () {
+        this.$router.go(-1)
+      },
       initData () {
         //  设置默认值
         this.initRuleList()

@@ -1,12 +1,14 @@
 <template>
   <div class="top-padding fixpadding">
-    <r-input-title
-      ref="title"
-      :is-checkable="true"
-      :item-title="editItem.name || ''"
-      :item-checked="editItem.isDone || false"
-      @click-checkout="finishChecked"
-      @text-change="titleChanged"/>
+    <div class="b-t-b">
+      <r-input-title
+        ref="title"
+        :is-checkable="true"
+        :item-title="editItem.name || ''"
+        :item-checked="editItem.isDone || false"
+        @click-checkout="finishChecked"
+        @text-change="titleChanged"/>
+    </div>
     <div class="btn-group">
       <div class="btn-wrap">
         <v-touch
@@ -109,5 +111,9 @@
 <style lang="scss" scoped>
   .top-padding {
     padding-top: 0.2rem;
+  }
+  .b-t-b{
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
 </style>

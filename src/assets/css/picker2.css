@@ -146,3 +146,10 @@
 	top: 0.55rem !important;
 	right: 0.26rem !important;
 }
+.fixborder .secondGroup .outer-wrap{
+	border-bottom: 0 !important;
+}
+.fix-create .outer-wrap{
+margin-left: 0.6rem;
+padding-left: 0.8rem;
+}

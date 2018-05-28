@@ -80,7 +80,7 @@
         <v-touch
           v-if="isOwn"
           tag="a"
-          class="delete-plan-btn weui-btnt out"
+          class="delete-plan-btn weui-btn out"
           href="javascript:;"
           @tap="deletePlan">
           删除
@@ -142,7 +142,7 @@
         return this.$store.getters.loginUser || {}
       },
       userId () {
-        return this.loginUser.authUser.userId ? this.loginUser.authUser.userId : 'dingtalkupload'
+        return this.loginUser.authUser.userId
       },
       corpId () {
         return this.loginUser.authUser.corpId
@@ -206,7 +206,7 @@
       this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.currentPlan.creatorId]})
         .then(idMap => {
           this.creatorName = util.getMapValuePropArray(idMap)[0].name
-          if (parseInt(util.getMapValuePropArray(idMap)[0].userId) === parseInt(this.userId)) {
+          if (util.getMapValuePropArray(idMap)[0].userId === this.userId) {
             this.isOwn = true
           }
         })
@@ -273,13 +273,9 @@
               } else {
                 window.rsqadmg.exec('showLoader', {'text': '退出中'})
                 that.$store.dispatch('quitPlan', {id: that.currentPlan.id}).then((e) => {
-                  if (e.message) {
-                    window.rsqadmg.exec('alert', {message: e.message})
-                  } else {
-                    window.rsqadmg.exec('hideLoader')
-                    window.rsqadmg.exec('toast', {message: '已退出'})
-                    that.$router.replace('/plan/list')
-                  }
+                  window.rsqadmg.exec('hideLoader')
+                  window.rsqadmg.exec('toast', {message: '已退出'})
+                  that.$router.replace('/plan/list')
                 })
               }
             }
@@ -314,7 +310,7 @@
             that.selectedLocalList = [...selList]
             that.memarr = [...arr]
             var arrstr = arr.join(',')
-            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr, editAuthority: 'member'})
+            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr, editAuthority: 'all'})
               .then(function (res) {
                 that.$store.commit('UPDATA_PLAN', res.userRoles)
               })

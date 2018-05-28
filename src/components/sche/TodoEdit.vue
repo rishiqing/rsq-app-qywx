@@ -217,6 +217,7 @@
         }, 50)
       },
       initData () {
+        var that = this
         // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getTodo', {todo: {id: this.dynamicId}})
             .then(item => {
@@ -230,14 +231,14 @@
             this.fetchCommentIds()
             // window.rsqadmg.exec('hideLoader')
           })
-//          .catch(err => {
-//            window.rsqadmg.exec('hideLoader')
-//            if (err.code === 400320) {
-//              this.$router.push('/pub/check-failure')
-//            } else if (err.code === 400318) {
-//              this.$router.push('/pub/noPermission')
-//            }
-//          })
+         .catch(err => {
+           // window.rsqadmg.exec('hideLoader')
+           if (err.code === 400320) {
+             that.$router.push('/pub/check-failure')
+           } else if (err.code === 400318) {
+             that.$router.push('/pub/noPermission')
+           }
+         })
       },
       fetchCommentIds () {
         //  根据评论中的rsqId获取userId，用来显示头像

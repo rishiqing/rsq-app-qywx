@@ -40,7 +40,6 @@
           :class="{'icon-check_box_outline_blank': !item.pIsDone, 'icon-check': item.pIsDone}"
           class="icon2-check-box select"/>
         <div
-          :class="{'for-hide':item.pIsDone}"
           class="hide"/>
         <i
           :class="{'isdisplay':item.pIsDone}"

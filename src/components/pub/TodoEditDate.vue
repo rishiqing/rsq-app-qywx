@@ -569,5 +569,7 @@
   }
   .clear{
     color: #000 !important;
+    background-color: #fff;
+    border: 0.5px solid #d4d4d4
   }
 </style>

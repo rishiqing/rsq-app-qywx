@@ -142,3 +142,7 @@
 .fixborder .outer-wrap{
 	border-bottom: 0.5px solid #d4d4d4 !important;
 }
+.main-sche .isdisplay{
+	top: 0.55rem !important;
+	right: 0.26rem !important;
+}

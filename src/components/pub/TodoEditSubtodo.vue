@@ -1,5 +1,5 @@
 <template>
-  <div class="top-padding fixpadding">
+  <div class="top-padding fixpadding fixborder">
     <r-input-title
       ref="title"
       :is-checkable="true"
@@ -10,14 +10,17 @@
     <div class="itm-group itm--edit-todo">
       <div class="firstGroup">
         <div class="common-field">
+          <i class="icon2-schedule sche"/>
           <r-input-date
             :item="editItem"
             :sep="'/'"
             :has-left-space="true"/>
+          <i class="icon2-arrow-right-small arrow"/>
         </div>
       </div>
       <div class="secondGroup">
         <div class="common-field">
+          <i class="icon2-member sche"/>
           <r-input-member
             :has-left-space="true"
             :is-native="false"
@@ -179,7 +182,9 @@
     padding-top: 20px;
   }
   .fblack{
-    color: black
+    color: black;
+    background-color: #fff;
+    border: 0.5px solid #d4d4d4
   }
   .itm-group{
     margin-top: 20px;
@@ -187,4 +192,21 @@
   .firstGroup{
     border-bottom: 1px solid #D9D9D9;
   }
+  .sche{
+   font-size: 0.586rem;
+    color: #55A8FD;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.29rem;
+    left: 25px;
+    z-index: 1000;
+  }
+  .arrow {
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+}
 </style>

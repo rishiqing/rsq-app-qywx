@@ -29,12 +29,23 @@
         <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
-    <v-touch
-      class="date-clear"
-      tag="p"
-      @tap="tapEmpty">
-      清除时间
-    </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="accept">
+          完成
+        </v-touch>
+        <v-touch
+          class="weui-btn clear"
+          tag="a"
+          @tap="tapEmpty">
+          清除日期
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -231,6 +242,9 @@
        */
       isModified () {
         return !jsUtil.objectEqual(this.clock, (this.currentTodo.clock || {}))
+      },
+      accept () {
+        this.$router.go(-1)
       },
       /**
        * 保存todoTime的状态到state中
@@ -453,5 +467,10 @@
   }
   .weui-picker__action{
     background:red;
+  }
+  .clear{
+    color: #000 !important;
+    background-color: #fff;
+    border: 0.5px solid #d4d4d4
   }
 </style>

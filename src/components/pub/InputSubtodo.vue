@@ -84,13 +84,12 @@
   .inner-value {
     display: block;
     position: absolute;
-    top:50%;
-    margin-top: -0.65rem;
-    right: 0.94rem;
+    right: 0.82666rem;
     font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #999999;
+    font-size: 13px;
+    color: rgba(25,31,37,0.56);
     letter-spacing: 0;
+    line-height: 1rem
   }
   .arrow{
     color: #999999;

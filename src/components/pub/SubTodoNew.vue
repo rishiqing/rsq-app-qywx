@@ -37,7 +37,7 @@
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="pUserId"
                   :disabled-rsq-ids="[]"
-                  :maximum= "1"
+                  :single-select="true"
                   @member-changed="saveMember"/>
               </div>
             </div>

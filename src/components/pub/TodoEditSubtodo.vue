@@ -27,7 +27,7 @@
             :index-title="'执行人'"
             :select-title="'请选择成员'"
             :user-rsq-ids="userRsqId"
-            :maximum= "1"
+            :single-select="true"
             :selected-rsq-ids="joinUserRsqIds"
             :creater-rsq-ids="pUserId"
             :disabled-rsq-ids="[]"

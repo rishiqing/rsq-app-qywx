@@ -47,7 +47,7 @@
             <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
             <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
           </template>
-          <template v-else-if="file.contentType.toUpperCase() === 'DOC' || file.contentType.toUpperCase() === 'DOC'">
+          <template v-else-if="file.contentType.toUpperCase() === 'DOC' || file.contentType.toUpperCase() === 'DOCX'">
             <img
               class="comment-photo file-touch"
               src="https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png"
@@ -189,10 +189,10 @@
     display: flex;
     align-items: center;
     padding: 5px;
-    background-color: white;
-    border: 1px solid #E0E0E0;
-    width: 91%;
+    background-color: #F9F9F9;
+    border: 0.5px solid #E0E0E0;
     margin-top: 5px;
+    border-radius: 2px
   }
   .comment:after{
     display: block;

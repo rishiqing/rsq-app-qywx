@@ -22,7 +22,7 @@
       :item="item"
       :key="item.id"
       :more="more"
-      @comment-file-touch="showAction"
+      @comment-file-touch="delayCallFix"
       @click-comment="handleCommentClick"/>
     <div
       v-if="commentCount && !more"
@@ -35,7 +35,7 @@
   </ul>
 </template>
 <script>
-  import Previewer from 'com/pub/Previewer'
+  // import Previewer from 'com/pub/Previewer'
   import CommentItem from 'com/pub/CommentItem'
   import CommentRecord from 'com/pub/CommentRecord'
   export default {
@@ -136,6 +136,11 @@
           this.more = !this.more
         }
       },
+      delayCallFix (e) {
+        window.setTimeout(() => {
+          this.showAction(e)
+        }, 50)
+      },
       showAction (f) {
         var that = this
         const device = window.rsqadmg.exec('checkDevice')
@@ -146,28 +151,12 @@
             success: function (res) {
               switch (res.buttonIndex) {
                 case 0:
-                  Previewer.show({
-                    file: f
-                  })
+                  // Previewer.show({
+                  //   file: f
+                  // })
                   break
                 case 1:
                   that.downloadFile(f)
-                  break
-                default:
-                  break
-              }
-            }
-          })
-        } else {
-          var btnArray2 = ['预览文件']
-          window.rsqadmg.exec('actionsheet', {
-            buttonArray: btnArray2,
-            success: function (res) {
-              switch (res.buttonIndex) {
-                case 0:
-                  Previewer.show({
-                    file: f
-                  })
                   break
                 default:
                   break

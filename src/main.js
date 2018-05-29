@@ -76,7 +76,7 @@ window.rsqadmg.exec('auth', {
     })
   },
   error: function () {
-    alert('验证失败')
+    console.log('验证失败')
   }
 })
 

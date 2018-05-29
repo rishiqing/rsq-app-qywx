@@ -8,21 +8,25 @@ export default {
   extractTemplate (allTemplate) {
     const recursiveExtractTemplate = (templateList, targetArray, resultArray) => {
       templateList.forEach(template => {
-        if (targetArray.indexOf(template.name) !== -1) {
+        const index = targetArray.indexOf(template.name)
+        if (index !== -1 && template.tKanbanId) {
           resultArray.push(template)
+          targetArray.splice(index, 1)
         }
         if (template.childCover) {
           recursiveExtractTemplate(template.childCover, targetArray, resultArray)
         }
       })
     }
-    const templateToFind = ['敏捷开发', '产品设计', '需求管理']
+    const templateToFind = ['空白模板', '敏捷开发', '产品设计', '需求管理']
     const templateArray = []
 
+    const normal = allTemplate['normal']
     const t1 = allTemplate['t1']
     const t2 = allTemplate['t2']
     const t3 = allTemplate['t3']
 
+    recursiveExtractTemplate(normal, templateToFind, templateArray)
     recursiveExtractTemplate(t1, templateToFind, templateArray)
     recursiveExtractTemplate(t2, templateToFind, templateArray)
     recursiveExtractTemplate(t3, templateToFind, templateArray)

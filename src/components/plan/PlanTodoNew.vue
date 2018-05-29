@@ -1,7 +1,7 @@
 <template>
   <!--新建计划任务的页面-->
   <div class="router-view">
-    <div class="itm-edt z-index-xs">
+    <div class="itm-edt z-index-xs fix-input-new">
       <div class="content">
         <div
           class="itm-edt-fields"
@@ -294,9 +294,6 @@
     margin-top: -0.29rem;
     left: 25px;
     z-index: 1000;
-  }
-  .common-field{
-    padding-left: 46px;
   }
   .input-date-backgrand{
     margin-top: 10px;

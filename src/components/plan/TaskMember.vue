@@ -35,10 +35,11 @@
         return this.$store.getters.loginUser || {}
       },
       userId () {
-        return this.loginUser.authUser.userId ? this.loginUser.authUser.userId : 'dingtalkupload'
+        return this.loginUser.authUser.userId
       }
     },
     mounted () {
+      console.log(this.item)
       var corpId = this.loginUser.authUser.corpId
       this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: this.item.joinUserIds.split(',')})
         .then(idMap => {

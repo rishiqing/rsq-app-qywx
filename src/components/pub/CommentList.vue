@@ -35,7 +35,7 @@
   </ul>
 </template>
 <script>
-  // import Previewer from 'com/pub/Previewer'
+  import Previewer from 'com/pub/Previewer'
   import CommentItem from 'com/pub/CommentItem'
   import CommentRecord from 'com/pub/CommentRecord'
   export default {
@@ -142,28 +142,32 @@
         }, 50)
       },
       showAction (f) {
-        var that = this
-        const device = window.rsqadmg.exec('checkDevice')
-        if (device.os !== 'iOS') {
-          var btnArray = ['预览文件', '下载文件']
-          window.rsqadmg.exec('actionsheet', {
-            buttonArray: btnArray,
-            success: function (res) {
-              switch (res.buttonIndex) {
-                case 0:
-                  // Previewer.show({
-                  //   file: f
-                  // })
-                  break
-                case 1:
-                  that.downloadFile(f)
-                  break
-                default:
-                  break
-              }
-            }
-          })
+        if (f.contentType === 'png' || f.contentType === 'jpg' || f.contentType === 'jpeg' || f.contentType === 'bmp' || f.contentType === 'gif') {
+          Previewer.show({ file: f })
         }
+        return
+        // var that = this
+        // const device = window.rsqadmg.exec('checkDevice')
+        // if (device.os !== 'iOS') {
+        //   var btnArray = ['预览文件', '下载文件']
+        //   window.rsqadmg.exec('actionsheet', {
+        //     buttonArray: btnArray,
+        //     success: function (res) {
+        //       switch (res.buttonIndex) {
+        //         case 0:
+        //           Previewer.show({
+        //             file: f
+        //           })
+        //           break
+        //         case 1:
+        //           that.downloadFile(f)
+        //           break
+        //         default:
+        //           break
+        //       }
+        //     }
+        //   })
+        // }
       },
       downloadFile (f) {
         var link = document.createElement('a')

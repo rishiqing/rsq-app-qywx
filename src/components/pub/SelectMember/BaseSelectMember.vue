@@ -259,7 +259,8 @@
         //  选择框操作的临时存储对象
         localList: [],
         localSelectedList: [],
-        nameSearch: ''
+        nameSearch: '',
+        singleSelect: false
       }
     },
     computed: {
@@ -341,7 +342,15 @@
         }
         mem.isSelected = isSelect
         if (isSelect) {
-          this.localSelectedList.push(mem)
+          if (this.singleSelect) {
+            this.localSelectedList.map(function (o) {
+              o.isSelected = false
+            })
+            this.localSelectedList = []
+            this.localSelectedList.push(mem)
+          } else {
+            this.localSelectedList.push(mem)
+          }
         } else {
           const index = this.localSelectedList.indexOf(mem)
           if (index !== -1) {

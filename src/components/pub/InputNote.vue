@@ -4,7 +4,7 @@
       id="noteEditable"
       ref="elementNote"
       :class="{'content-color': !!content, 'space-padding': hasLeftSpace}"
-      class="desp editor-style default-padding default-color">
+      class="desp editor-style default-padding default-color space-padding">
       添加任务描述...
     </div>
   </v-touch>

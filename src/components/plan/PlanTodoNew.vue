@@ -1,7 +1,7 @@
 <template>
   <!--新建计划任务的页面-->
   <div class="router-view">
-    <div class="itm-edt z-index-xs">
+    <div class="itm-edt z-index-xs fix-input-new">
       <div class="content">
         <div
           class="itm-edt-fields"
@@ -185,8 +185,10 @@
           joinUser: this.currentKanbanItem.joinUser,
           dates: this.currentKanbanItem.dates,
           startDate: startDate,
-          endDate: endDate
+          endDate: endDate,
+          isWeb: true
         }
+        console.log(params)
         this.$store.dispatch('createKanbanItem', params)
           .then((res) => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
@@ -294,9 +296,6 @@
     margin-top: -0.29rem;
     left: 25px;
     z-index: 1000;
-  }
-  .common-field{
-    padding-left: 46px;
   }
   .input-date-backgrand{
     margin-top: 10px;

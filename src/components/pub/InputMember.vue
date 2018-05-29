@@ -78,6 +78,10 @@
       maximum: {
         type: Number,
         default: 299
+      },
+      singleSelect: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -195,6 +199,7 @@
           disabledIdList: this.disabledLocalList,
           // 转换为字符串
           creatorIdList: [this.createrRsqIds[0].toString()],
+          singleSelect: this.singleSelect,
           success (selList) {
             const arr = selList.map(m => {
               return m.rsqUserId

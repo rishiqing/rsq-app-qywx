@@ -32,7 +32,6 @@ function getSelectMemberModal () {
 function show (options) {
   options = options || {}
   const vm = getSelectMemberModal()
-
   // vm.title = options.title || '选择成员'
   vm.idAttribute = options.idAttribute || 'id'
   vm.nameAttribute = options.nameAttribute || 'name'
@@ -45,6 +44,8 @@ function show (options) {
   vm.creatorIdList = options.creatorIdList || []
   vm.success = options.success || function () {}
   vm.cancel = options.cancel || function () {}
+  vm.singleSelect = options.singleSelect || false
+
   vm.$on('self-close', close)
 
   //  append to body

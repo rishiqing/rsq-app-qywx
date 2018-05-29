@@ -163,22 +163,6 @@
               }
             }
           })
-        } else {
-          var btnArray2 = ['预览文件', 'IOS暂不支持下载']
-          window.rsqadmg.exec('actionsheet', {
-            buttonArray: btnArray2,
-            success: function (res) {
-              switch (res.buttonIndex) {
-                case 0:
-                  Previewer.show({
-                    file: f
-                  })
-                  break
-                default:
-                  break
-              }
-            }
-          })
         }
       },
       downloadFile (f) {

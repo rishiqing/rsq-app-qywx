@@ -178,7 +178,7 @@
           name: this.content,
           cover: this.currentTemplate.cover,
           selectGroupId: 'all',
-          tKanbanId: this.currentTemplate.id,
+          tKanbanId: this.currentTemplate.tKanbanId,
           accessIds: rsqId,
           attribute: 'company',
           childKanbanList: [],

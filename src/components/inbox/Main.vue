@@ -55,6 +55,10 @@
         this.$store.dispatch('fetchInboxItems')
       },
       saveTodo () {
+        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
+          alert('请输入名称')
+          return
+        }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         this.$store.dispatch('submitCreateTodoItem', {newItem: {pTitle: this.inputTitle}, todoType: 'inbox'})
           .then(() => {

@@ -22,7 +22,7 @@
       :item="item"
       :key="item.id"
       :more="more"
-      @comment-file-touch="showAction"
+      @comment-file-touch="delayCallFix"
       @click-comment="handleCommentClick"/>
     <div
       v-if="commentCount && !more"
@@ -136,6 +136,11 @@
           this.more = !this.more
         }
       },
+      delayCallFix (e) {
+        window.setTimeout(() => {
+          this.showAction(e)
+        }, 50)
+      },
       showAction (f) {
         var that = this
         const device = window.rsqadmg.exec('checkDevice')
@@ -159,7 +164,7 @@
             }
           })
         } else {
-          var btnArray2 = ['预览文件']
+          var btnArray2 = ['预览文件', 'IOS暂不支持下载']
           window.rsqadmg.exec('actionsheet', {
             buttonArray: btnArray2,
             success: function (res) {

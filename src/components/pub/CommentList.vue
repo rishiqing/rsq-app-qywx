@@ -35,7 +35,7 @@
   </ul>
 </template>
 <script>
-  import Previewer from 'com/pub/Previewer'
+  // import Previewer from 'com/pub/Previewer'
   import CommentItem from 'com/pub/CommentItem'
   import CommentRecord from 'com/pub/CommentRecord'
   export default {
@@ -151,9 +151,9 @@
             success: function (res) {
               switch (res.buttonIndex) {
                 case 0:
-                  Previewer.show({
-                    file: f
-                  })
+                  // Previewer.show({
+                  //   file: f
+                  // })
                   break
                 case 1:
                   that.downloadFile(f)

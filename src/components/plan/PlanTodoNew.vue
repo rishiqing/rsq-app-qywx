@@ -185,8 +185,10 @@
           joinUser: this.currentKanbanItem.joinUser,
           dates: this.currentKanbanItem.dates,
           startDate: startDate,
-          endDate: endDate
+          endDate: endDate,
+          isWeb: true
         }
+        console.log(params)
         this.$store.dispatch('createKanbanItem', params)
           .then((res) => {
             window.rsqadmg.execute('toast', {message: '创建成功'})

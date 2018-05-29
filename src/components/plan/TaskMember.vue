@@ -39,7 +39,6 @@
       }
     },
     mounted () {
-      console.log(this.item)
       var corpId = this.loginUser.authUser.corpId
       this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: this.item.joinUserIds.split(',')})
         .then(idMap => {

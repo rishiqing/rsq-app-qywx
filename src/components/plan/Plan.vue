@@ -1,5 +1,6 @@
 <template>
   <li
+    ref="slider"
     :style="deleteSlider"
     class="slider"
     @touchstart="touchStart"
@@ -35,6 +36,10 @@
       item: {
         type: Object,
         required: true
+      },
+      flag: {
+        type: Number,
+        default: 0
       }
     },
     data () {
@@ -44,7 +49,8 @@
         moveX: 0,
         disX: 0,
         deleteSlider: '',
-        threshold: 50  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        threshold: 0,  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        throttle: null //  节流
       }
     },
     computed: {
@@ -53,6 +59,13 @@
       },
       currentSubPlanOfTask () {
         return this.$store.state.currentSubPlan
+      }
+    },
+    watch: {
+      flag (newId) {
+        if (newId !== this.item.id) {
+          this.$refs.slider.style.transform = ''
+        }
       }
     },
     methods: {
@@ -97,6 +110,7 @@
             this.deleteSlider = 'transform:translateX(-' + this.disX * 5 + 'px)'
             if (this.disX * 5 >= wd) {
               this.deleteSlider = 'transform:translateX(-' + wd + 'px)'
+              this.shrink()
             }
           }
         }
@@ -119,6 +133,13 @@
             this.deleteSlider = 'transform:translateX(-' + wd + 'px)'
           }
         }
+      },
+      shrink () {
+        var that = this
+        clearTimeout(this.throttle)
+        this.throttle = setTimeout(() => {
+          that.$emit('mark', that.item.id)
+        }, 100)
       },
       starTo () {
         this.$store.dispatch('saveStar', {kanbanId: this.item.id})
@@ -159,6 +180,7 @@
     width: 131%;
     position: relative;
     user-select: none;
+    transition: transform 0.3s
   }
   .slider  .content{
     z-index: 100;

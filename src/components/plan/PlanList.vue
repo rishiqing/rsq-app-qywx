@@ -7,7 +7,9 @@
       <r-plan
         v-for="item in planItems"
         :key="item.id"
-        :item="item"/>
+        :item="item"
+        :flag="flag"
+        @mark="markToAll"/>
       <li
         class="plan"
         @click="toCreate">
@@ -41,6 +43,7 @@
     },
     data () {
       return {
+        flag: 0
       }
     },
     computed: {
@@ -60,6 +63,12 @@
     methods: {
       toCreate () {
         this.$router.push('/plan/create')
+      },
+      markToAll (e) {
+        if (this.flag === e) {
+          return
+        }
+        this.flag = e
       }
     }
   }

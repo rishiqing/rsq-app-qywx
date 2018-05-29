@@ -142,7 +142,6 @@
         }, 50)
       },
       showAction (f) {
-        console.log(f)
         if (f.contentType === 'png' || f.contentType === 'jpg' || f.contentType === 'jpeg' || f.contentType === 'bmp' || f.contentType === 'gif') {
           Previewer.show({ file: f })
         }

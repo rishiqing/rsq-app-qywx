@@ -497,12 +497,30 @@ rsqAdapterManager.register({
     var defArray2 = [defString.substr(0, 2), ':', defString.substr(3, 2)];
     if (defString.substr(0, 2) !== '23') {
       defArray2[0] = Number(defString.substr(0, 1) + (defString.substr(1, 1) * 1 + 1))
+      if (defString.substr(0, 1) === '1' && (defString.substr(1, 1) * 1 + 1) === 10) {
+        defArray2[0] = 20
+      }
     }
     var defString2 = params.strInit2 || defArray2.join('');
     weui2.picker(hours, symbol, minites, {
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onChange: function (result) {
+        if (params.start) {
+          var f = result[0].label.substr(0,1)
+          var s = result[0].label.substr(1,1) * 1 + 1
+          if (s === 10 && f === '0') {
+            f = ''
+          }
+          if (s === 10 && f === '1') {
+            f = '2'
+            s = '0'
+          }
+          var timeEnd = f + s === '24' ? '23' : f + s
+          var time2 = timeEnd + ':' + result[2].label
+          document.querySelector('#endTime').innerHTML = time2
+
+        }
         var time = result[0].label + ':' + result[2].label
         document.querySelector('._c ._s-time').innerHTML = time
       },
@@ -524,6 +542,9 @@ rsqAdapterManager.register({
       document.querySelector("#_tl").classList.remove('_c')
       document.querySelector("#_tr").classList.add('_c')
     })
+    if (!params.start) {
+      document.querySelector("#_tr").click()
+    }
   },
   disableBounce: function(){
     //  去掉iOS的回弹效果

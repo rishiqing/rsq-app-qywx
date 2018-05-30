@@ -1,5 +1,5 @@
 <template>
-  <div class="top-padding fixpadding">
+  <div class="top-padding fixpadding fixcheck">
     <div class="b-t-b">
       <r-input-title
         ref="title"

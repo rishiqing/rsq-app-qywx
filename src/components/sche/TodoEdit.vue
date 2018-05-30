@@ -75,7 +75,7 @@
               <div class="btn-wrap">
                 <v-touch
                   tag="a"
-                  class="weui-btn weui-btn_warn"
+                  class="weui-btn weui-btn_warn kong"
                   href="javascript:;"
                   @tap="delayCallFix">
                   删除任务

@@ -259,9 +259,13 @@
       },
       deletePlan () {
         const that = this
+        var fixName = this.currentPlan.name.slice(0, 11)
+        if (fixName !== this.currentPlan.name) {
+          fixName += '...'
+        }
         window.setTimeout(() => {
           window.rsqadmg.exec('confirm', {
-            message: '确定删除计划：' + that.currentPlan.name + '?',
+            message: '确定删除计划：' + fixName + '?',
             success () {
               if (that.isOwn) {
                 window.rsqadmg.exec('showLoader', {'text': '删除中'})

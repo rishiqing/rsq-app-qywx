@@ -50,7 +50,7 @@ export default {
   'DELETE_KANBAN_ITEM': 'task/kanbanItem/:id',
   'UPDATE_CARD_NAME': 'task/kanbanCard/:id',
   'GET_LABLES': 'task/kanbanLabelLibrary?kanbanId=:id',
-  'GET_COVERLIST': 'task/v2/kanbanTemplate/getCoverList_phone',
+  'GET_COVERLIST': 'task/v2/kanbanTemplate/getCoverList',
   'KANBAN_SUBTODO': 'task/kanbanSubItem',
   'PUT_KANBAN_SUBTODO': 'task/kanbanSubItem/:id',
   'DELETE_KANBAN_SUBTODO': 'task/kanbanSubItem/:id',

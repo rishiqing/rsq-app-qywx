@@ -349,7 +349,7 @@
         } else if (item.dates) {
           var result = ''
           var dates = item.dates.split(',')
-          for (let i = 0; i < dates.length - 1; i++) {
+          for (let i = 0; i < dates.length; i++) {
             if (i === 3) {
               result += '...'
               break

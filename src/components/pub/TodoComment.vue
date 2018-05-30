@@ -91,7 +91,7 @@
       },
       commentBlur () {
         const newTitle = this.content
-        if (!newTitle && this.fileId.length === 0) {
+        if ((!newTitle && this.fileId.length === 0) || /^\s+$/.test(newTitle)) {
           return window.rsqadmg.execute('alert', {message: '任务评论不能为空'})
         }
         var that = this

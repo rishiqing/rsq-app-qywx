@@ -403,6 +403,7 @@
     }
     .sec{
       margin-top:20px;
+      border-top: 0.5px solid #d4d4d4;
       border-bottom:0.5px solid #d4d4d4;
       height: 80px;
       background-color: #fff;

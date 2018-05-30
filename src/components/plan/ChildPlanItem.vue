@@ -88,9 +88,7 @@
     border-bottom:1px solid #E0E0E0 ;
   }
   .child-item{
-    line-height: 0.612rem;
-    padding-bottom: 0.4rem;
-    padding-top: 0.4rem;
+    line-height: 1.412rem;
     border-bottom:1px solid #E3E3E3;
     background: #FFFFFF;
     width: 100%;
@@ -106,18 +104,18 @@
     width: 0.613rem;
     height: 0.5066rem;
     vertical-align: text-bottom;
+    line-height: 1.412rem;
   }
   .child-plan{
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #000000;
-    line-height: 17px;
+    height: 100%;
     margin-left: 14px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 46%;
-    display: inline-block;
   }
   .down{
     width: 0.5333rem;

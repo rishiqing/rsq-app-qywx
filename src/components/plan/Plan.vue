@@ -142,10 +142,14 @@
         }, 100)
       },
       starTo () {
-        this.$store.dispatch('saveStar', {kanbanId: this.item.id})
+        this.$store.dispatch('saveStar', {kanbanId: this.item.id}).then(() => {
+          this.$emit('mark', 0)
+        })
       },
       starOut () {
-        this.$store.dispatch('cancelStar', {kanbanId: this.item.id})
+        this.$store.dispatch('cancelStar', {kanbanId: this.item.id}).then(() => {
+          this.$emit('mark', 0)
+        })
       }
     }
   }

@@ -13,7 +13,7 @@
       <v-touch class="chosetime">
         <div
           class="setEndTime"
-          @click="setStartTime">
+          @click="setEndTime">
           <div class="list-key">结束时间</div>
           <div class="list-value">
             {{ clock.endTime ? clock.endTime : '点击设置' }}
@@ -163,6 +163,7 @@
         window.rsqadmg.exec('timePicker2', {
           strInit: defStartTime,
           strInit2: defEndTime,
+          start: true,
           success (start, end) {
             if (!start || !end) {
               window.rsqadmg.exec('alert', {message: '请选择开始与结束时间'})
@@ -184,16 +185,24 @@
        */
       setEndTime () {
         var that = this
-        const defEndTime = that.clock.endTime ? that.clock.endTime : moment().format('HH:mm')
-        window.rsqadmg.exec('timePicker', {
-          strInit: defEndTime,
-          success (result) {
-            if (that.clock.startTime && moment(result.value, 'HH:mm').isBefore(moment(that.clock.startTime, 'HH:mm'))) {
-              window.rsqadmg.exec('alert', {message: '结束时间不能早于开始时间'})
+        const defStartTime = that.clock.startTime ? that.clock.startTime : moment().format('HH:mm')
+        const defEndTime = that.clock.endTime ? that.clock.endTime : ''
+        window.rsqadmg.exec('timePicker2', {
+          strInit: defStartTime,
+          strInit2: defEndTime,
+          start: false,
+          success (start, end) {
+            if (!start || !end) {
+              window.rsqadmg.exec('alert', {message: '请选择开始与结束时间'})
+              return
+            }
+            if (moment(start, 'HH:mm').isAfter(moment(end, 'HH:mm'))) {
+              window.rsqadmg.exec('alert', {message: '开始时间不能晚于结束时间'})
             } else {
-              that.clock.endTime = result.value
-              that.autoEnd = false
-              that.autoChangeTime()
+              that.clock.startTime = start
+              that.clock.endTime = end
+              that.autoStart = false
+              // that.autoChangeTime()
             }
           }
         })

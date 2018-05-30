@@ -117,7 +117,7 @@
 	background-color: #fff;
 }
 #plantofix .is-display-title{
-	top: 0.4rem;
+	top: 0.45rem;
 	left: 0.59rem;
 }
 .fixborder .edit{
@@ -132,11 +132,11 @@
 	border-bottom: 0.5px solid #d4d4d4;
 }
 .fixborder .is-display-title{
-	top:0.44rem !important;
+	top:0.47rem !important;
 	left: 0.55rem !important
 }
 .fixborder .common-field .outer-wrap{
-	padding-left: 0.8rem;
+	padding-left: 0.9rem;
 	margin-left: 0.6rem;
 }
 .fixborder .outer-wrap{
@@ -159,4 +159,8 @@ padding-left: 0.8rem;
 }
 .setting-fix .avatar{
 	margin-left: 0;
+}
+.todo-fix .is-display-title{
+	top: 0.5rem !important;
+	left:0.55rem !important;
 }

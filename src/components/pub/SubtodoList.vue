@@ -283,8 +283,8 @@
   .is-display-sub{
     display: block;
     position:absolute;
-    top:0.36rem;
-    left: 0.05rem;
+    top:0.44rem;
+    left: 0.03rem;
     font-size: 15px;
     color:#999999;
   }

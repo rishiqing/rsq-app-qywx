@@ -169,6 +169,6 @@
     border-radius: 0;
     color: #3D3D3D;
     margin-left: 20px;
-    padding-left: 0;
+    padding-left: 35px;
   }
 </style>

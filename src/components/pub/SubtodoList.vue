@@ -24,9 +24,6 @@
             class="wrap-sub-icon"
             @tap="clickCheckOut(item)">
             <i class="icon2-check-box select-sub"/>
-            <div
-              :class="{'for-hide-sub':item.isDone}"
-              class="hide"/>
             <i
               :class="{'is-display-sub':item.isDone}"
               class="icon2-selected hide"/>

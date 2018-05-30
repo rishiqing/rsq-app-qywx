@@ -577,7 +577,7 @@
         this.$router.push('/plan/' + this.currentPlan.id + '/edit-child-plan')
       },
       postCard () {
-        if (!this.cardName) {
+        if (!this.cardName || /^\s+$/.test(this.cardName)) {
           return window.rsqadmg.exec('alert', {message: '请输入任务列表名称'})
         }
         var params = {

@@ -94,7 +94,7 @@
   }
   .plan-list{
     background-color: white;
-    padding-left: 0.3rem;
+    padding-left: 15px;
     margin-top: 20px;
     overflow-x: hidden;
     border-top: 0.5px solid #d4d4d4;
@@ -130,7 +130,7 @@
     height: 0.906rem;
   }
   .plan-name{
-    width: 7rem;
+    width: 7.4rem;
     font-size: 17px;
     color: #3D3D3D;
     margin-left: 0.3rem;

@@ -151,9 +151,12 @@
 }
 .fix-create .outer-wrap{
 margin-left: 0.6rem;
-padding-left: 0.8rem;
+padding-left: 0.9rem;
 }
 .fix-input-new .outer-wrap{
 margin-left: 0.6rem;
 padding-left: 0.8rem;
+}
+.setting-fix .avatar{
+	margin-left: 0;
 }

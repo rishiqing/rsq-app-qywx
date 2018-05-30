@@ -210,7 +210,7 @@
   }
   .list-below{
     border:none;
-    margin-left: 0.35rem;
+    margin-left: 15px;
     font-family: PingFangSC-Regular;
     /*line-height: 0.2rem;*/
     font-size: 17px;
@@ -320,7 +320,7 @@
     border-bottom:0.5px solid #D4D4D4;
     border-top:0.5px solid #D4D4D4;
     top: 20px;
-    padding-left:1.6rem;
+    padding-left:1.36666rem;
     z-index: 1;
     line-height: 0.6rem;
     padding-right: 2.432rem;

@@ -2,6 +2,7 @@
   <div class="delete">
     <div class="slider">
       <div
+        ref="slider"
         :style="deleteSlider"
         class="content"
         @touchstart="touchStart"
@@ -22,6 +23,12 @@
 <script type="text/javascript">
   export default {
     name: 'SliderDelete',
+    props: {
+      item: {
+        type: Object,
+        required: true
+      }
+    },
     data () {
       return {
         startX: 0,
@@ -29,7 +36,21 @@
         moveX: 0,
         disX: 0,
         deleteSlider: '',
-        threshold: 50  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        threshold: 0,  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        throttle: null
+
+      }
+    },
+    computed: {
+      sliderId () {
+        return this.$store.state.pub.slider
+      }
+    },
+    watch: {
+      sliderId (newId) {
+        if (newId !== this.item.id) {
+          this.$refs.slider.style.transform = ''
+        }
       }
     },
     methods: {
@@ -60,9 +81,22 @@
             this.deleteSlider = 'transform:translateX(-' + this.disX * 5 + 'px)'
             if (this.disX * 5 >= wd) {
               this.deleteSlider = 'transform:translateX(-' + wd + 'px)'
+              this.shrink()
             }
           }
         }
+      },
+      shrink () {
+        var that = this
+        clearTimeout(this.throttle)
+        this.throttle = setTimeout(() => {
+          // that.$emit('mark', that.item.id)
+          // console.log(that.item.id)
+          if (that.sliderId === that.item.id) {
+            return
+          }
+          that.$store.commit('SLIDER_MARK', { mark: that.item.id })
+        }, 100)
       },
       touchEnd (ev) {
         if (!this.$refs.remove) {
@@ -108,10 +142,11 @@
     /*background:green;*/
     z-index: 100;
   //    设置过渡动画
-  transition: 0.3s;
+  // transition: 0.3s;
     width: 120%;
     display: flex;
     align-items: center;
+    transition: transform 0.3s
   }
   .slider  .remove{
     /*position: absolute;*/
@@ -124,6 +159,7 @@
     font-family: PingFangSC-Medium;
     font-size: 17px;
     color: #FFFFFF;
+
   }
 
 </style>

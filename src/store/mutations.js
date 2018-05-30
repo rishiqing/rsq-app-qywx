@@ -597,5 +597,8 @@ export default {
   },
   RESET_DELAY_SHOW_CHECKBOX (state) {
     state.todo.delayShowCheckbox = false
+  },
+  SLIDER_MARK (state, p) {
+    state.pub.slider = p.mark
   }
 }

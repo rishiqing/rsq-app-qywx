@@ -127,7 +127,12 @@ export default {
      * @type {String}
      */
     subtitle: '',
-    pubid: ''
+    pubid: '',
+    /**
+     * 当前滑动的ID
+     * @type {Number}
+     */
+    slider: 0
   },
   //  --------缓存相关--------
   /**

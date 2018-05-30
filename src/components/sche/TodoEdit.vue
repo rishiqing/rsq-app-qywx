@@ -1,6 +1,6 @@
 <template>
   <!--收纳箱任务和日程任务公用的编辑页面-->
-  <div class="router-view">
+  <div class="router-view todo-fix">
     <div class="itm-edt z-index-xs">
       <div class="content">
         <div class="itm-edt-fields" >
@@ -8,7 +8,7 @@
             <r-input-title
               ref="title"
               :is-edit="true"
-              :is-checkable="false"
+              :is-checkable="true"
               :item-title="editItem.pTitle "
               :item-checked="editItem.pIsDone"
               :is-disabled="!isEditable"

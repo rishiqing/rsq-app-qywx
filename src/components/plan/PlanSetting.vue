@@ -259,9 +259,13 @@
       },
       deletePlan () {
         const that = this
+        var fixName = this.currentPlan.name.slice(0, 11)
+        if (fixName !== this.currentPlan.name) {
+          fixName += '...'
+        }
         window.setTimeout(() => {
           window.rsqadmg.exec('confirm', {
-            message: '确定删除计划：' + that.currentPlan.name + '?',
+            message: '确定删除计划：' + fixName + '?',
             success () {
               if (that.isOwn) {
                 window.rsqadmg.exec('showLoader', {'text': '删除中'})
@@ -346,8 +350,8 @@
     margin-left: 0.5rem;
   }
   .plan-set-second{
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+    padding-left: 15px;
+    padding-right: 15px;
     background-color: white;
     margin: 0.5rem 0;
     border-top: 0.5px solid #d4d4d4;
@@ -363,10 +367,11 @@
     -webkit-overflow-scrolling: touch;
     max-width: 100%;
     width: 100%;
+    margin-left: -8px;
   }
   .plan-member-word{
     font-family: PingFangSC-Regular;
-    font-size: 13px;
+    font-size: 14px;
     color: #666666;
   }
   .plan-member-count-num{
@@ -379,7 +384,7 @@
     align-items: center;
     justify-content: space-between;
     height: 1rem;
-    border-bottom: 1px solid #F5F5F5;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .add-member, .arrow-right-plan{
     font-size: 14px;
@@ -418,7 +423,7 @@
     color: rgba(177,177,177,0.88);
   }
   .plan-set-star{
-    margin-left: 0.3rem;
+    margin-left: 15px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #666666;
@@ -447,8 +452,7 @@
     position: relative;
     font-family: PingFangSC-Regular;
     font-size: 17px;
-    opacity: 0.66;
-    border-radius: 1px;
+   border-radius: 1px;
     height: 56px;
     line-height: 56px;
   }

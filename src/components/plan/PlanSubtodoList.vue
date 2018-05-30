@@ -167,7 +167,7 @@
   }
   .list-below{
     border:none;
-    margin-left: 0.35rem;
+    margin-left: 15px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     width: 98%;

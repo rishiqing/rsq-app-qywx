@@ -182,13 +182,12 @@
           name: this.currentKanbanItem.name,
           kanbanCard: this.kanbanCardId,
           displayOrder: 65535 - this.cardItemLength,
-          joinUser: this.currentKanbanItem.joinUser,
+          joinUser: this.joinUserRsqIds.join(','),
           dates: this.currentKanbanItem.dates,
           startDate: startDate,
           endDate: endDate,
           isWeb: true
         }
-        console.log(params)
         this.$store.dispatch('createKanbanItem', params)
           .then((res) => {
             window.rsqadmg.execute('toast', {message: '创建成功'})

@@ -349,7 +349,7 @@
         } else if (item.dates) {
           var result = ''
           var dates = item.dates.split(',')
-          for (let i = 0; i < dates.length - 1; i++) {
+          for (let i = 0; i < dates.length; i++) {
             if (i === 3) {
               result += '...'
               break
@@ -577,7 +577,7 @@
         this.$router.push('/plan/' + this.currentPlan.id + '/edit-child-plan')
       },
       postCard () {
-        if (!this.cardName) {
+        if (!this.cardName || /^\s+$/.test(this.cardName)) {
           return window.rsqadmg.exec('alert', {message: '请输入任务列表名称'})
         }
         var params = {

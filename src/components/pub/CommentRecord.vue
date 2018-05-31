@@ -7,7 +7,7 @@
       class="comment-record">
       <span class="icon"><i class="icon-description"/></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
       <p class="child-item">{{ item.idOrContent }}</p>
     </div>
     <div
@@ -15,7 +15,7 @@
       class="comment-record">
       <span class="icon"><i class="icon-check"/></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
     </div>
     <div
       v-else-if="item.type === 7"
@@ -23,28 +23,28 @@
       <span class="icon"><img src="../../assets/img/changer.png"></span>
       <span class="content">{{ item.commentContent }}</span>
       <p class="child-item">{{ item.idOrContent }}</p>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
     </div>
     <div
       v-else-if="item.type === 17"
       class="comment-record">
       <span class="icon"><img src="../../assets/img/changer.png"></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
     </div>
     <div
       v-else-if="item.type === 10"
       class="comment-record">
       <span class="icon"><img src="../../assets/img/changer.png"></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
     </div>
     <div
       v-else-if="item.type === 8"
       class="comment-record">
       <span class="icon"><i class="icon-description"/></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
       <p
         class="child-item more-description"
         v-html="item.idOrContent"/>
@@ -54,28 +54,28 @@
       class="comment-record">
       <span class="icon"><img src="../../assets/img/addmem2.png"></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
     </div>
     <div
       v-else-if="item.type === 3"
       class="comment-record">
       <span class="icon"><i class="icon2-member"/></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
     </div>
     <div
       v-else-if="item.type === 6"
       class="comment-record">
       <span class="icon"><i class="icon-check_box_outline_blank"/></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
     </div>
     <div
       v-else-if="item.type === 2"
       class="comment-record">
       <span class="icon"><img src="../../assets/img/chengday.png"></span>
       <span class="content">{{ item.commentContent }}</span>
-      <div class="time">{{ item.dateCreated.substring(5,7) }}月{{ item.dateCreated.substring(8,16) }}日</div>
+      <div class="time">{{ displayDateString }}</div>
     </div>
     <div v-else />
   </li>
@@ -100,6 +100,10 @@
     computed: {
       loginUser () {
         return this.$store.state.loginUser
+      },
+      displayDateString () {
+        const d = this.item.dateCreated
+        return d.substring(5,7) + '月' + d.substring(8,10) + '日' + d.substring(11, 16)
       }
     },
     methods: {

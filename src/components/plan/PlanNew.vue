@@ -365,7 +365,7 @@
     font-size: 17px;
     border-top: 0.5px solid #d4d4d4;
     border-bottom: 0.5px solid #d4d4d4;
-    line-height: 1.466rem;
+    // line-height: 17px;
   }
   .count{
     align-items: right;
@@ -412,4 +412,8 @@
     font-size: 23px;
     margin-left: 0.3rem;
   }
+  input::placeholder{
+    line-height: normal;
+    font-size: 17px
+}
 </style>

@@ -426,7 +426,7 @@ export default {
     })
   },
   updateCardName (props) {
-    var path = util.replaceUrlParams(mapping.FINISH_CARD_ITEM, props)
+    var path = util.replaceUrlParams(mapping.UPDATE_CARD_NAME, props)
     return new Promise((resolve, reject) => {
       Vue.http.put(path, props)
         .then(res => {

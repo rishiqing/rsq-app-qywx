@@ -59,5 +59,7 @@
     font-size: 0.506rem;
     border-radius: 0;
     color: #3D3D3D;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
 </style>

@@ -228,7 +228,7 @@
   .comment-list{
     background-color: white;
     margin-top: 20px;
-    padding-bottom: 2.9rem;
+    // padding-bottom: 2.9rem;
     border-top: 0.5px solid #D4D4D4;
     border-bottom: 0.5px solid #D4D4D4;
   }

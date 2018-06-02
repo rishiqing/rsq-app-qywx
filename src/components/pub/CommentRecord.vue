@@ -103,7 +103,7 @@
       },
       displayDateString () {
         const d = this.item.dateCreated
-        return d.substring(5,7) + '月' + d.substring(8,10) + '日 ' + d.substring(11, 16)
+        return d.substring(5, 7) + '月' + d.substring(8, 10) + '日 ' + d.substring(11, 16)
       }
     },
     methods: {

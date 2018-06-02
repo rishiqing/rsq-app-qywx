@@ -117,7 +117,7 @@
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
-      this.joinUserRsqIds = this.subId ? this.subId : this.pUserId
+      this.joinUserRsqIds = this.pUserId
       this.sub = this.$store.state.todo.currentSubtodoDate
     },
     methods: {
@@ -186,7 +186,8 @@
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
-        this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
+        // this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
+        this.$router.go(-1)
       }
     },
     beforeRouteEnter (to, from, next) {

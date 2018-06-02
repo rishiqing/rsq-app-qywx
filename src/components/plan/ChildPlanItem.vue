@@ -1,4 +1,4 @@
-编辑子计划名称<template>
+<template>
   <li class="child-item">
     <img
       src="../../assets/img/subplan.png"

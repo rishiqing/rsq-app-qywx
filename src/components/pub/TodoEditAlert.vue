@@ -28,7 +28,7 @@
     <!--<i class="icon2-selected finish" v-show="alert.selected"></i>-->
     <!--</v-touch>-->
     <!--</ul>-->
-    <ul class="sec bottom-border">
+    <ul class="sec bottom-border mine-ul">
       <v-touch
         tag="li"
         @tap="showTimePicker">
@@ -351,6 +351,9 @@
     }
     .mine{
       border-bottom: 0;
+    }
+    .mine-ul{
+      border-top: 0.5px solid #d4d4d4 !important;
     }
   }
 </style>

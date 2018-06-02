@@ -10,7 +10,7 @@
           class="icon2-selected finish"/>
       </v-touch>
     </ul>
-    <ul class="alert-list bottom-border">
+    <ul class="alert-list bottom-border fix-bb">
       <v-touch
         v-for="(alert, index) in displayedRuleList"
         :key="index"
@@ -332,7 +332,7 @@
     li {
       position: relative;
       line-height: 1.2rem;
-      height: 1.2rem;
+      // height: 1.2rem;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
@@ -354,6 +354,14 @@
     }
     .mine-ul{
       border-top: 0.5px solid #d4d4d4 !important;
+      li{
+        height: 1.2rem;
+      }
+    }
+    .fix-bb{
+      li:last-child span{
+        border-bottom: 0;
+      }
     }
   }
 </style>

@@ -485,7 +485,7 @@
       height: 40px;line-height: 40px;}
     .dp-btn {
       float: left;
-      width: 32%;
+      width: 33.3333%;
       text-align: center;
       font-family: PingFangSC-Regular;
       font-size: 15px;

@@ -294,7 +294,7 @@
       color: #3D3D3D;
       font-family: PingFangSC-Regular;
       font-size: 17px;
-      // border-bottom: 0.5px solid #D4D4D4;
+      border-bottom: 0.5px solid #D4D4D4;
     }
     .user-define {
       color:#3D3D3D;

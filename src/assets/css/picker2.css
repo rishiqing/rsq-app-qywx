@@ -170,9 +170,14 @@ padding-left: 0.8rem;
 }
 .kong{
 	background-color: #f6f6f6 !important;
-	border: 1px solid red !important;
+	border: 0 !important;
 	color: red !important;
+	line-height: 100% !important
 }
 .inbox-item ul{
 	border-bottom: 0.5px solid #d4d4d4;
+}
+.kong:after{
+	border: 0 !important;
+
 }

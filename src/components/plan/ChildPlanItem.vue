@@ -1,4 +1,4 @@
-<template>
+编辑子计划名称<template>
   <li class="child-item">
     <img
       src="../../assets/img/subplan.png"
@@ -42,7 +42,7 @@
         e.preventDefault()
         var that = this
         window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['编辑子计划名称', '删除子计划'],
+          buttonArray: ['修改名称', '删除'],
           className: 'delete_IOS',
           success: function (res) {
             switch (res.buttonIndex) {
@@ -52,7 +52,7 @@
                   cancelButtonText: '取消',
                   inputValue: that.item.name,
                   center: true,
-                  title: '编辑名称',
+                  title: '修改名称',
                   inputValidator: value => {
                     if (!value) {
                       return '请输入子计划名称'

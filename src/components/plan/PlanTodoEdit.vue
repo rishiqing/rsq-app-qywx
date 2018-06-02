@@ -14,7 +14,7 @@
               :item-checked="editItem.isDone"
               :is-show-bottom-border="true"
               @text-blur="saveTitle"
-              @text-change="saveTitle"
+              @text-change="savetitleIos"
               @click-checkout="finishChecked"/>
             <r-input-note
               :content="editItem.note"
@@ -161,6 +161,14 @@
     mounted () {
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
+    beforeRouteLeave (to, from, next) {
+      if (!this.$refs.title.$refs.titleInput.value) {
+        window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
+        next(false)
+        return
+      }
+      next()
+    },
     methods: {
       fetchCommentIds () {
         //  根据评论中的rsqId获取userId，用来显示头像
@@ -262,6 +270,9 @@
               this.editItem.name = newTitle
             })
         }
+      },
+      savetitleIos (newTitle) {
+        this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle})
       },
       deleteItem () {
         const that = this

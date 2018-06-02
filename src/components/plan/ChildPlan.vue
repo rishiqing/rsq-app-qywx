@@ -217,7 +217,11 @@
         cardName: '',
         currNum: 0,
         local: [],
-        ifShowCreate: false
+        ifShowCreate: false,
+        startx: 0,
+        starty: 0,
+        sliderD: '',
+        directionFristTouch: true
       }
     },
     computed: {
@@ -288,6 +292,29 @@
       }
     },
     methods: {
+      getAngle (angx, angy) {
+        return Math.atan2(angy, angx) * 180 / Math.PI
+      },
+      getDirection (startx, starty, endx, endy) {
+        var angx = endx - startx
+        var angy = endy - starty
+        var result = 0
+        // 如果滑动距离太短
+        if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+          return result
+        }
+        var angle = this.getAngle(angx, angy)
+        if (angle >= -135 && angle <= -45) {
+          result = 1
+        } else if (angle > 45 && angle < 135) {
+          result = 2
+        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+          result = 3
+        } else if (angle >= -45 && angle <= 45) {
+          result = 4
+        }
+        return result
+      },
       toEdit (item) {
         // 设置当前todo不管是inbox的todo还是ssche的todo
         this.$store.dispatch('setCurrentKanbanItem', item)
@@ -382,21 +409,42 @@
         var startPoint = 0
         var startEle = 0
         wrap.addEventListener('touchstart', function (e) {
-          e.preventDefault()
+          // e.preventDefault()
           box.classList.remove('am')
           startPoint = e.changedTouches[0].pageX
           startEle = box.offsetLeft
+          that.startx = e.touches[0].pageX
+          that.starty = e.touches[0].pageY
         })
         wrap.addEventListener('touchmove', function (e) {
+          if (that.directionFristTouch) {
+            var endx = e.changedTouches[0].pageX
+            var endy = e.changedTouches[0].pageY
+            var direction = that.getDirection(that.startx, that.starty, endx, endy)
+            if (direction === 2 || direction === 1) {
+              that.sliderD = 'UD'
+            } else if (direction === 3 || direction === 4) {
+              that.sliderD = 'LR'
+            } else {
+              that.sliderD = ''
+            }
+            that.directionFristTouch = false
+          }
+          if (that.sliderD === 'UD') {
+            return
+          }
+          // console.log(direction)
           var currPoint = e.changedTouches[0].pageX
           var disX = currPoint - startPoint
           var left = startEle + disX
-          // if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 5) {
+          // if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 1) {
           box.style.left = left + 'px'
           // }
         })
         wrap.addEventListener('touchend', function (e) {
-          e.preventDefault()
+          that.sliderD = ''
+          that.directionFristTouch = true
+          // e.preventDefault()
           var left = box.offsetLeft
           box.classList.add('am')
           // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
@@ -790,7 +838,7 @@
     margin-left: 22px;
     // transition: 0.01s;
     overflow: hidden;
-    -webkit-overflow-scrolling: touch;
+    // -webkit-overflow-scrolling: touch;
   }
   .wrap-button{
     display: flex;
@@ -940,7 +988,7 @@
   .card{
     position: relative;
     z-index: 2;
-    -webkit-overflow-scrolling: touch;
+    // -webkit-overflow-scrolling: touch;
   }
   .card-list:after{
     clear: both;

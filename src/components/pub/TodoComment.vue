@@ -131,14 +131,15 @@
   }
   textarea{
     display: inline-block;
-    padding-left:10px ;
-    padding-top:5px ;
+    padding-left:15px ;
+    padding-top:15px ;
     height: 138px;
     width: 100%;
-    margin-top: 40px;
+    margin-top: 20px;
     border-top: 0.5px solid #d4d4d4;
     border-bottom: 0.5px solid #d4d4d4;
-    resize:none
+    resize:none;
+    font-size: 17px
   }
   ul{
     border-bottom: 0.5px solid #E3E3E3;

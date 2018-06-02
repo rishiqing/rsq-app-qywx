@@ -365,6 +365,7 @@
     font-size: 17px;
     border-top: 0.5px solid #d4d4d4;
     border-bottom: 0.5px solid #d4d4d4;
+    line-height: 1.466rem;
   }
   .count{
     align-items: right;

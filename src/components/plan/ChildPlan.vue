@@ -400,9 +400,9 @@
           var left = box.offsetLeft
           box.classList.add('am')
           // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
-          if (Math.abs(startEle) - Math.abs(left) > 40 && left < 0) {
+          if (Math.abs(startEle) - Math.abs(left) > 30 && left < 0) {
             that.currNum = that.currNum - 1
-          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 40) || (left > 0 && left < startEle)) {
+          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 30) || (left > 0 && left < startEle)) {
             that.currNum = that.currNum + 1
           }
           that.currNum = that.currNum >= (aLi.length - 1) ? aLi.length - 1 : that.currNum

@@ -14,6 +14,7 @@
               :item-checked="editItem.isDone"
               :is-show-bottom-border="true"
               @text-blur="saveTitle"
+              @text-change="saveTitle"
               @click-checkout="finishChecked"/>
             <r-input-note
               :content="editItem.note"

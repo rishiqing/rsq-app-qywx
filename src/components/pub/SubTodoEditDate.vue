@@ -427,7 +427,7 @@
       font-family: PingFangSC-Regular;
       font-size: 19px;
       color: #000000;
-      padding: 0 2rem;
+      // padding: 0 2rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -441,6 +441,8 @@
     .dp-title .icon {
       font-size: 20px;
       color: #BFC1C2;
+      margin-left: 30px;
+      margin-right: 30px;
     }
     .dp-title .dp-title-tag {font-size: 0.4rem;line-height:1;margin-top:12px;padding:5px;border: solid 0.5px #D4D4D4;border-radius: 50%;}
     .dp-table {width:100%;height:8rem;text-align: center;}

@@ -382,7 +382,8 @@
         var startPoint = 0
         var startEle = 0
         wrap.addEventListener('touchstart', function (e) {
-          // e.preventDefault()
+          e.preventDefault()
+          box.classList.remove('am')
           startPoint = e.changedTouches[0].pageX
           startEle = box.offsetLeft
         })
@@ -390,35 +391,37 @@
           var currPoint = e.changedTouches[0].pageX
           var disX = currPoint - startPoint
           var left = startEle + disX
-          if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 20) {
-            box.style.left = left + 'px'
-          }
+          // if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 5) {
+          box.style.left = left + 'px'
+          // }
         })
         wrap.addEventListener('touchend', function (e) {
-          // e.preventDefault()
+          e.preventDefault()
           var left = box.offsetLeft
+          box.classList.add('am')
           // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
-          if (Math.abs(startEle) - Math.abs(left) > 10 && left < 0) {
+          if (Math.abs(startEle) - Math.abs(left) > 40 && left < 0) {
             that.currNum = that.currNum - 1
-          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 10) || (left > 0 && left < startEle)) {
+          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 40) || (left > 0 && left < startEle)) {
             that.currNum = that.currNum + 1
           }
           that.currNum = that.currNum >= (aLi.length - 1) ? aLi.length - 1 : that.currNum
           that.currNum = that.currNum <= 0 ? 0 : that.currNum
           box.style.left = -that.currNum * wrap.offsetWidth + 'px'
+          box.style.transition = '0.1'
         })
       },
       editCard (e, item) {
         e.preventDefault()
         var that = this
         window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['编辑任务列表', '删除任务列表'],
+          buttonArray: ['修改名称', '删除'],
           className: 'delete_IOS',
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
                 that.$prompt('', {
-                  title: '编辑任务列表',
+                  title: '修改名称',
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
                   center: true,
@@ -785,8 +788,9 @@
     background: white;
     border-radius: 2px;
     margin-left: 22px;
-    transition: 0.1s;
+    // transition: 0.01s;
     overflow: hidden;
+    -webkit-overflow-scrolling: touch;
   }
   .wrap-button{
     display: flex;
@@ -834,11 +838,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 95%;
+    width: 100%;
     height: 1.7rem;
     background: #F5F5F5;
     border-radius: 3px;
-    margin: 0 auto;
     border: 0.5px solid #d4d4d4;
   }
   .post-card{
@@ -936,7 +939,8 @@
   }
   .card{
     position: relative;
-    z-index: 2
+    z-index: 2;
+    -webkit-overflow-scrolling: touch;
   }
   .card-list:after{
     clear: both;
@@ -981,5 +985,9 @@
     padding-left: 15px;
     padding-right: 15px;
     box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
+  }
+  .am{
+    transition: 0.2s;
+    transition-timing-function: linear;
   }
 </style>

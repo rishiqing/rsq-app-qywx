@@ -1,6 +1,6 @@
 <template>
   <div class="edit-repeat">
-    <ul class="top-ul">
+    <ul class="top-ul no-repeat">
       <v-touch
         tag="li"
         @tap="setSelected(noRepeat)">
@@ -294,7 +294,7 @@
       color: #3D3D3D;
       font-family: PingFangSC-Regular;
       font-size: 17px;
-      // border-bottom: 0.5px solid #D4D4D4;
+      border-bottom: 0.5px solid #D4D4D4;
     }
     .user-define {
       color:#3D3D3D;
@@ -342,6 +342,11 @@
         // border-bottom: 0.5px solid #d4d4d4;
       }
     }
+    .no-repeat{
+      border-bottom: 0;
+      span{
+        border-bottom: 0.5px solid #d4d4d4 !important;
+      }
+    }
   }
-
 </style>

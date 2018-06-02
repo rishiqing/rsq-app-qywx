@@ -217,7 +217,11 @@
         cardName: '',
         currNum: 0,
         local: [],
-        ifShowCreate: false
+        ifShowCreate: false,
+        startx: 0,
+        starty: 0,
+        sliderD: '',
+        directionFristTouch: true
       }
     },
     computed: {
@@ -288,6 +292,29 @@
       }
     },
     methods: {
+      getAngle (angx, angy) {
+        return Math.atan2(angy, angx) * 180 / Math.PI
+      },
+      getDirection (startx, starty, endx, endy) {
+        var angx = endx - startx
+        var angy = endy - starty
+        var result = 0
+        // 如果滑动距离太短
+        if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+          return result
+        }
+        var angle = this.getAngle(angx, angy)
+        if (angle >= -135 && angle <= -45) {
+          result = 1
+        } else if (angle > 45 && angle < 135) {
+          result = 2
+        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+          result = 3
+        } else if (angle >= -45 && angle <= 45) {
+          result = 4
+        }
+        return result
+      },
       toEdit (item) {
         // 设置当前todo不管是inbox的todo还是ssche的todo
         this.$store.dispatch('setCurrentKanbanItem', item)
@@ -383,42 +410,66 @@
         var startEle = 0
         wrap.addEventListener('touchstart', function (e) {
           // e.preventDefault()
+          box.classList.remove('am')
           startPoint = e.changedTouches[0].pageX
           startEle = box.offsetLeft
+          that.startx = e.touches[0].pageX
+          that.starty = e.touches[0].pageY
         })
         wrap.addEventListener('touchmove', function (e) {
+          if (that.directionFristTouch) {
+            var endx = e.changedTouches[0].pageX
+            var endy = e.changedTouches[0].pageY
+            var direction = that.getDirection(that.startx, that.starty, endx, endy)
+            if (direction === 2 || direction === 1) {
+              that.sliderD = 'UD'
+            } else if (direction === 3 || direction === 4) {
+              that.sliderD = 'LR'
+            } else {
+              that.sliderD = ''
+            }
+            that.directionFristTouch = false
+          }
+          if (that.sliderD === 'UD') {
+            return
+          }
+          // console.log(direction)
           var currPoint = e.changedTouches[0].pageX
           var disX = currPoint - startPoint
           var left = startEle + disX
-          if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 20) {
-            box.style.left = left + 'px'
-          }
+          // if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 1) {
+          box.style.left = left + 'px'
+          // }
         })
         wrap.addEventListener('touchend', function (e) {
+          that.sliderD = ''
+          that.directionFristTouch = true
           // e.preventDefault()
           var left = box.offsetLeft
+          box.classList.add('am')
           // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
-          if (Math.abs(startEle) - Math.abs(left) > 10 && left < 0) {
+          if (Math.abs(startEle) - Math.abs(left) > 30 && left < 0) {
             that.currNum = that.currNum - 1
-          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 10) || (left > 0 && left < startEle)) {
+          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 30) || (left > 0 && left < startEle)) {
             that.currNum = that.currNum + 1
           }
           that.currNum = that.currNum >= (aLi.length - 1) ? aLi.length - 1 : that.currNum
           that.currNum = that.currNum <= 0 ? 0 : that.currNum
           box.style.left = -that.currNum * wrap.offsetWidth + 'px'
+          box.style.transition = '0.1'
         })
       },
       editCard (e, item) {
         e.preventDefault()
         var that = this
         window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['编辑任务列表', '删除任务列表'],
+          buttonArray: ['修改名称', '删除'],
           className: 'delete_IOS',
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
                 that.$prompt('', {
-                  title: '编辑任务列表',
+                  title: '修改名称',
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
                   center: true,
@@ -785,8 +836,9 @@
     background: white;
     border-radius: 2px;
     margin-left: 22px;
-    transition: 0.1s;
+    // transition: 0.01s;
     overflow: hidden;
+    // -webkit-overflow-scrolling: touch;
   }
   .wrap-button{
     display: flex;
@@ -834,11 +886,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 95%;
+    width: 100%;
     height: 1.7rem;
     background: #F5F5F5;
     border-radius: 3px;
-    margin: 0 auto;
     border: 0.5px solid #d4d4d4;
   }
   .post-card{
@@ -936,7 +987,8 @@
   }
   .card{
     position: relative;
-    z-index: 2
+    z-index: 2;
+    // -webkit-overflow-scrolling: touch;
   }
   .card-list:after{
     clear: both;
@@ -981,5 +1033,9 @@
     padding-left: 15px;
     padding-right: 15px;
     box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
+  }
+  .am{
+    transition: 0.2s;
+    transition-timing-function: linear;
   }
 </style>

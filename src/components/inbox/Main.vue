@@ -90,9 +90,9 @@
   }
   .inbox-item{
     background-color: white;
-    border-bottom:0.5px solid #D4D4D4 ;
-    position: relative;
-    z-index: 2;
+    // border-bottom:0.5px solid #D4D4D4 ;
+    // position: relative;
+    // z-index: 2;
   }
   .wrap{
     position: fixed;

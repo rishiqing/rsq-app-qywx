@@ -190,13 +190,17 @@
 //       },
       showWebMemberEdit () {
         const that = this
+        var disSelect = []
+        if (this.disabledRsqIds[0]) {
+          disSelect = [this.disabledRsqIds[0].toString()]
+        }
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,
           idAttribute: 'rsqUserId',
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
-          disabledIdList: this.disabledLocalList,
+          disabledIdList: disSelect,
           // 转换为字符串
           creatorIdList: [this.createrRsqIds[0].toString()],
           singleSelect: this.singleSelect,

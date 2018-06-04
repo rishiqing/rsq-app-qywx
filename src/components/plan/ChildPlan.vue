@@ -378,10 +378,11 @@
           var dates = item.dates.split(',')
           for (let i = 0; i < dates.length; i++) {
             if (i === 3) {
-              result += '...'
+              result = result.substr(0, result.length - 1) + '...'
               break
             }
-            result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + ','
+            var s = i === dates.length - 1 ? '' : ','
+            result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + s
           }
           return result
         } else {

@@ -53,7 +53,7 @@
                   :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="pUserId"
-                  :disabled-rsq-ids="[]"
+                  :disabled-rsq-ids="[pUserId, rsqUser]"
                   @member-changed="saveMember"/>
               </div>
               <div class="common-field">
@@ -130,6 +130,9 @@
       }
     },
     computed: {
+      rsqUser () {
+        return this.$store.getters.loginUser.rsqUser.id
+      },
       currentTodo () {
         return this.$store.state.todo.currentTodo || {}
       },

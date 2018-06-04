@@ -95,8 +95,8 @@
 </script>
 <style lang="scss" scoped>
   .small-img{
-    width: 27px;
-    height: 27px;
+    width: 28px;
+    height: 36px;
   }
   .icon-wrap {
     position:absolute;top:0;right:0.5rem;bottom:0;overflow:hidden;
@@ -139,7 +139,7 @@
     border-top: 0.5px solid #d4d4d4;
     border-bottom: none;
     background-color: white;
-    padding-left: 13px;
+    padding-left: 15px;
     height: 56px;
   }
   .task-list:last-child{

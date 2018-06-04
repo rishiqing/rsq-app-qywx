@@ -119,11 +119,12 @@
   .file-name {
     font-family:AppleSystemUIFont;
     margin-left: 10px;
+    width: 100%;
   }
   .word{
     font-size: 13px;
     color: #3D3D3D;
-    width: 85%;
+    width: 60%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;

@@ -60,7 +60,7 @@
             case 'application/zip':
               return 'https://res-front-cdn.timetask.cn/beta/images/zip.f9f2049911.png'
             case 'application/ppt':
-            case 'application/pptx':
+            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
               return 'https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png'
             case 'application/doc':
             case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':

@@ -192,7 +192,9 @@
         const that = this
         var disSelect = []
         if (this.disabledRsqIds[0]) {
-          disSelect = [this.disabledRsqIds[0].toString()]
+          disSelect = this.disabledRsqIds.map(function (o) {
+            return o.toString()
+          })
         }
         SelectMember.show({
           nameAttribute: 'name',

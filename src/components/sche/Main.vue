@@ -32,6 +32,9 @@
             <img src="../../assets/img/todo-empty.png" >
           </v-touch>
           <p class="shouye">还没有日程，赶快去创建吧</p>
+          <v-touch @tap="createNew">
+            <div class="addNew">新建日程</div>
+          </v-touch>
         </div>
       </r-pull-to-refresh>
       <v-touch @tap="toInbox">
@@ -238,7 +241,7 @@
   .shouye{
     padding: 0;
     margin:0;
-    margin-top:0.418rem;
+    margin-top:20px;
     font-family: PingFangSC-Regular;
     font-size: 15px;
     color: #55A8FD;
@@ -248,11 +251,23 @@
     width: 70px;
     height: 70px;
     margin-top:137px ;
+    vertical-align: bottom
   }
   .animate {
     transition: padding-top 0.3s ease;
   }
   .ul-b{
     border-bottom: 0.5px solid #d4d4d4
+  }
+  .addNew{
+    width: 141px;
+    height: 36px;
+    margin: 20px auto;
+    background-color: #5AA0E8;
+    color: #fff;
+    line-height: 36px;
+    font-size: 15px;
+    border-radius: 23px;
+    vertical-align: middle;
   }
 </style>

@@ -14,6 +14,7 @@
               :item-checked="editItem.isDone"
               :is-show-bottom-border="true"
               @text-blur="saveTitle"
+              @text-change="savetitleIos"
               @click-checkout="finishChecked"/>
             <r-input-note
               :content="editItem.note"
@@ -58,7 +59,7 @@
               <div class="btn-wrap">
                 <v-touch
                   tag="a"
-                  class="weui-btn weui-btn_warn"
+                  class="weui-btn weui-btn_warn kong"
                   href="javascript:;"
                   @tap="deleteItem">
                   删除任务
@@ -159,6 +160,14 @@
     },
     mounted () {
       document.body.scrollTop = document.documentElement.scrollTop = 0
+    },
+    beforeRouteLeave (to, from, next) {
+      if (!this.$refs.title.$refs.titleInput.value) {
+        window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
+        next(false)
+        return
+      }
+      next()
     },
     methods: {
       fetchCommentIds () {
@@ -261,6 +270,9 @@
               this.editItem.name = newTitle
             })
         }
+      },
+      savetitleIos (newTitle) {
+        this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle})
       },
       deleteItem () {
         const that = this

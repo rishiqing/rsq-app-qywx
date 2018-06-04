@@ -117,7 +117,7 @@
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
-      this.joinUserRsqIds = this.subId ? this.subId : this.pUserId
+      this.joinUserRsqIds = this.pUserId
       this.sub = this.$store.state.todo.currentSubtodoDate
     },
     methods: {
@@ -149,7 +149,7 @@
       },
       saveMember (idArray) {
         window.rsqadmg.exec('setTitle', {title: '新建子任务'})
-        // this.joinUserRsqIds = idArray
+        this.joinUserRsqIds = idArray
         this.editItem.receiverIds = idArray
         this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})
       }, // 注意这里没有和后台打交道，在提交新建的时候才打交道
@@ -166,16 +166,16 @@
         // if (!this.sub.datas && !this.sub.startDate) {
         //   return window.rsqadmg.execute('alert', {message: '请选择时间'})
         // }
-        if (this.joinUserRsqIds.length === 0) {
-          return window.rsqadmg.execute('alert', {message: '请选择执行人'})
-        }
+        // if (this.joinUserRsqIds.length === 0) {
+        //   return window.rsqadmg.execute('alert', {message: '请选择执行人'})
+        // }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         var datas = {}
         datas.name = this.inputTitle
         datas.todoId = this.todoId
         datas.startDate = this.sub.startDate || ''
         datas.endDate = this.sub.endDate || ''
-        datas.joinUsers = this.joinUserRsqIds[0]
+        datas.joinUsers = this.joinUserRsqIds[0] || ''
         datas.dates = this.sub.dates || ''
         this.$store.dispatch('createSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
@@ -186,7 +186,8 @@
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
-        this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
+        // this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
+        this.$router.go(-1)
       }
     },
     beforeRouteEnter (to, from, next) {

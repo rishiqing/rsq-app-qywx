@@ -53,7 +53,7 @@
                   :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="pUserId"
-                  :disabled-rsq-ids="[]"
+                  :disabled-rsq-ids="[pUserId, rsqUser]"
                   @member-changed="saveMember"/>
               </div>
               <div class="common-field">
@@ -75,7 +75,7 @@
               <div class="btn-wrap">
                 <v-touch
                   tag="a"
-                  class="weui-btn weui-btn_warn"
+                  class="weui-btn weui-btn_warn kong"
                   href="javascript:;"
                   @tap="delayCallFix">
                   删除任务
@@ -130,6 +130,9 @@
       }
     },
     computed: {
+      rsqUser () {
+        return this.$store.getters.loginUser.rsqUser.id
+      },
       currentTodo () {
         return this.$store.state.todo.currentTodo || {}
       },

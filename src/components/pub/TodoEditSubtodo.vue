@@ -114,7 +114,7 @@
         const endDate = this.$store.state.todo.currentSubtodo.endDate
         const startDate = this.$store.state.todo.currentSubtodo.startDate
         const dates = this.$store.state.todo.currentSubtodo.dates
-        const joinUsers = this.$store.state.subUserId[0]
+        const joinUsers = this.$store.state.subUserId[0] || ''
         const item = this.currentSubtodo
         const that = this
         window.rsqadmg.exec('showLoader', {text: '保存中...'})

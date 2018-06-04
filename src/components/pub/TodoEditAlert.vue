@@ -10,7 +10,7 @@
           class="icon2-selected finish"/>
       </v-touch>
     </ul>
-    <ul class="alert-list bottom-border">
+    <ul class="alert-list bottom-border fix-bb">
       <v-touch
         v-for="(alert, index) in displayedRuleList"
         :key="index"
@@ -28,11 +28,11 @@
     <!--<i class="icon2-selected finish" v-show="alert.selected"></i>-->
     <!--</v-touch>-->
     <!--</ul>-->
-    <ul class="sec bottom-border">
+    <ul class="sec bottom-border mine-ul">
       <v-touch
         tag="li"
         @tap="showTimePicker">
-        <span class="list-key">自定义提醒时间</span>
+        <span class="list-key mine">自定义提醒时间</span>
         <span class="list-value">
           {{ userDefinedAlertText }}
         </span>
@@ -312,6 +312,9 @@
       border-top: 0.5px solid #D4D4D4;
       background: #FFFFFF;
     }
+    ul:not(:first-child){
+      border-top: 0;
+    }
     ul.bottom-border{
       border-bottom: 0.5px solid #D4D4D4;
     }
@@ -324,12 +327,12 @@
     span {
       /*line-height: 1.112rem;*/
       display: block;
+      border-bottom: 0.5px solid #d4d4d4;
     }
     li {
       position: relative;
       line-height: 1.2rem;
-      height: 1.2rem;
-      border-bottom: 0.5px solid #E3E3E3;
+      // height: 1.2rem;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
@@ -345,6 +348,20 @@
       margin-top: -0.25rem;
       font-size: 21px;
       color: #999999;
+    }
+    .mine{
+      border-bottom: 0;
+    }
+    .mine-ul{
+      border-top: 0.5px solid #d4d4d4 !important;
+      li{
+        height: 1.2rem;
+      }
+    }
+    .fix-bb{
+      li:last-child span{
+        border-bottom: 0;
+      }
     }
   }
 </style>

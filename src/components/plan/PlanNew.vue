@@ -219,7 +219,7 @@
           idAttribute: 'rsqUserId',
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
-          disabledIdList: this.disabledLocalList,
+          disabledIdList: [this.createrRsqIds[0].toString(), this.$store.state.loginUser.rsqUser.id.toString()],
           // 转换为字符串
           creatorIdList: [this.createrRsqIds[0].toString()],
           success (selList) {
@@ -365,6 +365,7 @@
     font-size: 17px;
     border-top: 0.5px solid #d4d4d4;
     border-bottom: 0.5px solid #d4d4d4;
+    // line-height: 17px;
   }
   .count{
     align-items: right;
@@ -411,4 +412,8 @@
     font-size: 23px;
     margin-left: 0.3rem;
   }
+  input::placeholder{
+    line-height: normal;
+    font-size: 17px
+}
 </style>

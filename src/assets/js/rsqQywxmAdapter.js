@@ -341,12 +341,13 @@ rsqAdapterManager.register({
             onClick: function () {
               rsqChk(params.success, [{buttonIndex: 2}]);
             }
-          },  {
-            label: '取消',
-            onClick: function () {
-              // rsqChk(params.success, [{buttonIndex: 3}]);
-            }
           }
+          // {
+          //   label: '取消',
+          //   onClick: function () {
+          //     // rsqChk(params.success, [{buttonIndex: 3}]);
+          //   }
+          // }
         ],
         {
           className: 'custom-classname',
@@ -366,13 +367,14 @@ rsqAdapterManager.register({
             onClick: function () {
               rsqChk(params.success, [{buttonIndex: 1}]);
             }
-          }, {
-            label: '取消',
-            onClick: function () {
-              console.log('取消');
-              // rsqChk(params.success, [{buttonIndex: 3}]);
-            }
           }
+          // , {
+          //   label: '取消',
+          //   onClick: function () {
+          //     console.log('取消');
+          //     // rsqChk(params.success, [{buttonIndex: 3}]);
+          //   }
+          // }
         ],
         {
           className: 'custom-classname',
@@ -442,7 +444,7 @@ rsqAdapterManager.register({
     if (!hours.length) {
       for (var i = 0; i< 24; i++) {
         var hours_item = {};
-        hours_item.label = ('' + i).length === 1 ? '0' + i : '' + i;
+        hours_item.label = ('' + i).length === 1 ? '0' + i + '时' : '' + i + '时';
         hours_item.value = i;
         hours.push(hours_item);
       }
@@ -450,7 +452,7 @@ rsqAdapterManager.register({
     if (!minites.length) {
       for (var j= 0; j < 60; j++) {
         var minites_item = {};
-        minites_item.label = ('' + j).length === 1 ? '0' + j : '' + j;
+        minites_item.label = ('' + j).length === 1 ? '0' + j + '分' : '' + j + '分';
         minites_item.value = j;
         minites.push(minites_item);
       }
@@ -461,7 +463,7 @@ rsqAdapterManager.register({
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onConfirm: function(result) {
-        var time = result[0].label + ':' + result[1].label;
+        var time = result[0].value + ':' + result[1].value;
         var result = {value: time}
         rsqChk(params.success, [result]);
       }
@@ -479,7 +481,7 @@ rsqAdapterManager.register({
     if (!hours.length) {
       for (var i = 0; i< 24; i++) {
         var hours_item = {};
-        hours_item.label = ('' + i).length === 1 ? '0' + i : '' + i;
+        hours_item.label = ('' + i).length === 1 ? '0' + i + '时': '' + i + '时';
         hours_item.value = i;
         hours.push(hours_item);
       }
@@ -487,7 +489,7 @@ rsqAdapterManager.register({
     if (!minites.length) {
       for (var j= 0; j < 60; j++) {
         var minites_item = {};
-        minites_item.label = ('' + j).length === 1 ? '0' + j : '' + j;
+        minites_item.label = ('' + j).length === 1 ? '0' + j + '分': '' + j + '分';
         minites_item.value = j;
         minites.push(minites_item);
       }
@@ -497,13 +499,32 @@ rsqAdapterManager.register({
     var defArray2 = [defString.substr(0, 2), ':', defString.substr(3, 2)];
     if (defString.substr(0, 2) !== '23') {
       defArray2[0] = Number(defString.substr(0, 1) + (defString.substr(1, 1) * 1 + 1))
+      if (defString.substr(0, 1) === '1' && (defString.substr(1, 1) * 1 + 1) === 10) {
+        defArray2[0] = 20
+      }
     }
     var defString2 = params.strInit2 || defArray2.join('');
     weui2.picker(hours, symbol, minites, {
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onChange: function (result) {
-        var time = result[0].label + ':' + result[2].label
+        if (params.start) {
+          var f = result[0].label.substr(0,1)
+          var s = result[0].label.substr(1,1) * 1 + 1
+          if (s === 10 && f === '0') {
+            f = ''
+          }
+          if (s === 10 && f === '1') {
+            f = '2'
+            s = '0'
+          }
+          var timeEnd = f + s === '24' ? '23' : f + s
+          var time2 = timeEnd + ':' + result[2].label.substr(0,2)
+          document.querySelector('#endTime').innerHTML = time2
+
+        }
+        var time = result[0].label.substr(0,2) + ':' + result[2].label.substr(0,2)
+        console.log(time)
         document.querySelector('._c ._s-time').innerHTML = time
       },
       onConfirm: function(result) {
@@ -524,6 +545,9 @@ rsqAdapterManager.register({
       document.querySelector("#_tl").classList.remove('_c')
       document.querySelector("#_tr").classList.add('_c')
     })
+    if (!params.start) {
+      document.querySelector("#_tr").click()
+    }
   },
   disableBounce: function(){
     //  去掉iOS的回弹效果

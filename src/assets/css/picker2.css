@@ -111,6 +111,7 @@
 	padding-left: 0.8rem;
 }
 .fixpadding input[type='text']{
+	background-color: transparent !important;
 	padding-left: 0.75rem !important;
 }
 .secondGroup, .firstGroup{
@@ -180,4 +181,7 @@ padding-left: 0.8rem;
 .kong:after{
 	border: 0 !important;
 
+}
+._picker2 .weui-picker__bd .weui-picker__group:nth-child(2){
+	max-width: 69px
 }

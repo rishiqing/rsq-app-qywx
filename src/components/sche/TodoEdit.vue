@@ -56,6 +56,8 @@
                   :disabled-rsq-ids="[pUserId, rsqUser]"
                   @member-changed="saveMember"/>
               </div>
+            </div>
+            <div class="icon-field-group sub-todo">
               <div class="common-field">
                 <img
                   src="../../assets/img/subtodo.svg"
@@ -702,5 +704,8 @@
     border-bottom: 0.5px solid #d4d4d4;
     height: 56px;
     line-height: 56px
+  }
+  .sub-todo{
+    margin-top: 20px;
   }
 </style>

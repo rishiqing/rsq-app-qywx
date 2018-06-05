@@ -50,7 +50,7 @@
               ele.parentNode.removeChild(ele)
             }, 300)
           }
-        }, 800
+        }, 500
       )
     }
   }

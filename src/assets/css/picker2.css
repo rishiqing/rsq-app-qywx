@@ -181,3 +181,6 @@ padding-left: 0.8rem;
 	border: 0 !important;
 
 }
+._picker2 .weui-picker__bd .weui-picker__group:nth-child(2){
+	max-width: 69px
+}

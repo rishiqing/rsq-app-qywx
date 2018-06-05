@@ -378,10 +378,11 @@
           var dates = item.dates.split(',')
           for (let i = 0; i < dates.length; i++) {
             if (i === 3) {
-              result += '...'
+              result = result.substr(0, result.length - 1) + '...'
               break
             }
-            result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + ','
+            var s = i === dates.length - 1 ? '' : ','
+            result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + s
           }
           return result
         } else {
@@ -412,7 +413,10 @@
           // e.preventDefault()
           box.classList.remove('am')
           startPoint = e.changedTouches[0].pageX
-          startEle = box.offsetLeft
+          // console.log('e.changedTouches[0].pageX: ' + e.changedTouches[0].pageX)
+          // console.log('ev.touches[0].clientX: ' + e.touches[0].clientX)
+          // 这个地方暂时这样处理，实际不应该写死！应该是把offsetLeft减去margin  by wallace Mao
+          startEle = box.offsetLeft - 22
           that.startx = e.touches[0].pageX
           that.starty = e.touches[0].pageY
         })
@@ -420,6 +424,8 @@
           if (that.directionFristTouch) {
             var endx = e.changedTouches[0].pageX
             var endy = e.changedTouches[0].pageY
+            // console.log('touchmove e.changedTouches[0].pageX: ' + e.changedTouches[0].pageX)
+            // console.log('touchmove ev.touches[0].clientX: ' + e.touches[0].clientX)
             var direction = that.getDirection(that.startx, that.starty, endx, endy)
             if (direction === 2 || direction === 1) {
               that.sliderD = 'UD'
@@ -434,9 +440,13 @@
             return
           }
           // console.log(direction)
+          // console.log('----startEle: ' + startEle)
           var currPoint = e.changedTouches[0].pageX
+          // console.log('----currPoint: ' + currPoint + ', startPoint' + startPoint)
           var disX = currPoint - startPoint
+          // console.log('----disX: ' + disX)
           var left = startEle + disX
+          // console.log('----left: ' + left)
           // if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 1) {
           box.style.left = left + 'px'
           // }
@@ -445,7 +455,8 @@
           that.sliderD = ''
           that.directionFristTouch = true
           // e.preventDefault()
-          var left = box.offsetLeft
+          // 这个地方暂时这样处理，实际不应该写死！应该是把offsetLeft减去margin  by wallace Mao
+          var left = box.offsetLeft - 22
           box.classList.add('am')
           // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
           if (Math.abs(startEle) - Math.abs(left) > 30 && left < 0) {

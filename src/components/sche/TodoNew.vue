@@ -45,7 +45,7 @@
                   :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="joinUserRsqIds"
-                  :disabled-rsq-ids="[]"
+                  :disabled-rsq-ids="joinUserRsqIds"
                   @member-changed="saveMember"/>
               </div>
             </div>

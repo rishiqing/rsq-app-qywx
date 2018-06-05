@@ -39,15 +39,6 @@
       <div class="btn-wrap">
         <v-touch
           tag="a"
-          class="weui-btn weui-btn_primary"
-          href="javascript:;"
-          @tap="submitSubtodo">
-          完成
-        </v-touch>
-      </div>
-      <div class="btn-wrap">
-        <v-touch
-          tag="a"
           class="weui-btn weui_btn_plain_default fblack"
           href="javascript:;"
           @tap="deleteSubtodo">
@@ -123,7 +114,7 @@
             //  触发标记重复修改
             that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
             window.rsqadmg.exec('hideLoader')
-            this.$router.go(-1)
+            // this.$router.go(-1)
           })
       },
       saveMember (idArray) {
@@ -170,10 +161,15 @@
       }
     },
     beforeRouteLeave (to, from, next) {
+      if (to.name === 'subtodoList') {
+        this.submitSubtodo()
+        next()
+      } else {
+        next()
+      }
       if (to.name !== 'SubTodoEditDate') {
         this.$store.commit('PUB_TITLE_SUB', '')
       }
-      next()
     }
   }
 </script>
@@ -208,5 +204,10 @@
     top: 50%;
     margin-top: -0.25rem;
     right: 0.2rem;
+}
+.btn-group{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 </style>

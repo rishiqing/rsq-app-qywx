@@ -308,7 +308,7 @@
     background-color: white;
   }
   .write{
-    background: #FFFFFF;
+    // background: #FFFFFF;
     top: 20px;
     padding-left:30px;
     z-index: 1;

@@ -18,18 +18,21 @@ export default {
         }
       })
     }
-    const templateToFind = ['空白模板', '敏捷开发', '产品设计', '需求管理']
     const templateArray = []
+    const templateNameArray = ['工作计划', '研发计划', '销售计划', '战略计划']
+    templateNameArray.forEach(name => {
+      const templateToFind = [name]
 
-    const normal = allTemplate['normal']
-    const t1 = allTemplate['t1']
-    const t2 = allTemplate['t2']
-    const t3 = allTemplate['t3']
+      const t1 = allTemplate['t1']
+      const t2 = allTemplate['t2']
+      const t3 = allTemplate['t3']
+      const normal = allTemplate['normal']
 
-    recursiveExtractTemplate(normal, templateToFind, templateArray)
-    recursiveExtractTemplate(t1, templateToFind, templateArray)
-    recursiveExtractTemplate(t2, templateToFind, templateArray)
-    recursiveExtractTemplate(t3, templateToFind, templateArray)
+      recursiveExtractTemplate(t1, templateToFind, templateArray)
+      recursiveExtractTemplate(t2, templateToFind, templateArray)
+      recursiveExtractTemplate(t3, templateToFind, templateArray)
+      recursiveExtractTemplate(normal, templateToFind, templateArray)
+    })
 
     return templateArray
   }

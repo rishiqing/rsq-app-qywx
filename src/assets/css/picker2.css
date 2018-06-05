@@ -111,6 +111,7 @@
 	padding-left: 0.8rem;
 }
 .fixpadding input[type='text']{
+	background-color: transparent !important;
 	padding-left: 0.75rem !important;
 }
 .secondGroup, .firstGroup{

@@ -180,7 +180,7 @@
   .fblack{
     color: black;
     background-color: #fff;
-    border: 0.5px solid #d4d4d4
+    // border: 0.5px solid #d4d4d4
   }
   .itm-group{
     margin-top: 20px;
@@ -209,5 +209,13 @@
   position: absolute;
   bottom: 0;
   width: 100%;
+  color: #000;
+  margin-bottom: 10px;
+  .weui-btn:after, .weui-btn{
+    background-color: #f5f5f5;
+    border: 0px !important;
+    position: relative;
+    color: red
+  }
 }
 </style>

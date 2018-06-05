@@ -843,6 +843,7 @@
     margin-left: 0.2rem;
   }
   .card-list{
+    width: 200%;
     position: relative;
     background: white;
     border-radius: 2px;
@@ -1010,11 +1011,13 @@
     -webkit-overflow-scrolling: touch;
   }
   .card-border{
+    width: 50%;
     margin-top: 20px;
     padding-right: 45px;
     border-radius: 2px;
   }
   .card-border:first-child{
+    width: 50%
   }
   .card-name{
     font-family: PingFangSC-Medium;

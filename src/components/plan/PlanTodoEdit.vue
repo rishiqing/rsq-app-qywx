@@ -44,6 +44,8 @@
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
+            </div>
+            <div class="icon-field-group sub-todo">
               <div class="common-field">
                 <i class="icon2-subplan-web sche"/>
                 <r-input-subtodo
@@ -456,5 +458,8 @@
     height: 17px;
     margin-right: 9.3px;
     margin-top: 3px;
+  }
+  .sub-todo{
+    margin-top: 20px;
   }
 </style>

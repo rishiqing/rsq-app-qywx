@@ -22,7 +22,7 @@
       </table>
     </div>
     <div
-      :style="{height: calHeight + 'px', top: (topBase + titleHeight) + 'px'}"
+      :style="{height: calHeight + 'px', top: (topBase + titleHeight) - 1 + 'px'}"
       :class="{'animate': transDirection === 'v'}"
       class="cal-content z-index-3xs">
       <div
@@ -256,6 +256,10 @@
         }
       },
       onPanMove (ev) {
+        //   屏蔽上下滑动功能 by 赵旭
+        if (ev.offsetDirection === 8 || ev.offsetDirection === 16) {
+          return
+        }
         if (this.checkLocked(ev)) {
           return
         }
@@ -286,7 +290,11 @@
               this.isShowBar = false
             }
             this.calHeight = this.currentView.height + deltaY
-            this.translateY = this.currentView.targetY + this.marginY * deltaY / this.heightDiff
+            let marginFix = this.currentView.targetY + Math.floor(this.marginY * deltaY / this.heightDiff)
+            if (marginFix >= 0 && marginFix <= 4) {
+              marginFix = -4
+            }
+            this.translateY = marginFix
             this.$emit('on-cal-pan', {type: this.currentView.type, deltaY: deltaY})
             break
           default:
@@ -294,6 +302,10 @@
         }
       },
       onPanEnd (ev) {
+        //   屏蔽上下滑动功能 by 赵旭
+        if (ev.offsetDirection === 8 || ev.offsetDirection === 16) {
+          return
+        }
         this.clearLock()
         if (this.transDirection) {
           return
@@ -337,6 +349,9 @@
         var type
         if (Math.abs(delta) > 20 && ev.type === 'panend') {
           this.calHeight = this.anotherView.height
+          if (this.anotherView.targetY <= 5 && this.anotherView.targetY >= 0) {
+            this.anotherView.targetY = 0
+          }
           this.translateY = this.anotherView.targetY
           type = this.anotherView.type
         } else {
@@ -384,6 +399,7 @@
     height: 81px;background: #458CDA;
     border-bottom: 0.5px solid #E4E4E4;
     z-index: 999;
+    margin-top: -1px;
   }
   .cal-title {
     position: fixed;top: 0;left: 0;right: 0;
@@ -395,7 +411,7 @@
   .cal-week-title {
     position: fixed;top: 53px;left: 0;right: 0;width: 100%;
     padding: 0;height: 31px;line-height: 30px;
-    margin-bottom: -1px;color:white;background: #4F77AA;font-size:1.2rem;padding-top: 1px;
+    margin-bottom: -1px;color:white;background: #4F77AA;font-size:1.2rem;
   }
   .c-cal-main table {
     text-align: center;table-layout: fixed;

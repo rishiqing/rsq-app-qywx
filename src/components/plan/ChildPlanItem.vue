@@ -7,7 +7,9 @@
     <v-touch
       class="down"
       @tap="delayCall('setPlan',$event)">
-      <img src="../../assets/img/moreplan.png">
+      <img
+        src="../../assets/img/cplan.png"
+        class="cplan">
     </v-touch>
   </li>
 </template>
@@ -40,7 +42,7 @@
         e.preventDefault()
         var that = this
         window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['编辑子计划名称', '删除子计划'],
+          buttonArray: ['修改名称', '删除'],
           className: 'delete_IOS',
           success: function (res) {
             switch (res.buttonIndex) {
@@ -50,7 +52,7 @@
                   cancelButtonText: '取消',
                   inputValue: that.item.name,
                   center: true,
-                  title: '编辑名称',
+                  title: '修改名称',
                   inputValidator: value => {
                     if (!value) {
                       return '请输入子计划名称'
@@ -86,9 +88,7 @@
     border-bottom:1px solid #E0E0E0 ;
   }
   .child-item{
-    line-height: 0.612rem;
-    padding-bottom: 0.4rem;
-    padding-top: 0.4rem;
+    line-height: 1.412rem;
     border-bottom:1px solid #E3E3E3;
     background: #FFFFFF;
     width: 100%;
@@ -104,12 +104,18 @@
     width: 0.613rem;
     height: 0.5066rem;
     vertical-align: text-bottom;
+    line-height: 1.412rem;
   }
   .child-plan{
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #000000;
-    line-height: 0.8rem;
+    height: 100%;
+    margin-left: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 46%;
   }
   .down{
     width: 0.5333rem;
@@ -117,5 +123,11 @@
     vertical-align: text-bottom;
     float: right;
     margin-right: 0.4rem;
+  }
+  .cplan{
+    width: 20px;
+    height: 20px;
+    vertical-align: text-bottom;
+    margin-top: 4px;
   }
 </style>

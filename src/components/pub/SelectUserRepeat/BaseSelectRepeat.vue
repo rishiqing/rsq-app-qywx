@@ -41,6 +41,7 @@
             </li>
             <li>
               <v-touch
+                v-show="repeatPatternText !== '每天'"
                 class="list-item-info"
                 @tap="showSubPage('subPattern')">
                 <p class="list-item-key">重复形式</p>
@@ -351,11 +352,13 @@
             valStr = '每天重复'
             break
           case EVERY_WEEK:
-            valStr = sel.length === 0 ? '' : '每' + this.selectWeekText + '重复'
+            // valStr = sel.length === 0 ? '' : '每' + this.selectWeekText + '重复'
+            valStr = sel.length === 0 ? '' : '按周重复'
             break
           case EVERY_MONTH:
-            valStr = sel.length === 0 ? '' : '每月' + this.selectMonthText
-            valStr += '重复'
+            // valStr = sel.length === 0 ? '' : '每月' + this.selectMonthText
+            // valStr += '重复'
+            valStr = sel.length === 0 ? '' : '按月重复'
             break
           case EVERY_YEAR:
             valStr = '每年' + '' + '重复'
@@ -554,7 +557,7 @@
     }
     .header {
       font-size: 0.453rem; height: 1.07rem; line-height: 1.07rem; padding: 0 0.293rem;
-      border-bottom: 1px solid #E0E0E0; overflow: hidden;
+      border-bottom: 0.5px solid #d4d4d4; overflow: hidden;
       background: #FDFDFD;
     }
     .popup-title {text-align: center; color: #3D3D3D;}
@@ -565,7 +568,7 @@
       padding-left: 15px;
     }
     .list-item-info {
-      border-bottom: 1px solid #E3E3E3;
+      border-bottom: 0.5px solid #d4d4d4;
     }
     .repeat-list li:last-child .list-item-info {
       border-bottom: none;
@@ -596,7 +599,7 @@
       margin: 0 15px;
       width: 48px;height: 48px;
       border-radius: 50%;
-      background: #FFFFFF;color: #48A1FA;border: solid 1px #48A1FA;
+      background: #FFFFFF;color: #48A1FA;border: solid 0.5px #d4d4d4;
       text-align: center;line-height: 48px;
     }
     .week-day.selected {
@@ -606,7 +609,7 @@
       border-collapse: collapse;
     }
     table td, table th {
-      border: 1px solid #EAEAEA;
+      border: 0.5px solid #d4d4d4;
     }
     table tr:first-child th {
       border-top: 0;
@@ -633,14 +636,14 @@
     .no-limit {
       position: relative;
       height: 48px;line-height: 48px;padding: 0 15px;font-size: 17px;color: #000000;
-      border-top: solid 1px #EAEAEA;
+      border-top: solid 0.5px #d4d4d4;
     }
     .checkbox-wrap {
       position: absolute;top: 8px;right: 15px;
     }
     .footer {
-      background: #FDFDFF; color: #3D3D3D; font-size: 0.347rem;padding: 0 0.293rem;
-      height: 45px; line-height: 45px; border-top: 1px solid #E0E0E0;
+      background: #FDFDFF; color: #9B9B9B; font-size: 15px;padding: 0 0.293rem;
+      height: 45px; line-height: 45px; border-top: 0.5px solid #d4d4d4;
     }
     .footer p {
       overflow: hidden;
@@ -651,7 +654,7 @@
       display: block;
       width: 50px;
       height: 31px;
-      border: 1px solid #dfdfdf;
+      border: 0.5px solid #d4d4d4;
       background-color: #fdfdfd;
       box-shadow: #dfdfdf 0 0 0 0 inset;
       border-radius: 20px;

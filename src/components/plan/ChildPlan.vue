@@ -11,7 +11,9 @@
         <v-touch
           class="set-plan"
           @tap="delayCall('setPlan', $event)" >
-          <i class="icon2-set set"/>
+          <img
+            src="../../assets/img/setting.png"
+            class="icon2-set set">
         </v-touch>
       </div>
     </div>
@@ -32,7 +34,9 @@
                 </span>
               </div>
               <v-touch @tap="delayCall('editCard', $event, item)">
-                <i class="icon2-other other"/>
+                <img
+                  src="../../assets/img/moreset.png"
+                  class="icon2-other other">
               </v-touch>
             </div>
             <ul class="task-border">
@@ -132,13 +136,13 @@
               v-model="cardName"
               class="post-card-input"
               type="text"
-              placeholder="输入列表名称">
+              placeholder="输入任务列表名称">
             <div class="wrap-button">
               <v-touch @tap="showEmpty">
                 <span class="card-input-btn no">取消</span>
               </v-touch>
               <v-touch @tap="postCard">
-                <span class="card-input-btn yes">确定</span>
+                <span class="card-input-btn yes">创建</span>
               </v-touch>
             </div>
           </div>
@@ -213,7 +217,11 @@
         cardName: '',
         currNum: 0,
         local: [],
-        ifShowCreate: false
+        ifShowCreate: false,
+        startx: 0,
+        starty: 0,
+        sliderD: '',
+        directionFristTouch: true
       }
     },
     computed: {
@@ -240,6 +248,9 @@
       },
       userRoles () {
         return this.currentPlan.userRoles
+      },
+      removePlanControl () {
+        return this.currentPlan.editControl.removeKB
       }
     },
     mounted () {
@@ -257,7 +268,7 @@
       } else if (this.childPlanList) {
         this.currentSubPlan = this.childPlanList[0]
       }
-      window.rsqadmg.exec('showLoader', {'text': '加载中'})
+      // window.rsqadmg.exec('showLoader', {'text': '加载中'})
       if (this.currentSubPlanOfTask) {
         this.$store.dispatch('getCardList', this.currentSubPlanOfTask).then(
           (res) => {
@@ -265,7 +276,7 @@
           }).then(() => {
             that.$nextTick(() => {
               that.initLayout()
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       } else {
@@ -275,12 +286,35 @@
           }).then(() => {
             that.$nextTick(() => {
               that.initLayout()
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       }
     },
     methods: {
+      getAngle (angx, angy) {
+        return Math.atan2(angy, angx) * 180 / Math.PI
+      },
+      getDirection (startx, starty, endx, endy) {
+        var angx = endx - startx
+        var angy = endy - starty
+        var result = 0
+        // 如果滑动距离太短
+        if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+          return result
+        }
+        var angle = this.getAngle(angx, angy)
+        if (angle >= -135 && angle <= -45) {
+          result = 1
+        } else if (angle > 45 && angle < 135) {
+          result = 2
+        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+          result = 3
+        } else if (angle >= -45 && angle <= 45) {
+          result = 4
+        }
+        return result
+      },
       toEdit (item) {
         // 设置当前todo不管是inbox的todo还是ssche的todo
         this.$store.dispatch('setCurrentKanbanItem', item)
@@ -342,10 +376,15 @@
         } else if (item.dates) {
           var result = ''
           var dates = item.dates.split(',')
-          for (var i = 0; i < dates - 1; i++) {
-            result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + ','
+          for (let i = 0; i < dates.length; i++) {
+            if (i === 3) {
+              result = result.substr(0, result.length - 1) + '...'
+              break
+            }
+            var s = i === dates.length - 1 ? '' : ','
+            result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + s
           }
-          return result + parseInt(dates[dates.length - 1].substring(4, 6)) + '月' + parseInt(dates[dates.length - 1].substring(6, 8)) + '日'
+          return result
         } else {
           return null
         }
@@ -372,42 +411,79 @@
         var startEle = 0
         wrap.addEventListener('touchstart', function (e) {
           // e.preventDefault()
+          box.classList.remove('am')
           startPoint = e.changedTouches[0].pageX
-          startEle = box.offsetLeft
+          // console.log('e.changedTouches[0].pageX: ' + e.changedTouches[0].pageX)
+          // console.log('ev.touches[0].clientX: ' + e.touches[0].clientX)
+          // 这个地方暂时这样处理，实际不应该写死！应该是把offsetLeft减去margin  by wallace Mao
+          startEle = box.offsetLeft - 22
+          that.startx = e.touches[0].pageX
+          that.starty = e.touches[0].pageY
         })
         wrap.addEventListener('touchmove', function (e) {
-          var currPoint = e.changedTouches[0].pageX
-          var disX = currPoint - startPoint
-          var left = startEle + disX
-          if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 20) {
-            box.style.left = left + 'px'
+          if (that.directionFristTouch) {
+            var endx = e.changedTouches[0].pageX
+            var endy = e.changedTouches[0].pageY
+            // console.log('touchmove e.changedTouches[0].pageX: ' + e.changedTouches[0].pageX)
+            // console.log('touchmove ev.touches[0].clientX: ' + e.touches[0].clientX)
+            var direction = that.getDirection(that.startx, that.starty, endx, endy)
+            if (direction === 2 || direction === 1) {
+              that.sliderD = 'UD'
+            } else if (direction === 3 || direction === 4) {
+              that.sliderD = 'LR'
+            } else {
+              that.sliderD = ''
+            }
+            that.directionFristTouch = false
           }
+          if (that.sliderD === 'UD') {
+            return
+          }
+          // console.log(direction)
+          // console.log('----startEle: ' + startEle)
+          var currPoint = e.changedTouches[0].pageX
+          // console.log('----currPoint: ' + currPoint + ', startPoint' + startPoint)
+          var disX = currPoint - startPoint
+          // console.log('----disX: ' + disX)
+          var left = startEle + disX
+          // console.log('----left: ' + left)
+          // if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 1) {
+          box.style.left = left + 'px'
+          // }
         })
         wrap.addEventListener('touchend', function (e) {
+          that.sliderD = ''
+          that.directionFristTouch = true
           // e.preventDefault()
-          var left = box.offsetLeft
+          // 这个地方暂时这样处理，实际不应该写死！应该是把offsetLeft减去margin  by wallace Mao
+          var left = box.offsetLeft - 22
+          box.classList.add('am')
           // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
-          if (Math.abs(startEle) - Math.abs(left) > 10 && left < 0) {
+          if (Math.abs(startEle) - Math.abs(left) > 30 && left < 0) {
             that.currNum = that.currNum - 1
-          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 10) || (left > 0 && left < startEle)) {
+          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 30) || (left > 0 && left < startEle)) {
             that.currNum = that.currNum + 1
           }
           that.currNum = that.currNum >= (aLi.length - 1) ? aLi.length - 1 : that.currNum
           that.currNum = that.currNum <= 0 ? 0 : that.currNum
           box.style.left = -that.currNum * wrap.offsetWidth + 'px'
+          box.style.transition = '0.1'
         })
       },
       editCard (e, item) {
         e.preventDefault()
         var that = this
         window.rsqadmg.exec('actionsheet', {
-          buttonArray: ['编辑卡片名称', '删除卡片'],
+          buttonArray: ['修改名称', '删除'],
+          className: 'delete_IOS',
           success: function (res) {
             switch (res.buttonIndex) {
               case 0:
-                that.$prompt('请输入卡片名称', '提示', {
+                that.$prompt('', {
+                  title: '修改名称',
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
+                  center: true,
                   inputValue: item.name,
                   inputValidator: value => {
                     if (!value) {
@@ -426,6 +502,10 @@
                 }).catch(() => {})
                 break
               case 1:
+                if (!that.removePlanControl) {
+                  alert('没有权限')
+                  break
+                }
                 window.rsqadmg.exec('confirm', {
                   message: '确定删除卡片：' + item.name + '?',
                   success () {
@@ -539,7 +619,7 @@
         var that = this
         this.initialState = false
         this.currentSubPlan = item
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         this.$store.dispatch('getCardList', item).then(
           (res) => {
             that.$store.commit('SAVE_CARD', res.kanbanCardList)
@@ -551,7 +631,7 @@
               for (var i = 0; i < aLi.length; i++) {
                 aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
               }
-              window.rsqadmg.exec('hideLoader')
+              // window.rsqadmg.exec('hideLoader')
             })
           })
       },
@@ -559,7 +639,7 @@
         this.$router.push('/plan/' + this.currentPlan.id + '/edit-child-plan')
       },
       postCard () {
-        if (!this.cardName) {
+        if (!this.cardName || /^\s+$/.test(this.cardName)) {
           return window.rsqadmg.exec('alert', {message: '请输入任务列表名称'})
         }
         var params = {
@@ -618,7 +698,7 @@
   .label-name{
     font-family: PingFangSC-Regular;
     font-size: 12px;
-    color: #FF7A7A
+    color: #F5F5F5
   }
   .wrap-sub-item-finish{
     height: 0.453rem;
@@ -690,8 +770,10 @@
     font-size: 14px;
   }
   .wrap-card-border{
-    background-color: #F7F7F7;
+    background-color: #F5F5F5;
     padding: 0.3rem;
+    border: 0.5px solid #D4D4D4;
+    border-radius: 3px;
   }
   .wrap{
     position: relative;
@@ -706,7 +788,7 @@
   }
   .card-item-left{
     float: left;
-    padding: 0.07rem 0 0.5rem 0.2rem;
+    padding: 0 0 0.5rem 0.2rem;
   }
   .card-item-right{
     margin-left: 1rem;
@@ -721,7 +803,7 @@
     opacity: 0.6;
   }
   .card-selected{
-    font-size: 14px;
+    font-size: 20px;
     /*border: 1px solid #D8D8D8;*/
     border-radius: 1px;
     color: #D8D8D8;
@@ -752,6 +834,7 @@
   .other{
     color: #D8D8D8;
     border-radius: 100px;
+    width: 20px
   }
   .finish-number{
     font-family: PingFangSC-Regular;
@@ -760,12 +843,14 @@
     margin-left: 0.2rem;
   }
   .card-list{
+    width: 200%;
     position: relative;
     background: white;
     border-radius: 2px;
     margin-left: 22px;
-    transition: 0.1s;
+    // transition: 0.01s;
     overflow: hidden;
+    // -webkit-overflow-scrolling: touch;
   }
   .wrap-button{
     display: flex;
@@ -774,24 +859,24 @@
   }
   .yes{
     color: #FFFFFF;
-    background-color: #48A1FA ;
-    border-radius: 3px;
+    background-color: #2F7DCD;
+    border-radius: 2px;
   }
   .no{
-    background-color: #F5F5F5;
-    color: #959595;
-    border: 1px solid #959595;
+    background-color: #fff;
+    color: #000;
+    border: 0.5px solid #d4d4d4;
     border-radius: 3px;
     margin-right: 0.3rem;
   }
   .card-input-btn{
-    width: 1.76rem;
-    height: 0.93rem;
+    width: 46px;
+    height: 26px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: PingFangSC-Regular;
-    font-size: 17px;
+    font-size: 13px;
   }
   .post-card-input{
     height: 1.25rem;
@@ -799,9 +884,11 @@
     border-radius: 4px;
   }
   .post-card-input-main{
-    height: 3.173rem;
+    height: 2.473rem;
     background: #F5F5F5;
     padding: 0.3rem;
+    border: 0.5px solid #d4d4d4;
+    border-radius: 3px;
   }
   .child-plan-main{
     background-color: white;
@@ -811,11 +898,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 95%;
+    width: 100%;
     height: 1.7rem;
     background: #F5F5F5;
-    border-radius: 1px;
-    margin: 0 auto;
+    border-radius: 3px;
+    border: 0.5px solid #d4d4d4;
   }
   .post-card{
     font-family: PingFangSC-Medium;
@@ -869,10 +956,13 @@
   .set{
     font-size: 14px;
     color: #4F77AA;
+    width: 19px;
+    height: 19px;
   }
   .arrow-down{
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 0.1rem;
+    color: #c7c7c7;
   }
   .top-sub-plan-name{
     max-width: 4rem;
@@ -909,7 +999,8 @@
   }
   .card{
     position: relative;
-    z-index: 2
+    z-index: 2;
+    // -webkit-overflow-scrolling: touch;
   }
   .card-list:after{
     clear: both;
@@ -920,11 +1011,13 @@
     -webkit-overflow-scrolling: touch;
   }
   .card-border{
+    width: 50%;
     margin-top: 20px;
     padding-right: 45px;
     border-radius: 2px;
   }
   .card-border:first-child{
+    width: 50%
   }
   .card-name{
     font-family: PingFangSC-Medium;
@@ -939,7 +1032,7 @@
     z-index: 100;
     position: relative;
     background-color: white;
-    border-bottom: 1px solid #EAEAEA;
+    border-bottom: 0.5px solid #D4D4D4;
   }
   ul.show-child{
     top: 1.3rem
@@ -954,5 +1047,9 @@
     padding-left: 15px;
     padding-right: 15px;
     box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
+  }
+  .am{
+    transition: 0.2s;
+    transition-timing-function: linear;
   }
 </style>

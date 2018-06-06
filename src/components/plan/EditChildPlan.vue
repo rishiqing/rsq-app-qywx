@@ -5,7 +5,7 @@
         class="new"
         @tap="delayCall('saveTodo',$event)">
         <img
-          src="../../assets/img/card.png"
+          src="../../assets/img/addmenmber.png"
           class="add">
         <span class="new-child-plan">新建子计划</span>
       </v-touch>
@@ -37,6 +37,9 @@
       },
       currentPlan () {
         return this.$store.state.currentPlan
+      },
+      createPlanControl () {
+        return this.currentPlan.editControl.createCK
       }
     },
     mounted () {
@@ -44,6 +47,10 @@
     },
     methods: {
       saveTodo () {
+        if (!this.createPlanControl) {
+          alert('没有权限')
+          return
+        }
         this.initialState = !this.initialState
         this.$prompt('', {
           confirmButtonText: '确定',
@@ -52,7 +59,7 @@
           title: '新建子计划',
           inputPlaceholder: '请输入子计划名称',
           inputValidator: value => {
-            if (!value) {
+            if (!value || /^\s+$/.test(value)) {
               return '请输入子计划名称'
             }
           }
@@ -146,5 +153,6 @@
     font-size: 17px;
     color: #000000;
     line-height: 0.8rem;
+    margin-left: 14px;
   }
 </style>

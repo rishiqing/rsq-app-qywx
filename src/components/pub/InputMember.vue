@@ -7,12 +7,15 @@
         class="inner-key">
         {{ indexTitle }}</span>
       <div class="inner-value">
-        <img
+        <div
           v-for="(avatar,index) in avatarConcat"
+          v-if="index < 5"
           :key="index"
-          :src="avatar"
+          :style="{ backgroundImage: 'url(' + avatar.avatar + ')' }"
           class="avatar"
         >
+          <span v-if="!avatar.avatar">{{ avatar.name }}</span>
+        </div>
       <span class="count">{{ selectedLocalList.length }}人</span></div>
       <i class="icon2-arrow-right-small arrow"/>
     </div>
@@ -74,7 +77,11 @@
       },
       maximum: {
         type: Number,
-        default: 5
+        default: 299
+      },
+      singleSelect: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -91,7 +98,7 @@
       },
       avatarConcat () {
         return this.selectedLocalList.map(function (o) {
-          return o.avatar
+          return o
         })
       },
       memberCount () {
@@ -127,9 +134,13 @@
       },
       createrRsqIds () {
         this.fetchUserIds(this.createrRsqIds, 'creatorList')
+      },
+      userRsqIds (newIds) {
+        this.userRsqIds = newIds
+        this.fetchUserIds(this.userRsqIdArray, 'localList')
       }
     },
-    mounted () {
+    created () {
       this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
@@ -179,15 +190,22 @@
 //       },
       showWebMemberEdit () {
         const that = this
+        var disSelect = []
+        if (this.disabledRsqIds[0]) {
+          disSelect = this.disabledRsqIds.map(function (o) {
+            return o.toString()
+          })
+        }
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,
           idAttribute: 'rsqUserId',
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
-          disabledIdList: this.disabledLocalList,
+          disabledIdList: disSelect,
           // 转换为字符串
           creatorIdList: [this.createrRsqIds[0].toString()],
+          singleSelect: this.singleSelect,
           success (selList) {
             const arr = selList.map(m => {
               return m.rsqUserId
@@ -227,8 +245,8 @@
     display: flex;
     align-items: center;
     position: relative;
-    background-color: white;
-    min-height: 1.493rem;
+    background-color: transparent;
+    min-height: 1.45rem;
   }
   .inner-key{
     display: block;
@@ -244,8 +262,9 @@
     min-width: 100%;
     overflow: hidden;
     line-height: 100%;
-    height: 1rem;
+    height: 100%;
     width: 100%;
+    min-height: 36px
   }
   .arrow{
     color: #999999;
@@ -269,9 +288,6 @@
   }
   .avatar{
     margin-right: 0.3rem;
-    width: 0.906rem;
-    height: 0.906rem;
-    border-radius: 50%;
     float: left;
   }
   .count{
@@ -282,6 +298,23 @@
     color: rgba(25,31,37,0.56);
     letter-spacing: 0;
     line-height: 1rem;
-
+  }
+  .avatar{
+    width: 36px;
+    height: 36px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(74, 144, 226);
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 14px;
+    line-height: 37px;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(255, 255, 255);
+    border-radius: 50%;
+    background-position: center center;
+    background-size: 100% 100%;
   }
 </style>

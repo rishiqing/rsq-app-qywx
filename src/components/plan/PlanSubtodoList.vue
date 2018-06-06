@@ -27,9 +27,6 @@
             class="wrap-sub-icon"
             @tap="clickCheckOut(item)">
             <i class="icon2-check-box select-sub"/>
-            <div
-              :class="{'for-hide-sub':item.isDone}"
-              class="hide"/>
             <i
               :class="{'is-display-sub':item.isDone}"
               class="icon2-selected hide"/>
@@ -86,6 +83,9 @@
         this.$router.push('/plan/todo/' + this.currentKanbanItem.id + '/subtodo/' + item.id)
       },
       saveTodo () {
+        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
+          return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
+        }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.kanbanItemId})
           .then(() => {
@@ -164,7 +164,7 @@
   }
   .list-below{
     border:none;
-    margin-left: 0.35rem;
+    margin-left: 15px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     width: 98%;
@@ -246,7 +246,7 @@
     top:0.36rem;
     left: 0.05rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999;
   }
   .for-hide-sub{
     position: absolute;

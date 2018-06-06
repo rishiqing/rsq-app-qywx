@@ -13,7 +13,7 @@
         @click="toCreate">
         <div class="forward-plan">
           <img
-            src="../../assets/img/add2.png"
+            src="../../assets/img/planlistadd.svg"
             class="plan-image">
           <span class="plan-name">新建计划</span>
         </div>
@@ -66,7 +66,7 @@
 </script>
 <style lang="scss" scoped>
   .plan-count{
-    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
   }
   .post-new-plan{
     font-size: 18px;
@@ -85,9 +85,11 @@
   }
   .plan-list{
     background-color: white;
-    padding-left: 0.3rem;
+    padding-left: 15px;
     margin-top: 20px;
     overflow-x: hidden;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .itm-lst{
     text-align: center;
@@ -119,7 +121,7 @@
     height: 0.906rem;
   }
   .plan-name{
-    width: 7rem;
+    width: 7.4rem;
     font-size: 17px;
     color: #3D3D3D;
     margin-left: 0.3rem;
@@ -132,6 +134,6 @@
     justify-content: space-between;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
-    border-bottom: 1px solid #EAEAEA;
+    // border-bottom: 1px solid #EAEAEA;
   }
 </style>

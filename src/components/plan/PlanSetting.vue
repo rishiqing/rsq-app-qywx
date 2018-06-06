@@ -13,6 +13,9 @@
         <img
           :src="currentPlan.cover"
           class="plan-set-img">
+        <img
+          src="../../assets/img/right.png"
+          class="rightab">
       </v-touch>
       <v-touch
         class="set-plan"
@@ -22,6 +25,9 @@
           class="plan-set-name"
           @tap="showEditPlanName">
           <span>{{ currentPlan.name }}</span>
+          <img
+            src="../../assets/img/right.png"
+            class="rightab">
         </v-touch>
       </v-touch>
       <!-- <span class="creator-time">由 {{ creatorName }} 于{{ standardTime }}创建</span> -->
@@ -37,11 +43,20 @@
         class="wrap-plan-member"
         @tap="showNativeMemberEdit">
         <avatar
-          v-for="item in selectedLocalList"
+          v-for="(item, index) in selectedLocalList"
+          v-if="index <= 5"
           :key="item.rsqUserId"
           :src="item.avatar"
-          :username="item.name"/>
-        <i class="icon2-add add-member"/>
+          :username="item.name"
+          :background-color="'rgb(74, 144, 226)'"
+          :size="34"/>
+        <i
+          v-if="countAdd < 7"
+          class="icon2-add add-member"/>
+        <img
+          v-if="countAdd >=7"
+          src="../../assets/img/mp.png"
+          class="mp">
       </v-touch>
     </div>
     <div class="set-star">
@@ -65,7 +80,7 @@
         <v-touch
           v-if="isOwn"
           tag="a"
-          class="delete-plan-btn weui-btnt out"
+          class="delete-plan-btn weui-btn out"
           href="javascript:;"
           @tap="deletePlan">
           删除
@@ -76,7 +91,7 @@
           class="delete-plan-btn weui-btn out"
           href="javascript:;"
           @tap="deletePlan">
-          退出
+          退出计划
         </v-touch>
       </div>
     </div>
@@ -117,6 +132,9 @@
       currentPlan () {
         return this.$store.state.currentPlan
       },
+      countAdd () {
+        return this.currentPlan.userRoles.length
+      },
       isStar () {
         return this.currentPlan.starMark
       },
@@ -124,7 +142,7 @@
         return this.$store.getters.loginUser || {}
       },
       userId () {
-        return this.loginUser.authUser.userId ? this.loginUser.authUser.userId : 'dingtalkupload'
+        return this.loginUser.authUser.userId
       },
       corpId () {
         return this.loginUser.authUser.corpId
@@ -162,9 +180,7 @@
         })
       },
       createrRsqIds () {
-        return this.selectedLocalList.map(function (staff) {
-          return staff.rsqUserId
-        })
+        return [this.$store.state.currentPlan.creatorId]
       },
       disableRsqidArray () {
         return this.disabledRsqIds.map(function (staff) {
@@ -190,7 +206,7 @@
       this.$store.dispatch('fetchUseridFromRsqid', {corpId: corpId, idArray: [this.currentPlan.creatorId]})
         .then(idMap => {
           this.creatorName = util.getMapValuePropArray(idMap)[0].name
-          if (parseInt(util.getMapValuePropArray(idMap)[0].userId) === parseInt(this.userId)) {
+          if (util.getMapValuePropArray(idMap)[0].userId === this.userId) {
             this.isOwn = true
           }
         })
@@ -243,9 +259,13 @@
       },
       deletePlan () {
         const that = this
+        var fixName = this.currentPlan.name.slice(0, 11)
+        if (fixName !== this.currentPlan.name) {
+          fixName += '...'
+        }
         window.setTimeout(() => {
           window.rsqadmg.exec('confirm', {
-            message: '确定删除计划：' + that.currentPlan.name + '?',
+            message: '确定删除计划：' + fixName + '?',
             success () {
               if (that.isOwn) {
                 window.rsqadmg.exec('showLoader', {'text': '删除中'})
@@ -257,13 +277,9 @@
               } else {
                 window.rsqadmg.exec('showLoader', {'text': '退出中'})
                 that.$store.dispatch('quitPlan', {id: that.currentPlan.id}).then((e) => {
-                  if (e.message) {
-                    window.rsqadmg.exec('alert', {message: e.message})
-                  } else {
-                    window.rsqadmg.exec('hideLoader')
-                    window.rsqadmg.exec('toast', {message: '已退出'})
-                    that.$router.replace('/plan/list')
-                  }
+                  window.rsqadmg.exec('hideLoader')
+                  window.rsqadmg.exec('toast', {message: '已退出'})
+                  that.$router.replace('/plan/list')
                 })
               }
             }
@@ -284,21 +300,21 @@
         const that = this
         SelectMember.show({
           nameAttribute: 'name',
-          maximum: 5,
           idAttribute: 'rsqUserId',
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
-          disabledIdList: this.disabledLocalList,
+          disabledIdList: [this.createrRsqIds[0].toString(), this.$store.state.loginUser.rsqUser.id.toString()],
           // 转换为字符串
           creatorIdList: [this.createrRsqIds[0].toString()],
           success (selList) {
             const arr = selList.map(m => {
               return m.rsqUserId
             })
+            window.rsqadmg.exec('setTitle', {title: '计划设置'})
             that.selectedLocalList = [...selList]
             that.memarr = [...arr]
             var arrstr = arr.join(',')
-            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr})
+            that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr, editAuthority: 'all'})
               .then(function (res) {
                 that.$store.commit('UPDATA_PLAN', res.userRoles)
               })
@@ -334,19 +350,28 @@
     margin-left: 0.5rem;
   }
   .plan-set-second{
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+    padding-left: 15px;
+    padding-right: 15px;
     background-color: white;
     margin: 0.5rem 0;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .wrap-plan-member{
     display: flex;
     align-items: center;
-    height: 1.333rem;
+    min-height: 1.333rem;
+    height: 1.33rem;
+    overflow: auto;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+    width: 100%;
+    margin-left: -8px;
   }
   .plan-member-word{
     font-family: PingFangSC-Regular;
-    font-size: 13px;
+    font-size: 14px;
     color: #666666;
   }
   .plan-member-count-num{
@@ -359,7 +384,7 @@
     align-items: center;
     justify-content: space-between;
     height: 1rem;
-    border-bottom: 1px solid #F5F5F5;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .add-member, .arrow-right-plan{
     font-size: 14px;
@@ -398,7 +423,7 @@
     color: rgba(177,177,177,0.88);
   }
   .plan-set-star{
-    margin-left: 0.3rem;
+    margin-left: 15px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     color: #666666;
@@ -411,11 +436,14 @@
     justify-content: space-between;
     position: relative;
     margin-top: 0.3rem;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .wrap-img{
     text-align: center;
   }
   .plan-set-top{
+    border-top: 0.5px solid #d4d4d4;
     background-color: white;
     height: 112px;
     margin-top: 0.3rem;
@@ -424,8 +452,7 @@
     position: relative;
     font-family: PingFangSC-Regular;
     font-size: 17px;
-    opacity: 0.66;
-    border-radius: 1px;
+   border-radius: 1px;
     height: 56px;
     line-height: 56px;
   }
@@ -439,6 +466,8 @@
     font-size: 14px;
     color: #9C9C9C;
     line-height: 56px;
+    width: 50%;
+    text-align: right;
   }
   .plan-set-img{
     margin-right: 31px;
@@ -452,7 +481,8 @@
   .set-plan{
     width: 100%;
     height: 56px;
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 0.5px solid #d4d4d4;
+    position: relative;
   }
   .set-text{
     float: left;
@@ -468,10 +498,27 @@
   .out{
     color: #000;
     border-radius: 5px;
+    background-color: #fff;
   }
   .save{
     color: #fff;
     background: #2F7DCD;
     border-radius: 5px;
+  }
+  .rightab{
+    position: absolute;
+    right: 15px;
+    top: 22px;
+    width: 8px;
+    height: 13px;
+  }
+  .weui-btn{
+    border: 0;
+  }
+  .mp{
+    width: 21px;
+    height: 5px;
+    position: absolute;
+    right: 15px
   }
 </style>

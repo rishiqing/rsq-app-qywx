@@ -14,17 +14,20 @@
               placeholder="请输入任务标题"
               @input="inputNew"/>
           </div>
-          <div class="itm-group itm--edit-todo">
+          <div class="itm-group itm--edit-todo fix-create">
             <div class="firstGroup">
               <div class="common-field">
+                <i class="icon2-schedule sche"/>
                 <r-input-date
                   :item="editItem"
                   :sep="'/'"
                   :has-left-space="true"/>
+                <i class="icon2-arrow-right-small arrow"/>
               </div>
             </div>
             <div class="secondGroup">
               <div class="common-field">
+                <i class="icon2-member sche"/>
                 <r-input-member
                   :has-left-space="true"
                   :is-native="false"
@@ -34,7 +37,7 @@
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="pUserId"
                   :disabled-rsq-ids="[]"
-                  :maximum= "1"
+                  :single-select="true"
                   @member-changed="saveMember"/>
               </div>
             </div>
@@ -45,7 +48,7 @@
                   class="weui-btn weui-btn_primary"
                   href="javascript:;"
                   @tap="submitTodo">
-                  创建任务
+                  创建
                 </v-touch>
               </div>
             </div>
@@ -114,7 +117,7 @@
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
-      this.joinUserRsqIds = this.subId ? this.subId : this.pUserId
+      this.joinUserRsqIds = this.pUserId
       this.sub = this.$store.state.todo.currentSubtodoDate
     },
     methods: {
@@ -145,7 +148,8 @@
         this.$store.commit('SYS_SUB_TILTE', {title: this.inputTitle})
       },
       saveMember (idArray) {
-        // this.joinUserRsqIds = idArray
+        window.rsqadmg.exec('setTitle', {title: '新建子任务'})
+        this.joinUserRsqIds = idArray
         this.editItem.receiverIds = idArray
         this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})
       }, // 注意这里没有和后台打交道，在提交新建的时候才打交道
@@ -156,23 +160,23 @@
         this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
       },
       submitTodo () {
-        if (!this.inputTitle) {
+        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
         }
-        if (!this.sub.datas && !this.sub.startDate) {
-          return window.rsqadmg.execute('alert', {message: '请选择时间'})
-        }
-        if (this.joinUserRsqIds.length === 0) {
-          return window.rsqadmg.execute('alert', {message: '请选择执行人'})
-        }
+        // if (!this.sub.datas && !this.sub.startDate) {
+        //   return window.rsqadmg.execute('alert', {message: '请选择时间'})
+        // }
+        // if (this.joinUserRsqIds.length === 0) {
+        //   return window.rsqadmg.execute('alert', {message: '请选择执行人'})
+        // }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         var datas = {}
         datas.name = this.inputTitle
         datas.todoId = this.todoId
-        datas.startDate = this.sub.startDate
-        datas.endDate = this.sub.endDate
-        datas.joinUsers = this.joinUserRsqIds[0]
-        datas.dates = this.sub.dates
+        datas.startDate = this.sub.startDate || ''
+        datas.endDate = this.sub.endDate || ''
+        datas.joinUsers = this.joinUserRsqIds[0] || ''
+        datas.dates = this.sub.dates || ''
         this.$store.dispatch('createSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
           .then(() => {
@@ -182,7 +186,8 @@
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
           })
-        this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
+        // this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
+        this.$router.go(-1)
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -208,11 +213,8 @@
   .firstGroup{
     margin-top:20px;
     border-top: 0.5px solid #D4D4D4;
-    border-bottom: 0.5px solid #D4D4D4;
   }
   .secondGroup{
-    margin-top:20px;
-    border-top: 0.5px solid #D4D4D4;
     border-bottom: 0.5px solid #D4D4D4;
   }
   p{
@@ -304,4 +306,21 @@
     border-radius: 0;
     color: #3D3D3D;
   }
+  .sche{
+   font-size: 0.586rem;
+    color: #55A8FD;
+    position: absolute;
+    top: 47%;
+    margin-top: -0.26rem;
+    left: 25px;
+    z-index: 1000;
+  }
+  .arrow {
+    color: #999999;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.25rem;
+    right: 0.2rem;
+}
 </style>

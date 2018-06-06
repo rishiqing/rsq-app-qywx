@@ -10,7 +10,7 @@
           class="icon2-selected finish"/>
       </v-touch>
     </ul>
-    <ul class="alert-list bottom-border">
+    <ul class="alert-list bottom-border fix-bb">
       <v-touch
         v-for="(alert, index) in displayedRuleList"
         :key="index"
@@ -28,17 +28,28 @@
     <!--<i class="icon2-selected finish" v-show="alert.selected"></i>-->
     <!--</v-touch>-->
     <!--</ul>-->
-    <ul class="sec bottom-border">
+    <ul class="sec bottom-border mine-ul">
       <v-touch
         tag="li"
         @tap="showTimePicker">
-        <span class="list-key">自定义</span>
+        <span class="list-key mine">自定义提醒时间</span>
         <span class="list-value">
           {{ userDefinedAlertText }}
         </span>
         <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="accept">
+          完成
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -55,10 +66,10 @@
         displayedRuleList: [
           {schedule: 'begin_0_hour', selected: false},
           {schedule: 'begin_-5_min', selected: false},
-          {schedule: 'begin_-15_min', selected: false},
-          {schedule: 'begin_-30_min', selected: false},
-          {schedule: 'begin_-1_hour', selected: false},
-          {schedule: 'end_-1_hour', selected: false}
+          {schedule: 'begin_-30_min', selected: false}
+          // {schedule: 'begin_-30_min', selected: false},
+          // {schedule: 'begin_-1_hour', selected: false},
+          // {schedule: 'end_-1_hour', selected: false}
         ],
         //  用户自定义的提醒时间
         //  {numTime: 123214345453, selected: true}
@@ -101,10 +112,13 @@
     },
     created () {
       this.initData()
-      window.rsqadmg.execute('setTitle', {title: '提醒'})
+      window.rsqadmg.execute('setTitle', {title: '时间和提醒'})
       window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     methods: {
+      accept () {
+        this.$router.go(-1)
+      },
       initData () {
         //  设置默认值
         this.initRuleList()
@@ -187,16 +201,16 @@
             return a.selected
           })
       },
-      getSelectedUserRuleList () {
-        return this.displayedTimeList
-          .filter(a => {
-            return a.selected
-          }).map(sel => {
-            return {
-              schedule: jsUtil.alertTime2Rule(sel.numTime, this.numStartTime, this.numEndTime)
-            }
-          })
-      },
+      // getSelectedUserRuleList () {
+      //   return this.displayedTimeList
+      //     .filter(a => {
+      //       return a.selected
+      //     }).map(sel => {
+      //       return {
+      //         schedule: jsUtil.alertTime2Rule(sel.numTime, this.numStartTime, this.numEndTime)
+      //       }
+      //     })
+      // },
       //  比对displayedRuleList与sysRuleList，计算最终的提醒列表,为什么不以displayedRuleList为标准？
       mergeRuleList () {
         var selected = this.getSelected(this.displayedRuleList) // 这一步是拿到选中状态的list
@@ -244,6 +258,13 @@
       },
       saveTodoAlert () {
         var list = this.mergeList()
+        var that = this
+        var alertNew = list.some(function (o) {
+          return jsUtil.alertRule2Time(o.schedule, that.numStartTime, that.numEndTime) < new Date().getTime()
+        })
+        if (alertNew) {
+          alert('提醒时间早于当前时间，可能不会收到提醒!')
+        }
         this.$store.commit('PUB_TODO_TIME_CLOCK_UPDATE', {
           data: {
             alert: list
@@ -291,6 +312,9 @@
       border-top: 0.5px solid #D4D4D4;
       background: #FFFFFF;
     }
+    ul:not(:first-child){
+      border-top: 0;
+    }
     ul.bottom-border{
       border-bottom: 0.5px solid #D4D4D4;
     }
@@ -303,12 +327,12 @@
     span {
       /*line-height: 1.112rem;*/
       display: block;
+      border-bottom: 0.5px solid #d4d4d4;
     }
     li {
       position: relative;
       line-height: 1.2rem;
-      height: 1.2rem;
-      border-bottom: 0.5px solid #E3E3E3;
+      // height: 1.2rem;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
@@ -324,6 +348,20 @@
       margin-top: -0.25rem;
       font-size: 21px;
       color: #999999;
+    }
+    .mine{
+      border-bottom: 0;
+    }
+    .mine-ul{
+      border-top: 0.5px solid #d4d4d4 !important;
+      li{
+        height: 1.2rem;
+      }
+    }
+    .fix-bb{
+      li:last-child span{
+        border-bottom: 0;
+      }
     }
   }
 </style>

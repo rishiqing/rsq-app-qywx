@@ -141,7 +141,7 @@
     border-radius: 2px;
   }
   .plan-name{
-    width: 7rem;
+    width: 7.4rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -169,7 +169,7 @@
   .slider  .star{
     margin-right: 0;
     width: 100%;
-    height:1.612rem;
+    height:56px;
     background:#F8E71C;
     display: flex;
     align-items: center;
@@ -184,7 +184,6 @@
   .have-star{
     color: #F8E71C;
     font-size: 16px;
-    margin-right: 0.3rem;
   }
   .slider .chose{
     background:red;

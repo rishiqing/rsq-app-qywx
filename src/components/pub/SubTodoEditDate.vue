@@ -8,18 +8,12 @@
           @tap="tapChangeType($event, 'single')">
           单日
         </v-touch>
-        <div class="dp-v-line">
-          <div class="dp-v-sep v-h-center"/>
-        </div>
         <v-touch
           :class="{'is-active': dateType ==='discrete'}"
           class="dp-btn"
           @tap="tapChangeType($event, 'discrete')">
           多日
         </v-touch>
-        <div class="dp-v-line">
-          <div class="dp-v-sep v-h-center"/>
-        </div>
         <v-touch
           :class="{'is-active': dateType ==='range'}"
           class="dp-btn"
@@ -44,13 +38,13 @@
         <table class="dp-table">
           <thead>
             <tr>
-              <td class="week-ri">日</td>
-              <td class="week">一</td>
-              <td class="week">二</td>
-              <td class="week">三</td>
-              <td class="week">四</td>
-              <td class="week">五</td>
-              <td class="week-six">六</td>
+              <td class="week">周日</td>
+              <td class="week">周一</td>
+              <td class="week">周二</td>
+              <td class="week">周三</td>
+              <td class="week">周四</td>
+              <td class="week">周五</td>
+              <td class="week">周六</td>
             </tr>
           </thead>
           <tbody>
@@ -73,12 +67,23 @@
         </table>
       </div>
     </div>
-    <v-touch
-      class="date-clear"
-      tag="p"
-      @tap="tapEmpty">
-      清除日期
-    </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="accept">
+          完成
+        </v-touch>
+        <v-touch
+          class="weui-btn clear"
+          tag="a"
+          @tap="tapEmpty">
+          清除日期
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -148,6 +153,9 @@
       this.$store.dispatch('setNav', {isShow: false})
     },
     methods: {
+      accept () {
+        this.$router.go(-1)
+      },
       backToToday () {
         this.focusDate = new Date()
         this.dateType = 'single'
@@ -187,6 +195,7 @@
         if (e) e.preventDefault()
       },
       tapChangeType (e, type) {
+        this.tapEmpty()
         this.dateType = type
         this.resetType()
         if (e) e.preventDefault()
@@ -197,6 +206,10 @@
       },
       tapDay (e, day) {
         //  如果是在repeat状态下点击日期，那么清除重复，进入single状态
+        var timeHaveGo = new Date().getHours() * 3600000 + (new Date().getMinutes() + 1) * 60000 + new Date().getSeconds() * 1000
+        if (new Date(day.date).getTime() < new Date().getTime() - timeHaveGo) {
+          return
+        }
         if (this.dateType === 'repeat' || this.dateType === 'none') {
           this.dateType = 'single'
           this.tapDay(e, day)
@@ -404,23 +417,17 @@
     align-items: center;
     justify-content: center;
   }
-  .dp-content .dp-table .is-today{
-    color:#67B2FE
-  }
   .edit-date {
     .light-color {color: #999999;}
     .date-picker {
-      box-sizing: border-box;margin-top: 0.25rem;background: #fff;
-      border-top: 1px solid #E0E0E0;
-      border-bottom:1px solid #E0E0E0 ;
-      padding-bottom: 0.4rem;
+      box-sizing: border-box;background: #fff;
     }
     .dp-title {
-      height: 72px;line-height: 72px;
+      height: 63px;line-height: 63px;
       font-family: PingFangSC-Regular;
       font-size: 19px;
       color: #000000;
-      padding: 0 2rem;
+      // padding: 0 2rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -428,24 +435,27 @@
     .dp-title-text {
       text-align: center;
       font-family: PingFangSC-Medium;
-      font-size: 19px;
+      font-size: 17px;
       color: #3D3D3D;
     }
     .dp-title .icon {
-      font-size: 1rem;
-      color: #3D3D3D;
+      font-size: 20px;
+      color: #BFC1C2;
+      margin-left: 30px;
+      margin-right: 30px;
     }
-    .dp-title .dp-title-tag {font-size: 0.4rem;line-height:1;margin-top:12px;padding:5px;border: solid 1px #e8e8e8;border-radius: 50%;}
+    .dp-title .dp-title-tag {font-size: 0.4rem;line-height:1;margin-top:12px;padding:5px;border: solid 0.5px #D4D4D4;border-radius: 50%;}
     .dp-table {width:100%;height:8rem;text-align: center;}
-    .dp-grey {color: #a8a8a8;}
+    .dp-grey {color:  rgba(25,31,37,0.40) !important;}
     .dp-table .dp-selected {
       background: #55A8FD;
       color:white;}
-    .dp-sel-type {position: relative;border-bottom: solid 1px #e4e4e4;overflow: hidden;
+    .dp-sel-type {position: relative;border-bottom: solid 0.5px #D4D4D4;overflow: hidden;
+      background-color: #f5f5f5;
       height: 40px;line-height: 40px;}
     .dp-btn {
       float: left;
-      width: 32%;
+      width: 33.3333%;
       text-align: center;
       font-family: PingFangSC-Regular;
       font-size: 15px;
@@ -464,8 +474,8 @@
     }
     .week{
       font-family: PingFangSC-Regular;
-      font-size: 11px;
-      color: #666666;
+      font-size: 13px;
+      color: #999998;
     }
     .dp-day {
       margin:0 auto;
@@ -520,6 +530,24 @@
       position: absolute;
       width: 100%;
       bottom: 0;
+      border-top: 0.5px solid #d4d4d4;
     }
+  }
+  tr{
+    border-bottom: 0.5px solid #d4d4d4;
+  }
+  td{
+    border-right: 0.5px solid #d4d4d4;
+  }
+  thead td{
+    border-right: 0;
+  }
+  .is-active{
+    box-shadow:0px -2px 0px 0px #0082EF inset;
+  }
+  .clear{
+    color: #000 !important;
+    background-color: #fff;
+    border: 0.5px solid #d4d4d4
   }
 </style>

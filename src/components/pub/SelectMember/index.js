@@ -32,19 +32,20 @@ function getSelectMemberModal () {
 function show (options) {
   options = options || {}
   const vm = getSelectMemberModal()
-
   // vm.title = options.title || '选择成员'
   vm.idAttribute = options.idAttribute || 'id'
   vm.nameAttribute = options.nameAttribute || 'name'
   vm.avatarAttribute = options.avatarAttribute || 'avatar'
   vm.btnText = options.btnText || '确定'
-  vm.maximum = options.maximum || 5
+  vm.maximum = options.maximum || 299
   vm.memberList = options.memberList || []
   vm.selectedIdList = options.selectedIdList || []
   vm.disabledIdList = options.disabledIdList || []
   vm.creatorIdList = options.creatorIdList || []
   vm.success = options.success || function () {}
   vm.cancel = options.cancel || function () {}
+  vm.singleSelect = options.singleSelect || false
+
   vm.$on('self-close', close)
 
   //  append to body

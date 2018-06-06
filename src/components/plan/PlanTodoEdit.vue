@@ -3,7 +3,9 @@
   <div class="router-view">
     <div class="itm-edt z-index-xs">
       <div class="content">
-        <div class="itm-edt-fields" >
+        <div
+          id="plantofix"
+          class="itm-edt-fields" >
           <div class="itm-group itm--edit-todo">
             <r-input-title
               ref="title"
@@ -12,6 +14,7 @@
               :item-checked="editItem.isDone"
               :is-show-bottom-border="true"
               @text-blur="saveTitle"
+              @text-change="savetitleIos"
               @click-checkout="finishChecked"/>
             <r-input-note
               :content="editItem.note"
@@ -41,6 +44,8 @@
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
+            </div>
+            <div class="icon-field-group sub-todo">
               <div class="common-field">
                 <i class="icon2-subplan-web sche"/>
                 <r-input-subtodo
@@ -56,7 +61,7 @@
               <div class="btn-wrap">
                 <v-touch
                   tag="a"
-                  class="weui-btn weui-btn_warn"
+                  class="weui-btn weui-btn_warn kong"
                   href="javascript:;"
                   @tap="deleteItem">
                   删除任务
@@ -66,6 +71,9 @@
             <v-touch
               class="bottom"
               @tap="switchToComment">
+              <img
+                class="talk-png"
+                src="../../assets/img/talk.png">
               参与讨论
             </v-touch>
           </div>
@@ -155,6 +163,14 @@
     mounted () {
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
+    beforeRouteLeave (to, from, next) {
+      if (!this.$refs.title.$refs.titleInput.value) {
+        window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
+        next(false)
+        return
+      }
+      next()
+    },
     methods: {
       fetchCommentIds () {
         //  根据评论中的rsqId获取userId，用来显示头像
@@ -181,6 +197,7 @@
         this.$router.push('/plan/todo/comment')
       },
       saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        window.rsqadmg.execute('setTitle', {title: '任务详情'})
         const that = this
         const compRes = util.compareList(this.joinUserRsqIds, idArray)
         const params = {
@@ -222,7 +239,7 @@
                   data: data
                 }).then(res => {
                   if (res.errcode !== 0) {
-                    alert('发送失败：' + JSON.stringify(res))
+                    // alert('发送失败：' + JSON.stringify(res))
                   } else {
                     console.log('发送成功！')
                   }
@@ -256,6 +273,9 @@
             })
         }
       },
+      savetitleIos (newTitle) {
+        this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle})
+      },
       deleteItem () {
         const that = this
         window.rsqadmg.exec('confirm', {
@@ -272,7 +292,7 @@
         })
       },
       initPlan () {
-        window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getKanbanItem', {id: this.itemId})
           .then(item => {
             util.extendObject(this.editItem, item)
@@ -280,7 +300,7 @@
           })
           .then(() => {
             this.fetchCommentIds()
-            window.rsqadmg.exec('hideLoader')
+            // window.rsqadmg.exec('hideLoader')
           })
       }
     }
@@ -340,7 +360,7 @@
     width:6.8rem;
   }
   .bottom{
-    height: 1.333rem;
+    height: 46px;
     display: flex;
     align-items: center;
     background-color: white;
@@ -431,5 +451,15 @@
     transition: border-color 0.4s, background-color ease 0.4s; }
   .itm-group{
     margin-top: 10px;
+    border-top: 0.5px solid #d4d4d4;
+  }
+  .talk-png{
+    width: 17px;
+    height: 17px;
+    margin-right: 9.3px;
+    margin-top: 3px;
+  }
+  .sub-todo{
+    margin-top: 20px;
   }
 </style>

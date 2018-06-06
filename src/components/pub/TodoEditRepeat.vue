@@ -1,6 +1,6 @@
 <template>
   <div class="edit-repeat">
-    <ul class="top-ul">
+    <ul class="top-ul no-repeat">
       <v-touch
         tag="li"
         @tap="setSelected(noRepeat)">
@@ -38,6 +38,17 @@
         {{ repeatText }}
       </span>
     </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="accept">
+          完成
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -133,6 +144,9 @@
       window.rsqadmg.exec('setOptionButtons', {hide: true})
     },
     methods: {
+      accept () {
+        this.$router.go(-1)
+      },
       initData () {
         //  有修改缓存读修改缓存，否则从原数据读
         var t = this.todoDate
@@ -268,9 +282,8 @@
     }
     ul{
       position: relative;
-      border-bottom: 0.5px solid #D4D4D4;
-      border-top: 0.5px solid #D4D4D4;
       background: #FFFFFF;
+      border-bottom: 0.5px solid #d4d4d4;
     }
     .sec{
       margin-top: 0.373rem;
@@ -281,9 +294,11 @@
       color: #3D3D3D;
       font-family: PingFangSC-Regular;
       font-size: 17px;
+      border-bottom: 0.5px solid #D4D4D4;
     }
     .user-define {
       color:#3D3D3D;
+      border-bottom: 0;
     }
     .repeat{
       margin-left: 0.2rem;
@@ -293,12 +308,11 @@
       padding:2px;
       height: 1.112rem;
       line-height:  1.112rem;;
-      border-bottom: 0.5px solid #D4D4D4;
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
     }
-    li:last-child{
+    li:last-child span{
       border:none;
     }
     .user-repeat {
@@ -320,6 +334,19 @@
     }
     .user-repeat > * {
       line-height: 1.2rem;
+    }
+    .top-ul{
+      border-top: 0.5px solid #d4d4d4;
+      border-bottom: 0.5px solid #d4d4d4;
+      li:last-child span{
+        // border-bottom: 0.5px solid #d4d4d4;
+      }
+    }
+    .no-repeat{
+      border-bottom: 0;
+      span{
+        border-bottom: 0.5px solid #d4d4d4 !important;
+      }
     }
   }
 </style>

@@ -3,7 +3,7 @@
     id="calMain"
     :class="{'animate': isShowAnimate}"
     :style="{'padding-top': paddingTop + 'px'}"
-    class="router-view content--cal calendar"
+    class="router-view content--cal calendar main-sche"
     style="box-sizing:border-box;">
     <r-calendar
       :default-select-date="dateSelect"
@@ -15,7 +15,8 @@
       @on-cal-pan-end="onPanEnd"/>
     <div
       id="bounceDiv"
-      style="width:100%;height:100%;overflow: auto;-webkit-overflow-scrolling: touch;margin-top: 27px">
+      :class="{ 'ul-b' : items.length === 0 ? false : true}"
+      style="width:100%;-webkit-overflow-scrolling: touch;margin-top: 16px;margin-bottom:60px;">
       <r-pull-to-refresh
         :enabled="enablePullToRefresh"
         @on-list-pan-move="checkScroll"
@@ -31,6 +32,9 @@
             <img src="../../assets/img/todo-empty.png" >
           </v-touch>
           <p class="shouye">还没有日程，赶快去创建吧</p>
+          <v-touch @tap="createNew">
+            <div class="addNew">新建日程</div>
+          </v-touch>
         </div>
       </r-pull-to-refresh>
       <v-touch @tap="toInbox">
@@ -216,10 +220,10 @@
 <style lang="scss" scoped>
   .main_inbox{
     position: fixed;
-    bottom: 1.6rem;
-    right: 0.5rem;
-    width: 1.2rem;
-    height: 1.2rem;
+    bottom: 80px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
   }
   .calendar {
     overflow-y: auto;
@@ -237,7 +241,7 @@
   .shouye{
     padding: 0;
     margin:0;
-    margin-top:0.418rem;
+    margin-top:20px;
     font-family: PingFangSC-Regular;
     font-size: 15px;
     color: #55A8FD;
@@ -247,8 +251,23 @@
     width: 70px;
     height: 70px;
     margin-top:137px ;
+    vertical-align: bottom
   }
   .animate {
     transition: padding-top 0.3s ease;
+  }
+  .ul-b{
+    border-bottom: 0.5px solid #d4d4d4
+  }
+  .addNew{
+    width: 141px;
+    height: 36px;
+    margin: 20px auto;
+    background-color: #5AA0E8;
+    color: #fff;
+    line-height: 36px;
+    font-size: 15px;
+    border-radius: 23px;
+    vertical-align: middle;
   }
 </style>

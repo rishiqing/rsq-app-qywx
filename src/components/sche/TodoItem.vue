@@ -22,7 +22,7 @@
             v-if="!isCheckable"
             v-show="isFromSche"
             class="receive">
-            我收到的
+            来自同事
           </span>
           <span
             v-if="!isCheckable"
@@ -40,7 +40,6 @@
           :class="{'icon-check_box_outline_blank': !item.pIsDone, 'icon-check': item.pIsDone}"
           class="icon2-check-box select"/>
         <div
-          :class="{'for-hide':item.pIsDone}"
           class="hide"/>
         <i
           :class="{'isdisplay':item.pIsDone}"
@@ -133,7 +132,6 @@
               promise.then(() => {
                 window.rsqadmg.exec('hideLoader')
                 window.rsqadmg.execute('toast', {message: '删除成功'})
-//                  that.$router.replace(window.history.back())
               })
             }
           })
@@ -145,7 +143,9 @@
         var that = this
         this.$store.dispatch('setCurrentTodo', this.item).then(
           () => {
-            that.prepareDelete()
+            window.setTimeout(() => {
+              that.prepareDelete()
+            }, 50)
           }
         )
       },
@@ -184,6 +184,7 @@
     align-items: center;
     justify-content: center;
     margin-right: -0.405rem;
+    line-height: 22px
   }
   .contain-tag {position:absolute;left:0;height:20px;width:2px;top:50%;margin-top:-10px;}
   .title-todo{
@@ -210,7 +211,7 @@
     width: 70%;
   }
   .common-width{
-    width: 95%;
+    width: 85%;
   }
   .hide{
     display: none;
@@ -218,10 +219,10 @@
   .isdisplay{
     display: block;
     position:absolute;
-    top:0.58rem;
-    right: 0.3rem;
+    top:0.49rem;
+    right: 0.22rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999;
   }
   .for-hide{
     position: absolute;
@@ -263,7 +264,7 @@
     color:#b9b9bc;
     font-size: 20px;
     display: block;
-    margin: 0.45rem 0 0 0.3rem;
+    margin: 20px 0 0 0.3rem;
     /*position: absolute;*/
     /*top:0.58rem;*/
     /*<!--top:50%;-->*/

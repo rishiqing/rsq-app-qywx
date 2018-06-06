@@ -13,7 +13,7 @@
       <v-touch class="chosetime">
         <div
           class="setEndTime"
-          @click="setStartTime">
+          @click="setEndTime">
           <div class="list-key">结束时间</div>
           <div class="list-value">
             {{ clock.endTime ? clock.endTime : '点击设置' }}
@@ -29,12 +29,23 @@
         <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
-    <v-touch
-      class="date-clear"
-      tag="p"
-      @tap="tapEmpty">
-      清除时间
-    </v-touch>
+    <div class="btn-group">
+      <div class="btn-wrap">
+        <v-touch
+          tag="a"
+          class="weui-btn weui-btn_primary"
+          href="javascript:;"
+          @tap="accept">
+          完成
+        </v-touch>
+        <v-touch
+          class="weui-btn clear"
+          tag="a"
+          @tap="tapEmpty">
+          清除日期
+        </v-touch>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -152,6 +163,7 @@
         window.rsqadmg.exec('timePicker2', {
           strInit: defStartTime,
           strInit2: defEndTime,
+          start: true,
           success (start, end) {
             if (!start || !end) {
               window.rsqadmg.exec('alert', {message: '请选择开始与结束时间'})
@@ -173,16 +185,24 @@
        */
       setEndTime () {
         var that = this
-        const defEndTime = that.clock.endTime ? that.clock.endTime : moment().format('HH:mm')
-        window.rsqadmg.exec('timePicker', {
-          strInit: defEndTime,
-          success (result) {
-            if (that.clock.startTime && moment(result.value, 'HH:mm').isBefore(moment(that.clock.startTime, 'HH:mm'))) {
-              window.rsqadmg.exec('alert', {message: '结束时间不能早于开始时间'})
+        const defStartTime = that.clock.startTime ? that.clock.startTime : moment().format('HH:mm')
+        const defEndTime = that.clock.endTime ? that.clock.endTime : ''
+        window.rsqadmg.exec('timePicker2', {
+          strInit: defStartTime,
+          strInit2: defEndTime,
+          start: false,
+          success (start, end) {
+            if (!start || !end) {
+              window.rsqadmg.exec('alert', {message: '请选择开始与结束时间'})
+              return
+            }
+            if (moment(start, 'HH:mm').isAfter(moment(end, 'HH:mm'))) {
+              window.rsqadmg.exec('alert', {message: '开始时间不能晚于结束时间'})
             } else {
-              that.clock.endTime = result.value
-              that.autoEnd = false
-              that.autoChangeTime()
+              that.clock.startTime = start
+              that.clock.endTime = end
+              that.autoStart = false
+              // that.autoChangeTime()
             }
           }
         })
@@ -192,6 +212,7 @@
         this.clock.endTime = ''
         this.autoStart = false
         this.autoEnd = false
+        this.clock.alert = ''
       },
       /**
        * 保存当前todoTime的数据并跳转到提醒页面
@@ -217,11 +238,11 @@
        * 当设置提醒的时候开始时间不能早于当前时间
        */
       checkWarn () {
-        if (this.clockData.alert &&
-          this.clockData.alert.length > 0 &&
-          moment().isAfter(moment(this.clock.startTime, 'HH:mm'))) {
-          return '提醒时间早于当前时间，可能不会收到提醒!'
-        }
+        // if (this.clockData.alert &&
+        //   this.clockData.alert.length > 0 &&
+        //   moment().isAfter(moment(this.clock.startTime, 'HH:mm'))) {
+        //   return '提醒时间早于当前时间，可能不会收到提醒!'
+        // }
       },
       /**
        * 检查用户是否更新过，
@@ -230,6 +251,9 @@
        */
       isModified () {
         return !jsUtil.objectEqual(this.clock, (this.currentTodo.clock || {}))
+      },
+      accept () {
+        this.$router.go(-1)
       },
       /**
        * 保存todoTime的状态到state中
@@ -382,13 +406,14 @@
       position: relative;
       line-height:1.2rem ;
       height: 1.2rem;
-      border-bottom:0.5px solid #DADADA;
+      border-bottom:0.5px solid #d4d4d4;
       box-sizing: border-box;
       padding-left: 3%;
     }
     .sec{
       margin-top:20px;
-      border-bottom:0.5px solid #DADADA;
+      border-top: 0.5px solid #d4d4d4;
+      border-bottom:0.5px solid #d4d4d4;
       height: 80px;
       background-color: #fff;
       text-align: center;
@@ -427,7 +452,15 @@
       font-size: 17px;
       letter-spacing: 0;
     }
-    span.list-key {float:left;}
+    span.list-key {
+      float:left;
+      width: 80%;
+      height: 100%;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;;
+
+    }
     span.list-value {float:right;margin-right:0.94rem;
       max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
       color: #999999;
@@ -444,5 +477,10 @@
   }
   .weui-picker__action{
     background:red;
+  }
+  .clear{
+    color: #000 !important;
+    background-color: #fff;
+    border: 0.5px solid #d4d4d4
   }
 </style>

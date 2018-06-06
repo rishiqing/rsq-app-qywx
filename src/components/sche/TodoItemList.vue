@@ -4,7 +4,7 @@
     class="sche-list">
     <r-todo-item
       v-for="item in items"
-      :key="item.id"
+      :key="item.id + strCurrentDate"
       :item="item"
       :is-checkable="isCheckable"
       @todo-item-click="showEdit"
@@ -34,6 +34,9 @@
     computed: {
       itemcount () {
         return this.items.length >= 8 && this.isCheckable
+      },
+      strCurrentDate () {
+        return this.$store.state.schedule.strCurrentDate
       }
     },
     methods: {
@@ -57,12 +60,9 @@
 <style lang="scss" scoped>
   .sche-list{
     background-color: white;
-    border-top:1px solid #DADADA ;
+    border-top:0.5px solid #D4D4D4 ;
     padding-left: 3%;
-    overflow-y: auto;
+    // overflow-y: auto;
     overflow-x: hidden;
-  }
-  .itemList{
-    padding-bottom:1.306rem;
   }
 </style>

@@ -55,10 +55,15 @@
     },
     methods: {
       closePreview (e) {
+        window.setTimeout(() => {
+          this.closePreviewfix(e)
+        }, 50)
+      },
+      closePreviewfix (e) {
+        e.preventDefault()
         this.previewImage = {}
         this.previewFile = {}
         this.$emit('self-close')
-        e.preventDefault()
       },
       showFilePage (f) {
         window.dd.biz.util.openLink({

@@ -5,7 +5,7 @@
       class="small-img"
       alt="task.img.name">
     <div class="file-name">
-      <div class="word">{{ task.img.name.substr(0,30) }}</div>
+      <div class="word">{{ task.img.name }}</div>
       <div class="file-size">{{ format(uploadedSize) }}/{{ format(task.file.size) }}</div>
     </div>
     <v-touch
@@ -60,10 +60,10 @@
             case 'application/zip':
               return 'https://res-front-cdn.timetask.cn/beta/images/zip.f9f2049911.png'
             case 'application/ppt':
-            case 'application/pptx':
+            case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
               return 'https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png'
             case 'application/doc':
-            case 'application/docx':
+            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
               return 'https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png'
             default:
               return 'https://res-front-cdn.timetask.cn/beta/images/file.46449ccbd9.png'
@@ -95,8 +95,8 @@
 </script>
 <style lang="scss" scoped>
   .small-img{
-    width: 27px;
-    height: 27px;
+    width: 28px;
+    height: 36px;
   }
   .icon-wrap {
     position:absolute;top:0;right:0.5rem;bottom:0;overflow:hidden;
@@ -108,18 +108,23 @@
     color: #DEDEDE;
     font-size: 18px;
     z-index:9;
+    height: 56px;
+    line-height: 56px
   }
   .done-text {
     color: #9B9B9B;font-size: 12px;padding-right:0.3rem;
+    height: 56px;
+    line-height: 56px
   }
   .file-name {
     font-family:AppleSystemUIFont;
     margin-left: 10px;
+    width: 100%;
   }
   .word{
     font-size: 13px;
     color: #3D3D3D;
-    width: 85%;
+    width: 60%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -131,10 +136,10 @@
     position: relative;
     display:flex;
     align-items: center;
-    border-top: 1px solid #E0E0E0;
+    border-top: 0.5px solid #d4d4d4;
     border-bottom: none;
     background-color: white;
-    padding-left: 13px;
+    padding-left: 15px;
     height: 56px;
   }
   .task-list:last-child{

@@ -55,11 +55,10 @@
         } else {
           var result = dateUtil.repeatDate2Text(this.datesItem)
           if (result.length > 20) {
-            result = result.substring(0, 21)
+            result = result.substring(0, 18) + '...'
           }
           var time = new Date()
           var newTime = time.getMonth() + 1 + '月' + time.getDate() + '日'
-          console.log(result)
           return newTime === result ? '今天' : result
         }
       },
@@ -95,8 +94,8 @@
     display: flex;
     align-items: center;
     position: relative;
-    line-height: 1.3rem;
-    background-color: white;
+    line-height: 1.45rem;
+    background-color: transparent;
   }
   .inner-key{
     display: block;
@@ -105,7 +104,7 @@
     color: #333333;
   }
   .bottom-border{
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 0.5px solid #d4d4d4 !important;
   }
 </style>
 

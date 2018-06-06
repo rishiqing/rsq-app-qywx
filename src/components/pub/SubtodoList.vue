@@ -1,17 +1,5 @@
 <template>
   <div class="">
-    <div class="for-cover"/>
-    <div class="wrap">
-      <img
-        src="../../assets/img/add2.png"
-        class="add">
-      <v-touch
-        class="write"
-        @tap="saveTodo">
-        添加子任务
-      </v-touch>
-    </div>
-    <div class="margin-block"/>
     <ul
       :class="{'has-border':!hasChild}"
       class="sublist">
@@ -24,9 +12,6 @@
             class="wrap-sub-icon"
             @tap="clickCheckOut(item)">
             <i class="icon2-check-box select-sub"/>
-            <div
-              :class="{'for-hide-sub':item.isDone}"
-              class="hide"/>
             <i
               :class="{'is-display-sub':item.isDone}"
               class="icon2-selected hide"/>
@@ -43,6 +28,16 @@
           </v-touch>
         </li>
       </template>
+      <div class="wrap">
+        <img
+          src="../../assets/img/addmenmber.png"
+          class="add">
+        <v-touch
+          class="write"
+          @tap="saveTodo">
+          添加子任务
+        </v-touch>
+      </div>
     </ul>
   </div>
 </template>
@@ -184,11 +179,8 @@
     position: fixed;
   }
   .wrap {
-    position: fixed;
+    position: relative;
     width: 100%;
-    top: 20px;
-    left: 0;
-    right: 0;
     z-index: 2;
   }
   input::-webkit-input-placeholder { /* WebKit browsers */
@@ -210,7 +202,7 @@
   }
   .list-below{
     border:none;
-    margin-left: 0.35rem;
+    margin-left: 15px;
     font-family: PingFangSC-Regular;
     /*line-height: 0.2rem;*/
     font-size: 17px;
@@ -243,8 +235,7 @@
   .add{
       position: absolute;
       top: 30%;
-      background-color: #55A8FD;
-      left:0.55rem;
+      // left:0.55rem;
       -webkit-appearance: none;
       width: 0.5333rem;
       height: 0.5333rem;
@@ -278,16 +269,16 @@
   }
   ul{
     position: relative;
-    margin-top:50px;
+    margin-top:20px;
     padding-left: 5%;
   }
   .is-display-sub{
     display: block;
     position:absolute;
-    top:0.36rem;
-    left: 0.05rem;
+    top:0.44rem;
+    left: 0.03rem;
     font-size: 15px;
-    color:#55A8FD;
+    color:#999999;
   }
   .for-hide-sub{
     position: absolute;
@@ -317,11 +308,9 @@
     background-color: white;
   }
   .write{
-    background: #FFFFFF;
-    border-bottom:0.5px solid #D4D4D4;
-    border-top:0.5px solid #D4D4D4;
+    // background: #FFFFFF;
     top: 20px;
-    padding-left:1.6rem;
+    padding-left:30px;
     z-index: 1;
     line-height: 0.6rem;
     padding-right: 2.432rem;

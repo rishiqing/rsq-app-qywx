@@ -402,7 +402,7 @@
         for (var i = 0; i < aLi.length; i++) {
           aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
         }
-        if (this.pos) {
+        if (this.currentSubPlanOfTask) {
           box.style.left = this.pos
           this.currNum = this.num
         }
@@ -661,11 +661,6 @@
           })
         })
       }
-    },
-    beforeRouteLeave (to, from, next) {
-      var pos = document.getElementsByClassName('card-list')[0].style.left
-      this.$store.commit('SAVE_CURRENT_LEFT', {pos: pos, num: this.currNum})
-      next()
     }
   }
 </script>

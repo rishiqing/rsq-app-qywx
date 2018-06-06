@@ -37,10 +37,10 @@
           </v-touch>
         </div>
       </r-pull-to-refresh>
-      <v-touch @tap="toInbox">
+      <v-touch @tap="createNew">
         <img
           class="main_inbox"
-          src="../../assets/img/main_inbox.png">
+          src="../../assets/img/add.svg">
       </v-touch>
       <r-nav/>
     </div>
@@ -121,9 +121,6 @@
       })
     },
     methods: {
-      toInbox () {
-        this.$router.push('/inbox')
-      },
       createNew () {
         //  过去的日期不允许创建任务
         if (this.currentNumDate + 24 * 3600 * 1000 > new Date().getTime()) {

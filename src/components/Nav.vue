@@ -2,67 +2,69 @@
   <div
     class="bot"
     style="position: fixed;bottom: 0;left: 0;right: 0;">
-    <div class="left">
-      <v-touch
-        :class="{'is-active': '/sche' == currentPath}"
-        class="left-sche"
-        @tap="reload('/sche')">
-        <span>
-          <img
-            v-show="'/sche' === currentPath"
-            src="../assets/img/sches.svg"
-            class="icon2-schedule richeng icon">
-          <img
-            v-show="'/sche' !== currentPath"
-            src="../assets/img/sche.svg"
-            class="icon2-schedule richeng icon">
-        </span>
-        <p
+    <div class="con">
+      <div class="left">
+        <v-touch
           :class="{'is-active': '/sche' == currentPath}"
-          class="sche">
-          我的日程
-        </p>
-      </v-touch>
-    </div>
-    <div class="mid">
-      <v-touch
-        :class="{'is-active': '/inbox' === currentPath}"
-        class="right-me"
-        @tap="toInbox">
-        <img
-          v-show="'/inbox' === currentPath"
-          src="../assets/img/inboxs.svg"
-          class="icon">
-        <img
-          v-show="'/inbox' !== currentPath"
-          src="../assets/img/inbox.svg"
-          class="icon">
-        <p
+          class="left-sche"
+          @tap="reload('/sche')">
+          <span>
+            <img
+              v-show="'/sche' === currentPath"
+              src="../assets/img/sches.svg"
+              class="icon2-schedule richeng icon">
+            <img
+              v-show="'/sche' !== currentPath"
+              src="../assets/img/sche.svg"
+              class="icon2-schedule richeng icon">
+          </span>
+          <p
+            :class="{'is-active': '/sche' == currentPath}"
+            class="sche">
+            我的日程
+          </p>
+        </v-touch>
+      </div>
+      <div class="mid">
+        <v-touch
           :class="{'is-active': '/inbox' === currentPath}"
-          class="my">
-          记事
-        </p>
-      </v-touch>
-    </div>
-    <div class="right">
-      <v-touch
-        :class="{'is-active': '/plan/list' === currentPath}"
-        class="right-me"
-        @tap="reload('/plan/list')">
-        <img
-          v-show="'/plan/list' === currentPath"
-          src="../assets/img/plans.svg"
-          class="icon">
-        <img
-          v-show="'/plan/list' !== currentPath"
-          src="../assets/img/planns.svg"
-          class="icon">
-        <p
+          class="right-me"
+          @tap="toInbox">
+          <img
+            v-show="'/inbox' === currentPath"
+            src="../assets/img/inboxs.svg"
+            class="icon">
+          <img
+            v-show="'/inbox' !== currentPath"
+            src="../assets/img/inbox.svg"
+            class="icon">
+          <p
+            :class="{'is-active': '/inbox' === currentPath}"
+            class="my">
+            记事
+          </p>
+        </v-touch>
+      </div>
+      <div class="right">
+        <v-touch
           :class="{'is-active': '/plan/list' === currentPath}"
-          class="my">
-          计划管理
-        </p>
-      </v-touch>
+          class="right-me"
+          @tap="reload('/plan/list')">
+          <img
+            v-show="'/plan/list' === currentPath"
+            src="../assets/img/plans.svg"
+            class="icon">
+          <img
+            v-show="'/plan/list' !== currentPath"
+            src="../assets/img/planns.svg"
+            class="icon">
+          <p
+            :class="{'is-active': '/plan/list' === currentPath}"
+            class="my">
+            计划管理
+          </p>
+        </v-touch>
+      </div>
     </div>
   </div>
 </template>
@@ -190,7 +192,13 @@
     clear: both;
   }
   .icon{
-    width: 26px;
-    height:26px
+    width: 22px;
+    height:22px
+  }
+  .con{
+    width: 78%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

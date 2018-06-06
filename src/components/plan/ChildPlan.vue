@@ -9,6 +9,7 @@
           <i class="icon2-arrow-down arrow-down"/>
         </v-touch>
         <v-touch
+          v-show="!initialState"
           class="set-plan"
           @tap="delayCall('setPlan', $event)" >
           <img
@@ -185,10 +186,10 @@
         <li
           v-show="ifShowCreate"
           class="post-sub-plan">
+          <div class="sub-plan-name more-sub-plan">更多操作</div>
           <img
-            src="../../assets/img/edit.png"
-            class="sub-plan-img">
-          <div class="sub-plan-name">编辑子计划</div>
+            src="../../assets/img/right.png"
+            class="right-icon">
         </li>
       </v-touch>
     </ul>
@@ -503,7 +504,7 @@
                 break
               case 1:
                 if (!that.removePlanControl) {
-                  alert('没有权限')
+                  window.rsqadmg.exec('alert', {message: '没有权限!'})
                   break
                 }
                 window.rsqadmg.exec('confirm', {
@@ -928,7 +929,7 @@
     align-items: center;
     justify-content: space-between;
     height: 1.1rem;
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .selected-icon{
     color: #55A8FD;
@@ -1035,7 +1036,7 @@
     border-bottom: 0.5px solid #D4D4D4;
   }
   ul.show-child{
-    top: 1.3rem
+    top: 46px
   }
   .child-plan {
     position: fixed;
@@ -1051,5 +1052,13 @@
   .am{
     transition: 0.2s;
     transition-timing-function: linear;
+  }
+  .more-sub-plan{
+    margin-left: 0;
+  }
+  .right-icon{
+    width: 8px;
+    position: absolute;
+    right: 26px
   }
 </style>

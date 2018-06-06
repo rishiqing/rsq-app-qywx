@@ -10,7 +10,6 @@
         <span class="new-child-plan">新建子计划</span>
       </v-touch>
     </div>
-    <div class="margin-block"/>
     <div class="child-item">
       <c-item-list
         :items="childPlanList"/>
@@ -48,7 +47,7 @@
     methods: {
       saveTodo () {
         if (!this.createPlanControl) {
-          alert('没有权限')
+          window.rsqadmg.exec('alert', {message: '没有权限'})
           return
         }
         this.initialState = !this.initialState
@@ -85,7 +84,7 @@
 <style lang="scss" scoped>
   .child-item{
     background-color: white;
-    border-bottom:1px solid #E3E3E3 ;
+    border-bottom:0.5px solid #d4d4d4 ;
     position: relative;
     z-index: 2;
   }
@@ -121,10 +120,10 @@
     line-height: 0.612rem;
     padding-bottom: 0.4rem;
     padding-top: 0.4rem;
-    border-bottom:1px solid #E3E3E3;
-    border-top:1px solid #E3E3E3;
+    border-bottom:0.5px solid #d4d4d4;
+    border-top:0.5px solid #d4d4d4;
     background: #FFFFFF;
-    margin-bottom: 0.224rem;
+    margin-bottom: 20px;
     z-index: 2;
     width: 100%;
     text-overflow: ellipsis;

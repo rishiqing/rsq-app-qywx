@@ -120,7 +120,7 @@
         this.$store.dispatch('cancelUploadToOSS', {
           pathId: this.unionId
         }).then(() => {
-          alert(1)
+          // alert(1)
         })
       }
     }

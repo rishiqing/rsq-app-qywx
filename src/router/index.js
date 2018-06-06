@@ -37,6 +37,7 @@ import PlanTodoNewDate from 'com/plan/PlanTodoNewDate'
 import PlanSubtodoList from 'com/plan/PlanSubtodoList'
 import PlanTodoEditSubtodo from 'com/plan/PlanTodoEditSubtodo'
 import PlanTodoComment from 'com/plan/PlanTodoComment'
+import InboxNew from 'com/inbox/InboxNew'
 
 Vue.use(Router)
 
@@ -52,6 +53,13 @@ const router = new Router({
       path: '/inbox',
       name: 'inbox',
       component: Inbox,
+      meta: {requireAuth: true}
+    },
+    //  新建收纳箱
+    {
+      path: '/inbox/new',
+      name: 'inboxNew',
+      component: InboxNew,
       meta: {requireAuth: true}
     },
     //  ------------------------

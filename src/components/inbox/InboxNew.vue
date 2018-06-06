@@ -59,6 +59,9 @@
     padding-top: 20px;
   }
   .newinbox{
+    outline: none;
+    -webkit-appearance: none;
+    box-shadow: 0;
     width: 100%;
     height: 26px;
     border: 0;
@@ -70,6 +73,7 @@
     padding: 15px;
   }
   .texrmore{
+    -webkit-appearance: none;
     border: 0;
     border-top: 0.5px solid #d4d4d4;
     border-bottom: 0.5px solid #d4d4d4;

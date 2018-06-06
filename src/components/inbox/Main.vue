@@ -28,7 +28,7 @@
     },
     data () {
       return {
-        titleName: '待办',
+        titleName: '记事',
         inputTitle: ''
       }
     },
@@ -74,6 +74,7 @@
   .inbox-item{
     background-color: white;
     margin-top: 20px;
+    margin-bottom: 50px;
     // border-bottom:0.5px solid #D4D4D4 ;
     // position: relative;
     // z-index: 2;

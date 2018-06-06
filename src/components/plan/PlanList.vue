@@ -8,16 +8,6 @@
         v-for="item in planItems"
         :key="item.id"
         :item="item"/>
-      <li
-        class="plan"
-        @click="toCreate">
-        <div class="forward-plan">
-          <img
-            src="../../assets/img/planlistadd.svg"
-            class="plan-image">
-          <span class="plan-name">新建计划</span>
-        </div>
-      </li>
     </ul>
     <v-touch
       v-else
@@ -27,6 +17,11 @@
       <p class="shouye">还没有计划，赶快点击“+”号创建吧</p>
     </v-touch>
     <r-nav/>
+    <v-touch @tap="toCreate">
+      <img
+        class="main_inbox"
+        src="../../assets/img/add.svg">
+    </v-touch>
   </div>
 </template>
 <script>
@@ -135,5 +130,12 @@
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
     // border-bottom: 1px solid #EAEAEA;
+  }
+  .main_inbox{
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
   }
 </style>

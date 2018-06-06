@@ -366,8 +366,8 @@
     color: #999999;
     font-size: 21px;
     position: absolute;
-    top: 50%;
-    margin-top: -0.25rem;
+    height: 100%;
+    line-height: 56px;
     right: 0.2rem;
 }
 </style>

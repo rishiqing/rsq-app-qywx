@@ -91,7 +91,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    line-height: 1.45rem;
+    line-height: 56px;
     background-color: transparent;
   }
   .inner-key{

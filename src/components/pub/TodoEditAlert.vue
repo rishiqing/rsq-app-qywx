@@ -263,7 +263,7 @@
           return jsUtil.alertRule2Time(o.schedule, that.numStartTime, that.numEndTime) < new Date().getTime()
         })
         if (alertNew) {
-          alert('提醒时间早于当前时间，可能不会收到提醒!')
+          window.rsqadmg.exec('alert', {message: '提醒时间早于当前时间，可能不会收到提醒!'})
         }
         this.$store.commit('PUB_TODO_TIME_CLOCK_UPDATE', {
           data: {
@@ -344,8 +344,8 @@
     .arrow{
       position: absolute;
       right: 0.2rem;
-      top: 50%;
-      margin-top: -0.25rem;
+    height: 100%;
+    line-height: 56px;
       font-size: 21px;
       color: #999999;
     }

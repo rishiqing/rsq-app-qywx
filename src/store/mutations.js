@@ -527,6 +527,8 @@ export default {
   },
   SET_EMPTY_CURRENT_SUB_PLAN (state, p) {
     state.currentSubPlan = ''
+    state.pos = ''
+    state.num = ''
   },
   PLAN_COVER_LIST_SET (state, p) {
     state.plan.coverList = p.coverList

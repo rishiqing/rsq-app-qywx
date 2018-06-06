@@ -30,7 +30,7 @@
 <style lang="scss" scoped>
   .c-plan-list{
     background-color: white;
-    border-top:1px solid #DADADA ;
+    border-top:0.5px solid #d4d4d4 ;
     padding-left: 3%;
     overflow-y: auto;
     overflow-x: hidden;

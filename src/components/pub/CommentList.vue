@@ -69,7 +69,11 @@
     },
     computed: {
       recordItems () {
-        return this.$store.state.record
+        // console.log(this.$store.state.record)
+        var arr = this.$store.state.record
+        var that = this
+        var record = arr.sort(that.compare)
+        return record
 //        if (this.items) {
 //          return this.items.filter(i => {
 //            return i.type !== 0
@@ -111,6 +115,17 @@
       this.changeState1()
     },
     methods: {
+      compare (o1, o2) {
+        var val1 = o1.dateCreated
+        var val2 = o2.dateCreated
+        if (val1 < val2) {
+          return -1
+        } else if (val1 > val2) {
+          return 1
+        } else {
+          return 0
+        }
+      },
       getFileName (file) {
         if (!file.name) return ''
         var arr = file.name.split('/')

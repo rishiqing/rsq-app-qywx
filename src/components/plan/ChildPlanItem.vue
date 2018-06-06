@@ -54,7 +54,7 @@
                   center: true,
                   title: '修改名称',
                   inputValidator: value => {
-                    if (!value) {
+                    if (!value || /^\s+$/.test(value)) {
                       return '请输入子计划名称'
                     }
                   }

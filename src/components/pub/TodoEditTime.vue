@@ -383,8 +383,8 @@
     .arrow{
       position: absolute;
       right: 0.2rem;
-      top: 50%;
-      margin-top: -0.25rem;
+    height: 100%;
+    line-height: 56px;
       font-size: 21px;
       color: #999999;
     }

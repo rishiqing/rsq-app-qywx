@@ -164,7 +164,7 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     beforeRouteLeave (to, from, next) {
-      if (!this.$refs.title.$refs.titleInput.value) {
+      if (!this.$refs.title.$refs.titleInput.value || /^\s+$/.test(this.$refs.title.$refs.titleInput.value)) {
         window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
         next(false)
         return

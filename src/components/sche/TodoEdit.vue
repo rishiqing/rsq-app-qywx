@@ -274,7 +274,7 @@
         this.$router.push('/sche/todo/comment')
       },
       saveTitle (newTitle) {
-        if (!newTitle) {
+        if (!newTitle || /^\s+$/.test(newTitle)) {
           window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
           return Promise.reject()
         }

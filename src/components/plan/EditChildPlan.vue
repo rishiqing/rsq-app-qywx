@@ -47,7 +47,7 @@
     methods: {
       saveTodo () {
         if (!this.createPlanControl) {
-          alert('没有权限')
+          window.rsqadmg.exec('alert', {message: '没有权限'})
           return
         }
         this.initialState = !this.initialState

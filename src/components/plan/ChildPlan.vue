@@ -504,7 +504,7 @@
                 break
               case 1:
                 if (!that.removePlanControl) {
-                  alert('没有权限')
+                  window.rsqadmg.exec('alert', {message: '没有权限!'})
                   break
                 }
                 window.rsqadmg.exec('confirm', {

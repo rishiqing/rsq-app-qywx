@@ -222,7 +222,7 @@
       changeImg (e) {
         const file = this.$refs.uploadImg.files[0]
         if (!new RegExp('image/').test(file.type)) {
-          alert('请传入图片')
+          window.rsqadmg.exec('alert', {message: '请传入图片'})
           return
         }
         const extNameArray = file.name.split('.')

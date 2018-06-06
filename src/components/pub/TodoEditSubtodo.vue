@@ -108,7 +108,11 @@
         const joinUsers = this.$store.state.subUserId[0] || ''
         const item = this.currentSubtodo
         const that = this
+        if (!name || /^\s+$/.test(name)) {
+          return
+        }
         window.rsqadmg.exec('showLoader', {text: '保存中...'})
+
         this.$store.dispatch('updateSubtodo', {item, id, name, isDone, endDate, startDate, dates, joinUsers})
           .then(() => {
             //  触发标记重复修改
@@ -163,13 +167,11 @@
     beforeRouteLeave (to, from, next) {
       if (to.name === 'subtodoList') {
         this.submitSubtodo()
-        next()
-      } else {
-        next()
       }
       if (to.name !== 'SubTodoEditDate') {
         this.$store.commit('PUB_TITLE_SUB', '')
       }
+      next()
     }
   }
 </script>

@@ -9,6 +9,7 @@
           <i class="icon2-arrow-down arrow-down"/>
         </v-touch>
         <v-touch
+          v-show="!initialState"
           class="set-plan"
           @tap="delayCall('setPlan', $event)" >
           <img
@@ -185,10 +186,10 @@
         <li
           v-show="ifShowCreate"
           class="post-sub-plan">
+          <div class="sub-plan-name more-sub-plan">更多操作</div>
           <img
-            src="../../assets/img/edit.png"
-            class="sub-plan-img">
-          <div class="sub-plan-name">编辑子计划</div>
+            src="../../assets/img/right.png"
+            class="right-icon">
         </li>
       </v-touch>
     </ul>
@@ -1051,5 +1052,13 @@
   .am{
     transition: 0.2s;
     transition-timing-function: linear;
+  }
+  .more-sub-plan{
+    margin-left: 0;
+  }
+  .right-icon{
+    width: 12px;
+    position: absolute;
+    right: 26px
   }
 </style>

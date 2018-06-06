@@ -72,7 +72,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    line-height: 1.45rem;
+    line-height: 56px;
     background-color: transparent;
   }
   .inner-key{
@@ -95,8 +95,8 @@
     color: #999999;
     font-size: 21px;
     position: absolute;
-    top:50%;
-    margin-top: -0.25rem;
+    height: 100%;
+    line-height: 56px;
     right: 0.2rem;
   }
   .has-padding{

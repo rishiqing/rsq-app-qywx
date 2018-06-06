@@ -89,7 +89,7 @@
   }
   .child-item{
     line-height: 1.412rem;
-    border-bottom:1px solid #E3E3E3;
+    border-bottom:0.5px solid #d4d4d4;
     background: #FFFFFF;
     width: 100%;
     text-overflow: ellipsis;

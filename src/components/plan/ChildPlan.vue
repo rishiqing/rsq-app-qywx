@@ -929,7 +929,7 @@
     align-items: center;
     justify-content: space-between;
     height: 1.1rem;
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .selected-icon{
     color: #55A8FD;
@@ -1036,7 +1036,7 @@
     border-bottom: 0.5px solid #D4D4D4;
   }
   ul.show-child{
-    top: 1.3rem
+    top: 46px
   }
   .child-plan {
     position: fixed;
@@ -1057,7 +1057,7 @@
     margin-left: 0;
   }
   .right-icon{
-    width: 12px;
+    width: 8px;
     position: absolute;
     right: 26px
   }

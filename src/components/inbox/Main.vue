@@ -1,41 +1,34 @@
 <template>
   <div class="inbox-main">
-    <div class="topest"/>
-    <div class="wrap">
-      <input
-        v-model="inputTitle"
-        class="write"
-        type="text"
-        placeholder="输入内容快速添加任务">
-      <v-touch
-        v-show="inputTitle !== ''"
-        class="btn-create"
-        @tap="saveTodo">
-        <span class="create">创建</span>
-      </v-touch>
-    </div>
-    <div class="margin-block"/>
     <div class="inbox-item">
       <r-todo-item-list
         v-if="items != null && items.length > 0"
         :items="items"
         :is-checkable="false"/>
     </div>
-    <div class="tips">收纳箱中的任务没有具体的日期，它可能是灵光乍现的想法，可能是同事拜托你的一件小事…</div>
+    <!-- <div class="tips">收纳箱中的任务没有具体的日期，它可能是灵光乍现的想法，可能是同事拜托你的一件小事…</div> -->
+    <v-touch @tap="toCreate">
+      <img
+        class="main_inbox"
+        src="../../assets/img/add.svg">
+    </v-touch>
+    <r-nav/>
   </div>
 
 </template>
 <script>
   import TodoItemList from 'com/sche/TodoItemList'
+  import nav from 'com/Nav'
 
   export default {
     name: 'InboxMain',
     components: {
-      'r-todo-item-list': TodoItemList
+      'r-todo-item-list': TodoItemList,
+      'r-nav': nav
     },
     data () {
       return {
-        titleName: '收纳箱',
+        titleName: '待办',
         inputTitle: ''
       }
     },
@@ -54,18 +47,8 @@
       fetchItems () {
         this.$store.dispatch('fetchInboxItems')
       },
-      saveTodo () {
-        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
-          alert('请输入内容')
-          return
-        }
-        window.rsqadmg.execute('showLoader', {text: '创建中...'})
-        this.$store.dispatch('submitCreateTodoItem', {newItem: {pTitle: this.inputTitle}, todoType: 'inbox'})
-          .then(() => {
-            this.inputTitle = ''
-            window.rsqadmg.exec('hideLoader')
-            window.rsqadmg.execute('toast', {message: '创建成功'})
-          })
+      toCreate () {
+        this.$router.push('/inbox/new')
       }
     }
   }
@@ -90,6 +73,7 @@
   }
   .inbox-item{
     background-color: white;
+    margin-top: 20px;
     // border-bottom:0.5px solid #D4D4D4 ;
     // position: relative;
     // z-index: 2;
@@ -165,5 +149,12 @@
     box-sizing: border-box;
     width: 80%;height:100%;
     padding: 10px;
+  }
+  .main_inbox{
+    position: fixed;
+    bottom: 80px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
   }
 </style>

@@ -119,6 +119,7 @@
       main.addEventListener('webkitTransitionEnd', () => {
         this.isShowAnimate = false
       })
+      this.pullRefresh()
     },
     methods: {
       createNew () {

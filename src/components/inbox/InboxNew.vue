@@ -17,7 +17,7 @@
           tag="a"
           class="weui-btn weui-btn_primary"
           href="javascript:;"
-          @tap="saveTodo">
+          @tap="delayCall('saveTodo')">
           创建
         </v-touch>
       </div>
@@ -37,6 +37,11 @@
       window.rsqadmg.execute('setTitle', {title: '新建记事'})
     },
     methods: {
+      delayCall (func) {
+        window.setTimeout(() => {
+          this[func].apply(this, Array.prototype.slice.call(arguments, 1))
+        }, 50)
+      },
       saveTodo () {
         if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
           window.rsqadmg.exec('alert', {message: '请输入标题'})

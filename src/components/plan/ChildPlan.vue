@@ -940,7 +940,7 @@
   .post-sub-plan{
     display: flex;
     align-items: center;
-    height: 1.1rem;
+    height: 40px;
   }
   .sub-plan-forward{
     display: flex;
@@ -967,7 +967,7 @@
     font-size: 17px;
     color: #3D3D3D;
     margin-left: 0.3rem;
-    width: 8rem;
+    width: 94%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -1080,7 +1080,7 @@
   }
   .right-icon{
     width: 8px;
-    position: absolute;
-    right: 26px
+    line-height: 40px;
+    vertical-align: middle;
   }
 </style>

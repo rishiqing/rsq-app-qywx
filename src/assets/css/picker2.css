@@ -188,3 +188,9 @@ padding-left: 0.8rem;
 input[type="text"]{
 	line-height: normal !important;
 }
+.ul-b .sche-list{
+	background-color: transparent !important;
+}
+.ul-b{
+	background-color: #fff;
+}

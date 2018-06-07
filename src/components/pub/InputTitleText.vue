@@ -98,7 +98,7 @@
   .wrap-icon{
     display: flex;
     align-items: center;
-    height: 1.28rem;
+    height: 64px;
     position: absolute;
   }
   .edit-text{

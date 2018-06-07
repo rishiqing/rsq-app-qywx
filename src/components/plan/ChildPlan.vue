@@ -19,7 +19,9 @@
       </div>
     </div>
     <div class="wrap">
-      <ul class="card-list">
+      <ul
+        style="transform: translateX(0px)"
+        class="card-list">
         <li
           v-for="item in cardList"
           :key="item.id"
@@ -222,7 +224,9 @@
         startx: 0,
         starty: 0,
         sliderD: '',
-        directionFristTouch: true
+        directionFristTouch: true,
+        sliderStart: 0,
+        sliderEnd: 0
       }
     },
     computed: {
@@ -403,8 +407,8 @@
         for (var i = 0; i < aLi.length; i++) {
           aLi[i].style.width = 1 / (aLi.length) * 100 + '%'
         }
-        if (this.currentSubPlanOfTask) {
-          box.style.left = this.pos
+        if (this.pos) {
+          box.style.transform = 'translateX(' + this.pos + 'px)'
           this.currNum = this.num
         }
         // 初始化手指坐标点
@@ -412,12 +416,14 @@
         var startEle = 0
         wrap.addEventListener('touchstart', function (e) {
           // e.preventDefault()
+          this.sliderStart = new Date().getTime()
           box.classList.remove('am')
           startPoint = e.changedTouches[0].pageX
           // console.log('e.changedTouches[0].pageX: ' + e.changedTouches[0].pageX)
           // console.log('ev.touches[0].clientX: ' + e.touches[0].clientX)
           // 这个地方暂时这样处理，实际不应该写死！应该是把offsetLeft减去margin  by wallace Mao
-          startEle = box.offsetLeft - 22
+          var leftfix = box.style.transform.match(/translateX\((.*)\)/)[1]
+          startEle = leftfix.substring(0, leftfix.length - 2)
           that.startx = e.touches[0].pageX
           that.starty = e.touches[0].pageY
         })
@@ -446,29 +452,34 @@
           // console.log('----currPoint: ' + currPoint + ', startPoint' + startPoint)
           var disX = currPoint - startPoint
           // console.log('----disX: ' + disX)
-          var left = startEle + disX
+          var left = startEle * 1 + disX
           // console.log('----left: ' + left)
           // if (Math.abs(Math.abs(startEle) - Math.abs(left)) > 1) {
-          box.style.left = left + 'px'
+          box.style.transform = 'translateX(' + left + 'px)'
           // }
         })
         wrap.addEventListener('touchend', function (e) {
           that.sliderD = ''
+          this.sliderEnd = new Date().getTime()
           that.directionFristTouch = true
+          var space = 0
           // e.preventDefault()
-          // 这个地方暂时这样处理，实际不应该写死！应该是把offsetLeft减去margin  by wallace Mao
-          var left = box.offsetLeft - 22
+          var leftfix = box.style.transform.match(/translateX\((.*)\)/)[1]
+          var left = leftfix.substring(0, leftfix.length - 2)
           box.classList.add('am')
+          // 若touch时间小于180，则默认是快速滑动，那么滑动间隔不受限制
+          if (this.sliderEnd - this.sliderStart >= 180) {
+            space = 60
+          }
           // 判断正在滚动的图片距离左右图片的远近，以及是否为最后一张或者第一张
-          if (Math.abs(startEle) - Math.abs(left) > 30 && left < 0) {
+          if (Math.abs(startEle) - Math.abs(left) > space && left < 0) {
             that.currNum = that.currNum - 1
-          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > 30) || (left > 0 && left < startEle)) {
+          } else if ((left < 0 && Math.abs(left) - Math.abs(startEle) > space) || (left > 0 && left < startEle)) {
             that.currNum = that.currNum + 1
           }
           that.currNum = that.currNum >= (aLi.length - 1) ? aLi.length - 1 : that.currNum
           that.currNum = that.currNum <= 0 ? 0 : that.currNum
-          box.style.left = -that.currNum * wrap.offsetWidth + 'px'
-          box.style.transition = '0.1'
+          box.style.transform = 'translateX(' + that.currNum * wrap.offsetWidth * -1 + 'px)'
         })
       },
       editCard (e, item) {
@@ -487,7 +498,7 @@
                   center: true,
                   inputValue: item.name,
                   inputValidator: value => {
-                    if (!value) {
+                    if (!value || /^\s+$/.test(value)) {
                       return '请输入卡片名称'
                     }
                   }
@@ -525,7 +536,9 @@
       },
       addTask (item) {
         this.$store.commit('SAVE_CURRENT_CARD_ID', item)
-        var pos = document.getElementsByClassName('card-list')[0].style.left
+        var posfix = document.getElementsByClassName('card-list')[0].style.transform
+        var posT = posfix.match(/translateX\((.*)\)/)[1]
+        var pos = posT.substring(0, posT.length - 2)
         this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         this.$store.commit('SAVE_CURRENT_LEFT', {pos: pos, num: this.currNum})
         this.$store.dispatch('setCurrentKanbanItem', def.defaultKanbanItem())
@@ -663,6 +676,14 @@
         })
       }
     }
+    //  存储卡片位置，在缓存做完之前暂不启用
+    // beforeRouteLeave (to, from, next) {
+    //   var posfix = document.getElementsByClassName('card-list')[0].style.transform
+    //   var posT = posfix.match(/translateX\((.*)\)/)[1]
+    //   var pos = posT.substring(0, posT.length - 2)
+    //   this.$store.commit('SAVE_CURRENT_LEFT', {pos: pos, num: this.currNum})
+    //   next()
+    // }
   }
 </script>
 <style lang="scss" scoped>
@@ -851,6 +872,7 @@
     margin-left: 22px;
     // transition: 0.01s;
     overflow: hidden;
+    transform: translateX(0px);
     // -webkit-overflow-scrolling: touch;
   }
   .wrap-button{
@@ -1050,8 +1072,8 @@
     box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
   }
   .am{
-    transition: 0.2s;
-    transition-timing-function: linear;
+    transition: 0.25s;
+    transition-timing-function: ease-out;
   }
   .more-sub-plan{
     margin-left: 0;

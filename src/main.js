@@ -1,5 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import 'as/css/element-ui.css'
 import 'as/css/index.scss'
 import 'as/css/picker2.css'
 import 'as/css/message-box.css'
@@ -37,10 +38,10 @@ if (window.rsqConfig.env === 'prod') {
     .addPlugin(RavenVue, Vue)
     .install()
 } else {
-  const ele = document.getElementById('splashLoading')
-  if (ele) {
-    ele.parentNode.removeChild(ele)
-  }
+  // const ele = document.getElementById('splashLoading')
+  // if (ele) {
+  //   ele.parentNode.removeChild(ele)
+  // }
 }
 document.querySelector('body').addEventListener('touchend', function () {
   let inputArrays = document.querySelectorAll('input')

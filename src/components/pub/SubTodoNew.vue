@@ -47,7 +47,7 @@
                   tag="a"
                   class="weui-btn weui-btn_primary"
                   href="javascript:;"
-                  @tap="submitTodo">
+                  @tap="delayCall('submitTodo')">
                   创建
                 </v-touch>
               </div>
@@ -159,9 +159,14 @@
       saveTodoState () {
         this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
       },
+      delayCall (func) {
+        window.setTimeout(() => {
+          this[func].apply(this, Array.prototype.slice.call(arguments, 1))
+        }, 50)
+      },
       submitTodo () {
         if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
-          return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
+          return window.rsqadmg.execute('alert', {message: '请填写任务标题'})
         }
         // if (!this.sub.datas && !this.sub.startDate) {
         //   return window.rsqadmg.execute('alert', {message: '请选择时间'})

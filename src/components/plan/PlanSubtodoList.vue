@@ -84,7 +84,7 @@
       },
       saveTodo () {
         if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
-          return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
+          return window.rsqadmg.execute('alert', {message: '请填写任务标题'})
         }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.kanbanItemId})

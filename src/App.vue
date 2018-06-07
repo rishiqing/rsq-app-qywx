@@ -50,13 +50,13 @@
               ele.parentNode.removeChild(ele)
             }, 300)
           }
-        }, 500
+        }, 200
       )
     }
   }
 </script>
 <style>
-  .fade-enter-active, .fade-leave-active {
+  .fade-enter-active, .fade-leave-active, .ease-hide{
     transition: opacity 1s
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {

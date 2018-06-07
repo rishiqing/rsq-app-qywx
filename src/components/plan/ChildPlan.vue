@@ -1018,7 +1018,7 @@
     left: 0;
     right: 0;
     z-index: 30;
-    opacity: 0.1212;
+    opacity: 0.6;
   }
   .card{
     position: relative;

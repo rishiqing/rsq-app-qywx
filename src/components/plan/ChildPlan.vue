@@ -1011,14 +1011,14 @@
   .mask{
     width: 100%;
     height: 100%;
-    background: #F5F5F5;
+    background: #000;
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 30;
-    opacity: 0.5;
+    opacity: 0.6;
   }
   .card{
     position: relative;
@@ -1069,7 +1069,7 @@
     width: 96%;
     padding-left: 15px;
     padding-right: 15px;
-    box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
+    // box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
   }
   .am{
     transition: 0.25s;

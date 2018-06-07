@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="https://rishiqing-front.oss-cn-beijing.aliyuncs.com/dingtalk/public/element-ui.css">
     <style type="text/css">
       .splash-loading {
-        position:fixed;left:0;top:0;right:0;bottom:0;background:#4F77AA;color: #fff;
+        position:fixed;left:0;top:0;right:0;bottom:0;background:#f5f5f5;color: #fff;
+        display: flex;
+        align-items: center;
         transition: all 0.3s ease-in-out;
       }
       .splash-wrap {
@@ -35,6 +37,58 @@
       div.ease-hide {
         opacity: 0;
       }
+      .spinner {
+  margin: 100px auto;
+  width: 50px;
+  height: 60px;
+  text-align: center;
+  font-size: 10px;
+}
+ 
+.spinner > div {
+  background-color: #d4d4d4;
+  height: 30%;
+  width: 3px;
+  display: inline-block;
+   
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+ 
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+ 
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+ 
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+ 
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+ 
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) } 
+  20% { -webkit-transform: scaleY(1.0) }
+}
+ 
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}
     </style>
     <!-- 引入组件库 -->
     <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
@@ -67,10 +121,13 @@
   <body>
   <div id="app"></div>
   <div id="splashLoading" class="splash-loading">
-    <div class="splash-wrap">
-      <img src="https://rishiqing-front.oss-cn-beijing.aliyuncs.com/qywx/start.png">
-      <p>欢迎使用日事清，即刻开始享受工作</p>
-    </div>
+      <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+      </div>
   </div>
   </body>
 </html>

@@ -160,6 +160,9 @@
     position: relative;
     user-select: none;
   }
+   .slider:last-child {
+    border-bottom: 0;
+  }
   .slider  .content{
     z-index: 100;
   transition: 0.3s;

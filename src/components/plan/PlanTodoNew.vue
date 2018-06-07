@@ -171,7 +171,7 @@
       },
       submitTodo () {
         if (!this.editItem.name || /^\s+$/.test(this.editItem.name)) {
-          return window.rsqadmg.execute('alert', {message: '请填写任务名称'})
+          return window.rsqadmg.execute('alert', {message: '请填写任务标题'})
         }
 
         this.saveTodoState()

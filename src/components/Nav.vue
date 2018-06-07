@@ -3,11 +3,12 @@
     class="bot"
     style="position: fixed;bottom: 0;left: 0;right: 0;">
     <div class="con">
-      <div class="left">
-        <v-touch
+      <v-touch
+        class="left"
+        @tap="reload('/sche')">
+        <div
           :class="{'is-active': '/sche' == currentPath}"
-          class="left-sche"
-          @tap="reload('/sche')">
+          class="left-sche">
           <span>
             <img
               v-show="'/sche' === currentPath"
@@ -23,13 +24,14 @@
             class="sche">
             我的日程
           </p>
-        </v-touch>
-      </div>
-      <div class="mid">
-        <v-touch
+        </div>
+      </v-touch>
+      <v-touch
+        class="mid"
+        @tap="toInbox">
+        <div
           :class="{'is-active': '/inbox' === currentPath}"
-          class="right-me"
-          @tap="toInbox">
+          class="right-me">
           <img
             v-show="'/inbox' === currentPath"
             src="../assets/img/inboxs.svg"
@@ -43,13 +45,14 @@
             class="my">
             记事
           </p>
-        </v-touch>
-      </div>
-      <div class="right">
-        <v-touch
+        </div>
+      </v-touch>
+      <v-touch
+        class="right"
+        @tap="reload('/plan/list')">
+        <div
           :class="{'is-active': '/plan/list' === currentPath}"
-          class="right-me"
-          @tap="reload('/plan/list')">
+          class="right-me">
           <img
             v-show="'/plan/list' === currentPath"
             src="../assets/img/plans.svg"
@@ -63,8 +66,8 @@
             class="my">
             计划管理
           </p>
-        </v-touch>
-      </div>
+        </div>
+      </v-touch>
     </div>
   </div>
 </template>

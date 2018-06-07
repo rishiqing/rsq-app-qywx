@@ -56,7 +56,7 @@
           tag="a"
           class="weui-btn weui-btn_primary"
           href="javascript:;"
-          @tap="create">
+          @tap="delayCall('create')">
           创建
         </v-touch>
       </div>
@@ -168,6 +168,11 @@
       this.fetchUserIds(this.userRsqIdArray, 'localList')
     },
     methods: {
+      delayCall (func) {
+        window.setTimeout(() => {
+          this[func].apply(this, Array.prototype.slice.call(arguments, 1))
+        }, 50)
+      },
       create () {
         var that = this
         if (!this.content || /^\s+$/.test(that.content)) {

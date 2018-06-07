@@ -37,10 +37,10 @@ if (window.rsqConfig.env === 'prod') {
     .addPlugin(RavenVue, Vue)
     .install()
 } else {
-  const ele = document.getElementById('splashLoading')
-  if (ele) {
-    ele.parentNode.removeChild(ele)
-  }
+  // const ele = document.getElementById('splashLoading')
+  // if (ele) {
+  //   ele.parentNode.removeChild(ele)
+  // }
 }
 document.querySelector('body').addEventListener('touchend', function () {
   let inputArrays = document.querySelectorAll('input')

@@ -194,3 +194,6 @@ input[type="text"]{
 .ul-b{
 	background-color: #fff;
 }
+.v-modal{
+	opacity: 0.6 !important;
+}

@@ -1069,7 +1069,7 @@
     width: 96%;
     padding-left: 15px;
     padding-right: 15px;
-    box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
+    // box-shadow: 0 2px 2px 0 rgba(233,233,233,0.50);
   }
   .am{
     transition: 0.25s;

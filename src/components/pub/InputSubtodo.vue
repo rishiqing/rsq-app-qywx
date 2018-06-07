@@ -89,7 +89,7 @@
     font-size: 13px;
     color: rgba(25,31,37,0.56);
     letter-spacing: 0;
-    line-height: 1rem
+    line-height: 56px
   }
   .arrow{
     color: #999999;

@@ -259,6 +259,7 @@
     border-top: 0.5px solid #D4D4D4;
     border-bottom: 0.5px solid #D4D4D4;
     margin-top: 10px;
+    background-color: #fff;
   }
   .router-view{
     height: 100%;

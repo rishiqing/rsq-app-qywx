@@ -15,7 +15,7 @@
       <input
         ref="titleInput"
         :value="itemTitle"
-        :class="{'padding-left-input':isCheckable,'edit-border':isShowBottomBorder}"
+        :class="{'padding-fix':!isCheckable,'edit-border':isShowBottomBorder}"
         :placeholder="placeholder"
         class="title-input"
         type="text"
@@ -170,5 +170,8 @@
     color: #3D3D3D;
     margin-left: 20px;
     padding-left: 35px;
+  }
+  .padding-fix{
+    padding-left: 0 !important;
   }
 </style>

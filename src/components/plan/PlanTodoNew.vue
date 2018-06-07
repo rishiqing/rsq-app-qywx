@@ -201,6 +201,7 @@
   .input-title{
     border-top: 0.5px solid #d4d4d4;
     border-bottom: 0.5px solid #d4d4d4;
+    background-color: #fff;
   }
   .router-view{
     height: 100%;

@@ -39,7 +39,7 @@
     methods: {
       saveTodo () {
         if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
-          window.rsqadmg.exec('alert', {message: '请输入内容'})
+          window.rsqadmg.exec('alert', {message: '请输入标题'})
           return
         }
         window.rsqadmg.execute('showLoader', {text: '创建中...'})

@@ -3,8 +3,8 @@
     <div
       class="outer-wrap bottom-border-2">
       <span class="inner-key">{{ dateString ? dateString : '日期' }}</span>
+      <i class="icon2-arrow-right-small arrow"/>
     </div>
-    <i class="icon2-arrow-right-small arrow"/>
   </v-touch>
 </template>
 <script>

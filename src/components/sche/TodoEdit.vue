@@ -8,7 +8,7 @@
             <r-input-title
               ref="title"
               :is-edit="true"
-              :is-checkable="true"
+              :is-checkable="!isInbox"
               :item-title="editItem.pTitle "
               :item-checked="editItem.pIsDone"
               :is-disabled="!isEditable"

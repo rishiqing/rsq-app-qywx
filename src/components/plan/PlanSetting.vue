@@ -518,7 +518,6 @@
   .mp{
     width: 21px;
     height: 5px;
-    position: absolute;
-    right: 15px
+  margin-left: 20px;
   }
 </style>

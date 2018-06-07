@@ -409,8 +409,7 @@
   .mp{
     width: 21px;
     height: 5px;
-    position: absolute;
-    right: 15px
+  margin-left: 20px;
   }
     .add-member{
     color: #D6D6D6;

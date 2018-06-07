@@ -31,7 +31,6 @@
                 <r-input-time
                   :item="editItem"
                   :has-left-space="true"/>
-                <i class="icon2-arrow-right-small arrow"/>
               </div>
             </div>
             <div class="secondGroup">

@@ -5,7 +5,7 @@
       :class="{'plan-count': planCount}"
       class="plan-list">
       <r-plan
-        v-for="item in planItems"
+        v-for="item in planSort"
         :key="item.id"
         :item="item"/>
     </ul>
@@ -44,6 +44,16 @@
       },
       planCount () {
         return this.planItems.length > 8
+      },
+      planSort () {
+        var arr = [...this.planItems]
+        arr.map(function (o, i) {
+          if (o.starMark === true) {
+            var select = arr.splice(i, 1)
+            arr.unshift(select[0])
+          }
+        })
+        return arr
       }
     },
     mounted () {

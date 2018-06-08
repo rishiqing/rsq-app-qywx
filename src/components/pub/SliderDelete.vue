@@ -29,7 +29,7 @@
         moveX: 0,
         disX: 0,
         deleteSlider: '',
-        threshold: 50  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        threshold: 0  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
       }
     },
     methods: {
@@ -107,8 +107,7 @@
     /*bottom: 0;*/
     /*background:green;*/
     z-index: 100;
-  //    设置过渡动画
-  transition: 0.3s;
+  transition: transform 0.3s;
     width: 120%;
     display: flex;
     align-items: center;

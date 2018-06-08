@@ -192,7 +192,7 @@
     width: 100%;
   }
   .margin-left{
-    margin-left:-1rem
+    margin-left:-35px
   }
   .real-width-sche{}
   .todo-content-sche{

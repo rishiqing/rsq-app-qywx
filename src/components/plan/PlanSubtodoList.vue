@@ -300,4 +300,11 @@
     width: 80%;height:100%;
     padding: 10px;
   }
+    .write::-webkit-input-placeholder { /* WebKit browsers */
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #999999;
+    height: 100%;
+    line-height: 17px
+  }
 </style>

@@ -29,7 +29,7 @@
         moveX: 0,
         disX: 0,
         deleteSlider: '',
-        threshold: 0  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        threshold: 60  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
       }
     },
     methods: {

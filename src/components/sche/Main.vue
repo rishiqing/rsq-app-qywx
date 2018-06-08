@@ -127,6 +127,8 @@
         if (this.currentNumDate + 24 * 3600 * 1000 > new Date().getTime()) {
           this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
           this.$router.push('/sche/todo/create')
+        } else {
+          window.rsqadmg.exec('topTips', {message: '过去的日期不允许创建任务！'})
         }
       },
       onPanMove (p) {

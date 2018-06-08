@@ -101,7 +101,7 @@
     height: 64px;
     position: absolute;
     justify-content:center;
-    width: 1.2rem;
+    // width: 1.2rem;
     margin-left: 20px;
   }
   .edit-text{
@@ -158,10 +158,13 @@ display: block;
     padding-left: 0.3rem;
   }
   input::-webkit-input-placeholder { /* WebKit browsers */
-    font-size: 0.506rem;
+    font-size: 17px;
+    height: 100%;
+    line-height: 17px;
     color: #8C8C8C;
     letter-spacing: 0;
     padding-left: 0.1rem;
+    padding-top: 2px;
   }
   input[type='text']{
     height: 64px;
@@ -171,7 +174,7 @@ display: block;
     border-radius: 0;
     color: #3D3D3D;
     margin-left: 20px;
-    padding-left: 1.2rem;
+    padding-left: 35px;
   }
   .padding-fix{
     padding-left: 0 !important;

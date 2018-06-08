@@ -156,9 +156,10 @@
   }
   .write::-webkit-input-placeholder { /* WebKit browsers */
     font-family: PingFangSC-Regular;
-    font-size: 0.453rem;
+    font-size: 17px;
     color: #999999;
-    height: 1.4rem;
+    height: 100%;
+    line-height: 17px
   }
   .margin-block {
   height: 96px;

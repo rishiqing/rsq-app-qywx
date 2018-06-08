@@ -298,7 +298,7 @@
     width: 100%;
   }
   .add-title::-webkit-input-placeholder { /* WebKit browsers */
-    font-size: 0.506rem;
+    font-size: 17px;
     color: #8C8C8C;
     letter-spacing: 0;
     padding-left: 0.1rem;
@@ -307,7 +307,7 @@
     background: #FFFFFF;
     line-height:0.72rem ;
     padding: 15px;
-    font-size: 0.506rem;
+    font-size: 17px;
     border-radius: 0;
     color: #3D3D3D;
   }

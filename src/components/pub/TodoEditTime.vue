@@ -9,7 +9,7 @@
           </div>
         </div>
       </v-touch>
-      <i class="icon2-arrow-right-small arrow ab"/>
+      <i class="icon2-arrow-right-small ab"/>
       <v-touch class="chosetime">
         <div
           class="setEndTime"
@@ -387,6 +387,9 @@
     line-height: 56px;
       font-size: 21px;
       color: #999999;
+      display: flex;
+    justify-content: center;
+    align-items: center;
     }
     ul{
       background-color: white;
@@ -439,8 +442,10 @@
       }
       .ab{
           position: absolute;
-          left: 0;
+          left: 50%;
           top: 50%;
+          font-size: 21px;
+          transform: translate(-50%, -50%)
         }
     }
     .last{
@@ -481,6 +486,6 @@
   .clear{
     color: #000 !important;
     background-color: #fff;
-    border: 0.5px solid #d4d4d4
+    border: 0.5px solid #d4d4d4;
   }
 </style>

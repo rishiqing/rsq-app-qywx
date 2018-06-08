@@ -96,7 +96,7 @@
       },
       finishChecked () {
         const item = this.currentSubtodo
-        const nowState = !item.isDone
+        const nowState = !this.editItem.isDone
         this.$store.dispatch('updateKanbanSubtodo', {id: item.id, isDone: !item.isDone})
           .then(() => {
             this.editItem.isDone = nowState

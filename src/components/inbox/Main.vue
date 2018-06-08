@@ -1,18 +1,28 @@
 <template>
   <div class="inbox-main">
     <div class="inbox-item">
+      <div class="topest"/>
+      <div class="wrap">
+        <input
+          v-model="inputTitle"
+          class="write"
+          type="text"
+          placeholder="输入内容快速添加任务">
+        <v-touch
+          v-show="inputTitle !== ''"
+          class="btn-create"
+          @tap="saveTodo">
+          <span class="create">创建</span>
+        </v-touch>
+      </div>
+      <div class="margin-block"/>
       <r-todo-item-list
         v-if="items != null && items.length > 0"
         :items="items"
         :is-checkable="false"/>
     </div>
-    <!-- <div class="tips">收纳箱中的任务没有具体的日期，它可能是灵光乍现的想法，可能是同事拜托你的一件小事…</div> -->
-    <v-touch @tap="toCreate">
-      <img
-        class="main_inbox"
-        src="../../assets/img/add.svg">
-    </v-touch>
     <r-nav/>
+    <!-- <div class="tips">收纳箱中的任务没有具体的日期，它可能是灵光乍现的想法，可能是同事拜托你的一件小事…</div> -->
   </div>
 
 </template>
@@ -49,6 +59,19 @@
       },
       toCreate () {
         this.$router.push('/inbox/new')
+      },
+      saveTodo () {
+        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
+          window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
+          return
+        }
+        window.rsqadmg.execute('showLoader', {text: '创建中...'})
+        this.$store.dispatch('submitCreateTodoItem', {newItem: {pTitle: this.inputTitle}, todoType: 'inbox'})
+          .then(() => {
+            this.inputTitle = ''
+            window.rsqadmg.exec('hideLoader')
+            window.rsqadmg.execute('toast', {message: '创建成功'})
+          })
       }
     }
   }
@@ -72,8 +95,8 @@
     height: 4.9%;
   }
   .inbox-item{
-    background-color: white;
-    margin-top: 20px;
+    // background-color: white;
+    // margin-top: 20px;
     margin-bottom: 50px;
     // border-bottom:0.5px solid #D4D4D4 ;
     // position: relative;
@@ -138,9 +161,7 @@
     height: 1.4rem;
   }
   .margin-block {
-    height: 1.9rem;
-    z-index: 1;
-    margin-bottom: 20px
+  height: 96px;
   }
   .input-panel {
     position: fixed;
@@ -150,12 +171,5 @@
     box-sizing: border-box;
     width: 80%;height:100%;
     padding: 10px;
-  }
-  .main_inbox{
-    position: fixed;
-    bottom: 80px;
-    right: 24px;
-    width: 48px;
-    height: 48px;
   }
 </style>

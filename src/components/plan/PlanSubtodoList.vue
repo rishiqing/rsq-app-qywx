@@ -243,7 +243,7 @@
   .is-display-sub{
     display: block;
     position:absolute;
-    top:0.36rem;
+    // top:0.36rem;
     left: 0.05rem;
     font-size: 15px;
     color:#999;

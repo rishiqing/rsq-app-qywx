@@ -306,7 +306,7 @@
   .add-title[type='text']{
     background: #FFFFFF;
     line-height:0.72rem ;
-    padding: 0.3rem;
+    padding: 15px;
     font-size: 0.506rem;
     border-radius: 0;
     color: #3D3D3D;

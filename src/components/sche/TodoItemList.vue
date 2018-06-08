@@ -61,7 +61,7 @@
   .sche-list{
     background-color: white;
     border-top:0.5px solid #D4D4D4 ;
-    padding-left: 3%;
+    padding-left: 20px;
     // overflow-y: auto;
     overflow-x: hidden;
   }

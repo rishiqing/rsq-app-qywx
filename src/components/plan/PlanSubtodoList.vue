@@ -243,7 +243,7 @@
   .is-display-sub{
     display: block;
     position:absolute;
-    top:0.36rem;
+    // top:0.36rem;
     left: 0.05rem;
     font-size: 15px;
     color:#999;
@@ -299,5 +299,12 @@
     box-sizing: border-box;
     width: 80%;height:100%;
     padding: 10px;
+  }
+    .write::-webkit-input-placeholder { /* WebKit browsers */
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #999999;
+    height: 100%;
+    line-height: 17px
   }
 </style>

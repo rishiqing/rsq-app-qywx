@@ -2,7 +2,7 @@
   <r-slider-delete @deleteItem="deleteItem">
     <li class="todoItem">
       <v-touch
-        style="margin-left: 1rem"
+        style="margin-left: 35px"
         @tap="clickItem($event)">
         <div
           :class="{'margin-left':!isCheckable}"
@@ -39,8 +39,6 @@
         <i
           :class="{'icon-check_box_outline_blank': !item.pIsDone, 'icon-check': item.pIsDone}"
           class="icon2-check-box select"/>
-        <div
-          class="hide"/>
         <i
           :class="{'isdisplay':item.pIsDone}"
           class="icon2-selected hide"/>
@@ -218,9 +216,10 @@
   }
   .isdisplay{
     display: block;
-    position:absolute;
-    top:0.49rem;
-    right: 0.22rem;
+    // position:absolute;
+    // top:0.49rem;
+    // right: 0.22rem;
+    transform: translateY(-36px) translateX(3px);
     font-size: 15px;
     color:#999;
   }
@@ -261,23 +260,19 @@
   }
   .item-title{}
   .select{
-    color:#b9b9bc;
+     color: #b9b9bc;
     font-size: 20px;
     display: block;
-    margin: 20px 0 0 0.3rem;
-    /*position: absolute;*/
-    /*top:0.58rem;*/
-    /*<!--top:50%;-->*/
-    /*<!--margin-top: -0.22rem;-->*/
-    /*left:0.2rem;*/
-    /*background: #FFFFFF;*/
+    // margin: 20px auto;
+    line-height: 56px;
     border-radius: 1px;
+    width: 20px;
   }
   .todo-checkbox {
     position: absolute;
     top: 0;
-    left: -0.1rem;
-    width: 1rem;
+    // left: -0.1rem;
+    // width: 1rem;
     height: 56px;
     line-height: 56px;
   }

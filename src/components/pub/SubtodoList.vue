@@ -195,6 +195,8 @@
     background-color: white;
     padding-left: 0.6rem;
     z-index: 0;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .has-border{
     border-top:0.5px solid #D4D4D4;

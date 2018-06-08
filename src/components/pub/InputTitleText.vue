@@ -100,6 +100,9 @@
     align-items: center;
     height: 64px;
     position: absolute;
+    justify-content:center;
+    // width: 1.2rem;
+    margin-left: 20px;
   }
   .edit-text{
     font-family: PingFangSC-Medium;
@@ -127,19 +130,18 @@
   }
   .select-title{
     color:#b1b1b1;
-    font-size: 0.506rem;
-    top:0.39rem;
-    margin-left:20px;
+    font-size: 20px;
+    // top:0.39rem;
+    // margin-left:20px;
     background: #FFFFFF;
     border-radius: 1px;
   }
   .is-display-title{
-    display: block;
-    position:absolute;
-    top:0.44rem;
-    left: 0.4rem;
+display: block;
+    // transform: translateX(-17px) translateY(0px);
     font-size: 15px;
-    color:#999;
+    color: #999;
+    margin-left: -17px;
   }
   .for-hide-title{
     position: absolute;
@@ -156,10 +158,13 @@
     padding-left: 0.3rem;
   }
   input::-webkit-input-placeholder { /* WebKit browsers */
-    font-size: 0.506rem;
+    font-size: 17px;
+    height: 100%;
+    line-height: 17px;
     color: #8C8C8C;
     letter-spacing: 0;
     padding-left: 0.1rem;
+    padding-top: 2px;
   }
   input[type='text']{
     height: 64px;

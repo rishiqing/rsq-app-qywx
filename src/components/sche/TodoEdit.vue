@@ -688,8 +688,8 @@
      padding-top: 20px;
   }
   .sub-todo-png{
-    width: 20px;
-    height: 20px;
+    width: 0.586rem;
+    height: 0.586rem;
   }
   .talk-png{
     width: 17px;

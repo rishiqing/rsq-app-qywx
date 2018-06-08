@@ -44,7 +44,7 @@
         moveX: 0,
         disX: 0,
         deleteSlider: '',
-        threshold: 50  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        threshold: 0  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
       }
     },
     computed: {
@@ -121,10 +121,18 @@
         }
       },
       starTo () {
-        this.$store.dispatch('saveStar', {kanbanId: this.item.id})
+        var that = this
+        this.flash()
+        that.$store.dispatch('saveStar', {kanbanId: that.item.id})
       },
       starOut () {
-        this.$store.dispatch('cancelStar', {kanbanId: this.item.id})
+        var that = this
+        this.flash()
+        that.$store.dispatch('cancelStar', {kanbanId: that.item.id})
+      },
+      flash () {
+        this.deleteSlider = 'transform:translateX(0px)'
+        this.$emit('list-sort', this.item)
       }
     }
   }
@@ -159,6 +167,7 @@
     width: 131%;
     position: relative;
     user-select: none;
+    transition: transform 0.3s;
   }
    .slider:last-child {
     border-bottom: 0;

@@ -5,9 +5,10 @@
       :class="{'plan-count': planCount}"
       class="plan-list">
       <r-plan
-        v-for="item in planSort"
+        v-for="item in arr"
         :key="item.id"
-        :item="item"/>
+        :item="item"
+        @list-sort="listSort"/>
     </ul>
     <v-touch
       v-else
@@ -36,6 +37,7 @@
     },
     data () {
       return {
+        arr: []
       }
     },
     computed: {
@@ -44,16 +46,28 @@
       },
       planCount () {
         return this.planItems.length > 8
-      },
-      planSort () {
-        var arr = [...this.planItems]
-        arr.map(function (o, i) {
-          if (o.starMark === true) {
-            var select = arr.splice(i, 1)
-            arr.unshift(select[0])
-          }
-        })
-        return arr
+      }
+      // planSort () {
+        // this.arr = this.planItems
+        // for (let i = 0; i < this.arr.length; i++) {
+        //   if (this.arr[i].starMark === true) {
+        //     var select = this.arr.splice(i, 1)
+        //     // console.log(arr)
+        //     this.arr.unshift(select[0])
+        //   }
+        // }
+        // arr.map(function (o, i) {
+        //   if (o.starMark === true) {
+        //     var select = arr.splice(i, 1)
+        //     arr.unshift(select[0])
+        //   }
+        // })
+        // return arr
+      // }
+    },
+    watch: {
+      planItems (newId) {
+        this.arr = [...newId]
       }
     },
     mounted () {
@@ -65,6 +79,21 @@
     methods: {
       toCreate () {
         this.$router.push('/plan/create')
+      },
+      listSort (item) {
+        // console.log(this.arr)
+        var that = this
+        for (let i = 0; i < that.arr.length; i++) {
+          if (item.id === that.arr[i].id) {
+            if (!item.starMark) {
+              var select = that.arr.splice(i, 1)[0]
+              that.arr.unshift(select)
+            } else {
+              var select2 = that.arr.splice(i, 1)[0]
+              that.arr.push(select2)
+            }
+          }
+        }
       }
     }
   }

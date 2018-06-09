@@ -144,7 +144,7 @@
     border-bottom:0.5px solid #D4D4D4;
     border-top:0.5px solid #D4D4D4;
     background: #FFFFFF;
-    padding-left:0.3rem;
+    padding-left:20px;
     padding-right: 2.432rem;
     margin-bottom: 0.224rem;
     z-index: 2;

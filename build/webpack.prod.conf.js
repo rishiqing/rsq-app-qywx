@@ -53,7 +53,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       env: 'prod',
-      backendServer: config.build.backendServer,
+      rsqServer: config.build.rsqServer,
       authServer: config.build.authServer,
       apiServer: config.build.apiServer,
       stsServer: config.build.stsServer,

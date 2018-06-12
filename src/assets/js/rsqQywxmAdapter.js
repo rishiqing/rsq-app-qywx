@@ -143,6 +143,16 @@ rsqAdapterManager.register({
               rsqAdapterManager.ajax.get(loginUrl, {
                 token: authUser.rsqLoginToken
               }, function(result){
+                //  企业微信打开默认浏览器直接登录
+                if (wx) {
+                  wx.invoke('openDefaultBrowser', {
+                    'url': rsqConfig.apiServer + 'task/qywxOauth/tokenDirectSignIn?token=' + authUser.rsqLoginToken
+                  }, function(res){
+                    if(res.err_msg != "openDefaultBrowser:ok"){
+                      //错误处理
+                    }
+                  });
+                }
                 var resJson = JSON.parse(result);
                 // console.log(JSON.stringify(resJson))
                 if(resJson.success){
@@ -182,7 +192,7 @@ rsqAdapterManager.register({
       nonceStr: params.nonceStr,  // 必填，生成签名的随机串
       signature: params.signature,  // 必填，签名，见[附录1](#11974)
       // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-      jsApiList: ['getNetworkType', 'hideOptionMenu', 'selectEnterpriseContact']
+      jsApiList: ['getNetworkType', 'hideOptionMenu', 'selectEnterpriseContact', 'openDefaultBrowser']
     });
     wx.ready(function(res){
       var appdata = rsqadmg.store.app;

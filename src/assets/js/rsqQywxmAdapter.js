@@ -146,7 +146,7 @@ rsqAdapterManager.register({
                 //  企业微信打开默认浏览器直接登录
                 if (wx) {
                   wx.invoke('openDefaultBrowser', {
-                    'url': rsqConfig.apiServer + 'task/qywxOauth/tokenDirectSignIn?token=' + authUser.rsqLoginToken
+                    'url': rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + authUser.rsqLoginToken
                   }, function(res){
                     if(res.err_msg != "openDefaultBrowser:ok"){
                       //错误处理

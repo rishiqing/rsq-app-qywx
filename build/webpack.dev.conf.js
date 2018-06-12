@@ -27,7 +27,7 @@ module.exports = merge(baseWebpackConfig, {
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       env: 'dev',
-      backendServer: config.dev.backendServer,
+      rsqServer: config.dev.rsqServer,
       authServer: config.dev.authServer,
       apiServer: config.dev.apiServer,
       stsServer: config.dev.stsServer,

@@ -13,10 +13,10 @@ var webpackConfig = require('./webpack.beta.conf')
 var spinner = ora('building for beta test...')
 spinner.start()
 
-console.log(chalk.blue('basic beta prod config:'))
-console.log(chalk.blue('auth server:', config.beta.authServer))
-console.log(chalk.blue('rishiqing api server:', config.beta.apiServer))
-console.log(chalk.blue('frontend server:', config.beta.frontServer))
+console.log(chalk.blue('basic beta prod config, should use server config:'))
+// console.log(chalk.blue('auth server:', config.beta.authServer))
+// console.log(chalk.blue('rishiqing api server:', config.beta.apiServer))
+// console.log(chalk.blue('frontend server:', config.beta.frontServer))
 
 rm(path.join(config.beta.assetsRoot, config.beta.assetsSubDirectory), err => {
   if (err) throw err

@@ -88,7 +88,8 @@
     </style>
     <!-- 引入组件库 -->
     <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
-    <script>
+    <!--注意：必须要有这个id，用来在服务器端渲染的时候做注入-->
+    <script id="config-placeholder">
       var rsqConfig = {
         env: '<%= htmlWebpackPlugin.options.env %>',
         rsqServer: '<%= htmlWebpackPlugin.options.rsqServer %>',
@@ -102,6 +103,8 @@
         ossKanbanCoverImagePath: '<%= htmlWebpackPlugin.options.ossKanbanCoverImagePath %>',
         version: '<%= htmlWebpackPlugin.options.version %>'
       }
+    </script>
+    <script>
       //  只在企业微信中打开
       if (rsqConfig.env == 'production' && !/wxwork/.test( window.navigator.userAgent.toLowerCase())) {
         window.location.href = 'https://www.rishiqing.com/web/wechat/'

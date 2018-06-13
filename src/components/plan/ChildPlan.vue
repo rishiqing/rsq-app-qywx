@@ -327,6 +327,7 @@
         return result
       },
       toEdit (item) {
+        this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         // 设置当前todo不管是inbox的todo还是ssche的todo
         this.$store.dispatch('setCurrentKanbanItem', item)
         this.$router.push('/plan/todo/' + item.id)
@@ -583,6 +584,7 @@
       },
       setPlan (e) {
         e.preventDefault()
+        this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         // 提供弹窗或直接进入的方式
         this.$router.push('/plan/' + this.currentPlan.id + '/plan-setting')
         // var that = this
@@ -666,6 +668,7 @@
           })
       },
       toEditPlan (e) {
+        this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         this.$router.push('/plan/' + this.currentPlan.id + '/edit-child-plan')
       },
       postCard () {

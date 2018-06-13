@@ -483,6 +483,7 @@ export default {
         state.planList[i].starMark = false
       }
     }
+    state.currentPlan.starMark = false
   },
   SAVE_STAR (state, p) {
     for (var i = 0; i < state.planList.length; i++) {
@@ -490,6 +491,7 @@ export default {
         state.planList[i].starMark = true
       }
     }
+    state.currentPlan.starMark = true
   },
   DELETE_PLAN (state, p) {
     for (var i = 0; i < state.planList.length; i++) {

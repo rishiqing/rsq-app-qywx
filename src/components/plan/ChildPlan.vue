@@ -387,14 +387,16 @@
           return this.regularDate(item.startDate) + '-' + this.regularDate(item.endDate)
         } else if (item.dates) {
           var result = ''
+          var yearDates = ''
           var dates = item.dates.split(',')
           for (let i = 0; i < dates.length; i++) {
-            if (i === 3) {
-              result = result.substr(0, result.length - 1) + '...'
-              break
-            }
+            // if (i === 3) {
+            //   result = result.substr(0, result.length - 1) + '...'
+            //   break
+            // }
             var s = i === dates.length - 1 ? '' : ','
-            result += parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + s
+            yearDates = dates[i].substring(0, 4) === new Date().getFullYear().toString() ? '' : dates[i].substring(0, 4) + '年'
+            result += yearDates + parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + s
           }
           return result
         } else {
@@ -402,7 +404,8 @@
         }
       },
       regularDate (date) {
-        return parseInt(date.substring(5, 7)) + '月' + parseInt(date.substring(8, 10)) + '日'
+        let year = date.substring(0, 4) === new Date().getFullYear().toString() ? '' : date.substring(0, 4) + '年'
+        return year + parseInt(date.substring(5, 7)) + '月' + parseInt(date.substring(8, 10)) + '日'
       },
       initLayout () {
         var that = this
@@ -767,12 +770,17 @@
     margin: 0;
     display: flex;
     align-items: center;
+    max-width: 67%;
   }
   .kanban-item-time{
     font-family: PingFangSC-Regular;
     font-size: 12px;
     color: #B1B1B1;
     margin-left: 0.2rem;
+    max-width: 80%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .task-schedule{
     font-size: 14px;

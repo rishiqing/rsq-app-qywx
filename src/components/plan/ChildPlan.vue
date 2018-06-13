@@ -390,10 +390,10 @@
           var yearDates = ''
           var dates = item.dates.split(',')
           for (let i = 0; i < dates.length; i++) {
-            if (i === 3) {
-              result = result.substr(0, result.length - 1) + '...'
-              break
-            }
+            // if (i === 3) {
+            //   result = result.substr(0, result.length - 1) + '...'
+            //   break
+            // }
             var s = i === dates.length - 1 ? '' : ','
             yearDates = dates[i].substring(0, 4) === new Date().getFullYear().toString() ? '' : dates[i].substring(0, 4) + '年'
             result += yearDates + parseInt(dates[i].substring(4, 6)) + '月' + parseInt(dates[i].substring(6, 8)) + '日' + s
@@ -770,7 +770,7 @@
     margin: 0;
     display: flex;
     align-items: center;
-    max-width: 68%;
+    max-width: 67%;
   }
   .kanban-item-time{
     font-family: PingFangSC-Regular;

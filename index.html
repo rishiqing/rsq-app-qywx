@@ -88,8 +88,8 @@
     </style>
     <!-- 引入组件库 -->
     <!--<script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
-    <script>
-      //  注意，必须不能改动变量名称，这里会在服务器渲染时做注入
+    <!--注意，不能改id，这里会在服务器渲染时做注入-->
+    <script id="env-placeholder">
       var rsqConfig = {
         env: '<%= htmlWebpackPlugin.options.env %>',
         rsqServer: '<%= htmlWebpackPlugin.options.rsqServer %>',

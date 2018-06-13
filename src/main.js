@@ -47,9 +47,7 @@ document.addEventListener('touchend', function () {
   let inputArrays = document.querySelectorAll('input')
   if (inputArrays.length !== 0) {
     for (let key = 0; key < inputArrays.length; key++) {
-      setTimeout(function () {
-        inputArrays[key].blur()
-      }, 300)
+      inputArrays[key].blur()
     }
   }
 }, false)

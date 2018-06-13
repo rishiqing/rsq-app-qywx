@@ -65,7 +65,13 @@
         return this.$store.state.plan.currentKanbanItem
       },
       subItems () {
-        return this.currentKanbanItem.subItems || []
+        var arr = this.currentKanbanItem.subItems || []
+        if (arr.length > 0) {
+          arr.sort(function (o1, o2) {
+            return o1.isDone > o2.isDone
+          })
+        }
+        return arr
       },
       kanbanItemId () {
         return this.currentKanbanItem.id

@@ -1,5 +1,7 @@
 <template>
-  <r-slider-delete @deleteItem="deleteItem">
+  <r-slider-delete
+    :item="item"
+    @deleteItem="deleteItem">
     <li class="todoItem">
       <v-touch
         style="margin-left: 35px"
@@ -49,6 +51,7 @@
 <script>
   import dateUtil from 'ut/dateUtil'
   import SliderDelete from 'com/pub/SliderDelete'
+  import moment from 'moment'
 //  import bus from 'com/bus'
 
   export default {
@@ -158,6 +161,11 @@
         }
       },
       clickCheckOut (e) {
+        var end = this.item.endDate ? this.item.endDate : this.item.dates.split(',')[0]
+        if (moment(end, 'YYYY-MM-DD').toDate().getTime() < new Date().getTime()) {
+          window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
+          return
+        }
         this.$emit('todo-item-check', this.item, !this.item.pIsDone)
         e.preventDefault()
       }

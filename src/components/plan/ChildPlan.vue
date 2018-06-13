@@ -226,7 +226,9 @@
         sliderD: '',
         directionFristTouch: true,
         sliderStart: 0,
-        sliderEnd: 0
+        sliderEnd: 0,
+        control: true,
+        isIOS: false
       }
     },
     computed: {
@@ -259,6 +261,10 @@
       }
     },
     mounted () {
+      const device = window.rsqadmg.exec('checkDevice')
+      if (device.os === 'iOS') {
+        this.isIOS = true
+      }
       // 拿到看板列表以及看板的任务列表。。。好多数据
       var creatorId = this.$store.state.loginUser.rsqUser.id
       for (var i = 0; i < this.userRoles.length; i++) {
@@ -321,6 +327,7 @@
         return result
       },
       toEdit (item) {
+        this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         // 设置当前todo不管是inbox的todo还是ssche的todo
         this.$store.dispatch('setCurrentKanbanItem', item)
         this.$router.push('/plan/todo/' + item.id)
@@ -416,18 +423,25 @@
         var startEle = 0
         wrap.addEventListener('touchstart', function (e) {
           // e.preventDefault()
+          if ((e.targetTouches[0].screenX < 40 || e.targetTouches[0].screenX > document.body.scrollWidth - 30) && that.isIOS) {
+            that.control = false
+            return
+          }
+          that.control = true
           this.sliderStart = new Date().getTime()
           box.classList.remove('am')
           startPoint = e.changedTouches[0].pageX
           // console.log('e.changedTouches[0].pageX: ' + e.changedTouches[0].pageX)
           // console.log('ev.touches[0].clientX: ' + e.touches[0].clientX)
-          // 这个地方暂时这样处理，实际不应该写死！应该是把offsetLeft减去margin  by wallace Mao
           var leftfix = box.style.transform.match(/translateX\((.*)\)/)[1]
           startEle = leftfix.substring(0, leftfix.length - 2)
           that.startx = e.touches[0].pageX
           that.starty = e.touches[0].pageY
         })
         wrap.addEventListener('touchmove', function (e) {
+          if (!that.control) {
+            return
+          }
           if (that.directionFristTouch) {
             var endx = e.changedTouches[0].pageX
             var endy = e.changedTouches[0].pageY
@@ -459,6 +473,9 @@
           // }
         })
         wrap.addEventListener('touchend', function (e) {
+          if (!that.control) {
+            return
+          }
           that.sliderD = ''
           this.sliderEnd = new Date().getTime()
           that.directionFristTouch = true
@@ -567,6 +584,7 @@
       },
       setPlan (e) {
         e.preventDefault()
+        this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         // 提供弹窗或直接进入的方式
         this.$router.push('/plan/' + this.currentPlan.id + '/plan-setting')
         // var that = this
@@ -650,6 +668,7 @@
           })
       },
       toEditPlan (e) {
+        this.$store.commit('SAVE_CURRENT_SUBPLAN', this.currentSubPlan)
         this.$router.push('/plan/' + this.currentPlan.id + '/edit-child-plan')
       },
       postCard () {

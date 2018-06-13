@@ -60,7 +60,13 @@
         return this.$store.state.todo.currentTodo.subTodos
       },
       finalItems () {
-        return this.items ? this.items : []
+        var arr = this.items ? this.items : []
+        if (arr.length > 0) {
+          arr.sort(function (o1, o2) {
+            return o1.isDone > o2.isDone
+          })
+        }
+        return arr
       },
       todoId () {
         return this.$store.state.todo.currentTodo.id

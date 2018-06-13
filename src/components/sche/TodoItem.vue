@@ -1,5 +1,7 @@
 <template>
-  <r-slider-delete @deleteItem="deleteItem">
+  <r-slider-delete
+    :item="item"
+    @deleteItem="deleteItem">
     <li class="todoItem">
       <v-touch
         style="margin-left: 35px"

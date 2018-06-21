@@ -162,7 +162,7 @@
       },
       clickCheckOut (e) {
         var end = this.item.endDate ? this.item.endDate : this.item.dates.split(',')[0]
-        if (moment(end, 'YYYY-MM-DD').toDate().getTime() < new Date().getTime()) {
+        if (moment(end, 'YYYY-MM-DD').toDate().getTime() < new Date(new Date().toLocaleDateString()).getTime()) {
           window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
           return
         }

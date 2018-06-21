@@ -2,6 +2,7 @@
   <div class="delete">
     <div class="slider">
       <div
+        ref="slider"
         :style="deleteSlider"
         class="content"
         @touchstart="touchStart"
@@ -22,6 +23,12 @@
 <script type="text/javascript">
   export default {
     name: 'SliderDelete',
+    props: {
+      item: {
+        type: Object,
+        required: true
+      }
+    },
     data () {
       return {
         startX: 0,
@@ -29,22 +36,79 @@
         moveX: 0,
         disX: 0,
         deleteSlider: '',
-        threshold: 60  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        threshold: 0,  //  50的敏感度，在滑动访问为50以内，不进行显示滑动删除
+        throttle: null,
+        startx: 0,
+        starty: 0,
+        directionFristTouch: true,
+        sliderD: null
       }
     },
+    computed: {
+      sliderId () {
+        return this.$store.state.pub.sliderId
+      }
+    },
+    watch: {
+      sliderId (newId) {
+        if (newId !== this.item.id) {
+          this.$refs.slider.style.transform = ''
+        }
+      }
+    },
+    mounted () {
+      this.$store.commit('SLIDER_MARK', { mark: null })
+    },
     methods: {
+      getDirection (startx, starty, endx, endy) {
+        var angx = endx - startx
+        var angy = endy - starty
+        var result = 0
+        // 如果滑动距离太短
+        if (Math.abs(angx) < 2 && Math.abs(angy) < 2) {
+          return result
+        }
+        var angle = this.getAngle(angx, angy)
+        if (angle >= -135 && angle <= -45) {
+          result = 1
+        } else if (angle > 45 && angle < 135) {
+          result = 2
+        } else if ((angle >= 135 && angle <= 180) || (angle >= -180 && angle < -135)) {
+          result = 3
+        } else if (angle >= -45 && angle <= 45) {
+          result = 4
+        }
+        return result
+      },
+      getAngle (angx, angy) {
+        return Math.atan2(angy, angx) * 180 / Math.PI
+      },
       touchStart (ev) {
         ev = ev || event
         if (ev.touches.length === 1) {
           // 记录开始位置
           this.startX = ev.touches[0].clientX
         }
+        this.startx = ev.touches[0].pageX
+        this.starty = ev.touches[0].pageY
       },
       touchMove (ev) {
         if (!this.$refs.remove) {
           return
         }
         ev = ev || event
+        if (this.directionFristTouch) {
+          var endx = ev.changedTouches[0].pageX
+          var endy = ev.changedTouches[0].pageY
+          var direction = this.getDirection(this.startx, this.starty, endx, endy)
+          if (direction === 2 || direction === 1) {
+            this.sliderD = 'UD'
+          }
+          this.directionFristTouch = false
+        }
+        if (this.sliderD === 'UD') {
+          return
+        }
         let wd = this.$refs.remove.offsetWidth
         if (ev.touches.length === 1) {
           // 滑动时距离浏览器左侧实时距离
@@ -60,6 +124,7 @@
             this.deleteSlider = 'transform:translateX(-' + this.disX * 5 + 'px)'
             if (this.disX * 5 >= wd) {
               this.deleteSlider = 'transform:translateX(-' + wd + 'px)'
+              this.shrink()
             }
           }
         }
@@ -69,6 +134,12 @@
           return
         }
         ev = ev || event
+        this.directionFristTouch = true
+        if (this.sliderD === 'UD') {
+          this.sliderD = null
+          return
+        }
+        this.sliderD = null
         let wd = this.$refs.remove.offsetWidth
         if (ev.changedTouches.length === 1) {
           let endX = ev.changedTouches[0].clientX
@@ -82,9 +153,21 @@
             this.deleteSlider = 'transform:translateX(-' + wd + 'px)'
           }
         }
+        this.throttle = null
+        this.sliderD = null
       },
       deleteItem () {
         this.$emit('deleteItem')
+      },
+      shrink () {
+        var that = this
+        clearTimeout(this.throttle)
+        this.throttle = setTimeout(() => {
+          if (that.sliderId === that.item.id) {
+            return
+          }
+          that.$store.commit('SLIDER_MARK', { mark: that.item.id })
+        }, 100)
       }
     }
   }

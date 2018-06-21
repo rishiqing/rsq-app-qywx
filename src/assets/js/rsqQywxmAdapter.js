@@ -323,7 +323,7 @@ rsqAdapterManager.register({
     });
   },
   topTips: function (params) {
-    weui.topTips(params.message, 2000);
+    weui.topTips(params.message, params.options);
   },
   /**
    * actionsheet

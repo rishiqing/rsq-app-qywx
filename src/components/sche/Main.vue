@@ -128,7 +128,15 @@
           this.$store.dispatch('setCurrentTodo', def.allDefaultTodo())
           this.$router.push('/sche/todo/create')
         } else {
-          window.rsqadmg.exec('topTips', {message: '过去的日期不允许创建任务！'})
+          window.rsqadmg.exec('topTips',
+            {
+              message: '不能在过去的日期中添加任务',
+              options:
+              {
+                duration: 2000,
+                className: 'warn-top-tips'
+              }
+            })
         }
       },
       onPanMove (p) {

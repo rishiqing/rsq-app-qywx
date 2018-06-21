@@ -60,6 +60,7 @@
         return this.highlightDay != null && date.getTime() === this.highlightDay.getTime()
       },
       calDayClick (date) {
+        this.$store.commit('SCH_TODO_CACHE_DELETE_ALL')
         if (date.getTime() !== this.highlightDay.getTime()) {
           this.$emit('click-cal-bar-day', date)
         }

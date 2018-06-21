@@ -51,7 +51,7 @@
 <script>
   import dateUtil from 'ut/dateUtil'
   import SliderDelete from 'com/pub/SliderDelete'
-  import moment from 'moment'
+  // import moment from 'moment'
 //  import bus from 'com/bus'
 
   export default {
@@ -161,8 +161,8 @@
         }
       },
       clickCheckOut (e) {
-        var end = this.item.endDate ? this.item.endDate : this.item.dates.split(',')[0]
-        if (moment(end, 'YYYY-MM-DD').toDate().getTime() < new Date(new Date().toLocaleDateString()).getTime()) {
+        var end = this.$store.getters.defaultNumTaskDate + 24 * 3600 * 1000 > new Date().getTime()
+        if (!end) {
           window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
           return
         }

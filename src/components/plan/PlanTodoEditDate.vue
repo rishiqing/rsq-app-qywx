@@ -354,6 +354,7 @@
         return o
       },
       submitTodo (next) {
+        var that = this
         if (this.isModified()) {
           const editItem = this.getSubmitResult()
           return this.$store.dispatch('updateKanbanItem', {
@@ -363,6 +364,32 @@
             endDate: editItem.endDate
           })
             .then(() => {
+              var url = window.location.href.split('#')
+              var name = that.$store.getters.loginUser.authUser.name
+              var des = ''
+              if (editItem.repeatType !== undefined) {
+                des = name + ' 更改了任务日期'
+              } else if (editItem.dates === null && editItem.endDate === null && editItem.startDate === null) {
+                des = name + ' 清空了任务日期'
+              } else if (editItem.dates === null && editItem.endDate === editItem.startDate) {
+                des = name + ' 更改了任务日期为 ' + editItem.endDate.slice(0, 4) + '年' + editItem.endDate.slice(4, 6) + '月' + editItem.endDate.slice(6, 8) + '日'
+              } else if (editItem.dates === null && editItem.endDate !== editItem.startDate) {
+                des = name + ' 更改了任务日期为 ' + editItem.startDate.slice(0, 4) + '年' + editItem.startDate.slice(4, 6) + '月' + editItem.startDate.slice(6, 8) + '日 ' + '-' + editItem.endDate.slice(0, 4) + '年' + editItem.endDate.slice(4, 6) + '月' + editItem.endDate.slice(6, 8) + '日'
+              } else if (editItem.dates) {
+                var result = dateUtil.repeatDate2Text(editItem)
+                des = name + ' 更改了任务日期为 ' + result
+              }
+              var datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                title: des,
+                'url': url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+                description: that.$store.state.plan.currentKanbanItem.name,
+                receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
+              }
+              if (datas.description) {
+                this.$store.dispatch('qywxSendMessage', datas)
+              }
               next()
             })
         } else {

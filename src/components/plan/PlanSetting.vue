@@ -259,6 +259,8 @@
       },
       deletePlan () {
         const that = this
+        var url = window.location.href.split('#')
+        var name = that.$store.getters.loginUser.authUser.name
         var fixName = this.currentPlan.name.slice(0, 11)
         if (fixName !== this.currentPlan.name) {
           fixName += '...'
@@ -272,16 +274,25 @@
                 that.$store.dispatch('deletePlan', {id: that.currentPlan.id}).then(() => {
                   window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.exec('toast', {message: '已删除'})
-                  that.$router.replace('/plan/list')
                 })
               } else {
                 window.rsqadmg.exec('showLoader', {'text': '退出中'})
                 that.$store.dispatch('quitPlan', {id: that.currentPlan.id}).then((e) => {
                   window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.exec('toast', {message: '已退出'})
-                  that.$router.replace('/plan/list')
                 })
               }
+              var datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                title: name + ' 删除了计划 ' + that.currentPlan.name,
+                'url': url[0] + '#' + '/plan/list',
+                description: that.currentPlan.name,
+                receiverIds: that.selectRsqidArray.join(',')
+              }
+            // console.log(datas, 1, compResCache.addList)
+              that.$store.dispatch('qywxSendMessage', datas)
+              that.$router.replace('/plan/list')
             }
           })
         }, 50)
@@ -298,6 +309,9 @@
       },
       showNativeMemberEdit () {
         const that = this
+        var url = window.location.href.split('#')
+        var cacheMem = [...this.selectRsqidArray]
+        var name = that.$store.getters.loginUser.authUser.name
         SelectMember.show({
           nameAttribute: 'name',
           idAttribute: 'rsqUserId',
@@ -318,6 +332,33 @@
               .then(function (res) {
                 that.$store.commit('UPDATA_PLAN', res.userRoles)
               })
+            var compResCache = util.compareList(cacheMem, that.selectRsqidArray)
+            var addList = compResCache.addList
+            var delList = compResCache.delList
+            if (addList.length !== 0) {
+              let datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                title: name + ' 将你添加到计划 ' + that.currentPlan.name,
+                'url': url[0] + '#' + '/plan/list',
+                description: that.currentPlan.name,
+                receiverIds: addList.join(',')
+              }
+            // console.log(datas, 1, compResCache.addList)
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
+            if (delList.length !== 0) {
+              let datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                title: name + ' 将你移除了计划 ' + that.currentPlan.name,
+                'url': url[0] + '#' + '/plan/list',
+                description: that.currentPlan.name,
+                receiverIds: delList.join(',')
+              }
+            // console.log(datas, 1, compResCache.addList)
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
           },
           cancel () {
           }

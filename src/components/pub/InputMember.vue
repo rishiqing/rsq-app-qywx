@@ -196,6 +196,7 @@
             return o.toString()
           })
         }
+        var old = [...this.selectRsqidArray]
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,
@@ -216,7 +217,7 @@
             // that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
             //   .then(function (idMap) {
             //     that.selectedLocalList = util.getMapValuePropArray(idMap)
-            that.$emit('member-changed', arr)
+            that.$emit('member-changed', arr, old)
             //   })
           },
           cancel () {

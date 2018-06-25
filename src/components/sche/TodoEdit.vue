@@ -128,6 +128,7 @@
       return {
         disabledText: '过去的任务不能编辑',
         editItem: {},
+        newList: '',
         joinUserRsqIds: []
       }
     },
@@ -274,6 +275,7 @@
         this.$router.push('/sche/todo/comment')
       },
       saveTitle (newTitle) {
+        var that = this
         if (!newTitle || /^\s+$/.test(newTitle)) {
           window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
           return Promise.reject()
@@ -293,81 +295,123 @@
               })
               .then(() => {
                 this.editItem.pTitle = newTitle
+
 //              this.editItem.pTitle = newTitle
 //              window.rsqadmg.exec('hideLoader')
 //              window.rsqadmg.execute('toast', {message: '保存成功'})
+                var url = window.location.href.split('#')
+                var name = that.loginUser.authUser.name
+                var addArray = this.joinUserRsqIds.join(',')
+                var mem = this.newList ? this.newList : addArray
+                var datas = {
+                  corpId: that.loginUser.authUser.corpId,
+                  agentid: this.corpId,
+                  title: name + ' 修改了任务标题',
+                  'url': url[0] + '#' + '/sche/todo/' + this.currentTodo.id,
+                  description: this.editItem.pTitle,
+                  receiverIds: mem
+                }
+                // console.log(mem)
+                that.$store.dispatch('qywxSendMessage', datas)
               })
           } else {
             return Promise.resolve()
           }
         }
       },
-      saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+      saveMember (idArray, old) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        this.newList = idArray.join(',')
         window.rsqadmg.execute('setTitle', {title: '任务详情'})
         var that = this
-        var compRes = util.compareList(this.joinUserRsqIds, idArray)
-        var params = {
+        var idArrayName = []
+        var oldName = []
+        var compRes = {}
+        var params = {}
+        var compResCache = util.compareList(this.joinUserRsqIds, idArray)
+        var paramsCache = {
           receiverIds: idArray.join(','),
-          addJoinUsers: compRes.addList.join(','),
-          deleteJoinUsers: compRes.delList.join(',')
+          addJoinUsers: compResCache.addList.join(','),
+          deleteJoinUsers: compResCache.delList.join(',')
         }
+        var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        var name = this.loginUser.authUser.name
+        var des = ''
         window.rsqadmg.execute('showLoader', {text: '保存中...'})
-        this.$store.dispatch('updateTodo', {editItem: params}).then(() => {
+        this.$store.dispatch('updateTodo', {editItem: paramsCache}).then(() => {
           // this.joinUserRsqIds = idArray
           window.rsqadmg.exec('hideLoader')
           // window.rsqadmg.execute('toast', {message: '保存成功'})
           //  重新获取用户头像
           this.fetchCommentIds()
-          if (params.addJoinUsers) {
-            // var time = util.SendConversationTime(this.currentTodo)
-            // var date = util.SendConversationDate(this.currentTodo)
-            // var note = this.editItem.pNote
-            // var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
-
-            var url = window.location.href.split('#')
-            var data = {
-              'msgtype': 'textcard',
-              'agentid': this.corpId,
-              'textcard': {
-                'title': this.currentTodo.pTitle,
-                'description': '日程通知',
-                'url': url[0] + '#' + '/sche/todo/' + this.currentTodo.id
-              }
-            }
-
-            var IDArrays = params.addJoinUsers.split(',')
-            var empIDArray = []
-            this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
-              .then(idMap => {
-                for (var i = 0; i < IDArrays.length; i++) {
-                  empIDArray.push(idMap[IDArrays[i]].userId)
-                }
-                data['touser'] = empIDArray.toString().split(',').join('|')
-
-                that.$store.dispatch('sendAsyncCorpMessage', {
-                  corpId: that.loginUser.authUser.corpId,
-                  data: data
-                }).then(res => {
-                  if (res.errcode !== 0) {
-                    // alert('发送失败：' + JSON.stringify(res))
-                  } else {
-                    console.log('发送成功！')
-                  }
-                })
+          this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: idArray}).then(function (res) {
+            let res1 = util.getMapValuePropArray(res)
+            idArrayName = res1.map(function (o) {
+              return o.name
+            })
+          })
+          .then(function () {
+            return that.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: old}).then(function (res) {
+              let res2 = util.getMapValuePropArray(res)
+              oldName = res2.map(function (o) {
+                return o.name
               })
-          }
+            })
+          })
+          .then(function () {
+            compRes = util.compareList(oldName, idArrayName)
+            params = {
+              receiverIds: idArray.join(','),
+              addJoinUsers: compRes.addList.join(','),
+              deleteJoinUsers: compRes.delList.join(',')
+            }
+            if (params.addJoinUsers === '') {
+              des = name + ' 移除了任务成员' + compRes.delList.join('、')
+            } else if (params.deleteJoinUsers === '') {
+              des = name + ' 添加了任务成员' + compRes.addList.join('、')
+            } else {
+              des = name + ' 添加了任务成员' + compRes.addList.join('、') + ',' + '移除了任务成员' + compRes.delList.join('、')
+            }
+          })
+          .then(function () {
+            if (params) {
+              var url = window.location.href.split('#')
+              var datas = {
+                corpId: that.loginUser.authUser.corpId,
+                agentid: that.corpId,
+                title: des,
+                'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+                description: that.currentTodo.pTitle,
+                receiverIds: ask
+              }
+              // console.log(params)
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
+          })
+          // var compRes2 = util.compareList(oldName, idArrayName)
         })
       },
       finishChecked (status) {
+        var that = this
+        var create = this.pUserId[0].toString()
+        var url = window.location.href.split('#')
+        var name = this.loginUser.authUser.name
         if (status !== this.editItem.isDone) {
-          this.$store.dispatch('updateTodo', {editItem: {pIsDone: status}})
+          that.$store.dispatch('updateTodo', {editItem: {pIsDone: status}})
               .then(() => {
-//                this.$store.dispatch('saveTodoAction', {editItem: {status: status, type: 5}})
-//                  .then(() => {
-//                  })
                 this.editItem.pIsDone = status
                 var str = status ? '任务已完成' : '任务已重启'
+                var todoStatus = status ? ' 完成了任务' : ' 重启了任务'
                 window.rsqadmg.execute('toast', {message: str})
+                var datas = {
+                  corpId: that.loginUser.authUser.corpId,
+                  agentid: that.corpId,
+                  title: name + todoStatus,
+                  'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+                  description: that.currentTodo.pTitle,
+                  receiverIds: create
+                }
+                // console.log(datas)
+                that.$store.dispatch('qywxSendMessage', datas)
               })
         }
       },
@@ -386,6 +430,20 @@
                 .then(() => {
                   window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.execute('toast', {message: '删除成功'})
+                  var url = window.location.href.split('#')
+                  var name = that.$store.getters.loginUser.authUser.name
+                  var addArray = that.joinUserRsqIds.join(',')
+                  var mem = that.newList ? that.newList : addArray
+                  var datas = {
+                    corpId: that.$store.getters.loginUser.authUser.corpId,
+                    agentid: that.$store.getters.loginUser.authUser.corpId,
+                    title: name + ' 删除了任务',
+                    'url': url[0] + '#' + '/sche',
+                    description: that.$store.state.todo.currentTodo.pTitle,
+                    receiverIds: mem
+                  }
+                  // console.log(datas)
+                  that.$store.dispatch('qywxSendMessage', datas)
                   that.$router.go(-1)
                 })
             }

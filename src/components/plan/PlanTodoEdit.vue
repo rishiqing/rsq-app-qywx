@@ -197,9 +197,14 @@
       switchToComment () {
         this.$router.push('/plan/todo/comment')
       },
-      saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+      saveMember (idArray, old) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        var that = this
+        var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        var des = ''
+        var idArrayName = []
+        var oldName = []
+        var name = this.loginUser.authUser.name
         window.rsqadmg.execute('setTitle', {title: '任务详情'})
-        const that = this
         const compRes = util.compareList(this.joinUserRsqIds, idArray)
         const params = {
           id: this.currentKanbanItem.id,
@@ -214,18 +219,46 @@
           // window.rsqadmg.execute('toast', {message: '保存成功'})
           //  重新获取用户头像
           this.fetchCommentIds()
-          if (params.addJoinUsers) {
-            var url = window.location.href.split('#')
-            var datas = {
-              corpId: that.loginUser.authUser.corpId,
-              agentid: this.corpId,
-              title: this.currentKanbanItem.name,
-              'url': url[0] + '#' + '/plan/todo/' + this.currentKanbanItem.id,
-              description: '日程通知',
-              receiverIds: params.addJoinUser
+          this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: idArray}).then(function (res) {
+            let res1 = util.getMapValuePropArray(res)
+            idArrayName = res1.map(function (o) {
+              return o.name
+            })
+          })
+          .then(function () {
+            return that.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: old}).then(function (res) {
+              let res2 = util.getMapValuePropArray(res)
+              oldName = res2.map(function (o) {
+                return o.name
+              })
+            })
+          })
+          .then(function () {
+            var compResCache = util.compareList(oldName, idArrayName)
+            if (params.addJoinUsers === '') {
+              des = name + ' 移除了任务成员' + compResCache.delList.join('、')
+            } else if (params.deleteJoinUsers === '') {
+              des = name + ' 添加了任务成员' + compResCache.addList.join('、')
+            } else {
+              des = name + ' 添加了任务成员' + compResCache.addList.join('、') + ',' + '移除了任务成员' + compResCache.delList.join('、')
             }
-            this.$store.dispatch('qywxSendMessage', datas)
-          }
+            return des
+          })
+          .then(function (res) {
+            if (params.addJoinUsers || params.deleteJoinUsers) {
+              var url = window.location.href.split('#')
+              var datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                description: that.$store.state.plan.currentKanbanItem.name,
+                url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+                title: res,
+                receiverIds: ask
+              }
+              console.log(datas)
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
+          })
         })
       },
       finishChecked (status) {
@@ -242,6 +275,7 @@
         }
       },
       saveTitle (newTitle) {
+        var that = this
         if (!newTitle) {
           window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
           return
@@ -250,6 +284,23 @@
           this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle})
             .then(() => {
               this.editItem.name = newTitle
+//            this.editItem.pTitle = newTitle
+//            window.rsqadmg.exec('hideLoader')
+//            window.rsqadmg.execute('toast', {message: '保存成功'})
+              var url = window.location.href.split('#')
+              var name = that.loginUser.authUser.name
+              // var addArray = this.joinUserRsqIds.join(',')
+              // var mem = this.newList ? this.newList : addArray
+              var datas = {
+                corpId: that.loginUser.authUser.corpId,
+                agentid: that.corpId,
+                title: name + ' 修改了任务标题',
+                'url': url[0] + '#' + '/plan/todo/' + this.currentPlan.id,
+                description: that.editItem.name,
+                receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
+              }
+              // console.log(mem)
+              that.$store.dispatch('qywxSendMessage', datas)
             })
         }
       },

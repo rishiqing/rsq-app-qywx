@@ -257,35 +257,7 @@
         return !jsUtil.objectEqual(this.clock, (this.currentTodo.clock || {}))
       },
       accept () {
-        var that = this
-        var url = window.location.href.split('#')
-        var name = that.$store.getters.loginUser.authUser.name
-        if (this.endTimeCache !== this.clock.endTime || this.startTimeCache !== this.clock.startTime) {
-          if (that.clock.endTime) {
-            let datas = {
-              corpId: that.$store.getters.loginUser.authUser.corpId,
-              agentid: that.$store.getters.loginUser.authUser.corpId,
-              title: name + ' 更改了任务时间为 ' + that.clock.startTime + '-' + that.clock.endTime,
-              'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
-              description: that.currentTodo.pTitle,
-              receiverIds: that.$store.state.todo.currentTodo.receiverIds
-            }
-            // console.log(datas)
-            that.$store.dispatch('qywxSendMessage', datas)
-          } else {
-            let datas = {
-              corpId: that.$store.getters.loginUser.authUser.corpId,
-              agentid: that.$store.getters.loginUser.authUser.corpId,
-              title: name + ' 清空了任务日期',
-              'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
-              description: that.currentTodo.pTitle,
-              receiverIds: that.$store.state.todo.currentTodo.receiverIds
-            }
-            // console.log(datas)
-            that.$store.dispatch('qywxSendMessage', datas)
-          }
-        }
-        // this.$router.go(-1)
+        this.$router.go(-1)
       },
       /**
        * 保存todoTime的状态到state中
@@ -357,6 +329,40 @@
      */
     beforeRouteLeave (to, from, next) {
       //  做pub区缓存
+      if (to.name !== 'todoNew') {
+        var that = this
+        var url = window.location.href.split('#')
+        var name = that.$store.getters.loginUser.authUser.name
+        if (this.endTimeCache !== this.clock.endTime || this.startTimeCache !== this.clock.startTime) {
+          if (that.clock.endTime) {
+            let datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 更改了任务时间为 ' + that.clock.startTime + '-' + that.clock.endTime,
+              'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+              description: that.currentTodo.pTitle,
+              receiverIds: that.$store.state.todo.currentTodo.receiverIds
+            }
+            // console.log(datas)
+            if (datas.description) {
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
+          } else {
+            let datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 清空了任务日期',
+              'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+              description: that.currentTodo.pTitle,
+              receiverIds: that.$store.state.todo.currentTodo.receiverIds
+            }
+            // console.log(datas)
+            if (datas.description) {
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
+          }
+        }
+      }
       this.saveTodoTimeState()
       if (to.name !== 'todoNew' && to.name !== 'todoEdit' && to.name !== 'demo') {
         return next()

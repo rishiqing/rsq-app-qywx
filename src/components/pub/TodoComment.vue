@@ -90,13 +90,31 @@
         }
       },
       commentBlur () {
+        var that = this
         const newTitle = this.content
+        var des = ''
+        var url = window.location.href.split('#')
+        var name = that.$store.getters.loginUser.authUser.name
         if ((!newTitle && this.fileId.length === 0) || /^\s+$/.test(newTitle)) {
           return window.rsqadmg.execute('alert', {message: '任务评论不能为空'})
         }
-        var that = this
         this.$store.dispatch('postTodoComment', {commentContent: newTitle, fileIds: this.fileId, createTaskDate: this.defaultTaskDate})
           .then((com) => {
+            if (newTitle) {
+              des = ' ' + newTitle
+            } else {
+              des = '上传了文件'
+            }
+            let datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + des,
+              'url': url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+              description: that.$store.state.todo.currentTodo.pTitle,
+              receiverIds: that.$store.state.todo.currentTodo.receiverIds
+            }
+            // console.log(datas, newTitle)
+            that.$store.dispatch('qywxSendMessage', datas)
             that.$router.go(-1)
 //            alert(JSON.stringify(com))
             window.rsqadmg.exec('hideLoader')

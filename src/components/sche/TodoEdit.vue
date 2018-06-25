@@ -373,7 +373,7 @@
             }
           })
           .then(function () {
-            if (params) {
+            if (params.addJoinUsers || params.deleteJoinUsers) {
               var url = window.location.href.split('#')
               var datas = {
                 corpId: that.loginUser.authUser.corpId,

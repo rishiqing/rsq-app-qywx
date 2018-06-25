@@ -13,7 +13,6 @@
               :item-title="editItem.name"
               :item-checked="editItem.isDone"
               :is-show-bottom-border="true"
-              @text-blur="saveTitle"
               @text-change="savetitleIos"
               @click-checkout="finishChecked"/>
             <r-input-note
@@ -138,7 +137,11 @@
         return this.$store.state.plan.currentKanbanItem || {}
       },
       itemId () {
-        return this.currentKanbanItem.id
+        if (this.currentKanbanItem.id) {
+          return this.currentKanbanItem.id
+        } else {
+          return this.$route.params.planTodoId
+        }
       },
       todoComments () {
         return this.currentKanbanItem.commentList || []
@@ -156,11 +159,9 @@
         return this.loginUser.authUser.corpId
       }
     },
-    created () {
+    mounted () {
       window.rsqadmg.execute('setTitle', {title: '任务详情'})
       this.initPlan()
-    },
-    mounted () {
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     beforeRouteLeave (to, from, next) {
@@ -215,36 +216,15 @@
           this.fetchCommentIds()
           if (params.addJoinUsers) {
             var url = window.location.href.split('#')
-            var data = {
-              'msgtype': 'textcard',
-              'agentid': this.corpId,
-              'textcard': {
-                'title': this.currentKanbanItem.name,
-                'description': '日程通知',
-                'url': url[0] + '#' + '/plan/todo/' + this.currentKanbanItem.id
-              }
+            var datas = {
+              corpId: that.loginUser.authUser.corpId,
+              agentid: this.corpId,
+              title: this.currentKanbanItem.name,
+              'url': url[0] + '#' + '/plan/todo/' + this.currentKanbanItem.id,
+              description: '日程通知',
+              receiverIds: params.addJoinUser
             }
-
-            var IDArrays = params.addJoinUsers.split(',')
-            var empIDArray = []
-            this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
-              .then(idMap => {
-                for (var i = 0; i < IDArrays.length; i++) {
-                  empIDArray.push(idMap[IDArrays[i]].userId)
-                }
-                data['touser'] = empIDArray.toString().split(',').join('|')
-
-                that.$store.dispatch('sendAsyncCorpMessage', {
-                  corpId: that.loginUser.authUser.corpId,
-                  data: data
-                }).then(res => {
-                  if (res.errcode !== 0) {
-                    // alert('发送失败：' + JSON.stringify(res))
-                  } else {
-                    console.log('发送成功！')
-                  }
-                })
-              })
+            this.$store.dispatch('qywxSendMessage', datas)
           }
         })
       },
@@ -292,10 +272,23 @@
         })
       },
       initPlan () {
+        var that = this
+        // console.log(this.currentKanbanItem.commentList)
         // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getKanbanItem', {id: this.itemId})
           .then(item => {
             util.extendObject(this.editItem, item)
+            util.extendObject(this.currentKanbanItem, item)
+            if (!that.currentPlan) {
+              that.$store.dispatch('getChildKanbanList', {id: item.kanbanId}).then(
+                (res) => {
+                  that.$store.commit('SET_CURRENT_PLAN', res)
+                  that.$store.commit('SAVE_CHILD_PLAN', res.childKanbanList)
+                  that.$store.dispatch('getLabels', this.item).then((res) => {
+                    that.$store.commit('SAVE_LABELS', res)
+                  })
+                })
+            }
             this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
           })
           .then(() => {

@@ -63,7 +63,9 @@
         clock: {
           startTime: '',
           endTime: ''
-        }
+        },
+        startTimeCache: '',
+        endTimeCache: ''
       }
     },
     computed: {
@@ -105,6 +107,8 @@
       window.rsqadmg.exec('setTitle', {title: '时间和提醒'})
       window.rsqadmg.exec('setOptionButtons', {hide: true})
       this.$store.dispatch('setNav', {isShow: false})
+      this.startTimeCache = this.clock.startTime
+      this.endTimeCache = this.clock.endTime
     },
     methods: {
       /**
@@ -253,7 +257,35 @@
         return !jsUtil.objectEqual(this.clock, (this.currentTodo.clock || {}))
       },
       accept () {
-        this.$router.go(-1)
+        var that = this
+        var url = window.location.href.split('#')
+        var name = that.$store.getters.loginUser.authUser.name
+        if (this.endTimeCache !== this.clock.endTime || this.startTimeCache !== this.clock.startTime) {
+          if (that.clock.endTime) {
+            let datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 更改了任务时间为 ' + that.clock.startTime + '-' + that.clock.endTime,
+              'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+              description: that.currentTodo.pTitle,
+              receiverIds: that.$store.state.todo.currentTodo.receiverIds
+            }
+            // console.log(datas)
+            that.$store.dispatch('qywxSendMessage', datas)
+          } else {
+            let datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 清空了任务日期',
+              'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+              description: that.currentTodo.pTitle,
+              receiverIds: that.$store.state.todo.currentTodo.receiverIds
+            }
+            // console.log(datas)
+            that.$store.dispatch('qywxSendMessage', datas)
+          }
+        }
+        // this.$router.go(-1)
       },
       /**
        * 保存todoTime的状态到state中

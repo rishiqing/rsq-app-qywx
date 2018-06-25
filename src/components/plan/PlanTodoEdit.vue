@@ -13,7 +13,7 @@
               :item-title="editItem.name"
               :item-checked="editItem.isDone"
               :is-show-bottom-border="true"
-              @text-change="savetitleIos"
+              @text-blur="saveTitle"
               @click-checkout="finishChecked"/>
             <r-input-note
               :content="editItem.note"
@@ -170,7 +170,7 @@
         next(false)
         return
       }
-      next()
+      this.savetitleIos(next)
     },
     methods: {
       fetchCommentIds () {
@@ -253,8 +253,11 @@
             })
         }
       },
-      savetitleIos (newTitle) {
-        this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle})
+      savetitleIos (next) {
+        var newTitle = this.$refs.title.$refs.titleInput.value
+        this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle}).then(function () {
+          next()
+        })
       },
       deleteItem () {
         const that = this

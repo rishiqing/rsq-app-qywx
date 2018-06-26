@@ -227,7 +227,6 @@
                 description: item.pTitle,
                 receiverIds: item.receiverIds
               }
-              // console.log(item.receiverIds)
               this.$store.dispatch('qywxSendMessage', datas)
 //                var note = this.editItem.pNote
 //                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')

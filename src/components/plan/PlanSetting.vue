@@ -286,7 +286,7 @@
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
                 title: name + ' 删除了计划 ' + that.currentPlan.name,
-                'url': url[0] + '#' + '/plan/list',
+                url: url[0] + '#' + '/plan/list',
                 description: that.currentPlan.name,
                 receiverIds: that.selectRsqidArray.join(',')
               }
@@ -340,7 +340,7 @@
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
                 title: name + ' 将你添加到计划 ' + that.currentPlan.name,
-                'url': url[0] + '#' + '/plan/list',
+                url: url[0] + '#' + '/plan/list',
                 description: that.currentPlan.name,
                 receiverIds: addList.join(',')
               }
@@ -352,7 +352,7 @@
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
                 title: name + ' 将你移除了计划 ' + that.currentPlan.name,
-                'url': url[0] + '#' + '/plan/list',
+                url: url[0] + '#' + '/plan/list',
                 description: that.currentPlan.name,
                 receiverIds: delList.join(',')
               }

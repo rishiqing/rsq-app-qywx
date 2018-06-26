@@ -295,7 +295,7 @@
                 corpId: that.loginUser.authUser.corpId,
                 agentid: that.corpId,
                 title: name + ' 修改了任务标题',
-                'url': url[0] + '#' + '/plan/todo/' + this.currentPlan.id,
+                url: url[0] + '#' + '/plan/todo/' + this.currentPlan.id,
                 description: that.editItem.name,
                 receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
               }

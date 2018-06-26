@@ -85,7 +85,7 @@
       },
       createIdObject () {
         var arr = this.$store.state.todo.currentTodo.receiverUser || []
-        console.log(arr)
+        // console.log(arr)
         return arr.filter(function (o) {
           if (o.joinUser.isCreator) {
             return o.id || 0
@@ -146,7 +146,7 @@
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
                 title: name + ' 撤回了一条子任务',
-                'url': url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
                 description: that.$store.state.todo.currentTodo.pTitle,
                 receiverIds: that.cache[0].toString()
               }
@@ -158,7 +158,7 @@
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
                 title: name + ' 分配给你一条子任务',
-                'url': url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
                 description: that.$store.state.todo.currentTodo.pTitle,
                 receiverIds: that.cacheNew[0].toString()
               }
@@ -169,7 +169,7 @@
             //   corpId: that.$store.getters.loginUser.authUser.corpId,
             //   agentid: that.$store.getters.loginUser.authUser.corpId,
             //   title: name + ' 分配给你一条子任务',
-            //   'url': url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+            //   url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
             //   description: that.$store.state.todo.currentTodo.pTitle,
             //   receiverIds: that.joinUserRsqIds[0].toString()
             // }

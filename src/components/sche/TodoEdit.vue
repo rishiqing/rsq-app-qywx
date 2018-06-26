@@ -150,7 +150,7 @@
       },
       createIdObject () {
         var arr = this.$store.state.todo.currentTodo.receiverUser || []
-        console.log(arr)
+        // console.log(arr)
         return arr.filter(function (o) {
           if (o.joinUser.isCreator) {
             return o.id || 0
@@ -394,7 +394,7 @@
                 corpId: that.loginUser.authUser.corpId,
                 agentid: that.corpId,
                 title: des,
-                'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+                url: url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
                 description: that.currentTodo.pTitle,
                 receiverIds: ask
               }
@@ -421,7 +421,7 @@
                   corpId: that.loginUser.authUser.corpId,
                   agentid: that.corpId,
                   title: name + todoStatus,
-                  'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+                  url: url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
                   description: that.currentTodo.pTitle,
                   receiverIds: create
                 }
@@ -453,7 +453,7 @@
                     corpId: that.$store.getters.loginUser.authUser.corpId,
                     agentid: that.$store.getters.loginUser.authUser.corpId,
                     title: name + ' 删除了任务',
-                    'url': url[0] + '#' + '/sche',
+                    url: url[0] + '#' + '/sche',
                     description: that.$store.state.todo.currentTodo.pTitle,
                     receiverIds: mem
                   }

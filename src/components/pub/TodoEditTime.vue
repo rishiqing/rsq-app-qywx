@@ -351,8 +351,8 @@
             let datas = {
               corpId: that.$store.getters.loginUser.authUser.corpId,
               agentid: that.$store.getters.loginUser.authUser.corpId,
-              title: name + ' 清空了任务日期',
-              'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+              title: name + ' 清空了任务时间',
+              url: url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
               description: that.currentTodo.pTitle,
               receiverIds: that.$store.state.todo.currentTodo.receiverIds
             }

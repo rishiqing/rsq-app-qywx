@@ -106,7 +106,7 @@
     },
     watch: {
       todoId (newId) {
-        if (newId) {
+        if (newId && this.todoType !== 'plan') {
           this.$store.dispatch('getRecord', {id: newId})
         }
       }

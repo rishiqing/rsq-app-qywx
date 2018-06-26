@@ -191,6 +191,10 @@
       showWebMemberEdit () {
         const that = this
         var disSelect = []
+        var creSelect = []
+        if (this.createrRsqIds[0]) {
+          creSelect = [this.createrRsqIds[0].toString()]
+        }
         if (this.disabledRsqIds[0]) {
           disSelect = this.disabledRsqIds.map(function (o) {
             return o.toString()
@@ -205,7 +209,7 @@
           selectedIdList: this.selectRsqidArray,
           disabledIdList: disSelect,
           // 转换为字符串
-          creatorIdList: [this.createrRsqIds[0].toString()],
+          creatorIdList: creSelect,
           singleSelect: this.singleSelect,
           success (selList) {
             const arr = selList.map(m => {

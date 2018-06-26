@@ -191,6 +191,19 @@
         this.$store.dispatch('createKanbanItem', params)
           .then((res) => {
             window.rsqadmg.execute('toast', {message: '创建成功'})
+            // console.log(this.currentKanbanItem)
+            var name = that.$store.getters.loginUser.authUser.name
+            var url = window.location.href.split('#')
+            var datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 创建了一条任务',
+              url: url[0] + '#' + '/plan/todo/' + res.id,
+              description: that.currentKanbanItem.name,
+              receiverIds: that.currentKanbanItem.joinUser
+            }
+            // console.log(datas)
+            this.$store.dispatch('qywxSendMessage', datas)
             that.$router.go(-1)
           })
       }

@@ -29,7 +29,7 @@
             :user-rsq-ids="userRsqId"
             :single-select="true"
             :selected-rsq-ids="joinUserRsqIds"
-            :creater-rsq-ids="pUserId"
+            :creater-rsq-ids="[]"
             :disabled-rsq-ids="[]"
             @member-changed="saveMember"/>
         </div>
@@ -82,6 +82,21 @@
       },
       pUserId () {
         return [this.$store.state.todo.currentTodo.pUserId]
+      },
+      createIdObject () {
+        var arr = this.$store.state.todo.currentTodo.receiverUser || []
+        console.log(arr)
+        return arr.filter(function (o) {
+          if (o.joinUser.isCreator) {
+            return o.id || 0
+          }
+        })
+      },
+      createId () {
+        if (this.createIdObject.length > 0) {
+          return [this.createIdObject[0].id]
+        }
+        return []
       }
     },
     mounted () {

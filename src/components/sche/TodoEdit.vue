@@ -52,8 +52,8 @@
                   :select-title="'请选择成员'"
                   :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="pUserId"
-                  :disabled-rsq-ids="[pUserId, rsqUser]"
+                  :creater-rsq-ids="createId"
+                  :disabled-rsq-ids="[createId, rsqUser]"
                   @member-changed="saveMember"/>
               </div>
             </div>
@@ -147,6 +147,21 @@
       },
       pUserId () {
         return [this.$store.state.todo.currentTodo.pUserId]
+      },
+      createIdObject () {
+        var arr = this.$store.state.todo.currentTodo.receiverUser || []
+        console.log(arr)
+        return arr.filter(function (o) {
+          if (o.joinUser.isCreator) {
+            return o.id || 0
+          }
+        })
+      },
+      createId () {
+        if (this.createIdObject.length > 0) {
+          return [this.createIdObject[0].id]
+        }
+        return []
       },
       isInbox () {
         return this.currentTodo.pContainer === 'inbox'
@@ -307,7 +322,7 @@
                   corpId: that.loginUser.authUser.corpId,
                   agentid: this.corpId,
                   title: name + ' 修改了任务标题',
-                  'url': url[0] + '#' + '/sche/todo/' + this.currentTodo.id,
+                  url: url[0] + '#' + '/sche/todo/' + this.currentTodo.id,
                   description: this.editItem.pTitle,
                   receiverIds: mem
                 }
@@ -392,7 +407,7 @@
       },
       finishChecked (status) {
         var that = this
-        var create = this.pUserId[0].toString()
+        var create = this.createId[0].toString()
         var url = window.location.href.split('#')
         var name = this.loginUser.authUser.name
         if (status !== this.editItem.isDone) {

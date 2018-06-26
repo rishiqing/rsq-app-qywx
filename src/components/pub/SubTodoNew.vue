@@ -35,7 +35,7 @@
                   :select-title="'请选择成员'"
                   :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="pUserId"
+                  :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
                   :single-select="true"
                   @member-changed="saveMember"/>

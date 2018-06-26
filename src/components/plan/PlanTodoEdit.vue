@@ -170,7 +170,7 @@
         next(false)
         return
       }
-      this.savetitleIos(next)
+      this.saveTitleIOS(next)
     },
     methods: {
       fetchCommentIds () {
@@ -255,7 +255,7 @@
                 title: res,
                 receiverIds: ask
               }
-              console.log(datas)
+              // console.log(datas)
               that.$store.dispatch('qywxSendMessage', datas)
             }
           })
@@ -304,7 +304,7 @@
             })
         }
       },
-      savetitleIos (next) {
+      saveTitleIOS (next) {
         var newTitle = this.$refs.title.$refs.titleInput.value
         this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle}).then(function () {
           next()

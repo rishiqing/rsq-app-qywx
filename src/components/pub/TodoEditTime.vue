@@ -339,7 +339,7 @@
               corpId: that.$store.getters.loginUser.authUser.corpId,
               agentid: that.$store.getters.loginUser.authUser.corpId,
               title: name + ' 更改了任务时间为 ' + that.clock.startTime + '-' + that.clock.endTime,
-              'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+              url: url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
               description: that.currentTodo.pTitle,
               receiverIds: that.$store.state.todo.currentTodo.receiverIds
             }

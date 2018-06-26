@@ -448,6 +448,7 @@
               window.rsqadmg.execute('showLoader', {text: '删除中...'})
               that.deleteCurrentTodo({todo: that.currentTodo})
                 .then(() => {
+                  that.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
                   window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.execute('toast', {message: '删除成功'})
                   var url = window.location.href.split('#')

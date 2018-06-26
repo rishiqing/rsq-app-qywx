@@ -260,20 +260,68 @@
         return this.currentPlan.editControl.removeKB
       }
     },
+    watch: {
+      userRoles () {
+        var that = this
+        document.title = this.currentPlan.name
+        var creatorId = this.$store.state.loginUser.rsqUser.id
+        for (var i = 0; i < this.userRoles.length; i++) {
+          if (this.userRoles[i].userId === creatorId) {
+            this.ifShowCreate = true
+          }
+        }
+        if (this.currentSubPlanOfTask) {
+          this.currentSubPlan = this.currentSubPlanOfTask
+        } else if (this.childPlanList) {
+          this.currentSubPlan = this.childPlanList[0]
+        }
+        // window.rsqadmg.exec('showLoader', {'text': '加载中'})
+        if (this.currentSubPlanOfTask) {
+          this.$store.dispatch('getCardList', this.currentSubPlanOfTask).then(
+            (res) => {
+              that.$store.commit('SAVE_CARD', res.kanbanCardList)
+            }).then(() => {
+              that.$nextTick(() => {
+                that.initLayout()
+                // window.rsqadmg.exec('hideLoader')
+              })
+            })
+        } else {
+          this.$store.dispatch('getCardList', this.childPlanList[0]).then(
+            (res) => {
+              that.$store.commit('SAVE_CARD', res.kanbanCardList)
+            }).then(() => {
+              that.$nextTick(() => {
+                that.initLayout()
+                // window.rsqadmg.exec('hideLoader')
+              })
+            })
+        }
+      }
+    },
     mounted () {
+      var that = this
       const device = window.rsqadmg.exec('checkDevice')
       if (device.os === 'iOS') {
         this.isIOS = true
       }
       // 拿到看板列表以及看板的任务列表。。。好多数据
+
+      if (!that.currentPlan) {
+        var pId = this.$router.currentRoute.params.planId
+        that.$store.dispatch('getChildKanbanList', {id: pId}).then(
+          (res) => {
+            // console.log(res)
+            that.$store.commit('SET_CURRENT_PLAN', res)
+            that.$store.commit('SAVE_CHILD_PLAN', res.childKanbanList)
+          })
+      }
       var creatorId = this.$store.state.loginUser.rsqUser.id
       for (var i = 0; i < this.userRoles.length; i++) {
         if (this.userRoles[i].userId === creatorId) {
           this.ifShowCreate = true
         }
       }
-      document.title = this.currentPlan.name
-      var that = this
       if (this.currentSubPlanOfTask) {
         this.currentSubPlan = this.currentSubPlanOfTask
       } else if (this.childPlanList) {

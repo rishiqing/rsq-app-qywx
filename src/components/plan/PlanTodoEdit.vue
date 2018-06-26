@@ -320,6 +320,18 @@
               .then(() => {
                 window.rsqadmg.exec('hideLoader')
                 window.rsqadmg.execute('toast', {message: '删除成功'})
+                var url = window.location.href.split('#')
+                var name = that.$store.getters.loginUser.authUser.name
+                var datas = {
+                  corpId: that.$store.getters.loginUser.authUser.corpId,
+                  agentid: that.$store.getters.loginUser.authUser.corpId,
+                  title: name + ' 删除了任务',
+                  url: url[0] + '#' + '/plan/' + that.currentPlan.id + '/child-plan',
+                  description: that.editItem.name,
+                  receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
+                }
+                // console.log(datas)
+                that.$store.dispatch('qywxSendMessage', datas)
                 that.$router.go(-1)
               })
           }

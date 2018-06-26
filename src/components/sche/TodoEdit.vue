@@ -348,7 +348,8 @@
           addJoinUsers: compResCache.addList.join(','),
           deleteJoinUsers: compResCache.delList.join(',')
         }
-        var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        // var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        var ask = ''
         var name = this.loginUser.authUser.name
         var des = ''
         window.rsqadmg.execute('showLoader', {text: '保存中...'})
@@ -374,6 +375,7 @@
           })
           .then(function () {
             compRes = util.compareList(oldName, idArrayName)
+            var compResId = util.compareList(old, idArray)
             params = {
               receiverIds: idArray.join(','),
               addJoinUsers: compRes.addList.join(','),
@@ -381,10 +383,13 @@
             }
             if (params.addJoinUsers === '') {
               des = name + ' 移除了任务成员' + compRes.delList.join('、')
+              ask = compResId.delList.join(',')
             } else if (params.deleteJoinUsers === '') {
               des = name + ' 添加了任务成员' + compRes.addList.join('、')
+              ask = compResId.addList.join(',')
             } else {
               des = name + ' 添加了任务成员' + compRes.addList.join('、') + ',' + '移除了任务成员' + compRes.delList.join('、')
+              ask = Array.from(new Set(compResId.addList.concat(compResId.delList))).join(',')
             }
           })
           .then(function () {

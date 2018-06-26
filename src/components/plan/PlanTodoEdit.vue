@@ -199,7 +199,8 @@
       },
       saveMember (idArray, old) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
         var that = this
-        var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        // var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        var ask = ''
         var des = ''
         var idArrayName = []
         var oldName = []
@@ -235,12 +236,16 @@
           })
           .then(function () {
             var compResCache = util.compareList(oldName, idArrayName)
+            var compResId = util.compareList(old, idArray)
             if (params.addJoinUsers === '') {
               des = name + ' 移除了任务成员' + compResCache.delList.join('、')
+              ask = compResId.delList.join(',')
             } else if (params.deleteJoinUsers === '') {
               des = name + ' 添加了任务成员' + compResCache.addList.join('、')
+              ask = compResId.addList.join(',')
             } else {
               des = name + ' 添加了任务成员' + compResCache.addList.join('、') + ',' + '移除了任务成员' + compResCache.delList.join('、')
+              ask = Array.from(new Set(compResId.addList.concat(compResId.delList))).join(',')
             }
             return des
           })

@@ -35,7 +35,7 @@
                   :select-title="'请选择成员'"
                   :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="pUserId"
+                  :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
                   :single-select="true"
                   @member-changed="saveMember"/>
@@ -202,7 +202,7 @@
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
                 title: name + ' 分配给你一条子任务',
-                'url': url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
                 description: that.$store.state.todo.currentTodo.pTitle,
                 receiverIds: that.joinUserRsqIds[0].toString()
               }

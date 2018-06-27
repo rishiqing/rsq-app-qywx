@@ -438,7 +438,7 @@
                   corpId: that.$store.getters.loginUser.authUser.corpId,
                   agentid: that.$store.getters.loginUser.authUser.corpId,
                   title: des,
-                  'url': url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                  url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
                   description: that.$store.state.todo.currentTodo.pTitle,
                   receiverIds: that.$store.state.todo.currentTodo.receiverIds
                 }

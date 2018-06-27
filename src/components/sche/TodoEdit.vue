@@ -52,8 +52,8 @@
                   :select-title="'请选择成员'"
                   :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="pUserId"
-                  :disabled-rsq-ids="[pUserId, rsqUser]"
+                  :creater-rsq-ids="createId"
+                  :disabled-rsq-ids="[createId, rsqUser]"
                   @member-changed="saveMember"/>
               </div>
             </div>
@@ -147,6 +147,21 @@
       },
       pUserId () {
         return [this.$store.state.todo.currentTodo.pUserId]
+      },
+      createIdObject () {
+        var arr = this.$store.state.todo.currentTodo.receiverUser || []
+        // console.log(arr)
+        return arr.filter(function (o) {
+          if (o.joinUser.isCreator) {
+            return o.id || 0
+          }
+        })
+      },
+      createId () {
+        if (this.createIdObject.length > 0) {
+          return [this.createIdObject[0].id]
+        }
+        return []
       },
       isInbox () {
         return this.currentTodo.pContainer === 'inbox'
@@ -307,7 +322,7 @@
                   corpId: that.loginUser.authUser.corpId,
                   agentid: this.corpId,
                   title: name + ' 修改了任务标题',
-                  'url': url[0] + '#' + '/sche/todo/' + this.currentTodo.id,
+                  url: url[0] + '#' + '/sche/todo/' + this.currentTodo.id,
                   description: this.editItem.pTitle,
                   receiverIds: mem
                 }
@@ -333,7 +348,8 @@
           addJoinUsers: compResCache.addList.join(','),
           deleteJoinUsers: compResCache.delList.join(',')
         }
-        var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        // var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        var ask = ''
         var name = this.loginUser.authUser.name
         var des = ''
         window.rsqadmg.execute('showLoader', {text: '保存中...'})
@@ -359,6 +375,7 @@
           })
           .then(function () {
             compRes = util.compareList(oldName, idArrayName)
+            var compResId = util.compareList(old, idArray)
             params = {
               receiverIds: idArray.join(','),
               addJoinUsers: compRes.addList.join(','),
@@ -366,10 +383,13 @@
             }
             if (params.addJoinUsers === '') {
               des = name + ' 移除了任务成员' + compRes.delList.join('、')
+              ask = compResId.delList.join(',')
             } else if (params.deleteJoinUsers === '') {
               des = name + ' 添加了任务成员' + compRes.addList.join('、')
+              ask = compResId.addList.join(',')
             } else {
               des = name + ' 添加了任务成员' + compRes.addList.join('、') + ',' + '移除了任务成员' + compRes.delList.join('、')
+              ask = Array.from(new Set(compResId.addList.concat(compResId.delList))).join(',')
             }
           })
           .then(function () {
@@ -379,7 +399,7 @@
                 corpId: that.loginUser.authUser.corpId,
                 agentid: that.corpId,
                 title: des,
-                'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+                url: url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
                 description: that.currentTodo.pTitle,
                 receiverIds: ask
               }
@@ -392,7 +412,7 @@
       },
       finishChecked (status) {
         var that = this
-        var create = this.pUserId[0].toString()
+        var create = this.createId[0].toString()
         var url = window.location.href.split('#')
         var name = this.loginUser.authUser.name
         if (status !== this.editItem.isDone) {
@@ -406,7 +426,7 @@
                   corpId: that.loginUser.authUser.corpId,
                   agentid: that.corpId,
                   title: name + todoStatus,
-                  'url': url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
+                  url: url[0] + '#' + '/sche/todo/' + that.currentTodo.id,
                   description: that.currentTodo.pTitle,
                   receiverIds: create
                 }
@@ -428,6 +448,7 @@
               window.rsqadmg.execute('showLoader', {text: '删除中...'})
               that.deleteCurrentTodo({todo: that.currentTodo})
                 .then(() => {
+                  that.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
                   window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.execute('toast', {message: '删除成功'})
                   var url = window.location.href.split('#')
@@ -438,7 +459,7 @@
                     corpId: that.$store.getters.loginUser.authUser.corpId,
                     agentid: that.$store.getters.loginUser.authUser.corpId,
                     title: name + ' 删除了任务',
-                    'url': url[0] + '#' + '/sche',
+                    url: url[0] + '#' + '/sche',
                     description: that.$store.state.todo.currentTodo.pTitle,
                     receiverIds: mem
                   }

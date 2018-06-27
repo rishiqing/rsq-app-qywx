@@ -610,7 +610,6 @@ export default {
       //  清除缓存数据
       var sourceDateStruct = dateUtil.backend2frontend(todo)
       var curArrayIndex = todo.pContainer === 'inbox' ? 0 : moment(state.schedule.strCurrentDate, 'YYYY-MM-DD').toDate().getTime()
-
       dispatch('invalidateDateItems', {dateStruct: sourceDateStruct, exceptDateNum: curArrayIndex})
       commit('TD_TODO_DELETED', {item: todo})
     })

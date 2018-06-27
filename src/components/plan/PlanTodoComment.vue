@@ -95,7 +95,7 @@
               corpId: that.$store.getters.loginUser.authUser.corpId,
               agentid: that.$store.getters.loginUser.authUser.corpId,
               title: name + des,
-              'url': url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+              url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
               description: that.$store.state.plan.currentKanbanItem.name,
               receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
             }

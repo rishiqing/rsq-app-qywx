@@ -306,7 +306,7 @@ export default {
   TD_TODO_DELETED (state, p) {
     let items = p.item.pContainer === 'inbox' ? state.inbox.items : state.schedule.items
     if (items) {
-      let index = items.indexOf(p.item) || -1
+      let index = items.indexOf(p.item)
       if (index > -1) {
         items.splice(index, 1)
       }

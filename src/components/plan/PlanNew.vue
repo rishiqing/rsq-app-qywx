@@ -210,7 +210,7 @@
             corpId: that.$store.getters.loginUser.authUser.corpId,
             agentid: that.$store.getters.loginUser.authUser.corpId,
             title: name + ' 将你添加到计划 ' + that.content,
-            'url': url[0] + '#' + '/plan/list',
+            url: url[0] + '#' + '/plan/list',
             description: that.content,
             receiverIds: rsqId
           }

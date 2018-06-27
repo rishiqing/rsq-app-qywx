@@ -72,6 +72,7 @@
   import CalendarBar from 'com/sche/CalendarBarV2'
   import CalendarPane from 'com/sche/CalendarPaneV2'
   import dateUtil from 'ut/dateUtil'
+  import bus from 'com/bus'
 
   export default {
     name: 'Calendar',
@@ -180,6 +181,7 @@
     },
     mounted () {
       //  初始化工作
+      var that = this
       this.resetAllViews({focusDate: this.defaultSelectDate})
       this.barView.targetY = -this.marginY
       this.paneView.targetY = 0
@@ -207,6 +209,16 @@
       var ele3 = document.getElementById('vPaneWrapper')
       ele3.addEventListener('transitionend', this.resetViewType)
       ele3.addEventListener('webkitTransitionEnd', this.resetViewType)
+      bus.$on('deleteItemList', function (e) {
+        that.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
+        var change = that.$store.getters.defaultNumTaskDate
+        for (let i = 0; i < that.currentView.daysArray[1].length; i++) {
+          if (that.currentView.daysArray[1][i].date.getTime() === change) {
+            that.currentView.daysArray[1][i].showTag = false
+          }
+        }
+        that.$emit('after-cal-switch', {type: that.currentView.type, daysArray: that.currentView.daysArray})
+      })
     },
     methods: {
       triggerSelectDate (date) {

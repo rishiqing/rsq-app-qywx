@@ -134,7 +134,7 @@
               }
               promise.then(() => {
                 window.rsqadmg.exec('hideLoader')
-                bus.$emit('deleteItemList', 1)
+                bus.$emit('deleteItemList')
                 window.rsqadmg.execute('toast', {message: '删除成功'})
               })
             }

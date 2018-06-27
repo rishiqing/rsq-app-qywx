@@ -29,7 +29,7 @@
             :user-rsq-ids="userRsqId"
             :single-select="true"
             :selected-rsq-ids="joinUserRsqIds"
-            :creater-rsq-ids="pUserId"
+            :creater-rsq-ids="[]"
             :disabled-rsq-ids="[]"
             @member-changed="saveMember"/>
         </div>
@@ -65,7 +65,9 @@
       return {
         editItem: {},
         newName: '',
-        joinUserRsqIds: []
+        joinUserRsqIds: [],
+        cache: [],
+        cacheNew: []
       }
     },
     computed: {
@@ -80,6 +82,21 @@
       },
       pUserId () {
         return [this.$store.state.todo.currentTodo.pUserId]
+      },
+      createIdObject () {
+        var arr = this.$store.state.todo.currentTodo.receiverUser || []
+        // console.log(arr)
+        return arr.filter(function (o) {
+          if (o.joinUser.isCreator) {
+            return o.id || 0
+          }
+        })
+      },
+      createId () {
+        if (this.createIdObject.length > 0) {
+          return [this.createIdObject[0].id]
+        }
+        return []
       }
     },
     mounted () {
@@ -93,6 +110,7 @@
         return arr.id.toString()
       })
       this.$store.commit('PUB_SUB_TODO_USER', {id: this.joinUserRsqIds})
+      this.cache = [...this.joinUserRsqIds]
     },
     methods: {
       copyTitle (value) {
@@ -119,11 +137,49 @@
             that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
             window.rsqadmg.exec('hideLoader')
             // this.$router.go(-1)
+            // console.log(this.cache[0])
+            var url = window.location.href.split('#')
+            var name = that.$store.getters.loginUser.authUser.name
+            // console.log(that.cacheNew[0])
+            if (that.cache[0] !== that.cacheNew[0] && that.cache[0]) {
+              let datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                title: name + ' 撤回了一条子任务',
+                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                description: that.$store.state.todo.currentTodo.pTitle,
+                receiverIds: that.cache[0].toString()
+              }
+              // console.log(datas)
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
+            if (that.cache[0] !== that.cacheNew[0] && that.cacheNew[0]) {
+              let datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                title: name + ' 分配给你一条子任务',
+                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                description: that.$store.state.todo.currentTodo.pTitle,
+                receiverIds: that.cacheNew[0].toString()
+              }
+              // console.log(datas)
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
+            // var datas = {
+            //   corpId: that.$store.getters.loginUser.authUser.corpId,
+            //   agentid: that.$store.getters.loginUser.authUser.corpId,
+            //   title: name + ' 分配给你一条子任务',
+            //   url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+            //   description: that.$store.state.todo.currentTodo.pTitle,
+            //   receiverIds: that.joinUserRsqIds[0].toString()
+            // }
+            // // console.log(datas)
+            // that.$store.dispatch('qywxSendMessage', datas)
           })
       },
       saveMember (idArray) {
         window.rsqadmg.execute('setTitle', {title: '编辑子任务'})
-        // this.joinUserRsqIds = idArray
+        this.cacheNew = idArray
         this.editItem.receiverIds = idArray
         this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})
       },

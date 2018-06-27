@@ -35,7 +35,7 @@
                   :select-title="'请选择成员'"
                   :user-rsq-ids="userRsqId"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="pUserId"
+                  :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
                   :single-select="true"
                   @member-changed="saveMember"/>
@@ -117,7 +117,11 @@
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
-      this.joinUserRsqIds = this.pUserId
+      if (this.subId) {
+        this.joinUserRsqIds = this.subId
+      } else {
+        this.joinUserRsqIds = this.pUserId
+      }
       this.sub = this.$store.state.todo.currentSubtodoDate
     },
     methods: {
@@ -165,6 +169,7 @@
         }, 50)
       },
       submitTodo () {
+        var that = this
         if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务标题'})
         }
@@ -190,15 +195,32 @@
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
+            if (that.joinUserRsqIds) {
+              var url = window.location.href.split('#')
+              var name = that.$store.getters.loginUser.authUser.name
+              var datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                title: name + ' 分配给你一条子任务',
+                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                description: that.$store.state.todo.currentTodo.pTitle,
+                receiverIds: that.joinUserRsqIds[0].toString()
+              }
+              // console.log(datas)
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
           })
         // this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
         this.$router.go(-1)
       }
     },
-    beforeRouteEnter (to, from, next) {
-      next(vm => {
-        vm.$store.commit('PUB_SUB_TODO_USER', {id: ''})
-      })
+    beforeRouteLeave (to, from, next) {
+      if (to.name === 'SubTodoEditDate') {
+        next()
+      } else {
+        this.$store.commit('PUB_SUB_TODO_USER', {id: ''})
+        next()
+      }
     }
   }
 </script>

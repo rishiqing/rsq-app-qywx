@@ -52,7 +52,7 @@
   import dateUtil from 'ut/dateUtil'
   import SliderDelete from 'com/pub/SliderDelete'
   // import moment from 'moment'
-//  import bus from 'com/bus'
+  import bus from 'com/bus'
 
   export default {
     name: 'TodoItem',
@@ -96,6 +96,7 @@
     },
     methods: {
       deleteCurrentTodo (p) {
+        this.$emit('clear-date')
         return this.$store.dispatch('deleteTodo', p)
       },
       prepareDelete () {
@@ -107,6 +108,7 @@
 //              window.rsqadmg.execute('showLoader', {text: '删除中...'})
               that.deleteCurrentTodo({todo: that.currentTodo})
                 .then(() => {
+                  bus.$emit('deleteItemList')
                   //                  window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.execute('toast', {message: '删除成功'})
                 })
@@ -132,6 +134,7 @@
               }
               promise.then(() => {
                 window.rsqadmg.exec('hideLoader')
+                bus.$emit('deleteItemList')
                 window.rsqadmg.execute('toast', {message: '删除成功'})
               })
             }

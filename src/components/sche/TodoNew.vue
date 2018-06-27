@@ -217,36 +217,19 @@
               this.$router.replace('/inbox')
             }
             if (item.receiverIds) {
+              var name = that.loginUser.authUser.name
               var url = window.location.href.split('#')
+              var datas = {
+                corpId: that.loginUser.authUser.corpId,
+                agentid: this.corpId,
+                title: name + ' 创建了一条任务',
+                url: url[0] + '#' + '/sche/todo/' + item.id,
+                description: item.pTitle,
+                receiverIds: item.receiverIds
+              }
+              this.$store.dispatch('qywxSendMessage', datas)
 //                var note = this.editItem.pNote
 //                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
-              var data = {
-                'msgtype': 'textcard',
-                'agentid': this.corpId,
-                'textcard': {
-                  'title': item.pTitle,
-                  'description': '日程通知',
-                  'url': url[0] + '#' + '/sche/todo/' + item.id
-                }
-              }
-              var IDArrays = item.receiverIds.split(',')
-              var empIDArray = []
-              this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
-                .then(idMap => {
-                  for (var i = 0; i < IDArrays.length; i++) {
-                    empIDArray.push(idMap[IDArrays[i]].userId)
-                  }
-                  data['touser'] = empIDArray.toString().split(',').join('|')
-                  that.$store.dispatch('sendAsyncCorpMessage', {
-                    corpId: that.loginUser.authUser.corpId,
-                    data: data
-                  }).then(res => {
-                    if (res.errcode !== 0) {
-                    } else {
-                      console.log('发送成功！')
-                    }
-                  })
-                })
             }
             this.$router.replace('/sche')
           })

@@ -14,7 +14,6 @@
               :item-checked="editItem.isDone"
               :is-show-bottom-border="true"
               @text-blur="saveTitle"
-              @text-change="savetitleIos"
               @click-checkout="finishChecked"/>
             <r-input-note
               :content="editItem.note"
@@ -138,7 +137,11 @@
         return this.$store.state.plan.currentKanbanItem || {}
       },
       itemId () {
-        return this.currentKanbanItem.id
+        if (this.currentKanbanItem.id) {
+          return this.currentKanbanItem.id
+        } else {
+          return this.$route.params.planTodoId
+        }
       },
       todoComments () {
         return this.currentKanbanItem.commentList || []
@@ -156,11 +159,9 @@
         return this.loginUser.authUser.corpId
       }
     },
-    created () {
+    mounted () {
       window.rsqadmg.execute('setTitle', {title: '任务详情'})
       this.initPlan()
-    },
-    mounted () {
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     beforeRouteLeave (to, from, next) {
@@ -169,7 +170,7 @@
         next(false)
         return
       }
-      next()
+      this.saveTitleIOS(next)
     },
     methods: {
       fetchCommentIds () {
@@ -196,9 +197,15 @@
       switchToComment () {
         this.$router.push('/plan/todo/comment')
       },
-      saveMember (idArray) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+      saveMember (idArray, old) { // 这个方法关键之处是每次要穿的参数是总接收id，增加的id减少的id
+        var that = this
+        // var ask = Array.from(new Set(idArray.concat(old))).join(',')
+        var ask = ''
+        var des = ''
+        var idArrayName = []
+        var oldName = []
+        var name = this.loginUser.authUser.name
         window.rsqadmg.execute('setTitle', {title: '任务详情'})
-        const that = this
         const compRes = util.compareList(this.joinUserRsqIds, idArray)
         const params = {
           id: this.currentKanbanItem.id,
@@ -213,39 +220,50 @@
           // window.rsqadmg.execute('toast', {message: '保存成功'})
           //  重新获取用户头像
           this.fetchCommentIds()
-          if (params.addJoinUsers) {
-            var url = window.location.href.split('#')
-            var data = {
-              'msgtype': 'textcard',
-              'agentid': this.corpId,
-              'textcard': {
-                'title': this.currentKanbanItem.name,
-                'description': '日程通知',
-                'url': url[0] + '#' + '/plan/todo/' + this.currentKanbanItem.id
-              }
-            }
-
-            var IDArrays = params.addJoinUsers.split(',')
-            var empIDArray = []
-            this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: IDArrays})
-              .then(idMap => {
-                for (var i = 0; i < IDArrays.length; i++) {
-                  empIDArray.push(idMap[IDArrays[i]].userId)
-                }
-                data['touser'] = empIDArray.toString().split(',').join('|')
-
-                that.$store.dispatch('sendAsyncCorpMessage', {
-                  corpId: that.loginUser.authUser.corpId,
-                  data: data
-                }).then(res => {
-                  if (res.errcode !== 0) {
-                    // alert('发送失败：' + JSON.stringify(res))
-                  } else {
-                    console.log('发送成功！')
-                  }
-                })
+          this.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: idArray}).then(function (res) {
+            let res1 = util.getMapValuePropArray(res)
+            idArrayName = res1.map(function (o) {
+              return o.name
+            })
+          })
+          .then(function () {
+            return that.$store.dispatch('fetchUseridFromRsqid', {corpId: that.loginUser.authUser.corpId, idArray: old}).then(function (res) {
+              let res2 = util.getMapValuePropArray(res)
+              oldName = res2.map(function (o) {
+                return o.name
               })
-          }
+            })
+          })
+          .then(function () {
+            var compResCache = util.compareList(oldName, idArrayName)
+            var compResId = util.compareList(old, idArray)
+            if (params.addJoinUsers === '') {
+              des = name + ' 移除了任务成员' + compResCache.delList.join('、')
+              ask = compResId.delList.join(',')
+            } else if (params.deleteJoinUsers === '') {
+              des = name + ' 添加了任务成员' + compResCache.addList.join('、')
+              ask = compResId.addList.join(',')
+            } else {
+              des = name + ' 添加了任务成员' + compResCache.addList.join('、') + ',' + '移除了任务成员' + compResCache.delList.join('、')
+              ask = Array.from(new Set(compResId.addList.concat(compResId.delList))).join(',')
+            }
+            return des
+          })
+          .then(function (res) {
+            if (params.addJoinUsers || params.deleteJoinUsers) {
+              var url = window.location.href.split('#')
+              var datas = {
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                description: that.$store.state.plan.currentKanbanItem.name,
+                url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+                title: res,
+                receiverIds: ask
+              }
+              // console.log(datas)
+              that.$store.dispatch('qywxSendMessage', datas)
+            }
+          })
         })
       },
       finishChecked (status) {
@@ -262,6 +280,7 @@
         }
       },
       saveTitle (newTitle) {
+        var that = this
         if (!newTitle) {
           window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
           return
@@ -270,11 +289,31 @@
           this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle})
             .then(() => {
               this.editItem.name = newTitle
+//            this.editItem.pTitle = newTitle
+//            window.rsqadmg.exec('hideLoader')
+//            window.rsqadmg.execute('toast', {message: '保存成功'})
+              var url = window.location.href.split('#')
+              var name = that.loginUser.authUser.name
+              // var addArray = this.joinUserRsqIds.join(',')
+              // var mem = this.newList ? this.newList : addArray
+              var datas = {
+                corpId: that.loginUser.authUser.corpId,
+                agentid: that.corpId,
+                title: name + ' 修改了任务标题',
+                url: url[0] + '#' + '/plan/todo/' + this.currentPlan.id,
+                description: that.editItem.name,
+                receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
+              }
+              // console.log(mem)
+              that.$store.dispatch('qywxSendMessage', datas)
             })
         }
       },
-      savetitleIos (newTitle) {
-        this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle})
+      saveTitleIOS (next) {
+        var newTitle = this.$refs.title.$refs.titleInput.value
+        this.$store.dispatch('updateKanbanItem', {id: this.itemId, name: newTitle}).then(function () {
+          next()
+        })
       },
       deleteItem () {
         const that = this
@@ -286,16 +325,41 @@
               .then(() => {
                 window.rsqadmg.exec('hideLoader')
                 window.rsqadmg.execute('toast', {message: '删除成功'})
+                var url = window.location.href.split('#')
+                var name = that.$store.getters.loginUser.authUser.name
+                var datas = {
+                  corpId: that.$store.getters.loginUser.authUser.corpId,
+                  agentid: that.$store.getters.loginUser.authUser.corpId,
+                  title: name + ' 删除了任务',
+                  url: url[0] + '#' + '/plan/' + that.currentPlan.id + '/child-plan',
+                  description: that.editItem.name,
+                  receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
+                }
+                // console.log(datas)
+                that.$store.dispatch('qywxSendMessage', datas)
                 that.$router.go(-1)
               })
           }
         })
       },
       initPlan () {
+        var that = this
+        // console.log(this.currentKanbanItem.commentList)
         // window.rsqadmg.exec('showLoader', {'text': '加载中'})
         return this.$store.dispatch('getKanbanItem', {id: this.itemId})
           .then(item => {
             util.extendObject(this.editItem, item)
+            util.extendObject(this.currentKanbanItem, item)
+            if (!that.currentPlan) {
+              that.$store.dispatch('getChildKanbanList', {id: item.kanbanId}).then(
+                (res) => {
+                  that.$store.commit('SET_CURRENT_PLAN', res)
+                  that.$store.commit('SAVE_CHILD_PLAN', res.childKanbanList)
+                  that.$store.dispatch('getLabels', this.item).then((res) => {
+                    that.$store.commit('SAVE_LABELS', res)
+                  })
+                })
+            }
             this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
           })
           .then(() => {

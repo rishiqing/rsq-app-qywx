@@ -416,7 +416,6 @@ export default {
           var curArrayIndex = todo.pContainer === 'inbox'
             ? 0
             : moment(state.schedule.strCurrentDate, 'YYYY-MM-DD').toDate().getTime()
-
           if (!dateUtil.isInDateStruct(curArrayIndex, targetDateStruct)) {
             commit('TD_TODO_DELETED', {item: todo})
           }
@@ -611,7 +610,6 @@ export default {
       //  清除缓存数据
       var sourceDateStruct = dateUtil.backend2frontend(todo)
       var curArrayIndex = todo.pContainer === 'inbox' ? 0 : moment(state.schedule.strCurrentDate, 'YYYY-MM-DD').toDate().getTime()
-
       dispatch('invalidateDateItems', {dateStruct: sourceDateStruct, exceptDateNum: curArrayIndex})
       commit('TD_TODO_DELETED', {item: todo})
     })
@@ -1213,5 +1211,46 @@ export default {
   },
   replyKanbanItemComment ({commit, state}, props) {
     commit('REPLY_KANBAN_ITEM_COMMENT_CREATED', {item: props.item})
+  },
+  /**
+   * 企业微信消息发送
+   * @param  {[type]} options.state    [description]
+   * @param  {[type]} options.dispatch [description]
+   * @param  {[type]} p                [description]
+   * @return {[type]}                  [description]
+   */
+  qywxSendMessage ({getters, state, dispatch}, p) {
+    var data = {
+      'msgtype': 'textcard',
+      'agentid': p.agentid,
+      'textcard': {
+        'title': p.title,
+        'description': p.description,
+        'url': p.url
+      }
+    }
+    console.log(p)
+    var IDArrays = p.receiverIds.split(',')
+
+    var empIDArray = []
+    dispatch('fetchUseridFromRsqid', {corpId: p.corpId, idArray: IDArrays})
+      .then(idMap => {
+        for (var i = 0; i < IDArrays.length; i++) {
+          if (idMap[IDArrays[i]].userId === getters.loginUser.authUser.userId) {
+            continue
+          }
+          empIDArray.push(idMap[IDArrays[i]].userId)
+        }
+        data['touser'] = empIDArray.toString().split(',').join('|')
+        dispatch('sendAsyncCorpMessage', {
+          corpId: p.corpId,
+          data: data
+        }).then(res => {
+          if (res.errcode !== 0) {
+          } else {
+            console.log('发送成功！')
+          }
+        })
+      })
   }
 }

@@ -134,11 +134,11 @@
       },
       createrRsqIds () {
         this.fetchUserIds(this.createrRsqIds, 'creatorList')
-      },
-      userRsqIds (newIds) {
-        this.userRsqIds = newIds
-        this.fetchUserIds(this.userRsqIdArray, 'localList')
       }
+      // userRsqIds (newIds) {
+      //   this.userRsqIds = newIds
+      //   this.fetchUserIds(this.userRsqIdArray, 'localList')
+      // }
     },
     created () {
       this.fetchUserIds(this.userRsqIdArray, 'localList')
@@ -191,11 +191,16 @@
       showWebMemberEdit () {
         const that = this
         var disSelect = []
+        var creSelect = []
+        if (this.createrRsqIds[0]) {
+          creSelect = [this.createrRsqIds[0].toString()]
+        }
         if (this.disabledRsqIds[0]) {
           disSelect = this.disabledRsqIds.map(function (o) {
             return o.toString()
           })
         }
+        var old = [...this.selectRsqidArray]
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,
@@ -204,7 +209,7 @@
           selectedIdList: this.selectRsqidArray,
           disabledIdList: disSelect,
           // 转换为字符串
-          creatorIdList: [this.createrRsqIds[0].toString()],
+          creatorIdList: creSelect,
           singleSelect: this.singleSelect,
           success (selList) {
             const arr = selList.map(m => {
@@ -216,7 +221,7 @@
             // that.$store.dispatch('fetchRsqidFromUserid', {corpId: corpId, idArray: idArray})
             //   .then(function (idMap) {
             //     that.selectedLocalList = util.getMapValuePropArray(idMap)
-            that.$emit('member-changed', arr)
+            that.$emit('member-changed', arr, old)
             //   })
           },
           cancel () {

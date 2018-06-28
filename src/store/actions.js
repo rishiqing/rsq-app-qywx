@@ -240,6 +240,15 @@ export default {
         alert(JSON.stringify(err))
       })
   },
+  moveToPlan ({state}, p) {
+    return api.todo.moveToPlan(p)
+      .then(item => {
+        return item
+      })
+      .catch(err => {
+        alert(JSON.stringify(err))
+      })
+  },
   /**
    * 多日逻辑：
    * 暂时读取第一天的顺序，然后保存，然后让缓存失效

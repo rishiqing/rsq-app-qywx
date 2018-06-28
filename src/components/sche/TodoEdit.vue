@@ -56,6 +56,14 @@
                   :disabled-rsq-ids="[createId, rsqUser]"
                   @member-changed="saveMember"/>
               </div>
+              <div class="common-field">
+                <img
+                  src="../../assets/img/moveplan.svg"
+                  class="icon2-member sche move-to">
+                <r-move-plan
+                  :item="editItem"/>
+              </div>
+
             </div>
             <div class="icon-field-group sub-todo">
               <div class="common-field">
@@ -105,6 +113,7 @@
   import InputNote from 'com/pub/InputNote'
   import InputDate from 'com/pub/InputDate'
   import InputTime from 'com/pub/InputTime'
+  import MoveToPlan from 'com/pub/MoveToPlan'
   import InputMember from 'com/pub/InputMember'
   import InputSubtodo from 'com/pub/InputSubtodo'
   import SendConversation from 'com/demo/SendConversation'
@@ -122,7 +131,8 @@
       'r-input-subtodo': InputSubtodo,
       'r-input-note': InputNote,
       'r-comment-list': CommentList,
-      'r-send-conversation': SendConversation
+      'r-send-conversation': SendConversation,
+      'r-move-plan': MoveToPlan
     },
     data () {
       return {
@@ -786,5 +796,9 @@
   }
   .sub-todo{
     margin-top: 20px;
+  }
+  .move-to{
+    height: 22px;
+    width: 22px;
   }
 </style>

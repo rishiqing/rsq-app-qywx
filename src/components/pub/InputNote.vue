@@ -73,7 +73,7 @@
   }
   .default-padding{
     padding-left: 0.3rem;
-    height: 54px;
+    min-height: 54px;
     overflow: auto;
   }
   div.content-color{

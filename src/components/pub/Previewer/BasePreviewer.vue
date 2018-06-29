@@ -1,27 +1,24 @@
 <template>
   <div class="preview">
     <div class="preview-mask" />
-    <div class="preview-head">
-      <div class="preview-title">{{ fileName }}</div>
-      <v-touch @tap="closePreview">
-        <i class="icon2-error deleteComent preview-close" />
-      </v-touch>
-    </div>
     <div
       v-show="previewImage.id"
       class="preview-img-wrap">
-      <img
-        :src="previewImage.realPath"
-        :alt="fileName"
-        class="preview-img">
-    </div>
-    <div
-      v-show="previewFile.id"
-      class="preview-file-wrap">
-      <iframe
-        :src="fileFramePath"
-        class="preview-file"
-        frameborder="0" />
+      <div class="preview-flex">
+        <div class="flex-item">
+          <img
+            :src="previewImage.realPath"
+            :alt="fileName"
+            class="preview-img">
+        </div>
+        <v-touch
+          class="close"
+          @tap="closePreview">
+          <img
+            class="close-img"
+            src="../../../assets/img/close.svg">
+        </v-touch>
+      </div>
     </div>
   </div>
 </template>
@@ -50,7 +47,7 @@
       var that = this
       //  如果通过任意方式跳出页面了，那么关闭当前选择框
       window.onpopstate = function () {
-        that.closePreview()
+        that.preventDefault()
       }
     },
     methods: {
@@ -60,7 +57,9 @@
         }, 50)
       },
       closePreviewfix (e) {
-        e.preventDefault()
+        if (e.preventDefault) {
+          e.preventDefault()
+        }
         this.previewImage = {}
         this.previewFile = {}
         this.$emit('self-close')
@@ -78,7 +77,7 @@
 </script>
 <style lang="scss" scoped>
   .preview {}
-  .preview-mask {position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(0,0,0,0.9);opacity: 0.8;z-index:1500;}
+  .preview-mask {position:fixed;top:0;right:0;bottom:0;left:0;background-color: #f5f5f5;z-index:1500;}
   .preview-head {position: fixed;top: 0;left: 0;width: 100%;overflow:hidden;
     text-align: center;cursor: default;background: rgba(0,0,0,.86);z-index: 1530;}
   .preview-close {
@@ -92,9 +91,33 @@
   }
   .preview-title {text-align:center;width: 80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;
     margin:0 auto;font-size: 16px;height:1.5rem;line-height:1.5rem;}
-  .preview-img-wrap {position:fixed;left:10%;top:1.5rem;right:10%;bottom:1.5rem;overflow:auto;z-index:1520;}
+  .preview-img-wrap {position:fixed;left:0;top:0;right:0;bottom:0;overflow:auto;z-index:1520;}
   .preview-img {display:block;position:relative;width: 100%;z-index: 1521;}
   .preview-file-wrap {position:fixed;left:0%;top:1.5rem;right:0%;bottom:0rem;overflow:scroll;z-index:1520;
     -webkit-overflow-scrolling:touch;}
   .preview-file {display:block;position:relative;width: 100%;height:100%;z-index: 1521;}
+  .preview-flex{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .close{
+    height: 46px;
+    flex: 0 0 auto;
+  }
+  .flex-item{
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .close-img{
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 16px
+  }
 </style>

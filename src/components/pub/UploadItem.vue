@@ -2,8 +2,8 @@
   <li class="task-list">
     <img
       :src="previewImg"
-      class="small-img"
-      alt="task.img.name">
+      :alt="task.img.name"
+      class="small-img">
     <div class="file-name">
       <div class="word">{{ task.img.name }}</div>
       <div class="file-size">{{ format(uploadedSize) }}/{{ format(task.file.size) }}</div>
@@ -25,6 +25,12 @@
 </template>
 <script>
   import util from 'ut/jsUtil'
+  import excel from '../../assets/img/excel.svg'
+  import ppt from '../../assets/img/ppt.svg'
+  import word from '../../assets/img/word.svg'
+  import compressedFile from '../../assets/img/compressed_file.svg'
+  import pdf from '../../assets/img/pdf.svg'
+  import unknown from '../../assets/img/unknown.svg'
 
   export default {
     name: 'UploadItem',
@@ -51,22 +57,30 @@
       //  根据当前task.file的类型，判断需要显示什么样的预览图
       previewImg () {
         var type = this.task.file.type
+        console.log(type)
         if (new RegExp('image/').test(type)) {
           return this.task.img.src
         } else {
           switch (type) {
             case 'application/pdf':
-              return 'https://res-front-cdn.timetask.cn/beta/images/pdf.692b9767b9.png'
+              return pdf
             case 'application/zip':
-              return 'https://res-front-cdn.timetask.cn/beta/images/zip.f9f2049911.png'
+            case 'application/x-zip-compressed':
+              return compressedFile
             case 'application/ppt':
             case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-              return 'https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png'
+            case 'application/vnd.ms-powerpoint':
+              return ppt
             case 'application/doc':
             case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-              return 'https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png'
+            case 'application/msword':
+              return word
+            case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+            case 'application/vnd.ms-excel':
+            case 'application/xls':
+              return excel
             default:
-              return 'https://res-front-cdn.timetask.cn/beta/images/file.46449ccbd9.png'
+              return unknown
           }
         }
       }

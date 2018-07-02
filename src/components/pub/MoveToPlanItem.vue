@@ -44,7 +44,7 @@
     <div
       v-else
       class="item-list">
-      <img src="../../assets/img/newplan.svg">
+      <img src="../../assets/img/cardlist.svg">
       <p class="shouye">当前子计划下，没有任务列表</p>
     </div>
     <ul

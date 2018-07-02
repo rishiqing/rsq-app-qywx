@@ -306,7 +306,7 @@
     align-items: left;
     background-color: white;
     margin-top: 20px;
-    padding-left: 0.3rem;
+    padding-left: 15px;
     padding-right: 0.2rem;
     flex-direction:column;
     border-top: 0.5px solid #d4d4d4;
@@ -350,7 +350,7 @@
     font-size: 17px;
     color: #000000;
     line-height: 24px;
-    margin-left: 0.3rem;
+    margin-left: 15px;
   }
   .templ-name{
     font-family: PingFangSC-Regular;
@@ -366,7 +366,7 @@
   .wrap-muban{
     position: relative;
     text-align: center;
-    margin-left: 0.3rem;
+    margin-left: 15px;
   }
   .templ{
     width: 2.08rem;
@@ -377,6 +377,7 @@
     height: 1.466rem;
     background-color: white;
     padding: 0.3rem;
+    padding-left: 15px;
     margin-top: 20px;
     font-family: PingFangSC-Regular;
     font-size: 17px;

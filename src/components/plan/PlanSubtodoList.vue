@@ -154,7 +154,7 @@
   }
   .sublist{
     background-color: white;
-    padding-left: 0.6rem;
+    padding-left: 15px;
     z-index: 0;
     border-top: 0.5px solid #d4d4d4;
     border-bottom: 0.5px solid #d4d4d4;

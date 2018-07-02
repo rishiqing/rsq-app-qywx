@@ -258,7 +258,7 @@
     position: absolute;
     top: 50%;
     margin-top: -0.29rem;
-    left: calc(0.3rem + 20px);
+    left: 15px;
     z-index: 1000;
   }
   .arrow {

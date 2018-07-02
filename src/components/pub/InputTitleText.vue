@@ -102,7 +102,7 @@
     position: absolute;
     justify-content:center;
     // width: 1.2rem;
-    margin-left: 20px;
+    margin-left: 15px;
   }
   .edit-text{
     font-family: PingFangSC-Medium;
@@ -173,7 +173,7 @@ display: block;
     padding: 0.3rem;
     border-radius: 0;
     color: #3D3D3D;
-    margin-left: 20px;
+    margin-left: 15px;
     padding-left: 35px;
   }
   .padding-fix{

@@ -344,7 +344,7 @@
     position: absolute;
     top: 47%;
     margin-top: -0.26rem;
-    left: 25px;
+    left: 15px;
     z-index: 1000;
   }
   .arrow {

@@ -654,10 +654,7 @@
     position: absolute;
     top: 50%;
     margin-top: -0.29rem;
-    left:0.3rem
-  }
-  .time-border{
-    border-bottom: 1px solid #E0E0E0;
+    left:0
   }
   input::-webkit-input-placeholder { /* WebKit browsers */
     font-family: STHeitiSC-Light;

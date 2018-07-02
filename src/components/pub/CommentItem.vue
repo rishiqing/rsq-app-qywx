@@ -163,7 +163,7 @@
 </script>
 <style lang="scss" scoped>
   .comment{
-    padding-left: 3%;
+    padding-left: 15px;
     margin-top:0.613rem ;
     margin-bottom: 0.54rem;
     line-height: 0.7rem;

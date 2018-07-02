@@ -59,9 +59,8 @@
 </script>
 <style lang="scss" scoped>
   .sche-list{
-    background-color: white;
     border-top:0.5px solid #D4D4D4 ;
-    padding-left: 20px;
+    padding-left: 15px;
     // overflow-y: auto;
     overflow-x: hidden;
   }

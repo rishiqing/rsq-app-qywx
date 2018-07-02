@@ -456,7 +456,7 @@ rsqAdapterManager.register({
       minites_item.value = j;
       minites.push(minites_item);
     }
-    var when = [{label: '提前', value: 'begin'},{label: '延后', value: 'end'}]
+    var when = [{label: '提前', value: 'begin'}]
     var unit = [{label: '分钟', value: 'min'},{label: '小时', value: 'hour'}]
     var defaultValue = ['begin', '50', 'min']
     weui.picker(when, minites, unit, {

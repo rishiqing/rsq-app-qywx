@@ -73,7 +73,8 @@
         ],
         //  用户自定义的提醒时间
         //  {numTime: 123214345453, selected: true}
-        displayedTimeList: []
+        displayedTimeList: [],
+        displayedTimeListValue: []
       }
     },
     computed: {
@@ -106,7 +107,7 @@
       },
       userDefinedAlertText () {
         return this.displayedTimeList.map(a => {
-          return this.parseTimeText(a.numTime)
+          return a.numTime
         }).join(',')
       }
     },
@@ -142,6 +143,7 @@
         this.userRuleList.forEach(t => {
           var obj = this.parseTimeObj(t)
           this.displayedTimeList.push(obj)
+          this.displayedTimeListValue.push({numTime: t.schedule, selected: true})
           this.selectAlert(obj)
         })
       },
@@ -155,11 +157,23 @@
         //  延迟50ms执行，保证不会触发立即关闭
         setTimeout(() => {
           window.rsqadmg.exec('timePicker', {
-            strInit: moment().format('HH:mm'),
             success (result) {
-              var obj = {numTime: that.getNumDateTime(result.value), selected: false}
-              that.displayedTimeList.push(obj)
-              that.selectAlert(obj)
+              var once = true
+              var resultLabel = result.value[0].label + result.value[1].label + result.value[2].label
+              var resultVlaue = result.value[0].value + '_' + result.value[1].value + '_' + result.value[2].value
+              var obj = {numTime: resultLabel, selected: false}
+              var obj2 = {numTime: resultVlaue, selected: true}
+              that.displayedTimeList.forEach(function (o) {
+                if (o.numTime === resultLabel) {
+                  once = false
+                }
+              })
+              if (once) {
+                that.displayedTimeList.push(obj)
+                that.displayedTimeListValue.push(obj2)
+                that.selectAlert(obj)
+              }
+              once = true
             }
           })
         }, 50)
@@ -170,6 +184,7 @@
             a.selected = false
           })
           this.displayedTimeList = []
+          this.displayedTimeListValue = []
         }
         this.noAlert = true
       },
@@ -188,7 +203,7 @@
       },
       parseTimeObj (obj) {
         return {
-          numTime: jsUtil.alertRule2Time(obj.schedule, this.numStartTime, this.numEndTime),
+          numTime: jsUtil.alertCode2Text(obj.schedule),
           selected: false
         }
       },
@@ -235,18 +250,18 @@
       //  比对displayedTimeList与userRuleList，计算最终的提醒列表
       //  统一解析成时间来做判断是否相等
       mergeTimeList () {
-        var selected = this.getSelected(this.displayedTimeList)
+        var selected = this.getSelected(this.displayedTimeListValue)
         var result = []
         //  执行merge算法
         selected.forEach(s => {
           var orgObjArray = this.userRuleList.filter(org => {
-            return s.numTime === jsUtil.alertRule2Time(org.schedule, this.numStartTime, this.numEndTime)
+            return s.numTime === org.schedule
           })
           if (orgObjArray.length > 0) {
             result.push(orgObjArray[0])
           } else {
             result.push({
-              schedule: jsUtil.alertTime2Rule(s.numTime, this.numStartTime, this.numEndTime),
+              schedule: s.numTime,
               isUserDefined: true
             })
           }
@@ -283,7 +298,7 @@
     span.list-key {float:left;}
     span.list-value {float:right;margin-right:0.94rem;
       max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
-      color: #999999;}
+      color: #999999;max-width: 50%}
     .remind {
       display: block;
       margin-left: 0.2rem;

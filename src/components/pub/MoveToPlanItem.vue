@@ -170,10 +170,12 @@
       move () {
         var that = this
         if (this.clickId) {
-          console.log(this.clickId)
-          this.$store.dispatch('moveToPlan', {todoId: this.id, cardId: this.clickId, createTaskDate: Number(dateUtil.dateNum2Text(new Date().getTime()))})
+          this.$store.dispatch('moveToPlan', {todoId: this.id, cardId: this.clickId, createTaskDate: Number(dateUtil.dateNum2Text(new Date().getTime()))}).then(function () {
+            that.$router.go(-2)
+          })
+        } else {
+          that.$router.go(-2)
         }
-        that.$router.go(-2)
       },
       changeState (e) {
         e.preventDefault()

@@ -1,20 +1,5 @@
 <template>
   <div class="">
-    <div class="for-cover"/>
-    <div class="wrap">
-      <input
-        v-model="inputTitle"
-        class="write"
-        type="text"
-        placeholder="输入子任务标题">
-      <v-touch
-        v-show="inputTitle !== ''"
-        class="btn-create"
-        @tap="saveTodo">
-        <button class="create" >创建</button>
-      </v-touch>
-    </div>
-    <div class="margin-block"/>
     <ul
       :class="{'has-border': hasChild}"
       class="sublist">
@@ -43,6 +28,16 @@
           </v-touch>
         </li>
       </template>
+      <div class="wrap">
+        <img
+          src="../../assets/img/addmenmber.png"
+          class="add">
+        <v-touch
+          class="write"
+          @tap="saveTodo">
+          添加子任务
+        </v-touch>
+      </div>
     </ul>
   </div>
 </template>
@@ -89,16 +84,17 @@
         this.$router.push('/plan/todo/' + this.currentKanbanItem.id + '/subtodo/' + item.id)
       },
       saveTodo () {
-        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
-          return window.rsqadmg.execute('alert', {message: '请填写任务标题'})
+        var backDate = {
+          dates: null,
+          endDate: '',
+          isCloseRepeat: true,
+          isLastDate: true,
+          repeatBaseTime: null,
+          repeatType: null,
+          startDate: ''
         }
-        window.rsqadmg.execute('showLoader', {text: '创建中...'})
-        this.$store.dispatch('createKanbanSubtodo', {name: this.inputTitle, kanbanItemId: this.kanbanItemId})
-          .then(() => {
-            this.inputTitle = ''
-            window.rsqadmg.exec('hideLoader')
-            window.rsqadmg.execute('toast', {message: '创建成功'})
-          })
+        this.$store.dispatch('setCurrentSubtodo', backDate)
+        this.$router.push('/plan/todo/' + this.currentKanbanItem.id + '/subtodo/create')
       },
       clickCheckOut (item) {
         this.$store.dispatch('updateKanbanSubtodo', {id: item.id, isDone: !item.isDone})
@@ -137,18 +133,15 @@
     width: 90%;
   }
   .for-cover{
-    height: 0.266rem;
+    height: 20px;
     z-index:1;
     width: 100%;
     background-color: #F5F5F5;
     position: fixed;
   }
   .wrap {
-    position: fixed;
+    position: relative;
     width: 100%;
-    top: 10px;
-    left: 0;
-    right: 0;
     z-index: 2;
   }
   input::-webkit-input-placeholder { /* WebKit browsers */
@@ -163,15 +156,18 @@
     background-color: white;
     padding-left: 0.6rem;
     z-index: 0;
+    border-top: 0.5px solid #d4d4d4;
+    border-bottom: 0.5px solid #d4d4d4;
   }
   .has-border{
-    border-top:1px solid #E0E0E0;
-    border-bottom:1px solid #E0E0E0;
+    // border-top:0.5px solid #D4D4D4;
+    // border-bottom:0.5px solid #D4D4D4;
   }
   .list-below{
     border:none;
     margin-left: 15px;
     font-family: PingFangSC-Regular;
+    /*line-height: 0.2rem;*/
     font-size: 17px;
     width: 98%;
     text-overflow: ellipsis;
@@ -183,7 +179,7 @@
   }
   .sublist-item{
     position: relative;
-    border-bottom:1px solid #DADADA ;
+    border-bottom:0.5px solid #D4D4D4;
     font-family: PingFangSC-Regular;
     font-size: 17px;
     height: 1.22rem;
@@ -200,15 +196,13 @@
     z-index: 1;
   }
   .add{
-    position: absolute;
-    top:0.4rem;
-    font-size: 0.4rem;
-    background-color: #55A8FD;
-    color:white;
-    border: 1px solid #55A8FD;
-    border-radius: 50%;
-    left:0.55rem;
-    -webkit-appearance: none;
+      position: absolute;
+      top: 30%;
+      // left:0.55rem;
+      -webkit-appearance: none;
+      width: 0.5333rem;
+      height: 0.5333rem;
+      vertical-align: text-align;
   }
   .title-todo input{
     border: none;
@@ -238,21 +232,16 @@
   }
   ul{
     position: relative;
-    margin-top:0.666rem;
+    margin-top:20px;
     padding-left: 5%;
-  }
-  li{
-
-  }
-  li:first-child{
   }
   .is-display-sub{
     display: block;
     position:absolute;
-    // top:0.36rem;
-    left: 0.05rem;
+    top:0.44rem;
+    left: 0.03rem;
     font-size: 15px;
-    color:#999;
+    color:#999999;
   }
   .for-hide-sub{
     position: absolute;
@@ -282,16 +271,19 @@
     background-color: white;
   }
   .write{
-    background: #FFFFFF;
-    border-bottom:1px solid #E3E3E3;
-    border-top:1px solid #E3E3E3;
-    top: 0.266rem;
-    padding-left:0.6rem;
+    // background: #FFFFFF;
+    top: 20px;
+    padding-left:30px;
     z-index: 1;
     line-height: 0.6rem;
     padding-right: 2.432rem;
     padding-top: 0.313rem;
     padding-bottom: 0.313rem;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #000000;
+    line-height: 24px;
+    color: #55A8FD;
   }
   .margin-block {
     height: 50px;
@@ -305,12 +297,5 @@
     box-sizing: border-box;
     width: 80%;height:100%;
     padding: 10px;
-  }
-    .write::-webkit-input-placeholder { /* WebKit browsers */
-    font-family: PingFangSC-Regular;
-    font-size: 17px;
-    color: #999999;
-    height: 100%;
-    line-height: 17px
   }
 </style>

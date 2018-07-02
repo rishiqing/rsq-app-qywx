@@ -126,7 +126,10 @@ export default {
    * @constructor
    */
   CHILDTASK_TODO_CREATED (state, p) {
-    state.todo.currentTodo.subTodos.push(p.item)
+    if (!state.todo.currentTodo.subTodos) {
+      state.todo.currentTodo.subTodos = []
+    }
+    // state.todo.currentTodo.subTodos.push(p.item)
   },
   INB_TODO_CREATED (state, p) {
     if (!state.inbox.items) {
@@ -558,7 +561,8 @@ export default {
     if (!state.plan.currentKanbanItem.subItems) {
       state.plan.currentKanbanItem.subItems = []
     }
-    state.plan.currentKanbanItem.subItems.push(p.item)
+    // console.log(p)
+    // state.plan.currentKanbanItem.subItems.push(p.item)
   },
   PLAN_KANBAN_SUBITEM_UPDATE (state, p) {
     const target = state.plan.currentKanbanItem.subItems.find(subItem => {

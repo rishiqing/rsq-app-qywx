@@ -20,6 +20,7 @@ import Kefu from 'com/me/Kefu'
 import Explain from 'com/pub/Explain'
 import SubtodoList from 'com/pub/SubtodoList'
 import SubTodoNew from 'com/pub/SubTodoNew'
+import PlanSubTodoNew from 'com/pub/PlanSubTodoNew'
 // import NoPermission from 'com/pub/NoPermission'
 import CheckFailure from 'com/pub/CheckFailure'
 import PcEnd from 'com/me/PcEnd'
@@ -282,6 +283,12 @@ const router = new Router({
       meta: {requireAuth: true}
     },
     //  计划的子任务的详情页面
+    {
+      path: '/plan/todo/:planTodoId/subtodo/create',
+      name: 'PlanSubTodoNew',
+      component: PlanSubTodoNew,
+      meta: {requireAuth: true}
+    },
     {
       path: '/plan/todo/:planTodoId/subtodo/:subtodoId',
       name: 'planTodoEditSubtodo',

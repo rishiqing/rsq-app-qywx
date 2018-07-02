@@ -5,8 +5,8 @@
       class="sublist">
       <template v-if="finalItems">
         <li
-          v-for="(item, index) in finalItems"
-          :key="index"
+          v-for="item in finalItems"
+          :key="item.id"
           class="sublist-item">
           <v-touch
             class="wrap-sub-icon"
@@ -90,44 +90,6 @@
         this.$store.dispatch('setCurrentSubtodo', item)
         this.$router.push('/sche/todo/' + this.currentTodo.id + '/subtodo/' + item.id)
       },
-      isDisabled (e, pIsDone) {
-        if (pIsDone) {
-          e.target.blur()
-        }
-      },
-      change () {
-        this.seen = false
-      },
-      inputBlur (value, item) {
-        this.$refs.titleInput.value = value
-        if (!value) {
-          var that = this
-          window.rsqadmg.exec('confirm', {
-            message: '确定要删除此任务？',
-            success () {
-              window.rsqadmg.execute('showLoader', {text: '删除中...'})
-              that.$store.dispatch('deleteSubtodo', {item: item})
-                .then(() => {
-                  that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
-                  window.rsqadmg.exec('hideLoader')
-                  window.rsqadmg.execute('toast', {message: '删除成功'})
-                  that.$router.replace(window.history.back())
-                })
-            }
-          })
-        } else {
-          if (value !== item.name) {
-            this.$store.dispatch('updateSubtodo', {item: item, name: value})
-              .then(() => {
-                //  触发标记重复修改
-                this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
-              })
-          }
-        }
-      },
-      inputChange (value) {
-        this.$refs.titleInput.value = value
-      },
       saveTodo () {
         var backDate = {
           dates: null,
@@ -205,8 +167,8 @@
     border-bottom: 0.5px solid #d4d4d4;
   }
   .has-border{
-    border-top:0.5px solid #D4D4D4;
-    border-bottom:0.5px solid #D4D4D4;
+    // border-top:0.5px solid #D4D4D4;
+    // border-bottom:0.5px solid #D4D4D4;
   }
   .list-below{
     border:none;
@@ -328,6 +290,7 @@
     font-size: 17px;
     color: #000000;
     line-height: 24px;
+    color: #55A8FD;
   }
   .margin-block {
     height: 50px;

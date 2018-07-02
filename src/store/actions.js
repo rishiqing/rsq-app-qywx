@@ -235,9 +235,7 @@ export default {
     return api.todo.postSubtodo(datas)
       .then(item => {
         commit('CHILDTASK_TODO_CREATED', {item: item})
-      })
-      .catch(err => {
-        alert(JSON.stringify(err))
+        return item
       })
   },
   moveToPlan ({state}, p) {
@@ -1170,7 +1168,14 @@ export default {
       })
   },
   createKanbanSubtodo ({commit, state}, p) {
-    return api.todo.createKanbanSubtodo(p)
+    var datas = {}
+    datas.name = p.name
+    datas.kanbanItemId = p.id
+    datas.startDate = p.startDate
+    datas.endDate = p.endDate
+    datas.joinUser = p.joinUsers.toString()
+    datas.dates = p.dates
+    return api.todo.createKanbanSubtodo(datas)
       .then((result) => {
         commit('PLAN_CURRENT_KANBAN_SUBITEM_CREATED', {item: result})
         return result

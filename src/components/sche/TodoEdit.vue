@@ -65,18 +65,7 @@
               </div>
 
             </div>
-            <div class="icon-field-group sub-todo">
-              <div class="common-field">
-                <img
-                  src="../../assets/img/subtodo.svg"
-                  class="sub-todo-png sche">
-                <r-input-subtodo
-                  :is-disabled="!isEditable"
-                  :disabled-text="disabledText"
-                  :item="currentTodo"
-                  :edit-time="true"/>
-              </div>
-            </div>
+            <r-input-subtodo/>
             <r-comment-list
               :disabled="!isEditable"
               :items="todoComments"
@@ -115,7 +104,7 @@
   import InputTime from 'com/pub/InputTime'
   import MoveToPlan from 'com/pub/MoveToPlan'
   import InputMember from 'com/pub/InputMember'
-  import InputSubtodo from 'com/pub/InputSubtodo'
+  import InputSubtodo from 'com/pub/SubtodoList'
   import SendConversation from 'com/demo/SendConversation'
   import util from 'ut/jsUtil'
   import dateUtil from 'ut/dateUtil'

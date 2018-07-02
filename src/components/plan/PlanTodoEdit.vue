@@ -44,14 +44,7 @@
                   @member-changed="saveMember"/>
               </div>
             </div>
-            <div class="icon-field-group sub-todo">
-              <div class="common-field">
-                <i class="icon2-subplan-web sche"/>
-                <r-input-subtodo
-                  :item="currentKanbanItem"
-                  :todo-type="'plan'"/>
-              </div>
-            </div>
+            <r-input-subtodo/>
             <r-comment-list
               :items="todoComments"
               :todo-id="currentKanbanItem.id"
@@ -87,7 +80,7 @@
   import InputDate from 'com/pub/InputDate'
   import InputNote from 'com/pub/InputNote'
   import InputMember from 'com/pub/InputMember'
-  import InputSubtodo from 'com/pub/InputSubtodo'
+  import InputSubtodo from 'com/plan/PlanSubtodoList'
   import SendConversation from 'com/demo/SendConversation'
   import util from 'ut/jsUtil'
   import CommentList from 'com/pub/CommentList'

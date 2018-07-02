@@ -65,7 +65,7 @@
   import jsUtil from 'ut/jsUtil'
 
   export default {
-    name: 'SubTodoNew',
+    name: 'PlanSubTodoNew',
     components: {
       'r-input-date': SubNewInputDate,
       'r-input-member': InputMember
@@ -105,10 +105,13 @@
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
       },
       pUserId () {
-        return [this.$store.state.todo.currentTodo.pUserId]
+        return [this.$store.getters.loginUser.rsqUser.id]
       },
       subId () {
         return this.$store.state.subUserId
+      },
+      currentKanbanItemId () {
+        return this.$store.state.plan.currentKanbanItem.id
       }
     },
     created () {
@@ -117,7 +120,7 @@
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
-      if (this.subId) {
+      if (this.subId.length !== 0) {
         this.joinUserRsqIds = this.subId
       } else {
         this.joinUserRsqIds = this.pUserId
@@ -182,12 +185,12 @@
         window.rsqadmg.execute('showLoader', {text: '创建中...'})
         var datas = {}
         datas.name = this.inputTitle
-        datas.todoId = this.todoId
+        datas.id = this.currentKanbanItemId
         datas.startDate = this.sub.startDate || ''
         datas.endDate = this.sub.endDate || ''
         datas.joinUsers = this.joinUserRsqIds[0] || ''
         datas.dates = this.sub.dates || ''
-        this.$store.dispatch('createSubtodo', datas)
+        this.$store.dispatch('createKanbanSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
           .then(() => {
             //  触发标记重复修改
@@ -202,8 +205,8 @@
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
                 title: name + ' 分配给你一条子任务',
-                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-                description: that.$store.state.todo.currentTodo.pTitle,
+                url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+                description: that.$store.state.plan.currentKanbanItem.name,
                 receiverIds: that.joinUserRsqIds[0].toString()
               }
               // console.log(datas)

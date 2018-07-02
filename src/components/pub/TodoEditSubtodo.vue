@@ -97,6 +97,9 @@
           return [this.createIdObject[0].id]
         }
         return []
+      },
+      subId () {
+        return this.$store.state.subUserId
       }
     },
     mounted () {
@@ -109,6 +112,9 @@
       this.joinUserRsqIds = this.$store.state.todo.currentSubtodo.joinUsers.map(function (arr) {
         return arr.id.toString()
       })
+      if (this.subId.length !== 0) {
+        this.joinUserRsqIds = this.subId
+      }
       this.$store.commit('PUB_SUB_TODO_USER', {id: this.joinUserRsqIds})
       this.cache = [...this.joinUserRsqIds]
     },
@@ -140,8 +146,7 @@
             // console.log(this.cache[0])
             var url = window.location.href.split('#')
             var name = that.$store.getters.loginUser.authUser.name
-            // console.log(that.cacheNew[0])
-            if (that.cache[0] !== that.cacheNew[0] && that.cache[0]) {
+            if (that.cache[0] !== that.cacheNew[0] && that.cache[0] && that.cacheNew[0]) {
               let datas = {
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
@@ -221,11 +226,12 @@
       }
     },
     beforeRouteLeave (to, from, next) {
-      if (to.name === 'subtodoList') {
+      if (to.name === 'todoEdit') {
         this.submitSubtodo()
       }
       if (to.name !== 'SubTodoEditDate') {
         this.$store.commit('PUB_TITLE_SUB', '')
+        this.$store.commit('PUB_SUB_TODO_USER', {id: ''})
       }
       next()
     }

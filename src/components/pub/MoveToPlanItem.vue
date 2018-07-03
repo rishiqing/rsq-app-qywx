@@ -121,6 +121,12 @@
       kanbanItem () {
         return this.$store.state.todo.currentTodo.kanbanItem.kanbanItemId || null
       },
+      kanbanId () {
+        return this.$store.state.todo.currentTodo.kanbanItem.kanbanId || null
+      },
+      kanbanName () {
+        return this.$store.state.todo.currentTodo.kanbanItem.kanbanName || null
+      },
       levelTwoId () {
         if (this.$store.state.todo.currentTodo.from) {
           return this.$store.state.todo.currentTodo.from.levelTwoId || null
@@ -128,6 +134,12 @@
       },
       id () {
         return this.$store.state.todo.currentTodo.id
+      },
+      pId () {
+        return this.$store.state.currentPlan.id
+      },
+      pName () {
+        return this.$store.state.currentPlan.name
       }
     },
     mounted () {
@@ -169,8 +181,22 @@
       },
       move () {
         var that = this
-        if (this.clickId) {
+        if (this.clickId !== this.levelTwoId) {
           this.$store.dispatch('moveToPlan', {todoId: this.id, cardId: this.clickId, createTaskDate: Number(dateUtil.dateNum2Text(new Date().getTime()))}).then(function () {
+            var url = window.location.href.split('#')
+            var name = that.$store.getters.loginUser.authUser.name
+            var datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 将任务添置计划 ' + that.pName,
+              url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+              description: that.$store.state.todo.currentTodo.pTitle,
+              receiverIds: that.$store.state.todo.currentTodo.receiverIds
+            }
+            if (that.pId !== that.kanbanId) {
+              return that.$store.dispatch('qywxSendMessage', datas)
+            }
+          }).then(function () {
             that.$router.go(-2)
           })
         } else {

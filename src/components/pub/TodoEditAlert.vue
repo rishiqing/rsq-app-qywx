@@ -21,6 +21,16 @@
           v-show="alert.selected"
           class="icon2-selected finish"/>
       </v-touch>
+      <v-touch
+        v-for="(alert, index) in displayedTimeList"
+        :key="index + 100"
+        tag="li"
+        @tap="selectAlert(alert)">
+        <span>{{ alert.numTime }}</span>
+        <i
+          v-show="alert.selected"
+          class="icon2-selected finish"/>
+      </v-touch>
     </ul>
     <!--<ul class="alert-list">-->
     <!--<v-touch tag="li" @tap="selectAlert(alert)" v-for="(alert, index) in displayedTimeList" :key="index">-->
@@ -33,9 +43,6 @@
         tag="li"
         @tap="showTimePicker">
         <span class="list-key mine">自定义提醒时间</span>
-        <span class="list-value">
-          {{ userDefinedAlertText }}
-        </span>
         <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
@@ -73,8 +80,7 @@
         ],
         //  用户自定义的提醒时间
         //  {numTime: 123214345453, selected: true}
-        displayedTimeList: [],
-        displayedTimeListValue: []
+        displayedTimeList: []
       }
     },
     computed: {
@@ -108,7 +114,7 @@
       userDefinedAlertText () {
         return this.displayedTimeList.map(a => {
           return a.numTime
-        }).join(',')
+        })
       }
     },
     created () {
@@ -143,7 +149,6 @@
         this.userRuleList.forEach(t => {
           var obj = this.parseTimeObj(t)
           this.displayedTimeList.push(obj)
-          this.displayedTimeListValue.push({numTime: t.schedule, selected: true})
           this.selectAlert(obj)
         })
       },
@@ -160,18 +165,26 @@
             success (result) {
               var once = true
               var resultLabel = result.value[0].label + result.value[1].label + result.value[2].label
-              var resultVlaue = result.value[0].value + '_' + result.value[1].value + '_' + result.value[2].value
-              var obj = {numTime: resultLabel, selected: false}
-              var obj2 = {numTime: resultVlaue, selected: true}
+              var resultVlaue = result.value[0].value + '_-' + result.value[1].value + '_' + result.value[2].value
+              var obj = {numTime: resultLabel, selected: false, numTimeValue: resultVlaue}
+              that.displayedRuleList.forEach(function (o) {
+                if (o.schedule === resultVlaue) {
+                  that.selectAlert(o)
+                  once = false
+                }
+              })
               that.displayedTimeList.forEach(function (o) {
                 if (o.numTime === resultLabel) {
                   once = false
                 }
               })
               if (once) {
-                that.displayedTimeList.push(obj)
-                that.displayedTimeListValue.push(obj2)
-                that.selectAlert(obj)
+                if (that.displayedTimeList.length < 10) {
+                  that.displayedTimeList.push(obj)
+                  that.selectAlert(obj)
+                } else {
+                  window.rsqadmg.exec('alert', {message: '数量已达上限'})
+                }
               }
               once = true
             }
@@ -183,8 +196,9 @@
           this.displayedRuleList.forEach(a => {
             a.selected = false
           })
-          this.displayedTimeList = []
-          this.displayedTimeListValue = []
+          this.displayedTimeList.forEach(a => {
+            a.selected = false
+          })
         }
         this.noAlert = true
       },
@@ -204,7 +218,8 @@
       parseTimeObj (obj) {
         return {
           numTime: jsUtil.alertCode2Text(obj.schedule),
-          selected: false
+          selected: false,
+          numTimeValue: obj.schedule
         }
       },
       parseTimeText (num) {
@@ -250,18 +265,18 @@
       //  比对displayedTimeList与userRuleList，计算最终的提醒列表
       //  统一解析成时间来做判断是否相等
       mergeTimeList () {
-        var selected = this.getSelected(this.displayedTimeListValue)
+        var selected = this.getSelected(this.displayedTimeList)
         var result = []
         //  执行merge算法
         selected.forEach(s => {
           var orgObjArray = this.userRuleList.filter(org => {
-            return s.numTime === org.schedule
+            return s.numTimeValue === org.schedule
           })
           if (orgObjArray.length > 0) {
             result.push(orgObjArray[0])
           } else {
             result.push({
-              schedule: s.numTime,
+              schedule: s.numTimeValue,
               isUserDefined: true
             })
           }

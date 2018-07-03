@@ -336,7 +336,7 @@
     position: absolute;
     top: 50%;
     margin-top: -0.29rem;
-    left: 25px;
+    left: 15px;
     z-index: 1000;
   }
   .common-field .outer-wrap{

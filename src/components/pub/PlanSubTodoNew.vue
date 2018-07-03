@@ -33,7 +33,7 @@
                   :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="userRsqId"
+                  :user-rsq-ids="planMember"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
@@ -112,6 +112,26 @@
       },
       currentKanbanItemId () {
         return this.$store.state.plan.currentKanbanItem.id
+      },
+      planMember () {
+        var that = this
+        var arr = []
+        var all = 0
+        var plan = 0
+        for (all in that.staff) {
+          for (plan in that.currentPlan.userRoles) {
+            if (that.staff[all].id === that.currentPlan.userRoles[plan].userId) {
+              arr.push(that.staff[all])
+            }
+          }
+        }
+        return arr
+      },
+      currentPlan () {
+        return this.$store.state.currentPlan
+      },
+      staff () {
+        return this.$store.state.staff.list
       }
     },
     created () {

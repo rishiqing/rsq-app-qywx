@@ -50,7 +50,7 @@
                   :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="id"
+                  :user-rsq-ids="idArray"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="createId"
                   :disabled-rsq-ids="[createId, rsqUser]"
@@ -129,7 +129,7 @@
         editItem: {},
         newList: '',
         joinUserRsqIds: [],
-        id: []
+        idArray: []
       }
     },
     computed: {
@@ -214,12 +214,12 @@
       delayShowCheckbox () {
         return this.$store.state.todo.delayShowCheckbox
       },
-      realUserRsqId () {
+      realUserRsqIds () {
         return this.$store.state.realStaff.list
       }
     },
     created () {
-      this.findId(this.realUserRsqId)
+      this.findId(this.realUserRsqIds)
       this.initData()
 //      var that = this
       window.rsqadmg.execute('setTitle', {title: '任务详情'})
@@ -240,7 +240,7 @@
         var that = this
         for (let i = 0; i < id.length; i++) {
           for (let j = 0; j < id[i].userList.length; j++) {
-            that.id.push(id[i].userList[j].id)
+            that.idArray.push(id[i].userList[j].id)
           }
           if (id[i].childList.length !== 0) {
             that.findId(id[i].childList)

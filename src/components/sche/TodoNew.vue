@@ -41,7 +41,7 @@
                   :is-native="false"
                   :index-title="''"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="id"
+                  :user-rsq-ids="idArray"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="joinUserRsqIds"
                   :disabled-rsq-ids="joinUserRsqIds"
@@ -90,7 +90,7 @@
 //          receiverIds: []
         },
         joinUserRsqIds: [],
-        id: []
+        idArray: []
       }
     },
     computed: {
@@ -113,7 +113,7 @@
       userRsqId () {
         return this.$store.state.staff.list
       },
-      realUserRsqId () {
+      realUserRsqIds () {
         return this.$store.state.realStaff.list
       }
     },
@@ -123,7 +123,7 @@
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建任务'})
-      this.findId(this.realUserRsqId)
+      this.findId(this.realUserRsqIds)
       this.initData()
     },
     mounted () {
@@ -141,7 +141,7 @@
         var that = this
         for (let i = 0; i < id.length; i++) {
           for (let j = 0; j < id[i].userList.length; j++) {
-            that.id.push(id[i].userList[j].id)
+            that.idArray.push(id[i].userList[j].id)
           }
           if (id[i].childList.length !== 0) {
             that.findId(id[i].childList)

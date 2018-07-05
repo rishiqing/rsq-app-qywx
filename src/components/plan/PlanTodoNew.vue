@@ -85,6 +85,7 @@
         var arr = that.currentPlan.userRoles.map(function (o) {
           return o.userId
         })
+        console.log(arr)
         return arr
       },
       currentPlan () {

@@ -33,7 +33,7 @@
                   :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="id"
+                  :user-rsq-ids="idArray"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
@@ -79,7 +79,7 @@
         sub: null,
         joinUserRsqIds: [],
         inputTitle: '',
-        id: []
+        idArray: []
       }
     },
     computed: {
@@ -111,13 +111,13 @@
       subId () {
         return this.$store.state.subUserId
       },
-      realUserRsqId () {
+      realUserRsqIds () {
         return this.$store.state.realStaff.list
       }
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建子任务'})
-      this.findId(this.realUserRsqId)
+      this.findId(this.realUserRsqIds)
       this.initData()
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
@@ -138,7 +138,7 @@
         var that = this
         for (let i = 0; i < id.length; i++) {
           for (let j = 0; j < id[i].userList.length; j++) {
-            that.id.push(id[i].userList[j].id)
+            that.idArray.push(id[i].userList[j].id)
           }
           if (id[i].childList.length !== 0) {
             that.findId(id[i].childList)

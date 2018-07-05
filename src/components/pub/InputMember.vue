@@ -101,7 +101,7 @@
           return o
         })
       },
-      realUserRsqId () {
+      realUserRsqIds () {
         return this.$store.state.realStaff.list
       },
       memberCount () {
@@ -204,6 +204,7 @@
           })
         }
         var old = [...this.selectRsqidArray]
+        console.log(this.realUserRsqIds)
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,
@@ -211,7 +212,7 @@
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
           disabledIdList: disSelect,
-          realStaff: this.realUserRsqId,
+          realStaff: this.realUserRsqIds,
           // 转换为字符串
           creatorIdList: creSelect,
           singleSelect: this.singleSelect,

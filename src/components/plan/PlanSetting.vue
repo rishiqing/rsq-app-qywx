@@ -119,8 +119,8 @@
         selectedLocalList: [],  //  已选择的人员选择列表
         disabledLocalList: [],  //  本地禁用的人员列表
         creatorList: [], // 创建者
-        memarr: [],
-        id: []
+        memArray: [],
+        idArray: []
       }
     },
     computed: {
@@ -165,7 +165,7 @@
       memberCount () {
         return this.selectedLocalList.length <= 3
       },
-      realUserRsqId () {
+      realUserRsqIds () {
         return this.$store.state.realStaff.list
       },
       creatorListArray () {
@@ -199,7 +199,7 @@
       }
     },
     created () {
-      this.findId(this.realUserRsqId)
+      this.findId(this.realUserRsqIds)
     },
     mounted () {
       window.rsqadmg.exec('setTitle', {title: '计划设置'})
@@ -212,7 +212,7 @@
             this.isOwn = true
           }
         })
-      this.fetchUserIds(this.id, 'localList')
+      this.fetchUserIds(this.idArray, 'localList')
     },
     methods: {
       showEditPlanName () {
@@ -222,7 +222,7 @@
         var that = this
         for (let i = 0; i < id.length; i++) {
           for (let j = 0; j < id[i].userList.length; j++) {
-            that.id.push(id[i].userList[j].id)
+            that.idArray.push(id[i].userList[j].id)
           }
           if (id[i].childList.length !== 0) {
             that.findId(id[i].childList)
@@ -329,7 +329,7 @@
           nameAttribute: 'name',
           idAttribute: 'rsqUserId',
           memberList: this.localList,
-          realStaff: this.realUserRsqId,
+          realStaff: this.realUserRsqIds,
           selectedIdList: this.selectRsqidArray,
           disabledIdList: [this.createrRsqIds[0].toString(), this.$store.state.loginUser.rsqUser.id.toString()],
           // 转换为字符串
@@ -340,7 +340,7 @@
             })
             window.rsqadmg.exec('setTitle', {title: '计划设置'})
             that.selectedLocalList = [...selList]
-            that.memarr = [...arr]
+            that.memArray = [...arr]
             var arrstr = arr.join(',')
             that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr, editAuthority: 'all'})
               .then(function (res) {

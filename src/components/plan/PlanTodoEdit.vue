@@ -373,7 +373,7 @@
     position: absolute;
     top: 50%;
     margin-top: -0.29rem;
-    left:0
+    left:0;
   }
   .time-border{
     border-bottom: 1px solid #E0E0E0;

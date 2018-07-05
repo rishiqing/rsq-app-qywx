@@ -23,7 +23,7 @@
       {{ backName }}
     </v-touch>
     <ul
-      v-if="realStaff.length !== 0"
+      v-if="arr.length !== 0"
       :class="{'mt': cache.length === 0}"
       class="sel-member-list">
       <template v-if="!nameSearch">
@@ -382,7 +382,8 @@
         realStaff: [],
         newStaff: [],
         cache: [],
-        backName: ''
+        backName: '',
+        arr: []
       }
     },
     computed: {
@@ -396,13 +397,14 @@
         return this.localSelectedList.length
       },
       hasDept () {
-        return this.realStaff[0]
+        return this.arr[0]
       },
       unDept () {
-        return this.realStaff[1]
+        return this.arr[1]
       }
     },
     mounted () {
+      var that = this
       this.cache = []
       this.makeLocalList()
       window.rsqadmg.exec('setTitle', {title: '编辑成员'})
@@ -410,7 +412,8 @@
       window.onpopstate = () => {
         this.selfClose()
       }
-      this.addObj(this.realStaff)
+      this.arr = JSON.parse(JSON.stringify(that.realStaff))
+      this.addObj(this.arr)
       this.newStaff = {...this.hasDept}
       this.backName = this.hasDept.name
     },
@@ -480,10 +483,10 @@
         var that = this
         for (let i = 0, lenI = arr.length; i < lenI; i++) {
           for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {
-            for (let l = 0, lenL = that.localList.length; l < lenL; l++) {
-              if (arr[i].userList[j].id.toString() === that.localList[l].id) {
+            for (let k = 0, lenK = that.localList.length; k < lenK; k++) {
+              if (arr[i].userList[j].id.toString() === that.localList[k].id) {
                 // 三重循环数据挂载，绝对有优化的余地，但for性能比其他遍历性能要好，优化方向在于length的保存上与循环次数的减少上
-                arr[i].userList[j] = Object.assign(arr[i].userList[j], that.localList[l])
+                Object.assign(arr[i].userList[j], that.localList[k])
                 break
               }
             }

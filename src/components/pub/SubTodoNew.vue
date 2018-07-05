@@ -89,9 +89,6 @@
       todoId () {
         return this.$store.state.todo.currentTodo.id
       },
-      userRsqId () {
-        return this.$store.state.staff.list
-      },
       isInbox () {
         //  所有日期属性均为date，判断当前新建的item为收纳箱任务
         return this.editItem.pContainer === 'inbox'

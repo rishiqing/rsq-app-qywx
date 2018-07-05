@@ -81,17 +81,11 @@
       currentPlan () {
         return this.$store.state.currentPlan
       },
-      staff () {
-        return this.$store.state.staff.list
-      },
       currentSubtodo () {
         return this.$store.state.todo.currentSubtodo
       },
       pubid () {
         return this.$store.state.pub.pubid
-      },
-      userRsqId () {
-        return this.$store.state.staff.list
       },
       pUserId () {
         return [this.$store.state.todo.currentTodo.pUserId]

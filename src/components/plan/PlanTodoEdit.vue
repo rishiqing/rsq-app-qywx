@@ -113,9 +113,6 @@
       currentPlan () {
         return this.$store.state.currentPlan
       },
-      staff () {
-        return this.$store.state.staff.list
-      },
       createdId () {
         return [this.currentPlan.creatorId]
       },

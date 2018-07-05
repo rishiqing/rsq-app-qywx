@@ -78,9 +78,6 @@
       pubid () {
         return this.$store.state.pub.pubid
       },
-      userRsqId () {
-        return this.$store.state.staff.list
-      },
       pUserId () {
         return [this.$store.state.todo.currentTodo.pUserId]
       },

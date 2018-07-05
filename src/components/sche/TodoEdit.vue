@@ -182,9 +182,6 @@
           return i.type === 0
         })
       },
-      userRsqId () {
-        return this.$store.state.staff.list
-      },
       loginUser () {
         return this.$store.getters.loginUser || {}
       },

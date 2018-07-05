@@ -110,9 +110,6 @@
       corpId () {
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
       },
-      userRsqId () {
-        return this.$store.state.staff.list
-      },
       realUserRsqIds () {
         return this.$store.state.realStaff.list
       }

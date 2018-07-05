@@ -56,5 +56,6 @@ export default {
   'DELETE_KANBAN_SUBTODO': 'task/kanbanSubItem/:id',
   'POST_KANBAN_ITEM_COMMENT': 'task/kanbanItemComment',
   'DELETE_KANBAN_ITEM_COMMENT': 'task/kanbanItemComment/:id',
-  'MOVE_TO_PLAN': 'task/mainTodo/moveToKanbanCard'
+  'MOVE_TO_PLAN': 'task/mainTodo/moveToKanbanCard',
+  'GET_ALL_USERS': '/task/department/getTeamTree'
 }

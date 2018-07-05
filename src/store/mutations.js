@@ -69,6 +69,14 @@ export default {
     state.staff.list = p.list
   },
   /**
+   * realuser
+   * @param {[type]} state [description]
+   * @param {[type]} p     [description]
+   */
+  SYS_STF__REAL_LST_READY (state, p) {
+    state.realStaff.list = p.list
+  },
+  /**
    * 以openid作为key值进行缓存
    * @param state
    * @param p

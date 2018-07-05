@@ -692,6 +692,16 @@ export default {
       return Promise.resolve()
     }
   },
+  getAllUsers ({commit, state}) {
+    if (state.realStaff.list == null) {
+      return api.todo.getAllUsers()
+        .then(list => {
+          commit('SYS_STF__REAL_LST_READY', {list: list})
+        })
+    } else {
+      return Promise.resolve()
+    }
+  },
   /**
    * 根据传入的openid获取相应的rsqid，首先从缓存中读取，如果缓存中不存在，则从服务器读取
    * @param commit

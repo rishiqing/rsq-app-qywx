@@ -41,7 +41,7 @@
                   :is-native="false"
                   :index-title="''"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="userRsqId"
+                  :user-rsq-ids="id"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="joinUserRsqIds"
                   :disabled-rsq-ids="joinUserRsqIds"
@@ -89,7 +89,8 @@
           isAllDay: true
 //          receiverIds: []
         },
-        joinUserRsqIds: []
+        joinUserRsqIds: [],
+        id: []
       }
     },
     computed: {
@@ -111,6 +112,9 @@
       },
       userRsqId () {
         return this.$store.state.staff.list
+      },
+      realUserRsqId () {
+        return this.$store.state.realStaff.list
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -119,6 +123,7 @@
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建任务'})
+      this.findId(this.realUserRsqId)
       this.initData()
     },
     mounted () {
@@ -132,6 +137,17 @@
       }
     },
     methods: {
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.id.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
+      },
       empty () {},
       toggleAllDay (e) {
         this.editItem.isChecked = !this.editItem.isChecked

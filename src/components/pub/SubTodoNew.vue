@@ -33,7 +33,7 @@
                   :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="userRsqId"
+                  :user-rsq-ids="id"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
@@ -78,7 +78,8 @@
         },
         sub: null,
         joinUserRsqIds: [],
-        inputTitle: ''
+        inputTitle: '',
+        id: []
       }
     },
     computed: {
@@ -109,10 +110,14 @@
       },
       subId () {
         return this.$store.state.subUserId
+      },
+      realUserRsqId () {
+        return this.$store.state.realStaff.list
       }
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建子任务'})
+      this.findId(this.realUserRsqId)
       this.initData()
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
@@ -128,6 +133,17 @@
       empty () {},
       toggleAllDay (e) {
         this.editItem.isChecked = !this.editItem.isChecked
+      },
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.id.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
       },
       /**
        * 初始化数据，从state的currentTodo复制到local的editItem

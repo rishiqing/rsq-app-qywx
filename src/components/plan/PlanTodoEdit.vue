@@ -105,16 +105,9 @@
     computed: {
       planMember () {
         var that = this
-        var arr = []
-        var all = 0
-        var plan = 0
-        for (all in that.staff) {
-          for (plan in that.currentPlan.userRoles) {
-            if (that.staff[all].id === that.currentPlan.userRoles[plan].userId) {
-              arr.push(that.staff[all])
-            }
-          }
-        }
+        var arr = that.currentPlan.userRoles.map(function (o) {
+          return o.userId
+        })
         return arr
       },
       currentPlan () {

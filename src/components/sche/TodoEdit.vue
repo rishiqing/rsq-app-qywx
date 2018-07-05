@@ -50,7 +50,7 @@
                   :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="userRsqId"
+                  :user-rsq-ids="id"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="createId"
                   :disabled-rsq-ids="[createId, rsqUser]"
@@ -128,7 +128,8 @@
         disabledText: '过去的任务不能编辑',
         editItem: {},
         newList: '',
-        joinUserRsqIds: []
+        joinUserRsqIds: [],
+        id: []
       }
     },
     computed: {
@@ -212,9 +213,13 @@
       },
       delayShowCheckbox () {
         return this.$store.state.todo.delayShowCheckbox
+      },
+      realUserRsqId () {
+        return this.$store.state.realStaff.list
       }
     },
     created () {
+      this.findId(this.realUserRsqId)
       this.initData()
 //      var that = this
       window.rsqadmg.execute('setTitle', {title: '任务详情'})
@@ -231,6 +236,17 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     methods: {
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.id.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
+      },
       delayCallFix (e) {
         window.setTimeout(() => {
           this.prepareDelete(e)

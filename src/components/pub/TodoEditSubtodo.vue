@@ -26,7 +26,7 @@
             :is-native="false"
             :index-title="'执行人'"
             :select-title="'请选择成员'"
-            :user-rsq-ids="userRsqId"
+            :user-rsq-ids="id"
             :single-select="true"
             :selected-rsq-ids="joinUserRsqIds"
             :creater-rsq-ids="[]"
@@ -67,7 +67,8 @@
         newName: '',
         joinUserRsqIds: [],
         cache: [],
-        cacheNew: []
+        cacheNew: [],
+        id: []
       }
     },
     computed: {
@@ -100,7 +101,13 @@
       },
       subId () {
         return this.$store.state.subUserId
+      },
+      realUserRsqId () {
+        return this.$store.state.realStaff.list
       }
+    },
+    created () {
+      this.findId(this.realUserRsqId)
     },
     mounted () {
       window.rsqadmg.execute('setTitle', {title: '编辑子任务'})
@@ -121,6 +128,17 @@
     methods: {
       copyTitle (value) {
         this.$store.commit('PUB_TITLE_SUB', value)
+      },
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.id.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
       },
       submitSubtodo () {
         const name = this.$store.state.pub.subtitle

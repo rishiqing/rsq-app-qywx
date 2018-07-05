@@ -85,12 +85,16 @@
         selectedLocalList: [],  //  已选择的人员选择列表
         disabledLocalList: [],  //  本地禁用的人员列表
         creatorList: [], // 创建者
-        memarr: []
+        memarr: [],
+        id: []
       }
     },
     computed: {
       userRsqIds () {
         return this.$store.state.staff.list
+      },
+      realUserRsqId () {
+        return this.$store.state.realStaff.list
       },
       selectedRsqIds () {
         return [this.$store.state.loginUser.rsqUser.id]
@@ -114,11 +118,6 @@
       },
       memberCount () {
         return this.selectedLocalList.length <= 3
-      },
-      userRsqIdArray () {
-        return this.userRsqIds.map(function (staff) {
-          return staff.id
-        })
       },
       creatorListArray () {
         return this.creatorList.map(function (staff) {
@@ -151,6 +150,7 @@
       }
     },
     created () {
+      this.findId(this.realUserRsqId)
       if (this.imgs === null) {
         this.$store.dispatch('getTemplate').then(() => {
           if (this.imgs.length > 0) {
@@ -165,9 +165,20 @@
       window.rsqadmg.exec('setTitle', {title: '新建计划'})
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
-      this.fetchUserIds(this.userRsqIdArray, 'localList')
+      this.fetchUserIds(this.id, 'localList')
     },
     methods: {
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.id.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
+      },
       delayCall (func) {
         window.setTimeout(() => {
           this[func].apply(this, Array.prototype.slice.call(arguments, 1))
@@ -235,6 +246,7 @@
           nameAttribute: 'name',
           idAttribute: 'rsqUserId',
           memberList: this.localList,
+          realStaff: this.realUserRsqId,
           selectedIdList: this.selectRsqidArray,
           disabledIdList: [this.createrRsqIds[0].toString(), this.$store.state.loginUser.rsqUser.id.toString()],
           // 转换为字符串

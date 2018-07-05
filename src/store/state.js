@@ -131,7 +131,7 @@ export default {
      * @type {String}
      */
     subtitle: '',
-    pubid: '',
+    pubId: '',
     /**
      * 当前滑动的ID
      * @type {Number}

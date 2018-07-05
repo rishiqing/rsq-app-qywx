@@ -52,8 +52,8 @@
                   :select-title="'请选择成员'"
                   :user-rsq-ids="idArray"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="createId"
-                  :disabled-rsq-ids="[createId, rsqUser]"
+                  :creater-rsq-ids="createIds"
+                  :disabled-rsq-ids="[createIds, rsqUser]"
                   @member-changed="saveMember"/>
               </div>
               <div class="common-field">
@@ -157,7 +157,7 @@
           }
         })
       },
-      createId () {
+      createIds () {
         if (this.createIdObject.length > 0) {
           return [this.createIdObject[0].id]
         }
@@ -424,7 +424,7 @@
       },
       finishChecked (status) {
         var that = this
-        var create = this.createId[0].toString()
+        var create = this.createIds[0].toString()
         var url = window.location.href.split('#')
         var name = this.loginUser.authUser.name
         if (status !== this.editItem.isDone) {

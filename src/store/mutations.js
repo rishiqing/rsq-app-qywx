@@ -413,7 +413,7 @@ export default {
     state.pub.subtitle = p
   },
   PUB_ID_SUB (state, p) {
-    state.pub.pubid = p
+    state.pub.pubId = p
   },
   PUB_TODO_TIME_CLOCK_UPDATE (state, p) {
     util.extendObject(state.pub.currentTodoTime.clock, p.data)

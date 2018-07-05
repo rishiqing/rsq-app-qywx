@@ -75,8 +75,8 @@
       currentSubtodo () {
         return this.$store.state.todo.currentSubtodo
       },
-      pubid () {
-        return this.$store.state.pub.pubid
+      pubId () {
+        return this.$store.state.pub.pubId
       },
       pUserId () {
         return [this.$store.state.todo.currentTodo.pUserId]
@@ -90,12 +90,12 @@
           }
         })
       },
-      createId () {
-        if (this.createIdObject.length > 0) {
-          return [this.createIdObject[0].id]
-        }
-        return []
-      },
+      // createId () {
+      //   if (this.createIdObject.length > 0) {
+      //     return [this.createIdObject[0].id]
+      //   }
+      //   return []
+      // },
       subId () {
         return this.$store.state.subUserId
       },

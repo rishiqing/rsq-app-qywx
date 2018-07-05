@@ -235,6 +235,13 @@ export default {
     return api.todo.postSubtodo(datas)
       .then(item => {
         commit('CHILDTASK_TODO_CREATED', {item: item})
+        return item
+      })
+  },
+  moveToPlan ({state}, p) {
+    return api.todo.moveToPlan(p)
+      .then(item => {
+        return item
       })
       .catch(err => {
         alert(JSON.stringify(err))
@@ -680,6 +687,16 @@ export default {
       return api.system.fetchStaffList()
         .then(list => {
           commit('SYS_STF_LST_READY', {list: list})
+        })
+    } else {
+      return Promise.resolve()
+    }
+  },
+  getAllUsers ({commit, state}) {
+    if (state.realStaff.list == null) {
+      return api.todo.getAllUsers()
+        .then(list => {
+          commit('SYS_STF__REAL_LST_READY', {list: list})
         })
     } else {
       return Promise.resolve()
@@ -1161,7 +1178,14 @@ export default {
       })
   },
   createKanbanSubtodo ({commit, state}, p) {
-    return api.todo.createKanbanSubtodo(p)
+    var datas = {}
+    datas.name = p.name
+    datas.kanbanItemId = p.id
+    datas.startDate = p.startDate
+    datas.endDate = p.endDate
+    datas.joinUser = p.joinUsers.toString()
+    datas.dates = p.dates
+    return api.todo.createKanbanSubtodo(datas)
       .then((result) => {
         commit('PLAN_CURRENT_KANBAN_SUBITEM_CREATED', {item: result})
         return result

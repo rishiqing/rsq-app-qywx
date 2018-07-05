@@ -45,7 +45,7 @@ function show (options) {
   vm.success = options.success || function () {}
   vm.cancel = options.cancel || function () {}
   vm.singleSelect = options.singleSelect || false
-
+  vm.realStaff = options.realStaff || []
   vm.$on('self-close', close)
 
   //  append to body

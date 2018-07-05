@@ -21,6 +21,16 @@
           v-show="alert.selected"
           class="icon2-selected finish"/>
       </v-touch>
+      <v-touch
+        v-for="(alert, index) in displayedTimeList"
+        :key="index + 100"
+        tag="li"
+        @tap="selectAlert(alert)">
+        <span>{{ alert.numTime }}</span>
+        <i
+          v-show="alert.selected"
+          class="icon2-selected finish"/>
+      </v-touch>
     </ul>
     <!--<ul class="alert-list">-->
     <!--<v-touch tag="li" @tap="selectAlert(alert)" v-for="(alert, index) in displayedTimeList" :key="index">-->
@@ -33,9 +43,6 @@
         tag="li"
         @tap="showTimePicker">
         <span class="list-key mine">自定义提醒时间</span>
-        <span class="list-value">
-          {{ userDefinedAlertText }}
-        </span>
         <i class="icon2-arrow-right-small arrow"/>
       </v-touch>
     </ul>
@@ -106,8 +113,8 @@
       },
       userDefinedAlertText () {
         return this.displayedTimeList.map(a => {
-          return this.parseTimeText(a.numTime)
-        }).join(',')
+          return a.numTime
+        })
       }
     },
     created () {
@@ -155,11 +162,31 @@
         //  延迟50ms执行，保证不会触发立即关闭
         setTimeout(() => {
           window.rsqadmg.exec('timePicker', {
-            strInit: moment().format('HH:mm'),
             success (result) {
-              var obj = {numTime: that.getNumDateTime(result.value), selected: false}
-              that.displayedTimeList.push(obj)
-              that.selectAlert(obj)
+              var once = true
+              var resultLabel = result.value[0].label + result.value[1].label + result.value[2].label
+              var resultVlaue = result.value[0].value + '_-' + result.value[1].value + '_' + result.value[2].value
+              var obj = {numTime: resultLabel, selected: false, numTimeValue: resultVlaue}
+              that.displayedRuleList.forEach(function (o) {
+                if (o.schedule === resultVlaue) {
+                  that.selectAlert(o)
+                  once = false
+                }
+              })
+              that.displayedTimeList.forEach(function (o) {
+                if (o.numTime === resultLabel) {
+                  once = false
+                }
+              })
+              if (once) {
+                if (that.displayedTimeList.length < 10) {
+                  that.displayedTimeList.push(obj)
+                  that.selectAlert(obj)
+                } else {
+                  window.rsqadmg.exec('alert', {message: '数量已达上限'})
+                }
+              }
+              once = true
             }
           })
         }, 50)
@@ -169,7 +196,9 @@
           this.displayedRuleList.forEach(a => {
             a.selected = false
           })
-          this.displayedTimeList = []
+          this.displayedTimeList.forEach(a => {
+            a.selected = false
+          })
         }
         this.noAlert = true
       },
@@ -188,8 +217,9 @@
       },
       parseTimeObj (obj) {
         return {
-          numTime: jsUtil.alertRule2Time(obj.schedule, this.numStartTime, this.numEndTime),
-          selected: false
+          numTime: jsUtil.alertCode2Text(obj.schedule),
+          selected: false,
+          numTimeValue: obj.schedule
         }
       },
       parseTimeText (num) {
@@ -240,13 +270,13 @@
         //  执行merge算法
         selected.forEach(s => {
           var orgObjArray = this.userRuleList.filter(org => {
-            return s.numTime === jsUtil.alertRule2Time(org.schedule, this.numStartTime, this.numEndTime)
+            return s.numTimeValue === org.schedule
           })
           if (orgObjArray.length > 0) {
             result.push(orgObjArray[0])
           } else {
             result.push({
-              schedule: jsUtil.alertTime2Rule(s.numTime, this.numStartTime, this.numEndTime),
+              schedule: s.numTimeValue,
               isUserDefined: true
             })
           }
@@ -283,7 +313,7 @@
     span.list-key {float:left;}
     span.list-value {float:right;margin-right:0.94rem;
       max-width:7rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
-      color: #999999;}
+      color: #999999;max-width: 50%}
     .remind {
       display: block;
       margin-left: 0.2rem;

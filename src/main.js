@@ -67,6 +67,8 @@ window.rsqadmg.exec('auth', {
     store.state.env.isAddNav = true
     // 获取日事清用户信息
     store.dispatch('fetchStaffList')
+    //  获取组织结构
+    store.dispatch('getAllUsers')
     /* eslint-disable no-new */
     new Vue({
       el: '#app',

@@ -441,7 +441,7 @@
       padding-left: 3%;
     }
     .last>li{
-      padding-left: 3%;
+      padding-left: 15px;
     }
     li{
       position: relative;

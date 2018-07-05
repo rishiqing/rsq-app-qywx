@@ -48,7 +48,7 @@
     computed: {
       dateString () {
         if (this.item.startDate === null && this.item.endDate === null && this.item.dates === null) {
-          return '今天'
+          return '日期'
         } else {
           var result = dateUtil.repeatDate2Text(this.item)
           if (result.length > 20) {

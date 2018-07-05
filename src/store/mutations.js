@@ -69,6 +69,14 @@ export default {
     state.staff.list = p.list
   },
   /**
+   * realuser
+   * @param {[type]} state [description]
+   * @param {[type]} p     [description]
+   */
+  SYS_STF__REAL_LST_READY (state, p) {
+    state.realStaff.list = p.list
+  },
+  /**
    * 以openid作为key值进行缓存
    * @param state
    * @param p
@@ -126,7 +134,10 @@ export default {
    * @constructor
    */
   CHILDTASK_TODO_CREATED (state, p) {
-    state.todo.currentTodo.subTodos.push(p.item)
+    if (!state.todo.currentTodo.subTodos) {
+      state.todo.currentTodo.subTodos = []
+    }
+    // state.todo.currentTodo.subTodos.push(p.item)
   },
   INB_TODO_CREATED (state, p) {
     if (!state.inbox.items) {
@@ -402,7 +413,7 @@ export default {
     state.pub.subtitle = p
   },
   PUB_ID_SUB (state, p) {
-    state.pub.pubid = p
+    state.pub.pubId = p
   },
   PUB_TODO_TIME_CLOCK_UPDATE (state, p) {
     util.extendObject(state.pub.currentTodoTime.clock, p.data)
@@ -558,7 +569,8 @@ export default {
     if (!state.plan.currentKanbanItem.subItems) {
       state.plan.currentKanbanItem.subItems = []
     }
-    state.plan.currentKanbanItem.subItems.push(p.item)
+    // console.log(p)
+    // state.plan.currentKanbanItem.subItems.push(p.item)
   },
   PLAN_KANBAN_SUBITEM_UPDATE (state, p) {
     const target = state.plan.currentKanbanItem.subItems.find(subItem => {

@@ -101,14 +101,17 @@
           return o
         })
       },
+      realUserRsqIds () {
+        return this.$store.state.realStaff.list
+      },
       memberCount () {
         return this.selectedLocalList.length <= 3
       },
-      userRsqIdArray () {
-        return this.userRsqIds.map(function (staff) {
-          return staff.id
-        })
-      },
+      // userRsqIdArray () {
+      //   return this.userRsqIds.map(function (staff) {
+      //     return staff
+      //   })
+      // },
       creatorListArray () {
         return this.creatorList.map(function (staff) {
           return staff.rsqUserId
@@ -141,7 +144,7 @@
       // }
     },
     created () {
-      this.fetchUserIds(this.userRsqIdArray, 'localList')
+      this.fetchUserIds(this.userRsqIds, 'localList')
     },
     methods: {
       fetchUsers () {
@@ -201,6 +204,7 @@
           })
         }
         var old = [...this.selectRsqidArray]
+        console.log(this.realUserRsqIds)
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,
@@ -208,6 +212,7 @@
           memberList: this.localList,
           selectedIdList: this.selectRsqidArray,
           disabledIdList: disSelect,
+          realStaff: this.realUserRsqIds,
           // 转换为字符串
           creatorIdList: creSelect,
           singleSelect: this.singleSelect,

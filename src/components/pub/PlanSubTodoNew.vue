@@ -7,17 +7,15 @@
           class="itm-edt-fields"
           style="padding-bottom: 80px;">
           <div class="itm-group input-title">
-            <r-input-title
-              id="fix-input"
-              :item-title="editItem.pTitle"
-              @text-change="saveTitle"/>
+            <textarea
+              v-model="inputTitle"
+              type="text"
+              class="add-title"
+              placeholder="请输入任务标题"
+              @input="inputNew"/>
           </div>
-          <div
-            id="fix-ico"
-            class="itm-group itm--edit-todo">
-            <div
-              id="firstGroup"
-              class="firstGroup">
+          <div class="itm-group itm--edit-todo fix-create">
+            <div class="firstGroup">
               <div class="common-field">
                 <i class="icon2-schedule sche"/>
                 <r-input-date
@@ -26,12 +24,6 @@
                   :has-left-space="true"/>
                 <i class="icon2-arrow-right-small arrow"/>
               </div>
-              <div class="common-field">
-                <i class="icon2-alarm sche" />
-                <r-input-time
-                  :item="editItem"
-                  :has-left-space="true"/>
-              </div>
             </div>
             <div class="secondGroup">
               <div class="common-field">
@@ -39,12 +31,13 @@
                 <r-input-member
                   :has-left-space="true"
                   :is-native="false"
-                  :index-title="''"
+                  :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="idArray"
+                  :user-rsq-ids="planMember"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="joinUserRsqIds"
-                  :disabled-rsq-ids="joinUserRsqIds"
+                  :creater-rsq-ids="[]"
+                  :disabled-rsq-ids="[]"
+                  :single-select="true"
                   @member-changed="saveMember"/>
               </div>
             </div>
@@ -60,26 +53,21 @@
               </div>
             </div>
           </div>
-          <!--<div class="itm-group itm&#45;&#45;edit-todo" @click="submitTodo">提交（测试）</div>-->
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import InputTitleText from 'com/pub/InputTitleText'
-  import InputDate from 'com/pub/InputDate'
+  import SubNewInputDate from 'com/pub/SubNewInputDate'
   import InputMember from 'com/pub/InputMember'
-  import InputTime from 'com/pub/InputTime'
   import dateUtil from 'ut/dateUtil'
   import jsUtil from 'ut/jsUtil'
 
   export default {
-    name: 'TodoNew',
+    name: 'PlanSubTodoNew',
     components: {
-      'r-input-title': InputTitleText,
-      'r-input-date': InputDate,
-      'r-input-time': InputTime,
+      'r-input-date': SubNewInputDate,
       'r-input-member': InputMember
     },
     data () {
@@ -87,15 +75,18 @@
         editItem: {
           isChecked: false,
           isAllDay: true
-//          receiverIds: []
         },
+        sub: null,
         joinUserRsqIds: [],
-        idArray: []
+        inputTitle: ''
       }
     },
     computed: {
       currentTodo () {
         return this.$store.state.todo.currentTodo
+      },
+      todoId () {
+        return this.$store.state.todo.currentTodo.id
       },
       isInbox () {
         //  所有日期属性均为date，判断当前新建的item为收纳箱任务
@@ -110,41 +101,40 @@
       corpId () {
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
       },
-      realUserRsqIds () {
-        return this.$store.state.realStaff.list
+      pUserIds () {
+        return [this.$store.getters.loginUser.rsqUser.id]
+      },
+      subId () {
+        return this.$store.state.subUserId
+      },
+      currentKanbanItemId () {
+        return this.$store.state.plan.currentKanbanItem.id
+      },
+      planMember () {
+        var that = this
+        var arr = that.currentPlan.userRoles.map(function (o) {
+          return o.userId
+        })
+        return arr
+      },
+      currentPlan () {
+        return this.$store.state.currentPlan
       }
-    },
-    beforeRouteEnter (to, from, next) {
-      next()
-      // beforeRouteEnter中不能获取到this，因为this还没有创建，只能通过next获取
     },
     created () {
-      window.rsqadmg.exec('setTitle', {title: '新建任务'})
-      this.findId(this.realUserRsqIds)
+      window.rsqadmg.exec('setTitle', {title: '新建子任务'})
       this.initData()
+      this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
-      this.joinUserRsqIds = [this.$store.state.loginUser.rsqUser.id]
-      if (this.editItem.receiverIds !== null) {
-        var idArray = this.editItem.receiverIds.split(',')
-        this.joinUserRsqIds = []
-        for (var i = 0; i < idArray.length; i++) {
-          this.joinUserRsqIds.push(idArray[i])
-        }
+      if (this.subId.length !== 0) {
+        this.joinUserRsqIds = this.subId
+      } else {
+        this.joinUserRsqIds = this.pUserIds
       }
+      this.sub = this.$store.state.todo.currentSubtodoDate
     },
     methods: {
-      findId (id) {
-        var that = this
-        for (let i = 0; i < id.length; i++) {
-          for (let j = 0; j < id[i].userList.length; j++) {
-            that.idArray.push(id[i].userList[j].id)
-          }
-          if (id[i].childList.length !== 0) {
-            that.findId(id[i].childList)
-          }
-        }
-      },
       empty () {},
       toggleAllDay (e) {
         this.editItem.isChecked = !this.editItem.isChecked
@@ -167,13 +157,15 @@
         this.editItem.pTitle = newTitle
         this.$store.commit('TD_TODO_UPDATED', {todo: {pTitle: newTitle}})
       },
+      //  缓存title
+      inputNew () {
+        this.$store.commit('SYS_SUB_TILTE', {title: this.inputTitle})
+      },
       saveMember (idArray) {
-        window.rsqadmg.exec('setTitle', {title: '新建任务'})
-        // this.joinUserRsqIds = idArray
-        var ids = idArray.join(',')
-        this.editItem.receiverIds = ids
-        this.$store.commit('TD_TODO_UPDATED', {todo: {receiverIds: ids}})
-//        this.editItem.receiverIds = idArray
+        window.rsqadmg.exec('setTitle', {title: '新建子任务'})
+        this.joinUserRsqIds = idArray
+        this.editItem.receiverIds = idArray
+        this.$store.commit('PUB_SUB_TODO_USER', {id: idArray})
       }, // 注意这里没有和后台打交道，在提交新建的时候才打交道
       /**
        * 将local的对象保存到state的变量中
@@ -187,75 +179,68 @@
         }, 50)
       },
       submitTodo () {
-        if (!this.editItem.pTitle || /^\s+$/.test(this.editItem.pTitle)) {
+        var that = this
+        if (!this.inputTitle || /^\s+$/.test(this.inputTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务标题'})
         }
-        if (!this.isInbox) {
-          var planTime = this.getPlanedTime()
-          if (!planTime) {
-//            return window.rsqadmg.execute('alert', {message: '请选择任务日期'})
-          }
-          //  坑爹啊。。。格式不统一，需要做额外的hack
-          this.editItem.pPlanedTime = dateUtil.dateNum2Text(planTime, '-') + ' 00:00:00'
-          this.editItem.createTaskDate = dateUtil.dateNum2Text(planTime)
-          //  repeatOverDate传给后台的值和后台发送过来的值格式不一样……好坑
-          const overDate = this.editItem.repeatOverDate
-          if (overDate) {
-            this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
-          }
-        }
-        this.saveTodoState()
-        var todoType = this.isInbox ? 'inbox' : 'schedule'
-//        window.rsqadmg.execute('showLoader', {text: '创建中...'})
-        //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
-        var clockAlert = JSON.parse(JSON.stringify(this.currentTodo.clock.alert || null))
-        var that = this
-        if (!this.currentTodo.clock.startTime && !this.currentTodo.clock.endtTime) {
-          this.currentTodo.clock = {}
-        }
-        this.$store.dispatch('submitCreateTodoItem', {newItem: this.currentTodo, todoType: todoType})
-          .then(item => {
-            if (this.currentTodo.clock && this.currentTodo.clock.startTime && item.clock && item.clock.alert) {
-              //  如果item.clock.alert存在，说明设置了alert，那么就发送设置的提醒
-              item.clock.alert = clockAlert
-              return this.$store.dispatch('handleRemind', {item})
-            } else {
-              return item
-            }
-          })
-          .then(item => {
+        // if (!this.sub.datas && !this.sub.startDate) {
+        //   return window.rsqadmg.execute('alert', {message: '请选择时间'})
+        // }
+        // if (this.joinUserRsqIds.length === 0) {
+        //   return window.rsqadmg.execute('alert', {message: '请选择执行人'})
+        // }
+        window.rsqadmg.execute('showLoader', {text: '创建中...'})
+        var datas = {}
+        datas.name = this.inputTitle
+        datas.id = this.currentKanbanItemId
+        datas.startDate = this.sub.startDate || ''
+        datas.endDate = this.sub.endDate || ''
+        datas.joinUsers = this.joinUserRsqIds[0] || ''
+        datas.dates = this.sub.dates || ''
+        this.$store.dispatch('createKanbanSubtodo', datas)
+        // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
+          .then(() => {
+            //  触发标记重复修改
+            // this.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
+            this.inputTitle = ''
+            window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
-            this.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
-            if (todoType === 'inbox') {
-              this.$router.replace('/inbox')
-            }
-            if (item.receiverIds) {
-              var name = that.loginUser.authUser.name
+            if (that.joinUserRsqIds) {
               var url = window.location.href.split('#')
+              var name = that.$store.getters.loginUser.authUser.name
               var datas = {
-                corpId: that.loginUser.authUser.corpId,
-                agentid: this.corpId,
-                title: name + ' 创建了一条任务',
-                url: url[0] + '#' + '/sche/todo/' + item.id,
-                description: item.pTitle,
-                receiverIds: item.receiverIds
+                corpId: that.$store.getters.loginUser.authUser.corpId,
+                agentid: that.$store.getters.loginUser.authUser.corpId,
+                title: name + ' 分配给你一条子任务',
+                url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+                description: that.$store.state.plan.currentKanbanItem.name,
+                receiverIds: that.joinUserRsqIds[0].toString()
               }
-              this.$store.dispatch('qywxSendMessage', datas)
-//                var note = this.editItem.pNote
-//                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
+              // console.log(datas)
+              that.$store.dispatch('qywxSendMessage', datas)
             }
-            this.$router.replace('/sche')
           })
+          .then(function () {
+            that.$router.go(-1)
+          })
+        // this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
+      }
+    },
+    beforeRouteLeave (to, from, next) {
+      if (to.name === 'SubTodoEditDate') {
+        next()
+      } else {
+        this.$store.commit('PUB_SUB_TODO_USER', {id: ''})
+        next()
       }
     }
   }
 </script>
 <style lang="scss" scoped>
   .input-title{
+    margin-top: 10px;
     border-top: 0.5px solid #D4D4D4;
     border-bottom: 0.5px solid #D4D4D4;
-    margin-top: 10px;
-    background-color: #fff;
   }
   .router-view{
     height: 100%;
@@ -267,11 +252,8 @@
   .firstGroup{
     margin-top:20px;
     border-top: 0.5px solid #D4D4D4;
-    border-bottom: 0.5px solid #D4D4D4;
   }
   .secondGroup{
-    margin-top:20px;
-    border-top: 0.5px solid #D4D4D4;
     border-bottom: 0.5px solid #D4D4D4;
   }
   p{
@@ -340,28 +322,37 @@
     box-shadow: #dfdfdf 0 0 0 0 inset;
     background-color: #67B2FE;
     transition: border-color 0.4s, background-color ease 0.4s; }
-  .common-field{
-    padding-left: 15px;
+  .add-title{
+    height: 2.5333rem;
+    resize:none;
+    font-family: PingFangSC-Regular;
+    font-size: 17px;
+    color: #9B9B9B;
+    line-height: 24px;
+    width: 100%;
+  }
+  .add-title::-webkit-input-placeholder { /* WebKit browsers */
+    font-size: 17px;
+    color: #8C8C8C;
+    letter-spacing: 0;
+    padding-left: 0.1rem;
+  }
+  .add-title[type='text']{
+    background: #FFFFFF;
+    line-height:0.72rem ;
+    padding: 15px;
+    font-size: 17px;
+    border-radius: 0;
+    color: #3D3D3D;
   }
   .sche{
    font-size: 0.586rem;
     color: #55A8FD;
     position: absolute;
-    top: 50%;
-    margin-top: -0.29rem;
+    top: 47%;
+    margin-top: -0.26rem;
     left: 15px;
     z-index: 1000;
-  }
-  .common-field .outer-wrap{
-    padding-left: 46px;
-    position: relative;
-  }
-  .right-png{
-    position: absolute;
-    right: 13px;
-    top: 40%;
-    width: 13px;
-    // height: 8px;
   }
   .arrow {
     color: #999999;

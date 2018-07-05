@@ -265,7 +265,8 @@
     transition: padding-top 0.3s ease;
   }
   .ul-b{
-    border-bottom: 0.5px solid #d4d4d4
+    border-bottom: 0.5px solid #d4d4d4;
+    background-color: #fff;
   }
   .addNew{
     width: 141px;

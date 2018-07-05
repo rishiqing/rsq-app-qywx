@@ -16,10 +16,12 @@
         </v-touch>
       </div>
       <div class="margin-block"/>
-      <r-todo-item-list
-        v-if="items != null && items.length > 0"
-        :items="items"
-        :is-checkable="false"/>
+      <div class="fff">
+        <r-todo-item-list
+          v-if="items !== null && items.length > 0"
+          :items="items"
+          :is-checkable="false"/>
+      </div>
     </div>
     <r-nav/>
     <!-- <div class="tips">收纳箱中的任务没有具体的日期，它可能是灵光乍现的想法，可能是同事拜托你的一件小事…</div> -->
@@ -144,7 +146,7 @@
     border-bottom:0.5px solid #D4D4D4;
     border-top:0.5px solid #D4D4D4;
     background: #FFFFFF;
-    padding-left:20px;
+    padding-left:15px;
     padding-right: 2.432rem;
     margin-bottom: 0.224rem;
     z-index: 2;
@@ -172,5 +174,8 @@
     box-sizing: border-box;
     width: 80%;height:100%;
     padding: 10px;
+  }
+  .fff{
+    background-color: #fff;
   }
 </style>

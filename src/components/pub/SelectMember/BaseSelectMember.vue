@@ -15,39 +15,134 @@
           @tap="clearNameSearch"/>
       </div>
     </div>
+    <v-touch
+      v-if="cache.length !== 0"
+      class="back"
+      @tap="back">
+      <i class="icon2-arrow-left-small arrow"/>
+      {{ backName }}
+    </v-touch>
     <ul
-      v-if="filteredUsers.length !== 0"
+      v-if="arr.length !== 0"
+      :class="{'mt': cache.length === 0}"
       class="sel-member-list">
-      <li
-        v-for="member in filteredUsers"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
-          <div
-            :class="{'sel-selected': member.isSelected}"
-            class="sel-member-icon">
-            <div class="sel-icon-selected-bg" />
-            <i class="icon2-selected sel-icon-selected"/>
+      <template v-if="!nameSearch">
+        <li
+          v-for="member in newStaff.childList"
+          :key="member.id">
+          <v-touch
+            class="sel-member-info"
+            @tap="changeSelectStaff(member)">
+            <div
+              class="sel-member-icon">
+              <div class="sel-icon-selected-bg" />
+              <i class="icon2-selected sel-icon-selected"/>
+            </div>
+            <div class="sel-member-avatar">
+              <img src="../../../assets/img/staff.svg">
+            </div>
+            <div
+              class="sel-member-name">
+              {{ member.name }}
+            </div>
+          </v-touch>
+          <i class="icon2-arrow-right-small arrow right"/>
+        </li>
+        <li
+          v-for="member in newStaff.userList"
+          v-if="member.orgUser"
+          :key="member.id">
+          <v-touch
+            class="sel-member-info"
+            @tap="changeSelect(member, !member.isSelected)">
+            <div
+              :class="{'sel-selected': member.isSelected}"
+              class="sel-member-icon">
+              <div class="sel-icon-selected-bg" />
+              <i class="icon2-selected sel-icon-selected"/>
+            </div>
+            <div class="sel-member-avatar">
+              <avatar
+                :src="member.avatar"
+                :username="member.name"
+                :size="36"
+                :round-radius="'2px'"
+                :background-color="'#4A90E2'"/>
+            </div>
+            <div
+              :class="{'sel-disabled': member.isDisabled}"
+              class="sel-member-name">
+              {{ member.name }}
+            </div>
+          </v-touch>
+          <div class="sel-member-tag">
+            {{ member.isCreator ? '创建者' : '' }}
           </div>
-          <div class="sel-member-avatar">
-            <avatar
-              :src="member.avatar"
-              :username="member.name"
-              :size="36"
-              :round-radius="'2px'"
-              :background-color="'#4A90E2'"/>
+        </li>
+        <li
+          v-for="member in unDept.userList"
+          v-if="member.orgUser && cache.length === 0"
+          :key="member.id">
+          <v-touch
+            class="sel-member-info"
+            @tap="changeSelect(member, !member.isSelected)">
+            <div
+              :class="{'sel-selected': member.isSelected}"
+              class="sel-member-icon">
+              <div class="sel-icon-selected-bg" />
+              <i class="icon2-selected sel-icon-selected"/>
+            </div>
+            <div class="sel-member-avatar">
+              <avatar
+                :src="member.avatar"
+                :username="member.name"
+                :size="36"
+                :round-radius="'2px'"
+                :background-color="'#4A90E2'"/>
+            </div>
+            <div
+              :class="{'sel-disabled': member.isDisabled}"
+              class="sel-member-name">
+              {{ member.name }}
+            </div>
+          </v-touch>
+          <div class="sel-member-tag">
+            {{ member.isCreator ? '创建者' : '' }}
           </div>
-          <div
-            :class="{'sel-disabled': member.isDisabled}"
-            class="sel-member-name">
-            {{ member.name }}
+        </li>
+      </template>
+      <template v-else>
+        <li
+          v-for="member in filteredUsers"
+          :key="member.id">
+          <v-touch
+            class="sel-member-info"
+            @tap="changeSelect(member, !member.isSelected)">
+            <div
+              :class="{'sel-selected': member.isSelected}"
+              class="sel-member-icon">
+              <div class="sel-icon-selected-bg" />
+              <i class="icon2-selected sel-icon-selected"/>
+            </div>
+            <div class="sel-member-avatar">
+              <avatar
+                :src="member.avatar"
+                :username="member.name"
+                :size="36"
+                :round-radius="'2px'"
+                :background-color="'#4A90E2'"/>
+            </div>
+            <div
+              :class="{'sel-disabled': member.isDisabled}"
+              class="sel-member-name">
+              {{ member.name }}
+            </div>
+          </v-touch>
+          <div class="sel-member-tag">
+            {{ member.isCreator ? '创建者' : '' }}
           </div>
-        </v-touch>
-        <div class="sel-member-tag">
-          {{ member.isCreator ? '创建者' : '' }}
-        </div>
-      </li>
+        </li>
+      </template>
     </ul>
     <div
       v-else
@@ -87,7 +182,7 @@
     position: absolute;
     top: 0;right: 0;bottom: 0;left: 0;
     z-index: 10000;
-    background: #FFFFFF;
+    background: #f5f5f5;
   }
   .sel-header {
     position: fixed;
@@ -160,9 +255,12 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     padding: 51px 0 51px;
+    padding-top: 0;
+    margin-top: 20px;
     height: -moz-calc(100% - 100px);
     height: -webkit-calc(100% - 100px);
     height: calc(100% - 100px);
+    border-top: 0.5px solid #d4d4d4;
   }
   ul.sel-member-list li {
     position: relative;
@@ -232,6 +330,26 @@
   .sel-disabled {
     color: #999999;
   }
+  .back{
+    margin-top: 51px;
+    height: 36px;
+    background-color: #fff;
+    line-height: 36px;
+    color:#9B9B9B;
+    font-size: 14px;
+    padding-left: 15px;
+    border-bottom: 0.5px solid #d4d4d4;
+  }
+  ul.mt{
+    margin-top: 51px;
+  }
+  .right{
+    position: absolute;
+    right: 15px;
+    top: 0;
+    height: 100%;
+    line-height: 57px;
+  }
 </style>
 <script>
   import Avatar from 'com/pub/TextAvatar'
@@ -260,36 +378,65 @@
         localList: [],
         localSelectedList: [],
         nameSearch: '',
-        singleSelect: false
+        singleSelect: false,
+        realStaff: [],
+        newStaff: [],
+        cache: [],
+        backName: '',
+        arr: []
       }
     },
     computed: {
       filteredUsers () {
-        if (!this.nameSearch) {
-          return this.localList
-        } else {
-          return this.localList.filter(staff => {
-            return staff.name.indexOf(this.nameSearch) !== -1
-          })
-        }
+        // 两套数据结构，搜索用最开始的无组织数据结构，正常显示用有组织、挂载了微信数据的数据结构
+        return this.localList.filter(staff => {
+          return staff.name.indexOf(this.nameSearch) !== -1
+        })
       },
       selectedCount () {
         return this.localSelectedList.length
+      },
+      hasDept () {
+        return this.arr[0]
+      },
+      unDept () {
+        return this.arr[1]
       }
     },
     mounted () {
+      var that = this
+      this.cache = []
       this.makeLocalList()
       window.rsqadmg.exec('setTitle', {title: '编辑成员'})
       //  如果通过任意方式跳出页面了，那么关闭当前选择框
       window.onpopstate = () => {
         this.selfClose()
       }
+      this.arr = JSON.parse(JSON.stringify(that.realStaff))
+      this.addObj(this.arr)
+      this.newStaff = {...this.hasDept}
+      this.backName = this.hasDept.name
     },
     methods: {
       selfClose () {
         window.onpopstate = null
         this.cancel()
         this.$emit('self-close')
+      },
+      changeSelectStaff (member) {
+        this.backName = this.newStaff.name
+        window.rsqadmg.exec('setTitle', {title: member.name})
+        this.cache.push({...this.newStaff})
+        this.newStaff = member
+      },
+      back () {
+        this.newStaff = this.cache.pop()
+        if (this.cache.length === 0) {
+          window.rsqadmg.exec('setTitle', {title: '编辑成员'})
+        } else {
+          this.backName = this.cache[this.cache.length - 1].name
+          window.rsqadmg.exec('setTitle', {title: this.newStaff.name})
+        }
       },
       clearNameSearch () {
         this.nameSearch = ''
@@ -331,6 +478,24 @@
           }
           return obj
         })
+      },
+      addObj (arr) {
+        var that = this
+        for (let i = 0, lenI = arr.length; i < lenI; i++) {
+          for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {
+            for (let k = 0, lenK = that.localList.length; k < lenK; k++) {
+              if (arr[i].userList[j].id.toString() === that.localList[k].id) {
+                // 三重循环数据挂载，绝对有优化的余地，但for性能比其他遍历性能要好，优化方向在于length的保存上与循环次数的减少上
+                Object.assign(arr[i].userList[j], that.localList[k])
+                break
+              }
+            }
+          }
+          if (arr[i].childList.length !== 0) {
+            // 三重循环之后就是递归
+            that.addObj(arr[i].childList)
+          }
+        }
       },
       changeSelect (mem, isSelect) {
         if (mem.isDisabled) {

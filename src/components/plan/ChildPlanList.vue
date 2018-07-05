@@ -31,7 +31,7 @@
   .c-plan-list{
     background-color: white;
     border-top:0.5px solid #d4d4d4 ;
-    padding-left: 3%;
+    padding-left: 15px;
     overflow-y: auto;
     overflow-x: hidden;
   }

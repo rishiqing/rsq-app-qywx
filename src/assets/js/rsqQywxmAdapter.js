@@ -449,32 +449,21 @@ rsqAdapterManager.register({
   datePicker: function(params){
   },
   timePicker: function(params){
-    var hours = [],
-    minites = [];
-    if (!hours.length) {
-      for (var i = 0; i< 24; i++) {
-        var hours_item = {};
-        hours_item.label = ('' + i).length === 1 ? '0' + i + '时' : '' + i + '时';
-        hours_item.value = i;
-        hours.push(hours_item);
-      }
+    var minites = []
+    for (var j= 0; j <= 100; j++) {
+      var minites_item = {};
+      minites_item.label = j
+      minites_item.value = j;
+      minites.push(minites_item);
     }
-    if (!minites.length) {
-      for (var j= 0; j < 60; j++) {
-        var minites_item = {};
-        minites_item.label = ('' + j).length === 1 ? '0' + j + '分' : '' + j + '分';
-        minites_item.value = j;
-        minites.push(minites_item);
-      }
-    }
-    var defString = params.strInit || '00:00';
-    var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
-    weui.picker(hours, minites, {
+    var when = [{label: '提前', value: 'begin'}]
+    var unit = [{label: '分钟', value: 'min'},{label: '小时', value: 'hour'}]
+    var defaultValue = ['begin', '50', 'min']
+    weui.picker(when, minites, unit, {
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
-      defaultValue: defArray,
+      defaultValue: defaultValue,
       onConfirm: function(result) {
-        var time = result[0].value + ':' + result[1].value;
-        var result = {value: time}
+        var result = {value: result}
         rsqChk(params.success, [result]);
       }
     });

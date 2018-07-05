@@ -33,7 +33,7 @@
                   :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="userRsqId"
+                  :user-rsq-ids="idArray"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
@@ -78,7 +78,8 @@
         },
         sub: null,
         joinUserRsqIds: [],
-        inputTitle: ''
+        inputTitle: '',
+        idArray: []
       }
     },
     computed: {
@@ -87,9 +88,6 @@
       },
       todoId () {
         return this.$store.state.todo.currentTodo.id
-      },
-      userRsqId () {
-        return this.$store.state.staff.list
       },
       isInbox () {
         //  所有日期属性均为date，判断当前新建的item为收纳箱任务
@@ -109,10 +107,14 @@
       },
       subId () {
         return this.$store.state.subUserId
+      },
+      realUserRsqIds () {
+        return this.$store.state.realStaff.list
       }
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建子任务'})
+      this.findId(this.realUserRsqIds)
       this.initData()
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
@@ -128,6 +130,17 @@
       empty () {},
       toggleAllDay (e) {
         this.editItem.isChecked = !this.editItem.isChecked
+      },
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.idArray.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
       },
       /**
        * 初始化数据，从state的currentTodo复制到local的editItem
@@ -210,8 +223,10 @@
               that.$store.dispatch('qywxSendMessage', datas)
             }
           })
+          .then(function () {
+            that.$router.go(-1)
+          })
         // this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
-        this.$router.go(-1)
       }
     },
     beforeRouteLeave (to, from, next) {
@@ -339,7 +354,7 @@
     position: absolute;
     top: 47%;
     margin-top: -0.26rem;
-    left: 25px;
+    left: 15px;
     z-index: 1000;
   }
   .arrow {

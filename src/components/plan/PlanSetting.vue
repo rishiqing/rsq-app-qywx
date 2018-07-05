@@ -119,7 +119,8 @@
         selectedLocalList: [],  //  已选择的人员选择列表
         disabledLocalList: [],  //  本地禁用的人员列表
         creatorList: [], // 创建者
-        memarr: []
+        memArray: [],
+        idArray: []
       }
     },
     computed: {
@@ -164,10 +165,8 @@
       memberCount () {
         return this.selectedLocalList.length <= 3
       },
-      userRsqIdArray () {
-        return this.userRsqIds.map(function (staff) {
-          return staff.id
-        })
+      realUserRsqIds () {
+        return this.$store.state.realStaff.list
       },
       creatorListArray () {
         return this.creatorList.map(function (staff) {
@@ -199,6 +198,9 @@
         this.fetchUserIds(this.createrRsqIds, 'creatorList')
       }
     },
+    created () {
+      this.findId(this.realUserRsqIds)
+    },
     mounted () {
       window.rsqadmg.exec('setTitle', {title: '计划设置'})
       this.getMember(this.rsqIds)
@@ -210,11 +212,22 @@
             this.isOwn = true
           }
         })
-      this.fetchUserIds(this.userRsqIdArray, 'localList')
+      this.fetchUserIds(this.idArray, 'localList')
     },
     methods: {
       showEditPlanName () {
         this.$router.push('/plan/' + this.currentPlan.id + '/edit-name')
+      },
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.idArray.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
       },
       upload () {
         this.$refs.uploadImg.click()
@@ -316,6 +329,7 @@
           nameAttribute: 'name',
           idAttribute: 'rsqUserId',
           memberList: this.localList,
+          realStaff: this.realUserRsqIds,
           selectedIdList: this.selectRsqidArray,
           disabledIdList: [this.createrRsqIds[0].toString(), this.$store.state.loginUser.rsqUser.id.toString()],
           // 转换为字符串
@@ -326,7 +340,7 @@
             })
             window.rsqadmg.exec('setTitle', {title: '计划设置'})
             that.selectedLocalList = [...selList]
-            that.memarr = [...arr]
+            that.memArray = [...arr]
             var arrstr = arr.join(',')
             that.$store.dispatch('updataPlan', {id: that.currentPlan.id, accessIds: arrstr, editAuthority: 'all'})
               .then(function (res) {

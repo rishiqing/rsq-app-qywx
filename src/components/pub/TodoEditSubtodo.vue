@@ -26,7 +26,7 @@
             :is-native="false"
             :index-title="'执行人'"
             :select-title="'请选择成员'"
-            :user-rsq-ids="userRsqId"
+            :user-rsq-ids="idArray"
             :single-select="true"
             :selected-rsq-ids="joinUserRsqIds"
             :creater-rsq-ids="[]"
@@ -67,18 +67,16 @@
         newName: '',
         joinUserRsqIds: [],
         cache: [],
-        cacheNew: []
+        cacheNew: [],
+        idArray: []
       }
     },
     computed: {
       currentSubtodo () {
         return this.$store.state.todo.currentSubtodo
       },
-      pubid () {
-        return this.$store.state.pub.pubid
-      },
-      userRsqId () {
-        return this.$store.state.staff.list
+      pubId () {
+        return this.$store.state.pub.pubId
       },
       pUserId () {
         return [this.$store.state.todo.currentTodo.pUserId]
@@ -92,12 +90,21 @@
           }
         })
       },
-      createId () {
-        if (this.createIdObject.length > 0) {
-          return [this.createIdObject[0].id]
-        }
-        return []
+      // createId () {
+      //   if (this.createIdObject.length > 0) {
+      //     return [this.createIdObject[0].id]
+      //   }
+      //   return []
+      // },
+      subId () {
+        return this.$store.state.subUserId
+      },
+      realUserRsqIds () {
+        return this.$store.state.realStaff.list
       }
+    },
+    created () {
+      this.findId(this.realUserRsqIds)
     },
     mounted () {
       window.rsqadmg.execute('setTitle', {title: '编辑子任务'})
@@ -109,12 +116,26 @@
       this.joinUserRsqIds = this.$store.state.todo.currentSubtodo.joinUsers.map(function (arr) {
         return arr.id.toString()
       })
+      if (this.subId.length !== 0) {
+        this.joinUserRsqIds = this.subId
+      }
       this.$store.commit('PUB_SUB_TODO_USER', {id: this.joinUserRsqIds})
       this.cache = [...this.joinUserRsqIds]
     },
     methods: {
       copyTitle (value) {
         this.$store.commit('PUB_TITLE_SUB', value)
+      },
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.idArray.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
       },
       submitSubtodo () {
         const name = this.$store.state.pub.subtitle
@@ -140,8 +161,7 @@
             // console.log(this.cache[0])
             var url = window.location.href.split('#')
             var name = that.$store.getters.loginUser.authUser.name
-            // console.log(that.cacheNew[0])
-            if (that.cache[0] !== that.cacheNew[0] && that.cache[0]) {
+            if (that.cache[0] !== that.cacheNew[0] && that.cache[0] && that.cacheNew[0]) {
               let datas = {
                 corpId: that.$store.getters.loginUser.authUser.corpId,
                 agentid: that.$store.getters.loginUser.authUser.corpId,
@@ -221,11 +241,12 @@
       }
     },
     beforeRouteLeave (to, from, next) {
-      if (to.name === 'subtodoList') {
+      if (to.name === 'todoEdit') {
         this.submitSubtodo()
       }
       if (to.name !== 'SubTodoEditDate') {
         this.$store.commit('PUB_TITLE_SUB', '')
+        this.$store.commit('PUB_SUB_TODO_USER', {id: ''})
       }
       next()
     }
@@ -252,7 +273,7 @@
     position: absolute;
     top: 50%;
     margin-top: -0.29rem;
-    left: calc(0.3rem + 20px);
+    left: 15px;
     z-index: 1000;
   }
   .arrow {

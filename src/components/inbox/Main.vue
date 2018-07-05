@@ -18,7 +18,7 @@
       <div class="margin-block"/>
       <div class="fff">
         <r-todo-item-list
-          v-if="items != null && items.length > 0"
+          v-if="items !== null && items.length > 0"
           :items="items"
           :is-checkable="false"/>
       </div>

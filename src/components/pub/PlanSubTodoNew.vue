@@ -101,7 +101,7 @@
       corpId () {
         return this.loginUser.authUser.corpId ? this.loginUser.authUser.corpId : 'dingtalkupload'
       },
-      pUserId () {
+      pUserIds () {
         return [this.$store.getters.loginUser.rsqUser.id]
       },
       subId () {
@@ -130,7 +130,7 @@
       if (this.subId.length !== 0) {
         this.joinUserRsqIds = this.subId
       } else {
-        this.joinUserRsqIds = this.pUserId
+        this.joinUserRsqIds = this.pUserIds
       }
       this.sub = this.$store.state.todo.currentSubtodoDate
     },

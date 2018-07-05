@@ -57,7 +57,6 @@
       //  根据当前task.file的类型，判断需要显示什么样的预览图
       previewImg () {
         var type = this.task.file.type
-        console.log(type)
         if (new RegExp('image/').test(type)) {
           return this.task.img.src
         } else {

@@ -311,11 +311,12 @@
         backName: '',
         arr: [],
         index: true,
-        // allIndexSelect: false,
+        // 因为array无法set，因此只能分情况判断
         allSelect: false
       }
     },
     computed: {
+      // 全部人员的全选判断
       allIndexSelect () {
         return this.localList.every(function (o) {
           return o.isSelected === true
@@ -330,9 +331,11 @@
       selectedCount () {
         return this.localSelectedList.length
       },
+      // 已分配
       hasDept () {
         return this.arr[0]
       },
+      // 未分配
       unDept () {
         return this.arr[1]
       }
@@ -346,15 +349,22 @@
       window.onpopstate = () => {
         this.selfClose()
       }
+      // 利用json方式深复制数组对象
       this.arr = JSON.parse(JSON.stringify(that.realStaff))
+      // 数据挂载
       this.addObj(this.arr)
+      // 拷贝保存已分配人员
       this.newStaff = {...this.hasDept}
+      // 保存back部门名称
       this.backName = this.hasDept.name
+      // 初始化层级标识
       this.index = true
     },
     methods: {
+      // 非首页全选
       all () {
         var that = this
+        // 分有未分配部门无未分配部门情况
         if (that.cache.length === 0) {
           this.unDept.userList.map(function (o) {
             if (o.orgUser) {
@@ -372,12 +382,14 @@
       allSelectChange (tag) {
         this.allSelect = tag
       },
+      // 回归主页
       goIndex () {
         this.index = true
         this.cache = []
         this.newStaff = {...this.hasDept}
         window.rsqadmg.exec('setTitle', {title: '编辑成员'})
       },
+      // 进入组织结构
       goNext () {
         this.index = false
         var tagUse = this.newStaff.userList.every(function (o) {
@@ -397,6 +409,7 @@
         this.allSelectChange(tagUse && tagUnDept)
         window.rsqadmg.exec('setTitle', {title: this.newStaff.name})
       },
+      // 首页全选
       allIndex () {
         var that = this
         // this.allIndexSelect = true
@@ -411,9 +424,11 @@
         this.cancel()
         this.$emit('self-close')
       },
+      // 选择部门
       changeSelectStaff (member) {
         this.backName = this.newStaff.name
         window.rsqadmg.exec('setTitle', {title: member.name})
+        // 缓存历史记录
         this.cache.push({...this.newStaff})
         this.newStaff = member
         var tag = member.userList.every(function (o) {
@@ -425,8 +440,10 @@
         })
         this.allSelectChange(tag)
       },
+      // 返回上一层
       back () {
         this.newStaff = this.cache.pop()
+        // 分为上一层有无未分配部门的情况
         if (this.cache.length === 0) {
           var tagUse = this.newStaff.userList.every(function (o) {
             if (o.orgUser) {
@@ -498,6 +515,7 @@
           return obj
         })
       },
+      // 挂载数据
       addObj (arr) {
         var that = this
         for (let i = 0, lenI = arr.length; i < lenI; i++) {
@@ -516,6 +534,7 @@
           }
         }
       },
+      // 两个数据结构联动
       changeSelectObj (arr, id, isSelect) {
         var that = this
         for (let i = 0, lenI = arr.length; i < lenI; i++) {
@@ -546,6 +565,7 @@
           return
         }
         if (this.singleSelect) {
+          // 如果为单人，清除所有选项
           this.localList.map(function (o) {
             o.isSelected = false
           })

@@ -507,6 +507,35 @@ rsqAdapterManager.register({
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onChange: function (result) {
+        var h = (102 - parseInt(document.querySelectorAll('.weui-picker__content')[0].style.transform.split(',')[1]))/34
+        var m = (102 - parseInt(document.querySelectorAll('.weui-picker__content')[2].style.transform.split(',')[1]))/34
+        var hz = 0 
+        var mz = 0
+        if (isNaN(m)){
+          m = parseInt(result[2].value)
+        }
+        if (h < 10) {
+          hz = "0" + h
+        } else {
+          hz = h
+        }
+        if (m < 10) {
+          mz = "0" + m
+        } else {
+          mz = m
+        }
+        result = [
+        {
+          label: hz +"时",
+          value: hz
+        },
+        {
+          label: '',
+          value: 0
+        },{
+          label: mz +"分",
+          value: mz
+        }]
         if (params.start) {
           var f = result[0].label.substr(0,1)
           var s = result[0].label.substr(1,1) * 1 + 1
@@ -523,7 +552,6 @@ rsqAdapterManager.register({
 
         }
         var time = result[0].label.substr(0,2) + ':' + result[2].label.substr(0,2)
-        console.log(time)
         document.querySelector('._c ._s-time').innerHTML = time
       },
       onConfirm: function(result) {
@@ -534,15 +562,27 @@ rsqAdapterManager.register({
         rsqChk(params.success, [startTime, endTime]);
       }
     });
-    document.querySelector('#endTime').innerHTML = defString2
+      document.querySelector('#endTime').innerHTML = defString2
     //设定左右切换
-    document.querySelector("#_tl").addEventListener('click', () => {
+      document.querySelector("#_tl").addEventListener('click', () => {
       document.querySelector("#_tr").classList.remove('_c')
       document.querySelector("#_tl").classList.add('_c')
+      var h = document.querySelectorAll('.weui-picker__content')[0].style.transform.split(',')
+      var m = document.querySelectorAll('.weui-picker__content')[2].style.transform.split(',')
+      var hourtNew = 102 - document.querySelector('._c ._s-time').innerText.split(':')[0] * 34 + 'px'
+      var minNew = 102 - document.querySelector('._c ._s-time').innerText.split(':')[1] * 34 + 'px'
+      document.querySelectorAll('.weui-picker__content')[0].style.transform = h[0] + ',' + hourtNew + ',' + h[2]
+      document.querySelectorAll('.weui-picker__content')[2].style.transform = m[0] + ',' + minNew + ',' + m[2]
     })
     document.querySelector("#_tr").addEventListener('click', () => {
       document.querySelector("#_tl").classList.remove('_c')
       document.querySelector("#_tr").classList.add('_c')
+      var h = document.querySelectorAll('.weui-picker__content')[1].style.transform.split(',')
+      var m = document.querySelectorAll('.weui-picker__content')[2].style.transform.split(',')
+      var hourtNew = 102 - document.querySelector('._c ._s-time').innerText.split(':')[0] * 34 + 'px'
+      var minNew = 102 - document.querySelector('._c ._s-time').innerText.split(':')[1] * 34 + 'px'
+      document.querySelectorAll('.weui-picker__content')[0].style.transform = h[0] + ',' + hourtNew + ',' + h[2]
+      document.querySelectorAll('.weui-picker__content')[2].style.transform = m[0] + ',' + minNew + ',' + m[2]
     })
     if (!params.start) {
       document.querySelector("#_tr").click()

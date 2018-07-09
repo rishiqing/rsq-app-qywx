@@ -69,7 +69,11 @@
                 }).catch(() => {})
                 break
               case 1:
-                that.$store.dispatch('deleteChildPlan', {id: that.item.id})
+                that.$store.dispatch('deleteChildPlan', {id: that.item.id}).catch(function (res) {
+                  if (res.body.code === 400370) {
+                    window.rsqadmg.execute('alert', {message: '不能删除最后一个子计划'})
+                  }
+                })
                 break
               default:
                 break

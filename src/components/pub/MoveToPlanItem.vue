@@ -75,7 +75,7 @@
   import dateUtil from 'ut/dateUtil'
 
   export default {
-    name: 'ChildPlan',
+    name: 'MoveToPlanItem',
     components: {
     },
     data () {
@@ -122,7 +122,11 @@
         return this.$store.state.todo.currentTodo.kanbanItem.kanbanItemId || null
       },
       kanbanId () {
-        return this.$store.state.todo.currentTodo.kanbanItem.kanbanId || null
+        if (this.$store.state.todo.currentTodo.kanbanItem) {
+          return this.$store.state.todo.currentTodo.kanbanItem.kanbanId
+        } else {
+          return null
+        }
       },
       kanbanName () {
         return this.$store.state.todo.currentTodo.kanbanItem.kanbanName || null
@@ -181,7 +185,7 @@
       },
       move () {
         var that = this
-        if (this.clickId !== this.levelTwoId) {
+        if (this.clickId && this.clickId !== this.levelTwoId) {
           this.$store.dispatch('moveToPlan', {todoId: this.id, cardId: this.clickId, createTaskDate: Number(dateUtil.dateNum2Text(new Date().getTime()))}).then(function () {
             var url = window.location.href.split('#')
             var name = that.$store.getters.loginUser.authUser.name

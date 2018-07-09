@@ -41,7 +41,7 @@
         if (this.$store.state.todo.currentTodo.editControl.from) {
           this.$router.push('/sche/todo/move')
         } else {
-          window.rsqadmg.exec('alert', {message: '您非该任务创建者，暂时无法进行此操作！'})
+          window.rsqadmg.exec('alert', {message: '您非该任务创建者，无法进行此操作！'})
         }
       }
     }

@@ -30,7 +30,7 @@
         class="all-people"
         @tap="back">
         <span class="b9b">
-          .../
+          /.../
         </span>
         返回上一级
       </v-touch>
@@ -57,7 +57,9 @@
           <i class="icon2-arrow-right-small arrow right department-right"/>
         </v-touch>
       </div>
-      <li v-if="!singleSelect">
+      <li
+        v-if="!singleSelect"
+        class="all-select">
         <v-touch
           class="sel-member-info"
           @tap="allIndex">
@@ -68,7 +70,7 @@
             <i class="icon2-selected sel-icon-selected"/>
           </div>
           <div
-            class="sel-member-name">
+            class="sel-member-name all-name">
             全选
           </div>
         </v-touch>
@@ -110,7 +112,9 @@
       v-if="arr.length !== 0 && !index"
       v-show="!nameSearch"
       class="sel-member-list">
-      <li v-if="!singleSelect">
+      <li
+        v-if="!singleSelect"
+        class="all-select">
         <v-touch
           class="sel-member-info"
           @tap="all">
@@ -121,7 +125,7 @@
             <i class="icon2-selected sel-icon-selected"/>
           </div>
           <div
-            class="sel-member-name">
+            class="sel-member-name all-name">
             全选
           </div>
         </v-touch>
@@ -209,7 +213,7 @@
       </li>
     </ul>
     <ul
-      v-show="nameSearch"
+      v-show="nameSearch && filteredUsers.length > 0"
       class="sel-member-list mt">
       <v-touch
         v-for="member in filteredUsers"
@@ -242,14 +246,14 @@
         </div>
       </v-touch>
     </ul>
-    <!-- <div
-      v-else
+    <div
+      v-if="filteredUsers.length === 0 && nameSearch"
       class="sel-member-blank">
       <div>
         <i class="icon2-search"/>
       </div>
       <p>搜索无结果</p>
-    </div> -->
+    </div>
     <div class="sel-footer">
       <div class="sel-footer-list-container">
         <ul class="sel-footer-list">
@@ -787,6 +791,9 @@
     font-size: 14px;
     padding-left: 15px;
     border-bottom: 0.5px solid #d4d4d4;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
     .all-people{
       color: #4F77AA
     }
@@ -820,5 +827,11 @@
   }
   .department-right{
     top: auto;
+  }
+  ul.sel-member-list .all-select{
+    height: 46px;
+  }
+  .all-name{
+    line-height: 46px
   }
 </style>

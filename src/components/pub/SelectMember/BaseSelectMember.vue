@@ -54,8 +54,8 @@
             class="sel-member-name">
             组织结构
           </div>
+          <i class="icon2-arrow-right-small arrow right department-right"/>
         </v-touch>
-        <i class="icon2-arrow-right-small arrow right"/>
       </div>
       <li v-if="!singleSelect">
         <v-touch
@@ -754,6 +754,7 @@
   }
   .sel-member-avatar {
     box-sizing: border-box;padding: 10px;
+    padding-left: 0;
   }
   .sel-member-name {
     font-size: 16px;
@@ -813,5 +814,12 @@
   }
   .b9b{
     color: #9B9B9B
+  }
+  .department{
+    padding-left: 15px;
+    position: relative;
+  }
+  .department-right{
+    top: auto;
   }
 </style>

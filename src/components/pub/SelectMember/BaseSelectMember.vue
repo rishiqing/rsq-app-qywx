@@ -73,12 +73,12 @@
           </div>
         </v-touch>
       </li>
-      <li
+      <v-touch
         v-for="member in localList"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -102,7 +102,7 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
-      </li>
+      </v-touch>
     </ul>
     <!-- 组织结构层 -->
     <!-- 有数据的时候(一般情况肯定有)并且非主页显示 -->
@@ -127,13 +127,13 @@
         </v-touch>
       </li>
       <!-- 正常人员 -->
-      <li
+      <v-touch
         v-for="member in newStaff.userList"
         v-if="member.orgUser"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -157,15 +157,15 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
-      </li>
+      </v-touch>
       <!-- 未分配人员 -->
-      <li
+      <v-touch
         v-for="member in unDept.userList"
         v-if="member.orgUser && cache.length === 0"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -189,7 +189,7 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
-      </li>
+      </v-touch>
       <!-- 部门列表 -->
       <li
         v-for="member in newStaff.childList"
@@ -210,14 +210,13 @@
     </ul>
     <ul
       v-show="nameSearch"
-      :class="{'mt': cache.length === 0}"
-      class="sel-member-list">
-      <li
+      class="sel-member-list mt">
+      <v-touch
         v-for="member in filteredUsers"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -241,7 +240,7 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
-      </li>
+      </v-touch>
     </ul>
     <!-- <div
       v-else

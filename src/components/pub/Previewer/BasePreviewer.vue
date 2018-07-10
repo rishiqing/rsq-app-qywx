@@ -106,6 +106,10 @@
   .close{
     height: 46px;
     flex: 0 0 auto;
+    position: fixed;
+    z-index: 999999;
+    bottom: 0;
+    width: 100%;
   }
   .flex-item{
     flex: 1 0 auto;

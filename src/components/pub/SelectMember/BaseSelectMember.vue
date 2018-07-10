@@ -30,7 +30,7 @@
         class="all-people"
         @tap="back">
         <span class="b9b">
-          .../
+          /.../
         </span>
         返回上一级
       </v-touch>
@@ -47,17 +47,19 @@
         <v-touch
           class="sel-member-info organization-inner"
           @tap="goNext">
-          <div class="sel-member-avatar">
-            <img src="../../../assets/img/staff.svg">
+          <div class="sel-member-avatar department">
+            <img src="../../../assets/img/department.svg">
           </div>
           <div
             class="sel-member-name">
             组织结构
           </div>
+          <i class="icon2-arrow-right-small arrow right department-right"/>
         </v-touch>
-        <i class="icon2-arrow-right-small arrow right"/>
       </div>
-      <li v-if="!singleSelect">
+      <li
+        v-if="!singleSelect"
+        class="all-select">
         <v-touch
           class="sel-member-info"
           @tap="allIndex">
@@ -68,17 +70,17 @@
             <i class="icon2-selected sel-icon-selected"/>
           </div>
           <div
-            class="sel-member-name">
+            class="sel-member-name all-name">
             全选
           </div>
         </v-touch>
       </li>
-      <li
+      <v-touch
         v-for="member in localList"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -102,7 +104,7 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
-      </li>
+      </v-touch>
     </ul>
     <!-- 组织结构层 -->
     <!-- 有数据的时候(一般情况肯定有)并且非主页显示 -->
@@ -110,7 +112,9 @@
       v-if="arr.length !== 0 && !index"
       v-show="!nameSearch"
       class="sel-member-list">
-      <li v-if="!singleSelect">
+      <li
+        v-if="!singleSelect"
+        class="all-select">
         <v-touch
           class="sel-member-info"
           @tap="all">
@@ -121,19 +125,19 @@
             <i class="icon2-selected sel-icon-selected"/>
           </div>
           <div
-            class="sel-member-name">
+            class="sel-member-name all-name">
             全选
           </div>
         </v-touch>
       </li>
       <!-- 正常人员 -->
-      <li
+      <v-touch
         v-for="member in newStaff.userList"
         v-if="member.orgUser"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -157,15 +161,15 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
-      </li>
+      </v-touch>
       <!-- 未分配人员 -->
-      <li
+      <v-touch
         v-for="member in unDept.userList"
         v-if="member.orgUser && cache.length === 0"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -189,7 +193,7 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
-      </li>
+      </v-touch>
       <!-- 部门列表 -->
       <li
         v-for="member in newStaff.childList"
@@ -209,15 +213,14 @@
       </li>
     </ul>
     <ul
-      v-show="nameSearch"
-      :class="{'mt': cache.length === 0}"
-      class="sel-member-list">
-      <li
+      v-show="nameSearch && filteredUsers.length > 0"
+      class="sel-member-list mt">
+      <v-touch
         v-for="member in filteredUsers"
-        :key="member.id">
-        <v-touch
-          class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -241,16 +244,16 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
-      </li>
+      </v-touch>
     </ul>
-    <!-- <div
-      v-else
+    <div
+      v-if="filteredUsers.length === 0 && nameSearch"
       class="sel-member-blank">
       <div>
         <i class="icon2-search"/>
       </div>
       <p>搜索无结果</p>
-    </div> -->
+    </div>
     <div class="sel-footer">
       <div class="sel-footer-list-container">
         <ul class="sel-footer-list">
@@ -754,6 +757,7 @@
   }
   .sel-member-avatar {
     box-sizing: border-box;padding: 10px;
+    padding-left: 0;
   }
   .sel-member-name {
     font-size: 16px;
@@ -787,6 +791,9 @@
     font-size: 14px;
     padding-left: 15px;
     border-bottom: 0.5px solid #d4d4d4;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
     .all-people{
       color: #4F77AA
     }
@@ -813,5 +820,18 @@
   }
   .b9b{
     color: #9B9B9B
+  }
+  .department{
+    padding-left: 15px;
+    position: relative;
+  }
+  .department-right{
+    top: auto;
+  }
+  ul.sel-member-list .all-select{
+    height: 46px;
+  }
+  .all-name{
+    line-height: 46px
   }
 </style>

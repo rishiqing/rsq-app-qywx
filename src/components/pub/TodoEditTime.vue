@@ -329,7 +329,7 @@
      */
     beforeRouteLeave (to, from, next) {
       //  做pub区缓存
-      if (to.name !== 'todoNew') {
+      if (to.name !== 'todoNew' && to.name !== 'todoEditAlert') {
         var that = this
         var url = window.location.href.split('#')
         var name = that.$store.getters.loginUser.authUser.name

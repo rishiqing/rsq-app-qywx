@@ -47,8 +47,8 @@
         <v-touch
           class="sel-member-info organization-inner"
           @tap="goNext">
-          <div class="sel-member-avatar">
-            <img src="../../../assets/img/staff.svg">
+          <div class="sel-member-avatar department">
+            <img src="../../../assets/img/department.svg">
           </div>
           <div
             class="sel-member-name">

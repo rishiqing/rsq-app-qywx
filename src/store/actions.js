@@ -230,7 +230,7 @@ export default {
     datas.todoId = p.todoId
     datas.startDate = p.startDate
     datas.endDate = p.endDate
-    datas.joinUsers = p.joinUsers
+    datas.joinUsers = p.joinUsers ? p.joinUsers.toString() : ''
     datas.dates = p.dates
     return api.todo.postSubtodo(datas)
       .then(item => {
@@ -1183,7 +1183,7 @@ export default {
     datas.kanbanItemId = p.id
     datas.startDate = p.startDate
     datas.endDate = p.endDate
-    datas.joinUser = p.joinUsers.toString()
+    datas.joinUser = p.joinUsers ? p.joinUsers.toString() : ''
     datas.dates = p.dates
     return api.todo.createKanbanSubtodo(datas)
       .then((result) => {

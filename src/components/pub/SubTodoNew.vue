@@ -121,8 +121,6 @@
     mounted () {
       if (this.subId) {
         this.joinUserRsqIds = this.subId
-      } else {
-        this.joinUserRsqIds = this.pUserId
       }
       this.sub = this.$store.state.todo.currentSubtodoDate
     },
@@ -198,7 +196,7 @@
         datas.todoId = this.todoId
         datas.startDate = this.sub.startDate || ''
         datas.endDate = this.sub.endDate || ''
-        datas.joinUsers = this.joinUserRsqIds[0] || ''
+        datas.joinUsers = this.joinUserRsqIds.length === 0 ? '' : this.joinUserRsqIds[0].toString()
         datas.dates = this.sub.dates || ''
         this.$store.dispatch('createSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
@@ -208,20 +206,18 @@
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
-            if (that.joinUserRsqIds) {
-              var url = window.location.href.split('#')
-              var name = that.$store.getters.loginUser.authUser.name
-              var datas = {
-                corpId: that.$store.getters.loginUser.authUser.corpId,
-                agentid: that.$store.getters.loginUser.authUser.corpId,
-                title: name + ' 分配给你一条子任务',
-                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-                description: that.$store.state.todo.currentTodo.pTitle,
-                receiverIds: that.joinUserRsqIds[0].toString()
-              }
-              // console.log(datas)
-              that.$store.dispatch('qywxSendMessage', datas)
+            var url = window.location.href.split('#')
+            var name = that.$store.getters.loginUser.authUser.name
+            var datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 分配给你一条子任务',
+              url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+              description: that.$store.state.todo.currentTodo.pTitle,
+              receiverIds: that.joinUserRsqIds.length === 0 ? '' : that.joinUserRsqIds[0].toString()
             }
+            // console.log(datas)
+            that.$store.dispatch('qywxSendMessage', datas)
           })
           .then(function () {
             that.$router.go(-1)

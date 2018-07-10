@@ -129,8 +129,6 @@
     mounted () {
       if (this.subId.length !== 0) {
         this.joinUserRsqIds = this.subId
-      } else {
-        this.joinUserRsqIds = this.pUserIds
       }
       this.sub = this.$store.state.todo.currentSubtodoDate
     },
@@ -195,7 +193,8 @@
         datas.id = this.currentKanbanItemId
         datas.startDate = this.sub.startDate || ''
         datas.endDate = this.sub.endDate || ''
-        datas.joinUsers = this.joinUserRsqIds[0] || ''
+        datas.joinUsers = this.joinUserRsqIds.length === 0 ? '' : this.joinUserRsqIds[0].toString()
+        // console.log(datas.joinUsers)
         datas.dates = this.sub.dates || ''
         this.$store.dispatch('createKanbanSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
@@ -205,20 +204,18 @@
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
-            if (that.joinUserRsqIds) {
-              var url = window.location.href.split('#')
-              var name = that.$store.getters.loginUser.authUser.name
-              var datas = {
-                corpId: that.$store.getters.loginUser.authUser.corpId,
-                agentid: that.$store.getters.loginUser.authUser.corpId,
-                title: name + ' 分配给你一条子任务',
-                url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
-                description: that.$store.state.plan.currentKanbanItem.name,
-                receiverIds: that.joinUserRsqIds[0].toString()
-              }
-              // console.log(datas)
-              that.$store.dispatch('qywxSendMessage', datas)
+            var url = window.location.href.split('#')
+            var name = that.$store.getters.loginUser.authUser.name
+            var datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 分配给你一条子任务',
+              url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+              description: that.$store.state.plan.currentKanbanItem.name,
+              receiverIds: that.joinUserRsqIds.length === 0 ? '' : that.joinUserRsqIds[0].toString()
             }
+            // console.log(datas)
+            return that.$store.dispatch('qywxSendMessage', datas)
           })
           .then(function () {
             that.$router.go(-1)

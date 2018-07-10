@@ -18,6 +18,24 @@ function getJsonFromUrl() {
   });
   return result;
 }
+function checkDevice() {
+  var userAgent = window.navigator.userAgent.toLowerCase()
+  var ios = /iphone|ipod|ipad/.test( userAgent )
+  var Windows = /windows/.test( userAgent )
+  var Macintosh = /Macintosh/.test( userAgent )
+  var result = {}
+
+  if (ios) {
+    result['os'] = 'iOS'
+  } else if (Windows) {
+    result['os'] = 'Windows'
+  } else if (Macintosh) {
+    result['os'] = 'Macintosh'
+  } else {
+    result['os'] = 'unknow'
+  }
+  return result
+}
 
 //写cookies
 
@@ -89,7 +107,6 @@ var loading
  */
 rsqAdapterManager.register({
   auth: function(params){
-
     //------------------------------------------------------------
 //     var authUser = {
 //   "id": 2,
@@ -145,13 +162,16 @@ rsqAdapterManager.register({
               }, function(result){
                 //  企业微信打开默认浏览器直接登录
                 if (wx) {
-                  wx.invoke('openDefaultBrowser', {
-                    'url': rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)
-                  }, function(res){
-                    if(res.err_msg != "openDefaultBrowser:ok"){
-                      //错误处理
-                    }
-                  });
+                  if (checkDevice().os === 'Windows' || checkDevice().os === 'Macintosh') {
+                    window.location = rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)
+                  }
+                  // wx.invoke('openDefaultBrowser', {
+                  //   'url': rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)
+                  // }, function(res){
+                  //   if(res.err_msg != "openDefaultBrowser:ok"){
+                  //     //错误处理
+                  //   }
+                  // });
                 }
                 var resJson = JSON.parse(result);
                 // console.log(JSON.stringify(resJson))
@@ -632,16 +652,5 @@ rsqAdapterManager.register({
       alert('localStorage not found!')
     }
   },
-  checkDevice: function() {
-    var userAgent = window.navigator.userAgent.toLowerCase()
-    var ios = /iphone|ipod|ipad/.test( userAgent )
-    var result = {}
-
-    if(ios) {
-      result['os'] = 'iOS'
-    } else {
-      result['os'] = 'unknown'
-    }
-    return result
-  }
+  checkDevice: checkDevice
 })

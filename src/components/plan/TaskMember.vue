@@ -51,6 +51,8 @@
 <style lang="scss" scoped>
   .task-member{
     margin-top: 0.2rem;
+    max-height: 24px;
+    overflow: hidden;
   }
   .task-member> *{
     border-radius: 0;

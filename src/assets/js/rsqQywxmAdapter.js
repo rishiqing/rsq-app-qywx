@@ -163,7 +163,7 @@ rsqAdapterManager.register({
                 //  企业微信打开默认浏览器直接登录
                 if (wx) {
                   if (checkDevice().os === 'Windows' || checkDevice().os === 'Macintosh') {
-                    window.location = rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)
+                    window.location.href = rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)
                   }
                   // wx.invoke('openDefaultBrowser', {
                   //   'url': rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)

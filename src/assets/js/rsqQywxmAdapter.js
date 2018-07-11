@@ -22,7 +22,7 @@ function checkDevice() {
   var userAgent = window.navigator.userAgent.toLowerCase()
   var ios = /iphone|ipod|ipad/.test( userAgent )
   var Windows = /windows/.test( userAgent )
-  var Macintosh = /Macintosh/.test( userAgent )
+  var Macintosh = /macintosh/.test( userAgent )
   var result = {}
 
   if (ios) {

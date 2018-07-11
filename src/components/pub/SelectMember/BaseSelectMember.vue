@@ -45,7 +45,7 @@
       class="sel-member-list">
       <div class="organization">
         <v-touch
-          class="sel-member-info organization-inner"
+          class="sel-member-info organization-inner relative"
           @tap="goNext">
           <div class="sel-member-avatar department">
             <img src="../../../assets/img/department.svg">
@@ -833,5 +833,8 @@
   }
   .all-name{
     line-height: 46px
+  }
+  .relative{
+    position: relative;
   }
 </style>

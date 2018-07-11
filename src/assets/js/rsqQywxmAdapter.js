@@ -30,7 +30,7 @@ function checkDevice() {
   } else if (Windows) {
     result['os'] = 'Windows'
   } else if (Macintosh) {
-    result['os'] = 'Macintosh'
+    result['os'] = 'macintosh'
   } else {
     result['os'] = 'unknow'
   }

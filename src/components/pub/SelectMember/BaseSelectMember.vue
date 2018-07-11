@@ -250,7 +250,7 @@
       v-if="filteredUsers.length === 0 && nameSearch"
       class="sel-member-blank">
       <div>
-        <i class="icon2-search"/>
+        <img src="../../../assets/img/nopeople.svg">
       </div>
       <p>搜索无结果</p>
     </div>

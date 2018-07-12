@@ -30,7 +30,7 @@
       </template>
       <div class="wrap">
         <img
-          src="../../assets/img/addmenmber.png"
+          src="../../assets/img/addsubtodo.svg"
           class="add">
         <v-touch
           class="write"

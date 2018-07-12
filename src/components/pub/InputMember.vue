@@ -137,11 +137,10 @@
       },
       createrRsqIds () {
         this.fetchUserIds(this.createrRsqIds, 'creatorList')
+      },
+      userRsqIds (newIds) {
+        this.fetchUserIds(this.userRsqIds, 'localList')
       }
-      // userRsqIds (newIds) {
-      //   this.userRsqIds = newIds
-      //   this.fetchUserIds(this.userRsqIdArray, 'localList')
-      // }
     },
     created () {
       this.fetchUserIds(this.userRsqIds, 'localList')
@@ -204,7 +203,7 @@
           })
         }
         var old = [...this.selectRsqidArray]
-        console.log(this.realUserRsqIds)
+        // console.log(this.realUserRsqIds)
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,

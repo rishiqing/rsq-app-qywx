@@ -216,7 +216,6 @@
       }
     },
     created () {
-      this.findId(this.realUserRsqIds)
       this.initData()
 //      var that = this
       window.rsqadmg.execute('setTitle', {title: '任务详情'})
@@ -261,6 +260,7 @@
               })
             })
           .then(() => {
+            this.findId(this.realUserRsqIds)
             this.fetchCommentIds()
             // window.rsqadmg.exec('hideLoader')
           })

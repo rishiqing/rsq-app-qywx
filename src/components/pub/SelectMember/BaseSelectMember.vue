@@ -367,6 +367,21 @@
       // 非首页全选
       all () {
         var that = this
+        if (this.allSelect === true) {
+          if (that.cache.length === 0) {
+            this.unDept.userList.map(function (o) {
+              if (o.orgUser) {
+                that.changeSelect(o, false)
+              }
+            })
+          }
+          this.newStaff.userList.map(function (o) {
+            if (o.orgUser) {
+              that.changeSelect(o, false)
+            }
+          })
+          return
+        }
         // 分有未分配部门无未分配部门情况
         if (that.cache.length === 0) {
           this.unDept.userList.map(function (o) {
@@ -380,7 +395,6 @@
             that.changeSelect(o, true)
           }
         })
-        this.allSelectChange(true)
       },
       allSelectChange (tag) {
         this.allSelect = tag
@@ -415,12 +429,15 @@
       // 首页全选
       allIndex () {
         var that = this
-        // this.allIndexSelect = true
+        if (this.allIndexSelect === true) {
+          this.localList.map(function (o) {
+            that.changeSelect(o, false)
+          })
+          return
+        }
         this.localList.map(function (o) {
           that.changeSelect(o, true)
-          // o.isSelected = true
         })
-        this.localSelectedList = [...this.localList]
       },
       selfClose () {
         window.onpopstate = null
@@ -576,6 +593,7 @@
         }
         mem.isSelected = isSelect
         if (isSelect === false) {
+          // 如果有一个被取消，就单人
           this.allSelectChange(false)
         } else {
           var tag = this.newStaff.userList.every(function (o) {

@@ -204,7 +204,7 @@
           })
         }
         var old = [...this.selectRsqidArray]
-        console.log(this.realUserRsqIds)
+        // console.log(this.realUserRsqIds)
         SelectMember.show({
           nameAttribute: 'name',
           maximum: this.maximum,

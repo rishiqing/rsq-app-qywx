@@ -268,6 +268,20 @@ const router = new Router({
       component: PlanTodoComment,
       meta: {requireAuth: true}
     },
+    // 计划任务移动
+    {
+      path: '/plan/todo/move',
+      name: 'MoveToPlan',
+      component: MoveToPlanList,
+      meta: {requireAuth: true}
+    },
+    // 计划任务读取列表
+    {
+      path: '/plan/todo/:planId/moveplan',
+      name: 'PlanMoveToPlanItem',
+      component: MoveToPlanItem,
+      meta: {requireAuth: true}
+    },
     //  计划todo详情页面
     {
       path: '/plan/todo/:planTodoId',
@@ -275,6 +289,7 @@ const router = new Router({
       component: PlanTodoEdit,
       meta: {requireAuth: true}
     },
+
     //  计划的子任务列表页面
     {
       path: '/plan/todo/:planTodoId/subtodo',

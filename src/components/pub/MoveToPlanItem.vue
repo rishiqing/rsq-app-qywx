@@ -84,7 +84,8 @@
         currentSubPlan: {
           name: ''
         },
-        clickId: 0
+        clickId: 0,
+        plan: false
       }
     },
     computed: {
@@ -119,10 +120,16 @@
         return this.currentPlan.editControl.removeKB
       },
       kanbanItem () {
-        return this.$store.state.todo.currentTodo.kanbanItem.kanbanItemId || null
+        if (this.plan) {
+          return this.$store.state.plan.currentKanbanItem.childKanbanId
+        } else {
+          return this.$store.state.todo.currentTodo.kanbanItem.kanbanItemId || null
+        }
       },
       kanbanId () {
-        if (this.$store.state.todo.currentTodo.kanbanItem) {
+        if (this.plan) {
+          return this.$store.state.plan.currentKanbanItem.kanbanCardId
+        } else if (this.$store.state.todo.currentTodo.kanbanItem) {
           return this.$store.state.todo.currentTodo.kanbanItem.kanbanId
         } else {
           return null
@@ -132,12 +139,18 @@
         return this.$store.state.todo.currentTodo.kanbanItem.kanbanName || null
       },
       levelTwoId () {
-        if (this.$store.state.todo.currentTodo.from) {
+        if (this.plan) {
+          return this.$store.state.plan.currentKanbanItem.kanbanCardId
+        } else if (!this.plan && this.$store.state.todo.currentTodo.from) {
           return this.$store.state.todo.currentTodo.from.levelTwoId || null
         }
       },
       id () {
-        return this.$store.state.todo.currentTodo.id
+        if (this.plan) {
+          return this.$store.state.plan.currentKanbanItem.id
+        } else {
+          return this.$store.state.todo.currentTodo.id
+        }
       },
       pId () {
         return this.$store.state.currentPlan.id
@@ -148,6 +161,7 @@
     },
     mounted () {
       var that = this
+      this.plan = this.$route.query.target === 'plan'
       this.clickId = this.levelTwoId || null
       window.rsqadmg.exec('setTitle', {title: '选择任务列表'})
       // 拿到看板列表以及看板的任务列表。。。好多数据
@@ -157,14 +171,19 @@
           this.ifShowCreate = true
         }
       }
-      var id = this.$store.state.todo.currentTodo.from ? this.$store.state.todo.currentTodo.from.levelFourId : null
-      if (this.$store.state.todo.currentTodo.kanbanItem && this.childPlanList.some(function (o) {
+      var id = null
+      if (this.plan) {
+        id = this.$store.state.plan.currentKanbanItem.childKanbanId
+      } else {
+        id = this.$store.state.todo.currentTodo.from ? this.$store.state.todo.currentTodo.from.levelFourId : null
+      }
+      if ((this.plan || this.$store.state.todo.currentTodo.kanbanItem) && this.childPlanList.some(function (o) {
         return o.id === id
       })) {
         that.$store.dispatch('getCardList', {id: id}).then(
           (res) => {
             that.$store.commit('SAVE_CARD', res.kanbanCardList)
-            that.currentSubPlan.name = that.$store.state.todo.currentTodo.from.levelFourName
+            that.currentSubPlan.name = that.plan ? that.$store.state.plan.currentKanbanItem.childKanbanName : that.$store.state.todo.currentTodo.from.levelFourName
           })
       } else {
         if (this.childPlanList) {
@@ -185,7 +204,25 @@
       },
       move () {
         var that = this
-        if (this.clickId && this.clickId !== this.levelTwoId) {
+        if (this.plan && this.clickId && this.clickId !== this.levelTwoId) {
+          this.$store.dispatch('planToPlan', {itemId: this.id, cardId: this.clickId}).then(function (res) {
+            var url = window.location.href.split('#')
+            var name = that.$store.getters.loginUser.authUser.name
+            var datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 将任务移至计划 ' + that.pName,
+              url: url[0] + '#' + '/plan/' + res.kanbanId + '/child-plan',
+              description: res.name,
+              receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
+            }
+            if (that.pId !== that.kanbanId) {
+              return that.$store.dispatch('qywxSendMessage', datas)
+            }
+          }).then(function () {
+            that.$router.go(-2)
+          })
+        } else if (this.clickId && this.clickId !== this.levelTwoId) {
           this.$store.dispatch('moveToPlan', {todoId: this.id, cardId: this.clickId, createTaskDate: Number(dateUtil.dateNum2Text(new Date().getTime()))}).then(function () {
             var url = window.location.href.split('#')
             var name = that.$store.getters.loginUser.authUser.name

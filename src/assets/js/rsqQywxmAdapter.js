@@ -18,6 +18,24 @@ function getJsonFromUrl() {
   });
   return result;
 }
+function checkDevice() {
+  var userAgent = window.navigator.userAgent.toLowerCase()
+  var ios = /iphone|ipod|ipad/.test( userAgent )
+  var Windows = /windows/.test( userAgent )
+  var Macintosh = /macintosh/.test( userAgent )
+  var result = {}
+
+  if (ios) {
+    result['os'] = 'iOS'
+  } else if (Windows) {
+    result['os'] = 'Windows'
+  } else if (Macintosh) {
+    result['os'] = 'Macintosh'
+  } else {
+    result['os'] = 'unknow'
+  }
+  return result
+}
 
 //写cookies
 
@@ -89,7 +107,6 @@ var loading
  */
 rsqAdapterManager.register({
   auth: function(params){
-
     //------------------------------------------------------------
 //     var authUser = {
 //   "id": 2,
@@ -145,13 +162,16 @@ rsqAdapterManager.register({
               }, function(result){
                 //  企业微信打开默认浏览器直接登录
                 if (wx) {
-                  wx.invoke('openDefaultBrowser', {
-                    'url': rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)
-                  }, function(res){
-                    if(res.err_msg != "openDefaultBrowser:ok"){
-                      //错误处理
-                    }
-                  });
+                  if (checkDevice().os === 'Windows' || checkDevice().os === 'Macintosh') {
+                    window.location.href = rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)
+                  }
+                  // wx.invoke('openDefaultBrowser', {
+                  //   'url': rsqConfig.rsqServer + 'task/qywxOauth/tokenDirectSignIn?token=' + encodeURIComponent(authUser.rsqLoginToken)
+                  // }, function(res){
+                  //   if(res.err_msg != "openDefaultBrowser:ok"){
+                  //     //错误处理
+                  //   }
+                  // });
                 }
                 var resJson = JSON.parse(result);
                 // console.log(JSON.stringify(resJson))
@@ -449,32 +469,21 @@ rsqAdapterManager.register({
   datePicker: function(params){
   },
   timePicker: function(params){
-    var hours = [],
-    minites = [];
-    if (!hours.length) {
-      for (var i = 0; i< 24; i++) {
-        var hours_item = {};
-        hours_item.label = ('' + i).length === 1 ? '0' + i + '时' : '' + i + '时';
-        hours_item.value = i;
-        hours.push(hours_item);
-      }
+    var minites = []
+    for (var j= 0; j <= 100; j++) {
+      var minites_item = {};
+      minites_item.label = j
+      minites_item.value = j;
+      minites.push(minites_item);
     }
-    if (!minites.length) {
-      for (var j= 0; j < 60; j++) {
-        var minites_item = {};
-        minites_item.label = ('' + j).length === 1 ? '0' + j + '分' : '' + j + '分';
-        minites_item.value = j;
-        minites.push(minites_item);
-      }
-    }
-    var defString = params.strInit || '00:00';
-    var defArray = [defString.substr(0, 2), ':', defString.substr(3, 2)];
-    weui.picker(hours, minites, {
+    var when = [{label: '提前', value: 'begin'}]
+    var unit = [{label: '分钟', value: 'min'},{label: '小时', value: 'hour'}]
+    var defaultValue = ['begin', '50', 'min']
+    weui.picker(when, minites, unit, {
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
-      defaultValue: defArray,
+      defaultValue: defaultValue,
       onConfirm: function(result) {
-        var time = result[0].value + ':' + result[1].value;
-        var result = {value: time}
+        var result = {value: result}
         rsqChk(params.success, [result]);
       }
     });
@@ -518,6 +527,35 @@ rsqAdapterManager.register({
       id: 'time-picker' + new Date().getTime(),  // 使用变化的id，保证不做缓存，每次都新建picker
       defaultValue: defArray,
       onChange: function (result) {
+        var h = (102 - parseInt(document.querySelectorAll('.weui-picker__content')[0].style.transform.split(',')[1]))/34
+        var m = (102 - parseInt(document.querySelectorAll('.weui-picker__content')[2].style.transform.split(',')[1]))/34
+        var hz = 0 
+        var mz = 0
+        if (isNaN(m)){
+          m = parseInt(result[2].value)
+        }
+        if (h < 10) {
+          hz = "0" + h
+        } else {
+          hz = h
+        }
+        if (m < 10) {
+          mz = "0" + m
+        } else {
+          mz = m
+        }
+        result = [
+        {
+          label: hz +"时",
+          value: hz
+        },
+        {
+          label: '',
+          value: 0
+        },{
+          label: mz +"分",
+          value: mz
+        }]
         if (params.start) {
           var f = result[0].label.substr(0,1)
           var s = result[0].label.substr(1,1) * 1 + 1
@@ -534,7 +572,6 @@ rsqAdapterManager.register({
 
         }
         var time = result[0].label.substr(0,2) + ':' + result[2].label.substr(0,2)
-        console.log(time)
         document.querySelector('._c ._s-time').innerHTML = time
       },
       onConfirm: function(result) {
@@ -545,15 +582,27 @@ rsqAdapterManager.register({
         rsqChk(params.success, [startTime, endTime]);
       }
     });
-    document.querySelector('#endTime').innerHTML = defString2
+      document.querySelector('#endTime').innerHTML = defString2
     //设定左右切换
-    document.querySelector("#_tl").addEventListener('click', () => {
+      document.querySelector("#_tl").addEventListener('click', () => {
       document.querySelector("#_tr").classList.remove('_c')
       document.querySelector("#_tl").classList.add('_c')
+      var h = document.querySelectorAll('.weui-picker__content')[0].style.transform.split(',')
+      var m = document.querySelectorAll('.weui-picker__content')[2].style.transform.split(',')
+      var hourtNew = 102 - document.querySelector('._c ._s-time').innerText.split(':')[0] * 34 + 'px'
+      var minNew = 102 - document.querySelector('._c ._s-time').innerText.split(':')[1] * 34 + 'px'
+      document.querySelectorAll('.weui-picker__content')[0].style.transform = h[0] + ',' + hourtNew + ',' + h[2]
+      document.querySelectorAll('.weui-picker__content')[2].style.transform = m[0] + ',' + minNew + ',' + m[2]
     })
     document.querySelector("#_tr").addEventListener('click', () => {
       document.querySelector("#_tl").classList.remove('_c')
       document.querySelector("#_tr").classList.add('_c')
+      var h = document.querySelectorAll('.weui-picker__content')[1].style.transform.split(',')
+      var m = document.querySelectorAll('.weui-picker__content')[2].style.transform.split(',')
+      var hourtNew = 102 - document.querySelector('._c ._s-time').innerText.split(':')[0] * 34 + 'px'
+      var minNew = 102 - document.querySelector('._c ._s-time').innerText.split(':')[1] * 34 + 'px'
+      document.querySelectorAll('.weui-picker__content')[0].style.transform = h[0] + ',' + hourtNew + ',' + h[2]
+      document.querySelectorAll('.weui-picker__content')[2].style.transform = m[0] + ',' + minNew + ',' + m[2]
     })
     if (!params.start) {
       document.querySelector("#_tr").click()
@@ -603,16 +652,5 @@ rsqAdapterManager.register({
       alert('localStorage not found!')
     }
   },
-  checkDevice: function() {
-    var userAgent = window.navigator.userAgent.toLowerCase()
-    var ios = /iphone|ipod|ipad/.test( userAgent )
-    var result = {}
-
-    if(ios) {
-      result['os'] = 'iOS'
-    } else {
-      result['os'] = 'unknown'
-    }
-    return result
-  }
+  checkDevice: checkDevice
 })

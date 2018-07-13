@@ -15,15 +15,72 @@
           @tap="clearNameSearch"/>
       </div>
     </div>
+    <v-touch
+      v-if="!index && !nameSearch"
+      class="back">
+      <v-touch
+        tag="span"
+        class="all-people"
+        @tap="goIndex">
+        所有成员
+      </v-touch>
+      <v-touch
+        v-if="cache.length > 0"
+        tag="span"
+        class="all-people"
+        @tap="back">
+        <span class="b9b">
+          /.../
+        </span>
+        返回上一级
+      </v-touch>
+      {{ '/' + newStaff.name }}
+    </v-touch>
+    <!-- 首页层 -->
+    <!-- 首页显示，搜索时候隐藏 -->
     <ul
-      v-if="filteredUsers.length !== 0"
+      v-if="index"
+      v-show="!nameSearch"
+      :class="{'mt': cache.length === 0}"
       class="sel-member-list">
+      <div class="organization">
+        <v-touch
+          class="sel-member-info organization-inner relative"
+          @tap="goNext">
+          <div class="sel-member-avatar department">
+            <img src="../../../assets/img/department.svg">
+          </div>
+          <div
+            class="sel-member-name">
+            组织结构
+          </div>
+          <i class="icon2-arrow-right-small arrow right department-right"/>
+        </v-touch>
+      </div>
       <li
-        v-for="member in filteredUsers"
-        :key="member.id">
+        v-if="!singleSelect"
+        class="all-select">
         <v-touch
           class="sel-member-info"
-          @tap="changeSelect(member, !member.isSelected)">
+          @tap="allIndex">
+          <div
+            :class="{'sel-selected': allIndexSelect}"
+            class="sel-member-icon">
+            <div class="sel-icon-selected-bg" />
+            <i class="icon2-selected sel-icon-selected"/>
+          </div>
+          <div
+            class="sel-member-name all-name">
+            全选
+          </div>
+        </v-touch>
+      </li>
+      <v-touch
+        v-for="member in localList"
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
           <div
             :class="{'sel-selected': member.isSelected}"
             class="sel-member-icon">
@@ -47,13 +104,153 @@
         <div class="sel-member-tag">
           {{ member.isCreator ? '创建者' : '' }}
         </div>
+      </v-touch>
+    </ul>
+    <!-- 组织结构层 -->
+    <!-- 有数据的时候(一般情况肯定有)并且非主页显示 -->
+    <ul
+      v-if="arr.length !== 0 && !index"
+      v-show="!nameSearch"
+      class="sel-member-list">
+      <li
+        v-if="!singleSelect"
+        class="all-select">
+        <v-touch
+          class="sel-member-info"
+          @tap="all">
+          <div
+            :class="{'sel-selected': allSelect}"
+            class="sel-member-icon">
+            <div class="sel-icon-selected-bg" />
+            <i class="icon2-selected sel-icon-selected"/>
+          </div>
+          <div
+            class="sel-member-name all-name">
+            全选
+          </div>
+        </v-touch>
+      </li>
+      <!-- 正常人员 -->
+      <v-touch
+        v-for="member in newStaff.userList"
+        v-if="member.orgUser"
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
+          <div
+            :class="{'sel-selected': member.isSelected}"
+            class="sel-member-icon">
+            <div class="sel-icon-selected-bg" />
+            <i class="icon2-selected sel-icon-selected"/>
+          </div>
+          <div class="sel-member-avatar">
+            <avatar
+              :src="member.avatar"
+              :username="member.name"
+              :size="36"
+              :round-radius="'2px'"
+              :background-color="'#4A90E2'"/>
+          </div>
+          <div
+            :class="{'sel-disabled': member.isDisabled}"
+            class="sel-member-name">
+            {{ member.name }}
+          </div>
+        </v-touch>
+        <div class="sel-member-tag">
+          {{ member.isCreator ? '创建者' : '' }}
+        </div>
+      </v-touch>
+      <!-- 未分配人员 -->
+      <v-touch
+        v-for="member in unDept.userList"
+        v-if="member.orgUser && cache.length === 0"
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
+          <div
+            :class="{'sel-selected': member.isSelected}"
+            class="sel-member-icon">
+            <div class="sel-icon-selected-bg" />
+            <i class="icon2-selected sel-icon-selected"/>
+          </div>
+          <div class="sel-member-avatar">
+            <avatar
+              :src="member.avatar"
+              :username="member.name"
+              :size="36"
+              :round-radius="'2px'"
+              :background-color="'#4A90E2'"/>
+          </div>
+          <div
+            :class="{'sel-disabled': member.isDisabled}"
+            class="sel-member-name">
+            {{ member.name }}
+          </div>
+        </v-touch>
+        <div class="sel-member-tag">
+          {{ member.isCreator ? '创建者' : '' }}
+        </div>
+      </v-touch>
+      <!-- 部门列表 -->
+      <li
+        v-for="member in newStaff.childList"
+        :key="member.id">
+        <v-touch
+          class="sel-member-info"
+          @tap="changeSelectStaff(member)">
+          <div class="sel-member-avatar">
+            <img src="../../../assets/img/staff.svg">
+          </div>
+          <div
+            class="sel-member-name">
+            {{ member.name }}
+          </div>
+        </v-touch>
+        <i class="icon2-arrow-right-small arrow right"/>
       </li>
     </ul>
+    <ul
+      v-show="nameSearch && filteredUsers.length > 0"
+      class="sel-member-list mt">
+      <v-touch
+        v-for="member in filteredUsers"
+        :key="member.id"
+        tag="li"
+        @tap="changeSelect(member, !member.isSelected)">
+        <v-touch class="sel-member-info">
+          <div
+            :class="{'sel-selected': member.isSelected}"
+            class="sel-member-icon">
+            <div class="sel-icon-selected-bg" />
+            <i class="icon2-selected sel-icon-selected"/>
+          </div>
+          <div class="sel-member-avatar">
+            <avatar
+              :src="member.avatar"
+              :username="member.name"
+              :size="36"
+              :round-radius="'2px'"
+              :background-color="'#4A90E2'"/>
+          </div>
+          <div
+            :class="{'sel-disabled': member.isDisabled}"
+            class="sel-member-name">
+            {{ member.name }}
+          </div>
+        </v-touch>
+        <div class="sel-member-tag">
+          {{ member.isCreator ? '创建者' : '' }}
+        </div>
+      </v-touch>
+    </ul>
     <div
-      v-else
+      v-if="filteredUsers.length === 0 && nameSearch"
       class="sel-member-blank">
       <div>
-        <i class="icon2-search"/>
+        <img src="../../../assets/img/nopeople.svg">
       </div>
       <p>搜索无结果</p>
     </div>
@@ -82,12 +279,377 @@
     </div>
   </div>
 </template>
+
+<script>
+  import Avatar from 'com/pub/TextAvatar'
+
+  export default{
+    components: {
+      'avatar': Avatar
+    },
+    data () {
+      return {
+        //  ------------------------------------------
+        //  传入的参数，只读，不要修改
+        btnText: '',
+        idAttribute: '',
+        nameAttribute: '',
+        avatarAttribute: '',
+        maximum: 0,    //  最多选择的用户数量
+        memberList: [],    //  所有用户的列表
+        selectedIdList: [],  //  默认选中的用户列表
+        disabledIdList: [],  //  不可更改选择状态的用户id列表
+        creatorIdList: [],  //  任务创建者的id列表
+        success: function () {},  //  点击确定按钮的回调
+        cancel: function () {},  //  点击取消按钮的回调
+        //  -------------------------------------------
+        //  选择框操作的临时存储对象
+        localList: [],
+        localSelectedList: [],
+        nameSearch: '',
+        singleSelect: false,
+        realStaff: [],
+        newStaff: [],
+        cache: [],
+        backName: '',
+        arr: [],
+        index: true,
+        // 因为array无法set，因此只能分情况判断
+        allSelect: false
+      }
+    },
+    computed: {
+      // 全部人员的全选判断
+      allIndexSelect () {
+        return this.localList.every(function (o) {
+          return o.isSelected === true
+        })
+      },
+      filteredUsers () {
+        // 两套数据结构，搜索用最开始的无组织数据结构，正常显示用有组织、挂载了微信数据的数据结构
+        return this.localList.filter(staff => {
+          return staff.name.indexOf(this.nameSearch) !== -1
+        })
+      },
+      selectedCount () {
+        return this.localSelectedList.length
+      },
+      // 已分配
+      hasDept () {
+        return this.arr[0]
+      },
+      // 未分配
+      unDept () {
+        return this.arr[1]
+      }
+    },
+    mounted () {
+      var that = this
+      this.cache = []
+      this.makeLocalList()
+      window.rsqadmg.exec('setTitle', {title: '编辑成员'})
+      //  如果通过任意方式跳出页面了，那么关闭当前选择框
+      window.onpopstate = () => {
+        this.selfClose()
+      }
+      // 利用json方式深复制数组对象
+      this.arr = JSON.parse(JSON.stringify(that.realStaff))
+      // 数据挂载
+      this.addObj(this.arr)
+      // 拷贝保存已分配人员
+      this.newStaff = {...this.hasDept}
+      // 保存back部门名称
+      this.backName = this.hasDept.name
+      // 初始化层级标识
+      this.index = true
+    },
+    methods: {
+      // 非首页全选
+      all () {
+        var that = this
+        if (this.allSelect === true) {
+          if (that.cache.length === 0) {
+            this.unDept.userList.map(function (o) {
+              if (o.orgUser) {
+                that.changeSelect(o, false)
+              }
+            })
+          }
+          this.newStaff.userList.map(function (o) {
+            if (o.orgUser) {
+              that.changeSelect(o, false)
+            }
+          })
+          return
+        }
+        // 分有未分配部门无未分配部门情况
+        if (that.cache.length === 0) {
+          this.unDept.userList.map(function (o) {
+            if (o.orgUser) {
+              that.changeSelect(o, true)
+            }
+          })
+        }
+        this.newStaff.userList.map(function (o) {
+          if (o.orgUser) {
+            that.changeSelect(o, true)
+          }
+        })
+      },
+      allSelectChange (tag) {
+        this.allSelect = tag
+      },
+      // 回归主页
+      goIndex () {
+        this.index = true
+        this.cache = []
+        this.newStaff = {...this.hasDept}
+        window.rsqadmg.exec('setTitle', {title: '编辑成员'})
+      },
+      // 进入组织结构
+      goNext () {
+        this.index = false
+        var tagUse = this.newStaff.userList.every(function (o) {
+          if (o.orgUser) {
+            return o.isSelected === true
+          } else {
+            return true
+          }
+        })
+        var tagUnDept = this.unDept.userList.every(function (o) {
+          if (o.orgUser) {
+            return o.isSelected === true
+          } else {
+            return true
+          }
+        })
+        this.allSelectChange(tagUse && tagUnDept)
+        window.rsqadmg.exec('setTitle', {title: this.newStaff.name})
+      },
+      // 首页全选
+      allIndex () {
+        var that = this
+        if (this.allIndexSelect === true) {
+          this.localList.map(function (o) {
+            that.changeSelect(o, false)
+          })
+          return
+        }
+        this.localList.map(function (o) {
+          that.changeSelect(o, true)
+        })
+      },
+      selfClose () {
+        window.onpopstate = null
+        this.cancel()
+        this.$emit('self-close')
+      },
+      // 选择部门
+      changeSelectStaff (member) {
+        this.backName = this.newStaff.name
+        window.rsqadmg.exec('setTitle', {title: member.name})
+        // 缓存历史记录
+        this.cache.push({...this.newStaff})
+        this.newStaff = member
+        var tag = member.userList.every(function (o) {
+          if (o.orgUser) {
+            return o.isSelected === true
+          } else {
+            return true
+          }
+        })
+        this.allSelectChange(tag)
+      },
+      // 返回上一层
+      back () {
+        this.newStaff = this.cache.pop()
+        // 分为上一层有无未分配部门的情况
+        if (this.cache.length === 0) {
+          var tagUse = this.newStaff.userList.every(function (o) {
+            if (o.orgUser) {
+              return o.isSelected === true
+            } else {
+              return true
+            }
+          })
+          var tagUnDept = this.unDept.userList.every(function (o) {
+            if (o.orgUser) {
+              return o.isSelected === true
+            } else {
+              return true
+            }
+          })
+          this.allSelectChange(tagUse && tagUnDept)
+          window.rsqadmg.exec('setTitle', {title: this.newStaff.name})
+        } else {
+          this.backName = this.cache[this.cache.length - 1].name
+          window.rsqadmg.exec('setTitle', {title: this.newStaff.name})
+          var tag = this.newStaff.userList.every(function (o) {
+            if (o.orgUser) {
+              return o.isSelected === true
+            } else {
+              return true
+            }
+          })
+          this.allSelectChange(tag)
+        }
+      },
+      clearNameSearch () {
+        this.nameSearch = ''
+      },
+      /**
+       * 将memberList/selectedIdList/disabledIdList/creatorIdList整合成localList的对象格式。
+       * localList中单个对象的格式如下：
+       * {
+       *   id: 123，
+       *   name: 'aaa',
+       *   avatar: 'xxxxx',
+       *   isSelected: false,
+       *   isDisabled: false,
+       *   isCreator: false,
+       *   orgUser: {}
+       * }
+       * 其中orgUser表示的是memberList中的原始对象的指针，用来方便获取用户的选择，不要修改原始对象中的数据！
+       * @returns {any[]}
+       */
+      makeLocalList () {
+        this.nameSearch = ''
+        this.localSelectedList = []
+        this.localList = this.memberList.map(mem => {
+          const id = mem[this.idAttribute]
+          const isSelect = this.selectedIdList.indexOf(id) !== -1
+          const isDisabled = this.disabledIdList.indexOf(id) !== -1
+          const isCreator = this.creatorIdList.indexOf(id) !== -1
+          const obj = {
+            id: id,
+            name: mem[this.nameAttribute],
+            avatar: mem[this.avatarAttribute],
+            isSelected: isSelect,
+            isDisabled: isDisabled,
+            isCreator: isCreator,
+            orgUser: mem
+          }
+          if (isSelect) {
+            this.localSelectedList.push(obj)
+          }
+          return obj
+        })
+      },
+      // 挂载数据
+      addObj (arr) {
+        var that = this
+        for (let i = 0, lenI = arr.length; i < lenI; i++) {
+          for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {
+            for (let k = 0, lenK = that.localList.length; k < lenK; k++) {
+              if (arr[i].userList[j].id.toString() === that.localList[k].id) {
+                // 三重循环数据挂载，绝对有优化的余地，但for性能比其他遍历性能要好，优化方向在于length的保存上与循环次数的减少上
+                Object.assign(arr[i].userList[j], that.localList[k])
+                break
+              }
+            }
+          }
+          if (arr[i].childList.length !== 0) {
+            // 三重循环之后就是递归
+            that.addObj(arr[i].childList)
+          }
+        }
+      },
+      // 两个数据结构联动
+      changeSelectObj (arr, id, isSelect) {
+        var that = this
+        for (let i = 0, lenI = arr.length; i < lenI; i++) {
+          for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {
+            if (arr[i].userList[j].id === id) {
+              arr[i].userList[j].isSelected = isSelect
+              break
+            } else if (id === null) {
+              arr[i].userList[j].isSelected = isSelect
+            }
+          }
+          if (arr[i].childList.length !== 0) {
+            // 三重循环之后就是递归
+            that.changeSelectObj(arr[i].childList, id, isSelect)
+          }
+        }
+      },
+      changeSelect (mem, isSelect) {
+        var that = this
+        if (!mem || mem.isDisabled) {
+          return
+        }
+        if (this.selectedCount >= this.maximum && isSelect) {
+          window.rsqadmg.exec('alert', {message: '超出最大数量限制'})
+          return
+        }
+        if (mem.isSelected === isSelect) {
+          return
+        }
+        if (this.singleSelect) {
+          // 如果为单人，清除所有选项
+          this.localList.map(function (o) {
+            o.isSelected = false
+          })
+          this.changeSelectObj(that.arr, null, false)
+        }
+        mem.isSelected = isSelect
+        if (isSelect === false) {
+          // 如果有一个被取消，就单人
+          this.allSelectChange(false)
+        } else {
+          var tag = this.newStaff.userList.every(function (o) {
+            if (o.orgUser) {
+              return o.isSelected === true
+            } else {
+              return true
+            }
+          })
+          this.allSelectChange(tag)
+        }
+        this.changeSelectObj(that.arr, mem.id, isSelect)
+        this.localList.map(function (o) {
+          if (o.id === mem.id) {
+            o.isSelected = isSelect
+          }
+        })
+        if (isSelect) {
+          if (this.singleSelect) {
+            this.localSelectedList.map(function (o) {
+              o.isSelected = false
+            })
+            // this.changeSelectObj(that.arr, null, false)
+            // this.changeSelectObj(that.arr, mem.id, isSelect)
+            this.localSelectedList = []
+            this.localSelectedList.push(mem)
+          } else {
+            this.localSelectedList.push(mem)
+          }
+        } else {
+          // 因为是双数据结构，因此不能用indexof
+          for (let i = 0; i < this.localSelectedList.length; i++) {
+            if (mem.id === this.localSelectedList[i].id) {
+              this.localSelectedList.splice(i, 1)
+              // this.allIndexSelect = false
+              break
+            }
+          }
+        }
+      },
+      confirmSelect () {
+        const arr = this.localSelectedList.map(mem => {
+          return mem.orgUser
+        })
+        this.success(arr)
+        this.selfClose()
+      }
+    }
+  }
+</script>
 <style lang="scss" scoped>
   .sel-canvas {
     position: absolute;
     top: 0;right: 0;bottom: 0;left: 0;
     z-index: 10000;
-    background: #FFFFFF;
+    background: #f5f5f5;
   }
   .sel-header {
     position: fixed;
@@ -160,9 +722,12 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     padding: 51px 0 51px;
+    padding-top: 0;
+    margin-top: 20px;
     height: -moz-calc(100% - 100px);
     height: -webkit-calc(100% - 100px);
     height: calc(100% - 100px);
+    border-top: 0.5px solid #d4d4d4;
   }
   ul.sel-member-list li {
     position: relative;
@@ -181,7 +746,9 @@
     line-height: 56px;
   }
   .sel-member-icon {
-    position: relative;width: 16px;
+    float: right;
+    margin-right: 15px;
+    width: 15px;
   }
   .sel-icon-selected-bg {
     box-sizing: border-box;
@@ -208,6 +775,7 @@
   }
   .sel-member-avatar {
     box-sizing: border-box;padding: 10px;
+    padding-left: 0;
   }
   .sel-member-name {
     font-size: 16px;
@@ -215,7 +783,7 @@
   .sel-member-tag {
     position: absolute;
     top: 0;right: 0;height: 100%;
-    padding-right: 15px;
+    padding-right: 45px;
     line-height: 56px;color: #4F77AA;
   }
   .sel-member-blank {
@@ -232,139 +800,59 @@
   .sel-disabled {
     color: #999999;
   }
-</style>
-<script>
-  import Avatar from 'com/pub/TextAvatar'
-
-  export default{
-    components: {
-      'avatar': Avatar
-    },
-    data () {
-      return {
-        //  ------------------------------------------
-        //  传入的参数，只读，不要修改
-        btnText: '',
-        idAttribute: '',
-        nameAttribute: '',
-        avatarAttribute: '',
-        maximum: 0,    //  最多选择的用户数量
-        memberList: [],    //  所有用户的列表
-        selectedIdList: [],  //  默认选中的用户列表
-        disabledIdList: [],  //  不可更改选择状态的用户id列表
-        creatorIdList: [],  //  任务创建者的id列表
-        success: function () {},  //  点击确定按钮的回调
-        cancel: function () {},  //  点击取消按钮的回调
-        //  -------------------------------------------
-        //  选择框操作的临时存储对象
-        localList: [],
-        localSelectedList: [],
-        nameSearch: '',
-        singleSelect: false
-      }
-    },
-    computed: {
-      filteredUsers () {
-        if (!this.nameSearch) {
-          return this.localList
-        } else {
-          return this.localList.filter(staff => {
-            return staff.name.indexOf(this.nameSearch) !== -1
-          })
-        }
-      },
-      selectedCount () {
-        return this.localSelectedList.length
-      }
-    },
-    mounted () {
-      this.makeLocalList()
-      window.rsqadmg.exec('setTitle', {title: '编辑成员'})
-      //  如果通过任意方式跳出页面了，那么关闭当前选择框
-      window.onpopstate = () => {
-        this.selfClose()
-      }
-    },
-    methods: {
-      selfClose () {
-        window.onpopstate = null
-        this.cancel()
-        this.$emit('self-close')
-      },
-      clearNameSearch () {
-        this.nameSearch = ''
-      },
-      /**
-       * 将memberList/selectedIdList/disabledIdList/creatorIdList整合成localList的对象格式。
-       * localList中单个对象的格式如下：
-       * {
-       *   id: 123，
-       *   name: 'aaa',
-       *   avatar: 'xxxxx',
-       *   isSelected: false,
-       *   isDisabled: false,
-       *   isCreator: false,
-       *   orgUser: {}
-       * }
-       * 其中orgUser表示的是memberList中的原始对象的指针，用来方便获取用户的选择，不要修改原始对象中的数据！
-       * @returns {any[]}
-       */
-      makeLocalList () {
-        this.nameSearch = ''
-        this.localSelectedList = []
-        this.localList = this.memberList.map(mem => {
-          const id = mem[this.idAttribute]
-          const isSelect = this.selectedIdList.indexOf(id) !== -1
-          const isDisabled = this.disabledIdList.indexOf(id) !== -1
-          const isCreator = this.creatorIdList.indexOf(id) !== -1
-          const obj = {
-            id: id,
-            name: mem[this.nameAttribute],
-            avatar: mem[this.avatarAttribute],
-            isSelected: isSelect,
-            isDisabled: isDisabled,
-            isCreator: isCreator,
-            orgUser: mem
-          }
-          if (isSelect) {
-            this.localSelectedList.push(obj)
-          }
-          return obj
-        })
-      },
-      changeSelect (mem, isSelect) {
-        if (mem.isDisabled) {
-          return
-        }
-        if (this.selectedCount >= this.maximum && isSelect) {
-          window.rsqadmg.exec('alert', {message: '超出最大数量限制'})
-          return
-        }
-        mem.isSelected = isSelect
-        if (isSelect) {
-          if (this.singleSelect) {
-            this.localSelectedList.map(function (o) {
-              o.isSelected = false
-            })
-            this.localSelectedList = []
-            this.localSelectedList.push(mem)
-          } else {
-            this.localSelectedList.push(mem)
-          }
-        } else {
-          const index = this.localSelectedList.indexOf(mem)
-          if (index !== -1) {
-            this.localSelectedList.splice(index, 1)
-          }
-        }
-      },
-      confirmSelect () {
-        const arr = this.localSelectedList.map(mem => {
-          return mem.orgUser
-        })
-        this.success(arr)
-        this.selfClose()
-      }
+  .back{
+    margin-top: 51px;
+    height: 36px;
+    background-color: #fff;
+    line-height: 36px;
+    color:#9B9B9B;
+    font-size: 14px;
+    padding-left: 15px;
+    border-bottom: 0.5px solid #d4d4d4;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    .all-people{
+      color: #4F77AA
     }
   }
-</script>
+  ul.mt{
+    margin-top: 51px;
+  }
+  .right{
+    position: absolute;
+    right: 15px;
+    top: 0;
+    height: 100%;
+    line-height: 57px;
+  }
+  .organization{
+    background-color: #f5f5f5;
+    height: 77px;
+    border-bottom: 0.5px solid #d4d4d4;
+    .organization-inner{
+      background-color: #fff;
+      height: 56px;
+      border-bottom: 0.5px solid #d4d4d4;
+    }
+  }
+  .b9b{
+    color: #9B9B9B
+  }
+  .department{
+    padding-left: 15px;
+    position: relative;
+  }
+  .department-right{
+    top: auto;
+  }
+  ul.sel-member-list .all-select{
+    height: 46px;
+  }
+  .all-name{
+    line-height: 46px
+  }
+  .relative{
+    position: relative;
+  }
+</style>

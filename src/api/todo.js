@@ -29,6 +29,17 @@ export default {
         })
     })
   },
+  moveToPlan (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.MOVE_TO_PLAN, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.error(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
   /**
    * 获取指定日程中的任务
    * @returns {*}
@@ -590,6 +601,17 @@ export default {
     var path = util.replaceUrlParams(mapping.DELETE_KANBAN_ITEM_COMMENT, props)
     return new Promise((resolve, reject) => {
       Vue.http.delete(path, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.error(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
+  getAllUsers () {
+    return new Promise((resolve, reject) => {
+      Vue.http.get(mapping.GET_ALL_USERS)
         .then(res => {
           resolve(res.json())
         }, err => {

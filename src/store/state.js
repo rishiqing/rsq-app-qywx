@@ -42,6 +42,10 @@ export default {
     //  公司成员的主列表，注意只有当公司人员发生变动的情况下才修改此列表
     list: null
   },
+  realStaff: {
+    //  公司成员的主列表，注意只有当公司人员发生变动的情况下才修改此列表
+    list: null
+  },
   /**
    *  收纳箱页面基础数据结构
    */
@@ -127,7 +131,7 @@ export default {
      * @type {String}
      */
     subtitle: '',
-    pubid: '',
+    pubId: '',
     /**
      * 当前滑动的ID
      * @type {Number}

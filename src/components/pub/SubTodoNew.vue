@@ -33,7 +33,7 @@
                   :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="userRsqId"
+                  :user-rsq-ids="idArray"
                   :selected-rsq-ids="joinUserRsqIds"
                   :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
@@ -78,7 +78,8 @@
         },
         sub: null,
         joinUserRsqIds: [],
-        inputTitle: ''
+        inputTitle: '',
+        idArray: []
       }
     },
     computed: {
@@ -87,9 +88,6 @@
       },
       todoId () {
         return this.$store.state.todo.currentTodo.id
-      },
-      userRsqId () {
-        return this.$store.state.staff.list
       },
       isInbox () {
         //  所有日期属性均为date，判断当前新建的item为收纳箱任务
@@ -109,18 +107,20 @@
       },
       subId () {
         return this.$store.state.subUserId
+      },
+      realUserRsqIds () {
+        return this.$store.state.realStaff.list
       }
     },
     created () {
       window.rsqadmg.exec('setTitle', {title: '新建子任务'})
+      this.findId(this.realUserRsqIds)
       this.initData()
       this.inputTitle = this.$store.state.todo.currentSubtodo.title
     },
     mounted () {
       if (this.subId) {
         this.joinUserRsqIds = this.subId
-      } else {
-        this.joinUserRsqIds = this.pUserId
       }
       this.sub = this.$store.state.todo.currentSubtodoDate
     },
@@ -128,6 +128,17 @@
       empty () {},
       toggleAllDay (e) {
         this.editItem.isChecked = !this.editItem.isChecked
+      },
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.idArray.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
       },
       /**
        * 初始化数据，从state的currentTodo复制到local的editItem
@@ -185,7 +196,7 @@
         datas.todoId = this.todoId
         datas.startDate = this.sub.startDate || ''
         datas.endDate = this.sub.endDate || ''
-        datas.joinUsers = this.joinUserRsqIds[0] || ''
+        datas.joinUsers = this.joinUserRsqIds.length === 0 ? '' : this.joinUserRsqIds[0].toString()
         datas.dates = this.sub.dates || ''
         this.$store.dispatch('createSubtodo', datas)
         // this.$store.dispatch('createSubtodo', {name: this.inputTitle, todoId: this.todoId, startDate: this.sub.startDate, endDate: this.sub.endDate, joinUsers: '17267', dates: this.sub.dates})
@@ -195,23 +206,23 @@
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
-            if (that.joinUserRsqIds) {
-              var url = window.location.href.split('#')
-              var name = that.$store.getters.loginUser.authUser.name
-              var datas = {
-                corpId: that.$store.getters.loginUser.authUser.corpId,
-                agentid: that.$store.getters.loginUser.authUser.corpId,
-                title: name + ' 分配给你一条子任务',
-                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-                description: that.$store.state.todo.currentTodo.pTitle,
-                receiverIds: that.joinUserRsqIds[0].toString()
-              }
-              // console.log(datas)
-              that.$store.dispatch('qywxSendMessage', datas)
+            var url = window.location.href.split('#')
+            var name = that.$store.getters.loginUser.authUser.name
+            var datas = {
+              corpId: that.$store.getters.loginUser.authUser.corpId,
+              agentid: that.$store.getters.loginUser.authUser.corpId,
+              title: name + ' 分配给你一条子任务',
+              url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+              description: that.$store.state.todo.currentTodo.pTitle,
+              receiverIds: that.joinUserRsqIds.length === 0 ? '' : that.joinUserRsqIds[0].toString()
             }
+            // console.log(datas)
+            that.$store.dispatch('qywxSendMessage', datas)
+          })
+          .then(function () {
+            that.$router.go(-1)
           })
         // this.$router.replace('/sche/todo/' + this.currentTodo.id + '/subtodo/')
-        this.$router.go(-1)
       }
     },
     beforeRouteLeave (to, from, next) {
@@ -339,7 +350,7 @@
     position: absolute;
     top: 47%;
     margin-top: -0.26rem;
-    left: 25px;
+    left: 15px;
     z-index: 1000;
   }
   .arrow {

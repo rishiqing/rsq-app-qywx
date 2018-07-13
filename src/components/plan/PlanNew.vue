@@ -85,12 +85,16 @@
         selectedLocalList: [],  //  已选择的人员选择列表
         disabledLocalList: [],  //  本地禁用的人员列表
         creatorList: [], // 创建者
-        memarr: []
+        memArray: [],
+        idArray: []
       }
     },
     computed: {
       userRsqIds () {
         return this.$store.state.staff.list
+      },
+      realUserRsqIds () {
+        return this.$store.state.realStaff.list
       },
       selectedRsqIds () {
         return [this.$store.state.loginUser.rsqUser.id]
@@ -114,11 +118,6 @@
       },
       memberCount () {
         return this.selectedLocalList.length <= 3
-      },
-      userRsqIdArray () {
-        return this.userRsqIds.map(function (staff) {
-          return staff.id
-        })
       },
       creatorListArray () {
         return this.creatorList.map(function (staff) {
@@ -151,6 +150,7 @@
       }
     },
     created () {
+      this.findId(this.realUserRsqIds)
       if (this.imgs === null) {
         this.$store.dispatch('getTemplate').then(() => {
           if (this.imgs.length > 0) {
@@ -165,9 +165,20 @@
       window.rsqadmg.exec('setTitle', {title: '新建计划'})
       var createrId = [this.$store.state.loginUser.rsqUser.id]
       this.getMember(createrId)
-      this.fetchUserIds(this.userRsqIdArray, 'localList')
+      this.fetchUserIds(this.idArray, 'localList')
     },
     methods: {
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.idArray.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
+      },
       delayCall (func) {
         window.setTimeout(() => {
           this[func].apply(this, Array.prototype.slice.call(arguments, 1))
@@ -181,7 +192,7 @@
         var url = window.location.href.split('#')
         var name = that.$store.getters.loginUser.authUser.name
         window.rsqadmg.exec('showLoader', {text: '创建中...'})
-        var rsqId = this.memarr.join(',')
+        var rsqId = this.memArray.join(',')
         var params = {
           name: this.content,
           cover: this.currentTemplate.cover,
@@ -235,6 +246,7 @@
           nameAttribute: 'name',
           idAttribute: 'rsqUserId',
           memberList: this.localList,
+          realStaff: this.realUserRsqIds,
           selectedIdList: this.selectRsqidArray,
           disabledIdList: [this.createrRsqIds[0].toString(), this.$store.state.loginUser.rsqUser.id.toString()],
           // 转换为字符串
@@ -245,7 +257,7 @@
             })
             window.rsqadmg.exec('setTitle', {title: '新建计划'})
             that.selectedLocalList = [...selList]
-            that.memarr = [...arr]
+            that.memArray = [...arr]
           },
           cancel () {
           }
@@ -306,7 +318,7 @@
     align-items: left;
     background-color: white;
     margin-top: 20px;
-    padding-left: 0.3rem;
+    padding-left: 15px;
     padding-right: 0.2rem;
     flex-direction:column;
     border-top: 0.5px solid #d4d4d4;
@@ -350,7 +362,7 @@
     font-size: 17px;
     color: #000000;
     line-height: 24px;
-    margin-left: 0.3rem;
+    margin-left: 15px;
   }
   .templ-name{
     font-family: PingFangSC-Regular;
@@ -366,7 +378,7 @@
   .wrap-muban{
     position: relative;
     text-align: center;
-    margin-left: 0.3rem;
+    margin-left: 15px;
   }
   .templ{
     width: 2.08rem;
@@ -377,6 +389,7 @@
     height: 1.466rem;
     background-color: white;
     padding: 0.3rem;
+    padding-left: 15px;
     margin-top: 20px;
     font-family: PingFangSC-Regular;
     font-size: 17px;

@@ -145,7 +145,7 @@
     width: 0.533rem;
     height: 0.533rem;
     vertical-align: text-bottom;
-    margin-left: 0.4rem;
+    margin-left: 15px;
   }
   .new-child-plan{
     font-family: PingFangSC-Regular;

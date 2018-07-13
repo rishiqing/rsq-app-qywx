@@ -108,6 +108,7 @@
       }
     },
     mounted () {
+      this.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
       window.rsqadmg.exec('setTitle', {title: this.formatTitleDate(this.dateSelect)})
       window.rsqadmg.execute('setOptionButtons', {hide: true})
       this.$store.dispatch('setNav', {isShow: true})
@@ -265,7 +266,8 @@
     transition: padding-top 0.3s ease;
   }
   .ul-b{
-    border-bottom: 0.5px solid #d4d4d4
+    border-bottom: 0.5px solid #d4d4d4;
+    background-color: #fff;
   }
   .addNew{
     width: 141px;

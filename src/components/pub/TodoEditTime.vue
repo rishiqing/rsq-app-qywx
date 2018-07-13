@@ -329,7 +329,7 @@
      */
     beforeRouteLeave (to, from, next) {
       //  做pub区缓存
-      if (to.name !== 'todoNew') {
+      if (to.name !== 'todoNew' && to.name !== 'todoEditAlert') {
         var that = this
         var url = window.location.href.split('#')
         var name = that.$store.getters.loginUser.authUser.name
@@ -441,7 +441,7 @@
       padding-left: 3%;
     }
     .last>li{
-      padding-left: 3%;
+      padding-left: 15px;
     }
     li{
       position: relative;

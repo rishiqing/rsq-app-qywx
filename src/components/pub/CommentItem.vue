@@ -34,7 +34,7 @@
           <template v-else-if="file.contentType.toUpperCase() == 'PDF'">
             <img
               class="comment-photo file-touch"
-              src="https://res-front-cdn.timetask.cn/beta/images/pdf.692b9767b9.png"
+              src="../../assets/img/pdf.svg"
               alt="">
             <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
             <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
@@ -42,7 +42,7 @@
           <template v-else-if="file.contentType.toUpperCase() === 'ZIP'">
             <img
               class="comment-photo file-touch"
-              src="https://res-front-cdn.timetask.cn/beta/images/zip.f9f2049911.png"
+              src="../../assets/img/compressed_file.svg"
               alt="">
             <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
             <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
@@ -50,7 +50,7 @@
           <template v-else-if="file.contentType.toUpperCase() === 'DOC' || file.contentType.toUpperCase() === 'DOCX'">
             <img
               class="comment-photo file-touch"
-              src="https://res-front-cdn.timetask.cn/beta/images/word.b44eea8fcf.png"
+              src="../../assets/img/word.svg"
               alt="">
             <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
             <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
@@ -58,7 +58,15 @@
           <template v-else-if="file.contentType.toUpperCase() === 'PPT' || file.contentType.toUpperCase() === 'PPTX'">
             <img
               class="comment-photo file-touch"
-              src="https://res-front-cdn.timetask.cn/beta/images/ppt.2c7e64eb9b.png"
+              src="../../assets/img/ppt.svg"
+              alt="">
+            <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
+            <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
+          </template>
+          <template v-else-if="file.contentType.toUpperCase() === 'XLS' || file.contentType.toUpperCase() === 'XLSX'">
+            <img
+              class="comment-photo file-touch"
+              src="../../assets/img/excel.svg"
               alt="">
             <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
             <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
@@ -66,7 +74,7 @@
           <template v-else>
             <img
               class="comment-photo file-touch"
-              src="https://res-front-cdn.timetask.cn/beta/images/file.46449ccbd9.png"
+              src="../../assets/img/unknown.svg"
               alt="">
             <span class="file-name file-touch">{{ getFileName(file.name) }}</span>
             <span class="file-size file-touch">{{ getFileSize(file.size) }}</span>
@@ -155,7 +163,7 @@
 </script>
 <style lang="scss" scoped>
   .comment{
-    padding-left: 3%;
+    padding-left: 15px;
     margin-top:0.613rem ;
     margin-bottom: 0.54rem;
     line-height: 0.7rem;

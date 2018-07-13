@@ -62,7 +62,7 @@
                 tag="td"
                 @tap="tapDay($event, day)">
                 <div
-                  :class="{'dp-grey': !day.isInMonth, 'dp-selected': day.isSelected,'is-today':isToday(day)}"
+                  :class="{'dp-grey': !day.isInMonth, 'dp-selected': day.isSelected,'is-today': isToday(day),'has-go': hasGo(day)}"
                   class="dp-day">
                   {{ day.date.getTime() === numToday ? '今' : day.date.getDate() }}
                 </div>
@@ -235,6 +235,10 @@
         }
         this.toggleSelect(day)
         e.preventDefault()
+      },
+      hasGo (day) {
+        var timeHaveGo = new Date().getHours() * 3600000 + (new Date().getMinutes() + 1) * 60000 + new Date().getSeconds() * 1000
+        return new Date(day.date).getTime() < new Date().getTime() - timeHaveGo
       },
       resetType () {
         this.resetMonth() // 这是干吗用的
@@ -589,6 +593,9 @@
       // bottom: 0;
       border-top: 0.5px solid #d4d4d4;
     }
+    .has-go{
+      color: rgba(25,31,37,0.4)
+    }
   }
   tr{
     border-bottom: 0.5px solid #d4d4d4;
@@ -607,4 +614,5 @@
     background-color: #fff;
     border: 0.5px solid #d4d4d4
   }
+
 </style>

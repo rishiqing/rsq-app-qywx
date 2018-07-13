@@ -44,14 +44,7 @@
                   @member-changed="saveMember"/>
               </div>
             </div>
-            <div class="icon-field-group sub-todo">
-              <div class="common-field">
-                <i class="icon2-subplan-web sche"/>
-                <r-input-subtodo
-                  :item="currentKanbanItem"
-                  :todo-type="'plan'"/>
-              </div>
-            </div>
+            <r-input-subtodo/>
             <r-comment-list
               :items="todoComments"
               :todo-id="currentKanbanItem.id"
@@ -87,7 +80,7 @@
   import InputDate from 'com/pub/InputDate'
   import InputNote from 'com/pub/InputNote'
   import InputMember from 'com/pub/InputMember'
-  import InputSubtodo from 'com/pub/InputSubtodo'
+  import InputSubtodo from 'com/plan/PlanSubtodoList'
   import SendConversation from 'com/demo/SendConversation'
   import util from 'ut/jsUtil'
   import CommentList from 'com/pub/CommentList'
@@ -106,29 +99,25 @@
     data () {
       return {
         editItem: {},
-        joinUserRsqIds: []
+        joinUserRsqIds: [],
+        planMember: []
       }
     },
     computed: {
-      planMember () {
-        var that = this
-        var arr = []
-        var all = 0
-        var plan = 0
-        for (all in that.staff) {
-          for (plan in that.currentPlan.userRoles) {
-            if (that.staff[all].id === that.currentPlan.userRoles[plan].userId) {
-              arr.push(that.staff[all])
-            }
-          }
-        }
-        return arr
-      },
+      // planMember () {
+      //   // var that = this
+      //   var arr = []
+      //   if (this.$store.state.currentPlan) {
+      //     var len = this.$store.state.currentPlan.userRoles.length
+      //     console.log(len, 1)
+      //     for (let i = 0; i < len; i++) {
+      //       arr.push(this.$store.state.currentPlan.userRoles[i].userId)
+      //     }
+      //   }
+      //   return arr
+      // },
       currentPlan () {
         return this.$store.state.currentPlan
-      },
-      staff () {
-        return this.$store.state.staff.list
       },
       createdId () {
         return [this.currentPlan.creatorId]
@@ -360,6 +349,9 @@
                   })
                 })
             }
+            that.planMember = that.editItem.kanbanItemJoinLinks.map(function (o) {
+              return o.joinUser.id
+            })
             this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
           })
           .then(() => {
@@ -387,7 +379,7 @@
     position: absolute;
     top: 50%;
     margin-top: -0.29rem;
-    left:0.3rem
+    left:0;
   }
   .time-border{
     border-bottom: 1px solid #E0E0E0;

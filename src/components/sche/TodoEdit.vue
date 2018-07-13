@@ -50,25 +50,22 @@
                   :is-native="false"
                   :index-title="'执行人'"
                   :select-title="'请选择成员'"
-                  :user-rsq-ids="userRsqId"
+                  :user-rsq-ids="idArray"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="createId"
-                  :disabled-rsq-ids="[createId, rsqUser]"
+                  :creater-rsq-ids="createIds"
+                  :disabled-rsq-ids="[createIds, rsqUser]"
                   @member-changed="saveMember"/>
               </div>
-            </div>
-            <div class="icon-field-group sub-todo">
               <div class="common-field">
                 <img
-                  src="../../assets/img/subtodo.svg"
-                  class="sub-todo-png sche">
-                <r-input-subtodo
-                  :is-disabled="!isEditable"
-                  :disabled-text="disabledText"
-                  :item="currentTodo"
-                  :edit-time="true"/>
+                  src="../../assets/img/moveplan.svg"
+                  class="icon2-member sche move-to">
+                <r-move-plan
+                  :item="editItem"/>
               </div>
+
             </div>
+            <r-input-subtodo/>
             <r-comment-list
               :disabled="!isEditable"
               :items="todoComments"
@@ -105,8 +102,9 @@
   import InputNote from 'com/pub/InputNote'
   import InputDate from 'com/pub/InputDate'
   import InputTime from 'com/pub/InputTime'
+  import MoveToPlan from 'com/pub/MoveToPlan'
   import InputMember from 'com/pub/InputMember'
-  import InputSubtodo from 'com/pub/InputSubtodo'
+  import InputSubtodo from 'com/pub/SubtodoList'
   import SendConversation from 'com/demo/SendConversation'
   import util from 'ut/jsUtil'
   import dateUtil from 'ut/dateUtil'
@@ -122,14 +120,16 @@
       'r-input-subtodo': InputSubtodo,
       'r-input-note': InputNote,
       'r-comment-list': CommentList,
-      'r-send-conversation': SendConversation
+      'r-send-conversation': SendConversation,
+      'r-move-plan': MoveToPlan
     },
     data () {
       return {
         disabledText: '过去的任务不能编辑',
         editItem: {},
         newList: '',
-        joinUserRsqIds: []
+        joinUserRsqIds: [],
+        idArray: []
       }
     },
     computed: {
@@ -157,7 +157,7 @@
           }
         })
       },
-      createId () {
+      createIds () {
         if (this.createIdObject.length > 0) {
           return [this.createIdObject[0].id]
         }
@@ -181,9 +181,6 @@
         return this.todoComments.filter(i => {
           return i.type === 0
         })
-      },
-      userRsqId () {
-        return this.$store.state.staff.list
       },
       loginUser () {
         return this.$store.getters.loginUser || {}
@@ -213,6 +210,9 @@
       },
       delayShowCheckbox () {
         return this.$store.state.todo.delayShowCheckbox
+      },
+      realUserRsqIds () {
+        return this.$store.state.realStaff.list
       }
     },
     created () {
@@ -232,6 +232,17 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     methods: {
+      findId (id) {
+        var that = this
+        for (let i = 0; i < id.length; i++) {
+          for (let j = 0; j < id[i].userList.length; j++) {
+            that.idArray.push(id[i].userList[j].id)
+          }
+          if (id[i].childList.length !== 0) {
+            that.findId(id[i].childList)
+          }
+        }
+      },
       delayCallFix (e) {
         window.setTimeout(() => {
           this.prepareDelete(e)
@@ -249,6 +260,7 @@
               })
             })
           .then(() => {
+            this.findId(this.realUserRsqIds)
             this.fetchCommentIds()
             // window.rsqadmg.exec('hideLoader')
           })
@@ -412,7 +424,7 @@
       },
       finishChecked (status) {
         var that = this
-        var create = this.createId[0].toString()
+        var create = this.createIds[0].toString()
         var url = window.location.href.split('#')
         var name = this.loginUser.authUser.name
         if (status !== this.editItem.isDone) {
@@ -655,10 +667,7 @@
     position: absolute;
     top: 50%;
     margin-top: -0.29rem;
-    left:0.3rem
-  }
-  .time-border{
-    border-bottom: 1px solid #E0E0E0;
+    left:0
   }
   input::-webkit-input-placeholder { /* WebKit browsers */
     font-family: STHeitiSC-Light;
@@ -786,5 +795,9 @@
   }
   .sub-todo{
     margin-top: 20px;
+  }
+  .move-to{
+    height: 22px;
+    width: 22px;
   }
 </style>

@@ -20,6 +20,7 @@ import Kefu from 'com/me/Kefu'
 import Explain from 'com/pub/Explain'
 import SubtodoList from 'com/pub/SubtodoList'
 import SubTodoNew from 'com/pub/SubTodoNew'
+import PlanSubTodoNew from 'com/pub/PlanSubTodoNew'
 // import NoPermission from 'com/pub/NoPermission'
 import CheckFailure from 'com/pub/CheckFailure'
 import PcEnd from 'com/me/PcEnd'
@@ -38,6 +39,8 @@ import PlanSubtodoList from 'com/plan/PlanSubtodoList'
 import PlanTodoEditSubtodo from 'com/plan/PlanTodoEditSubtodo'
 import PlanTodoComment from 'com/plan/PlanTodoComment'
 import InboxNew from 'com/inbox/InboxNew'
+import MoveToPlanList from 'com/pub/MoveToPlanList'
+import MoveToPlanItem from 'com/pub/MoveToPlanItem'
 
 Vue.use(Router)
 
@@ -108,6 +111,20 @@ const router = new Router({
       name: 'todoEditDate',
       component: TodoEditDate,
       meta: {requireAuth: false}
+    },
+    //  添加到计划列表
+    {
+      path: '/sche/todo/move',
+      name: 'MoveToPlanList',
+      component: MoveToPlanList,
+      meta: {requireAuth: true}
+    },
+    //  添加到计划列表item
+    {
+      path: '/sche/todo/:planId/moveplan',
+      name: 'MoveToPlanItem',
+      component: MoveToPlanItem,
+      meta: {requireAuth: true}
     },
     //  子任务日期
     {
@@ -266,6 +283,12 @@ const router = new Router({
       meta: {requireAuth: true}
     },
     //  计划的子任务的详情页面
+    {
+      path: '/plan/todo/:planTodoId/subtodo/create',
+      name: 'PlanSubTodoNew',
+      component: PlanSubTodoNew,
+      meta: {requireAuth: true}
+    },
     {
       path: '/plan/todo/:planTodoId/subtodo/:subtodoId',
       name: 'planTodoEditSubtodo',

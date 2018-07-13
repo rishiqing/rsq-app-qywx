@@ -164,12 +164,26 @@
         }
       },
       clickCheckOut (e) {
+        var that = this
+        var name = that.$store.getters.loginUser.authUser.name
+        var url = window.location.href.split('#')
         var end = this.$store.getters.defaultNumTaskDate + 24 * 3600 * 1000 > new Date().getTime()
         if (!end) {
           window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
           return
         }
         this.$emit('todo-item-check', this.item, !this.item.pIsDone)
+        var todoStatus = !this.item.pIsDone ? ' 完成了任务' : ' 重启了任务'
+        var datas = {
+          corpId: that.$store.getters.loginUser.authUser.corpId,
+          agentid: that.$store.getters.loginUser.authUser.corpId,
+          title: name + todoStatus,
+          url: url[0] + '#' + '/sche/todo/',
+          description: that.item.pTitle,
+          receiverIds: that.item.receiverIds
+        }
+        // console.log(datas)
+        that.$store.dispatch('qywxSendMessage', datas)
         e.preventDefault()
       }
     }

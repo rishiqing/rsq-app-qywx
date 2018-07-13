@@ -1263,8 +1263,10 @@ export default {
       }
     }
     console.log(p)
-    var IDArrays = p.receiverIds.split(',')
-
+    var IDArrays = []
+    if (p.receiverIds) {
+      IDArrays = p.receiverIds.split(',')
+    }
     var empIDArray = []
     dispatch('fetchUseridFromRsqid', {corpId: p.corpId, idArray: IDArrays})
       .then(idMap => {

@@ -108,6 +108,7 @@
       }
     },
     mounted () {
+      this.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
       window.rsqadmg.exec('setTitle', {title: this.formatTitleDate(this.dateSelect)})
       window.rsqadmg.execute('setOptionButtons', {hide: true})
       this.$store.dispatch('setNav', {isShow: true})

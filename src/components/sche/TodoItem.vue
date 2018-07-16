@@ -109,6 +109,7 @@
               that.deleteCurrentTodo({todo: that.currentTodo})
                 .then(() => {
                   bus.$emit('deleteItemList')
+                  that.sendMessage()
                   //                  window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.execute('toast', {message: '删除成功'})
                 })
@@ -135,11 +136,27 @@
               promise.then(() => {
                 window.rsqadmg.exec('hideLoader')
                 bus.$emit('deleteItemList')
+                that.sendMessage()
                 window.rsqadmg.execute('toast', {message: '删除成功'})
               })
             }
           })
         }
+      },
+      sendMessage () {
+        var that = this
+        var url = window.location.href.split('#')
+        var name = that.$store.getters.loginUser.authUser.name
+        var datas = {
+          corpId: that.$store.getters.loginUser.authUser.corpId,
+          agentid: that.$store.getters.loginUser.authUser.corpId,
+          title: name + ' 删除了任务',
+          url: url[0] + '#' + '/sche',
+          description: that.currentTodo.pTitle,
+          receiverIds: that.currentTodo.receiverIds
+        }
+        // console.log(datas)
+        that.$store.dispatch('qywxSendMessage', datas)
       },
       deleteItem () {
 //        bus.$emit('deleteItemList')

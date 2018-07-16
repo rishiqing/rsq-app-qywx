@@ -111,9 +111,9 @@ module.exports = {
     // 日事清地址
     rsqServer: 'https://beta.rishiqing.com/',
     // 日事清api的后台地址
-    apiServer: 'http://qywx.rsq.etoutiao.cn/',
+    apiServer: 'http://dev1.ngrok.timetask.cn/',
     // 日事清-portlet的权限认证后台地址
-    authServer: 'http://qywx.rsq.etoutiao.cn/qywxbackauth/',
+    authServer: 'http://dev1.ngrok.timetask.cn/qywxbackauth/',
     // 日事清前端文件地址
     frontServer: 'http://' + devIp + ':' + (process.env.PORT || devPort) + '/',
     // 阿里云OSS STS认证的server地址

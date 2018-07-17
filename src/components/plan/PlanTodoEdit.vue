@@ -39,7 +39,7 @@
                   :select-title="'请选择成员'"
                   :user-rsq-ids="planMember"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="createdId"
+                  :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>

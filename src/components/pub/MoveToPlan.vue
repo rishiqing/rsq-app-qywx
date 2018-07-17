@@ -14,6 +14,10 @@
       item: {
         type: Object,
         required: true
+      },
+      plan: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -21,11 +25,15 @@
     },
     computed: {
       kanbanItem () {
-        return this.$store.state.todo.currentTodo.kanbanItem
+        if (this.plan) {
+          return this.$store.state.plan.currentKanbanItem
+        } else {
+          return this.$store.state.todo.currentTodo.kanbanItem
+        }
       },
       planName () {
         if (this.kanbanItem) {
-          return this.$store.state.todo.currentTodo.kanbanItem.kanbanName || ''
+          return this.kanbanItem.kanbanName || ''
         } else {
           return '添加到计划'
         }
@@ -38,7 +46,9 @@
         }, 50)
       },
       moveToPlan () {
-        if (this.$store.state.todo.currentTodo.editControl.from) {
+        if (this.plan && this.kanbanItem.editControl.move) {
+          this.$router.push({ name: 'MoveToPlan', query: {target: 'plan'} })
+        } else if (!this.plan && this.$store.state.todo.currentTodo.editControl.from) {
           this.$router.push('/sche/todo/move')
         } else {
           window.rsqadmg.exec('alert', {message: '您非该任务创建者，无法进行此操作！'})

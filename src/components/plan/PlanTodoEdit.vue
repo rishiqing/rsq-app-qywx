@@ -39,9 +39,17 @@
                   :select-title="'请选择成员'"
                   :user-rsq-ids="planMember"
                   :selected-rsq-ids="joinUserRsqIds"
-                  :creater-rsq-ids="createdId"
+                  :creater-rsq-ids="[]"
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
+              </div>
+              <div class="common-field">
+                <img
+                  src="../../assets/img/moveplan.svg"
+                  class="icon2-member sche move-to">
+                <r-move-plan
+                  :item="editItem"
+                  :plan="true"/>
               </div>
             </div>
             <r-input-subtodo/>
@@ -83,6 +91,7 @@
   import InputSubtodo from 'com/plan/PlanSubtodoList'
   import SendConversation from 'com/demo/SendConversation'
   import util from 'ut/jsUtil'
+  import MoveToPlan from 'com/pub/MoveToPlan'
   import CommentList from 'com/pub/CommentList'
 
   export default {
@@ -94,7 +103,8 @@
       'r-input-subtodo': InputSubtodo,
       'r-input-note': InputNote,
       'r-comment-list': CommentList,
-      'r-send-conversation': SendConversation
+      'r-send-conversation': SendConversation,
+      'r-move-plan': MoveToPlan
     },
     data () {
       return {
@@ -349,9 +359,7 @@
                   })
                 })
             }
-            that.planMember = that.editItem.kanbanItemJoinLinks.map(function (o) {
-              return o.joinUser.id
-            })
+            that.planMember = that.editItem.accessIds.split(',')
             this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
           })
           .then(() => {

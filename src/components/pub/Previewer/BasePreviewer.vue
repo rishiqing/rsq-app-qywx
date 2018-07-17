@@ -6,10 +6,13 @@
       class="preview-img-wrap">
       <div class="preview-flex">
         <div class="flex-item">
-          <img
+          <v-touch
+            ref="imgView"
             :src="previewImage.realPath"
             :alt="fileName"
-            class="preview-img">
+            :class="{'zoom' : zoom}"
+            tag="img"
+            class="preview-img"/>
         </div>
         <v-touch
           class="close"
@@ -28,7 +31,8 @@
       return {
         isShow: false,
         previewImage: {},
-        previewFile: {}
+        previewFile: {},
+        zoom: false
       }
     },
     computed: {
@@ -47,8 +51,9 @@
       var that = this
       //  如果通过任意方式跳出页面了，那么关闭当前选择框
       window.onpopstate = function () {
-        that.preventDefault()
+        that.closePreview()
       }
+      this.zoom = false
     },
     methods: {
       closePreview (e) {
@@ -56,8 +61,11 @@
           this.closePreviewfix(e)
         }, 50)
       },
+      more () {
+        this.zoom = !this.zoom
+      },
       closePreviewfix (e) {
-        if (e.preventDefault) {
+        if (e) {
           e.preventDefault()
         }
         this.previewImage = {}
@@ -91,7 +99,7 @@
   }
   .preview-title {text-align:center;width: 80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;
     margin:0 auto;font-size: 16px;height:1.5rem;line-height:1.5rem;}
-  .preview-img-wrap {position:fixed;left:0;top:0;right:0;bottom:0;overflow:auto;z-index:1520;}
+  .preview-img-wrap {position:fixed;left:0;top:0;right:0;bottom:0;overflow:auto;z-index:1520;transition: 1s}
   .preview-img {display:block;position:relative;width: 100%;z-index: 1521;}
   .preview-file-wrap {position:fixed;left:0%;top:1.5rem;right:0%;bottom:0rem;overflow:scroll;z-index:1520;
     -webkit-overflow-scrolling:touch;}
@@ -123,5 +131,8 @@
     margin: 0 auto;
     display: block;
     margin-bottom: 16px
+  }
+  .zoom{
+    transform: scale(2);
   }
 </style>

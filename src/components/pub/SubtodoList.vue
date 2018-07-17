@@ -81,7 +81,7 @@
       }
     },
     mounted () {
-      window.rsqadmg.exec('setTitle', {title: this.titleName})
+      // window.rsqadmg.exec('setTitle', {title: this.titleName})
       window.rsqadmg.exec('setOptionButtons', {hide: true})
       this.$store.dispatch('setNav', {isShow: false})
     },

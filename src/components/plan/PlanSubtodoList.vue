@@ -76,7 +76,7 @@
       }
     },
     mounted () {
-      window.rsqadmg.exec('setTitle', {title: this.titleName})
+      // window.rsqadmg.exec('setTitle', {title: this.titleName})
     },
     methods: {
       showEditSubtodo (item) {

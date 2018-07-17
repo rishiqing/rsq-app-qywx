@@ -12,8 +12,7 @@
             :alt="fileName"
             :class="{'zoom' : zoom}"
             tag="img"
-            class="preview-img"
-            @doubletap="more"/>
+            class="preview-img"/>
         </div>
         <v-touch
           class="close"

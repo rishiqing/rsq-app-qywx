@@ -43,6 +43,14 @@
                   :disabled-rsq-ids="[]"
                   @member-changed="saveMember"/>
               </div>
+              <div class="common-field">
+                <img
+                  src="../../assets/img/moveplan.svg"
+                  class="icon2-member sche move-to">
+                <r-move-plan
+                  :item="editItem"
+                  :plan="true"/>
+              </div>
             </div>
             <r-input-subtodo/>
             <r-comment-list
@@ -83,6 +91,7 @@
   import InputSubtodo from 'com/plan/PlanSubtodoList'
   import SendConversation from 'com/demo/SendConversation'
   import util from 'ut/jsUtil'
+  import MoveToPlan from 'com/pub/MoveToPlan'
   import CommentList from 'com/pub/CommentList'
 
   export default {
@@ -94,7 +103,8 @@
       'r-input-subtodo': InputSubtodo,
       'r-input-note': InputNote,
       'r-comment-list': CommentList,
-      'r-send-conversation': SendConversation
+      'r-send-conversation': SendConversation,
+      'r-move-plan': MoveToPlan
     },
     data () {
       return {

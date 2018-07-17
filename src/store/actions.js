@@ -1115,6 +1115,15 @@ export default {
         commit('PLAN_NAME_UPDATE', p)
       })
   },
+  planToPlan ({state}, p) {
+    return api.todo.planToPlan(p)
+      .then(item => {
+        return item
+      })
+      .catch(err => {
+        alert(JSON.stringify(err))
+      })
+  },
   updatePlanImg ({commit, state}, p) {
     return api.todo.updatePlanName(p)
       .then((res) => {
@@ -1254,8 +1263,10 @@ export default {
       }
     }
     console.log(p)
-    var IDArrays = p.receiverIds.split(',')
-
+    var IDArrays = []
+    if (p.receiverIds) {
+      IDArrays = p.receiverIds.split(',')
+    }
     var empIDArray = []
     dispatch('fetchUseridFromRsqid', {corpId: p.corpId, idArray: IDArrays})
       .then(idMap => {

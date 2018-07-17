@@ -24,6 +24,7 @@
     },
     data () {
       return {
+        plan: false
       }
     },
     computed: {
@@ -31,12 +32,15 @@
         return this.$store.state.currentPlan
       },
       selected () {
-        if (this.$store.state.todo.currentTodo.kanbanItem) {
+        if (this.plan && this.$store.state.plan.currentKanbanItem) {
+          return this.$store.state.plan.currentKanbanItem.kanbanId === this.item.id
+        } else if (!this.plan && this.$store.state.todo.currentTodo.kanbanItem) {
           return this.$store.state.todo.currentTodo.kanbanItem.kanbanId === this.item.id
         }
       }
     },
     mounted () {
+      this.plan = this.$route.query.target === 'plan'
     },
     methods: {
       toChildPlan () {
@@ -49,7 +53,11 @@
               that.$store.commit('SAVE_LABELS', res)
             }).then(() => {
               this.$store.commit('SET_EMPTY_CURRENT_SUB_PLAN')
-              that.$router.push('/sche/todo/' + this.currentPlan.id + '/moveplan')
+              if (that.plan) {
+                that.$router.push({ name: 'PlanMoveToPlanItem', query: {target: 'plan'}, params: {planId: that.currentPlan.id} })
+              } else {
+                that.$router.push('/sche/todo/' + this.currentPlan.id + '/moveplan')
+              }
             })
           })
       }

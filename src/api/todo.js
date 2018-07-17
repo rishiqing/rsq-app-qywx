@@ -40,6 +40,17 @@ export default {
         })
     })
   },
+  planToPlan (props) {
+    return new Promise((resolve, reject) => {
+      Vue.http.post(mapping.PLAN_MOVE_TO_PLAN, props)
+        .then(res => {
+          resolve(res.json())
+        }, err => {
+          window.rsqadmg.error(JSON.stringify(err))
+          reject(err)
+        })
+    })
+  },
   /**
    * 获取指定日程中的任务
    * @returns {*}

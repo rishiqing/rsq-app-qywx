@@ -359,9 +359,7 @@
                   })
                 })
             }
-            that.planMember = that.editItem.kanbanItemJoinLinks.map(function (o) {
-              return o.joinUser.id
-            })
+            that.planMember = that.editItem.accessIds.split(',')
             this.joinUserRsqIds = this.editItem.joinUserIds.split(',')
           })
           .then(() => {

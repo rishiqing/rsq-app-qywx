@@ -51,6 +51,12 @@ document.addEventListener('touchend', function () {
     }
   }
 }, false)
+// 注册双击事件
+VueTouch.registerCustomEvent('doubletap', {
+  type: 'tap',
+  taps: 2
+})
+
 Vue.use(VueTouch)
 Vue.use(weui)
 Vue.config.productionTip = false

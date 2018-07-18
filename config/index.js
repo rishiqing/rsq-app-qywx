@@ -99,7 +99,7 @@ module.exports = {
     port: devPort,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static/',
-    assetsPublicPath: '/',
+    assetsPublicPath: '/assets',
     proxyTable: {},
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
@@ -111,11 +111,12 @@ module.exports = {
     // 日事清地址
     rsqServer: 'https://beta.rishiqing.com/',
     // 日事清api的后台地址
-    apiServer: 'http://dev1.ngrok.timetask.cn/',
+    apiServer: 'https://dev1.ngrok.timetask.cn/',
     // 日事清-portlet的权限认证后台地址
-    authServer: 'http://dev1.ngrok.timetask.cn/qywxbackauth/',
+    authServer: 'https://dev1.ngrok.timetask.cn/qywxbackauth/',
     // 日事清前端文件地址
-    frontServer: 'http://' + devIp + ':' + (process.env.PORT || devPort) + '/',
+    // frontServer: 'http://' + devIp + ':' + (process.env.PORT || devPort) + '/',
+    frontServer: '/',
     // 阿里云OSS STS认证的server地址
     // stsServer: 'http://' + ip.address() + ':' + (process.env.STS_PORT || stsPort) + '/sts/'
     stsServer: 'https://sts-server.rishiqing.com/sts/',

@@ -31,6 +31,11 @@ import weui from 'vue-weui'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import ElementUI from 'element-ui'
+// 图片轮播
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+// require styles
+import 'swiper/dist/css/swiper.css'
+
 //  正式环境下配置sentry
 if (window.rsqConfig.env === 'prod') {
   Raven
@@ -59,6 +64,7 @@ VueTouch.registerCustomEvent('doubletap', {
 
 Vue.use(VueTouch)
 Vue.use(weui)
+Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 window.rsqadmg.exec('auth', {

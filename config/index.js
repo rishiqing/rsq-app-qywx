@@ -73,7 +73,7 @@ module.exports = {
     // Set to `true` or `false` to always turn it on or off
     bundleAnalyzerReport: process.env.npm_config_report,
     // 日事清地址
-    rsqServer: 'https://beta.rishiqing.com/',
+    rsqServer: 'https://betaold.rishiqing.com/',
     // 日事清api的后台地址
     apiServer: 'https://qywx-beta.rishiqing.com/',
     // apiServer: 'http://dd.rsq.etoutiao.cn/',
@@ -109,7 +109,7 @@ module.exports = {
     cssSourceMap: true,
     hotPath: '/__webpack_hmr',
     // 日事清地址
-    rsqServer: 'https://beta.rishiqing.com/',
+    rsqServer: 'https://betaold.rishiqing.com/',
     // 日事清api的后台地址
     apiServer: 'https://dev1.ngrok.timetask.cn/',
     // 日事清-portlet的权限认证后台地址

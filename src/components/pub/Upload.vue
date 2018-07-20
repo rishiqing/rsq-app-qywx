@@ -137,7 +137,7 @@
     font-size:30px;
     left:0.3rem;
     width:0.848rem;
-    height: 0.7rem;
+    // height: 0.7rem;
     /*Opacity settings for all browsers*/
     opacity: 0;
     -moz-opacity: 0;

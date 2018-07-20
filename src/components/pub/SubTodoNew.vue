@@ -238,8 +238,34 @@
 <style lang="scss" scoped>
   .input-title{
     margin-top: 10px;
-    border-top: 0.5px solid #D4D4D4;
-    border-bottom: 0.5px solid #D4D4D4;
+    // border-top: 0.5px solid #D4D4D4;
+    // border-bottom: 0.5px solid #D4D4D4;
+  }
+  .input-title:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .input-title:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .router-view{
     height: 100%;
@@ -250,10 +276,36 @@
   }
   .firstGroup{
     margin-top:20px;
-    border-top: 0.5px solid #D4D4D4;
+    // border-top: 0.5px solid #D4D4D4;
+  }
+  .firstGroup:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 20px s;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .secondGroup{
-    border-bottom: 0.5px solid #D4D4D4;
+    position: relative;
+  }
+  .secondGroup:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   p{
     font-family: PingFangSC-Regular;

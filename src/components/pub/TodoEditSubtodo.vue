@@ -265,7 +265,7 @@
     margin-top: 20px;
   }
   .firstGroup{
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 1px solid #d4d4d4;
   }
   .sche{
    font-size: 0.586rem;

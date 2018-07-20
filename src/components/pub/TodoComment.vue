@@ -1,9 +1,11 @@
 <template>
   <div>
-    <textarea
-      v-model="content"
-      type="text"
-      placeholder="请输入评论内容" />
+    <div class="pb">
+      <textarea
+        v-model="content"
+        type="text"
+        placeholder="请输入评论内容" />
+    </div>
     <div class="icon-wrap">
       <img
         src="../../assets/img/upload.png"
@@ -153,16 +155,12 @@
     padding-top:15px ;
     height: 138px;
     width: 100%;
-    margin-top: 20px;
-    border-top: 0.5px solid #d4d4d4;
-    border-bottom: 0.5px solid #d4d4d4;
+    vertical-align: bottom;
+    // margin-top: 20px;
+    // border-top: 0.5px solid #d4d4d4;
+    // border-bottom: 0.5px solid #d4d4d4;
     resize:none;
     font-size: 17px
-  }
-  ul{
-    border-bottom: 0.5px solid #E3E3E3;
-    border-top: 0.5px solid #E3E3E3;
-    background-color: white;
   }
   .close{
     position: absolute;
@@ -192,5 +190,35 @@
     position: absolute;
     top: -46px;
     left: 20px;
+  }
+  .pb{
+    margin-top: 20px;
+    position: relative;
+  }
+  .pb:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .pb:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
 </style>

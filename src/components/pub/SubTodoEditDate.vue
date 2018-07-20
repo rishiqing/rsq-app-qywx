@@ -454,9 +454,24 @@
     .dp-table .dp-selected {
       background: #55A8FD;
       color:white;}
-    .dp-sel-type {position: relative;border-bottom: solid 0.5px #D4D4D4;overflow: hidden;
+    .dp-sel-type {position: relative;
+      // border-bottom: solid 0.5px #D4D4D4;
+      overflow: hidden;
       background-color: #f5f5f5;
       height: 40px;line-height: 40px;}
+    .dp-sel-type:after{
+      content: " ";
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      right: 0;
+      height: 1px;
+      border-top: 1px solid #d4d4d4;
+      -webkit-transform-origin: 0 0;
+      transform-origin: 0 0;
+      -webkit-transform: scaleY(0.5);
+      transform: scaleY(0.5);
+    }
     .dp-btn {
       float: left;
       width: 33.3333%;

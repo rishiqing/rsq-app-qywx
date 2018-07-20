@@ -125,7 +125,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top:0.5px solid #D4D4D4;
+    // border-top:0.5px solid #D4D4D4;
     height: 50px;
     background-color: #FDFDFF;;
   }
@@ -195,6 +195,16 @@
     content:'';
     display: block;
     clear: both;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .icon{
     width: 22px;

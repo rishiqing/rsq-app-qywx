@@ -100,11 +100,21 @@
 	width: 34px;
 	height: 34px;
 }
-#firstGroup .bottom-border-2{
-	border-bottom: 0.5px solid #d4d4d4;
-}
 #plantofix .common-field:not(:last-child){
-	border-bottom: 0.5px solid #d4d4d4;
+	/*border-bottom: 0.5px solid #d4d4d4;*/
+}
+#plantofix .common-field:not(:last-child):after,#firstGroup .bottom-border-2:after{
+	content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
 }
 .fixpadding input[type='text']{
 	background-color: transparent !important;
@@ -117,24 +127,91 @@
 	left: 0.59rem;
 }
 .fixborder .edit{
-	border-top: 0.5px solid #d4d4d4;
-	border-bottom: 0.5px solid #d4d4d4;
+	position: relative;
+}
+.fixborder .edit:before{
+	content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+.fixborder .edit:after{
+	content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);	
+}
+.fixborder .edit .pb:after{
+	border-top: 0;
 }
 .fixborder .firstGroup{
-	border-top: 0.5px solid #d4d4d4;
+	/*border-top: 0.5px solid #d4d4d4;*/
 	border-bottom: 0 !important;
 }
+.fixborder .firstGroup:before{
+	content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
 .fixborder .secondGroup{
-	border-bottom: 0.5px solid #d4d4d4;
+	/*border-bottom: 0.5px solid #d4d4d4;*/
+}
+.fixborder .secondGroup:after{
+	content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
 }
 .fixborder .common-field .outer-wrap{
 	padding-left: 33px;
 	margin-left: 15px;
 }
 .fixborder .outer-wrap{
-	border-bottom: 0.5px solid #d4d4d4 !important;
+	/*border-bottom: 0.5px solid #d4d4d4 !important;*/
 }
-.fixborder .secondGroup .outer-wrap{
+.fixborder .outer-wrap:after{
+	content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+.fixborder .secondGroup .outer-wrap:after{
 	border-bottom: 0 !important;
 }
 .fix-create .outer-wrap{
@@ -155,7 +232,7 @@ padding-left: 0.8rem;
 	line-height: 100% !important
 }
 .inbox-item ul{
-	border-bottom: 0.5px solid #d4d4d4;
+	/*border-bottom: 0.5px solid #d4d4d4;*/
 }
 .kong:after{
 	border: 0 !important;

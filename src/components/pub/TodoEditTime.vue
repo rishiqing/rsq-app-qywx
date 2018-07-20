@@ -431,7 +431,34 @@
     }
     ul{
       background-color: white;
-      border-top:0.5px solid #DADADA;
+      position: relative;
+      // border-top:0.5px solid #DADADA;
+    }
+    ul:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    }
+    ul:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
     }
     .edit-time-all-day{
       margin-top: 0.231rem;
@@ -447,14 +474,14 @@
       position: relative;
       line-height:1.2rem ;
       height: 1.2rem;
-      border-bottom:0.5px solid #d4d4d4;
+      // border-bottom:0.5px solid #d4d4d4;
       box-sizing: border-box;
       padding-left: 3%;
     }
     .sec{
       margin-top:20px;
-      border-top: 0.5px solid #d4d4d4;
-      border-bottom:0.5px solid #d4d4d4;
+      // border-top: 0.5px solid #d4d4d4;
+      // border-bottom:0.5px solid #d4d4d4;
       height: 80px;
       background-color: #fff;
       text-align: center;
@@ -485,6 +512,32 @@
           font-size: 21px;
           transform: translate(-50%, -50%)
         }
+    }
+    .sec:before{
+      content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    }
+    .sec:after{
+      content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
     }
     .last{
       margin-top:20px ;

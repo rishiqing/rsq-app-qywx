@@ -285,7 +285,21 @@
     align-items: center;
     justify-content: space-between;
     height: 1.1rem;
-    border-bottom: 0.5px solid #d4d4d4;
+    position: relative;
+    // border-bottom: 0.5px solid #d4d4d4;
+  }
+  .child-plan-item:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .selected-icon{
     color: #55A8FD;
@@ -350,7 +364,20 @@
     z-index: 100;
     position: relative;
     background-color: #fafafa;
-    border-bottom: 0.5px solid #D4D4D4;
+    // border-bottom: 0.5px solid #D4D4D4;
+  }
+  .top-child:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   ul.show-child{
     top: 46px
@@ -369,20 +396,59 @@
   .ul-list{
     margin-top: 20px;
     background-color: #fff;
-    border-bottom: 0.5px solid #d4d4d4;
-    border-top: 0.5px solid #d4d4d4;
+    position: relative;
+  }
+  .ul-list:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .ul-list:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .li-item{
     height: 56px;
     line-height: 56px;
     margin-left: 15px;
-    border-bottom: 0.5px solid #d4d4d4;
+    // border-bottom: 0.5px solid #d4d4d4;
     display: flex;
     justify-content: space-between;
-  }
-  .li-item:last-child{
-    border-bottom: 0;
     font-size: 15px;
+    position: relative;
+  }
+  .li-item:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .li-item:last-child:after{
+    border-bottom: 0;
 
   }
   .icon2-selected{

@@ -59,9 +59,22 @@
 </script>
 <style lang="scss" scoped>
   .sche-list{
-    border-top:0.5px solid #D4D4D4 ;
+    // border-top:0.5px solid #D4D4D4 ;
     padding-left: 15px;
     // overflow-y: auto;
     overflow-x: hidden;
+  }
+  .sche-list:after {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
 </style>

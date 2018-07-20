@@ -233,9 +233,6 @@
   .itm-group{
     margin-top: 20px;
   }
-  .firstGroup{
-    border-bottom: 1px solid #D9D9D9;
-  }
   .sche{
    font-size: 0.586rem;
     color: #55A8FD;

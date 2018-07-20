@@ -203,9 +203,37 @@
 </script>
 <style lang="scss" scoped>
   .input-title{
-    border-top: 0.5px solid #d4d4d4;
-    border-bottom: 0.5px solid #d4d4d4;
+    // border-top: 0.5px solid #D4D4D4;
+    // border-bottom: 0.5px solid #D4D4D4;
+    margin-top: 10px;
     background-color: #fff;
+  }
+  .input-title:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    z-index: 999;
+  }
+  .input-title:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .router-view{
     height: 100%;
@@ -222,9 +250,24 @@
   }
   .secondGroup{
     background-color: #fff;
+    position: relative;
     // margin-top:10px;
     // border-top: 0.5px solid #d4d4d4;
-    border-bottom: 0.5px solid #d4d4d4;
+    // border-bottom: 0.5px solid #d4d4d4;
+  }
+  .secondGroup:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    z-index: 999;
   }
   p{
     font-family: PingFangSC-Regular;
@@ -303,7 +346,19 @@
   }
   .input-date-backgrand{
     margin-top: 10px;
-    border-top: 0.5px solid #d4d4d4;
     background-color: #fff  !important;
+  }
+  .input-date-backgrand:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
 </style>

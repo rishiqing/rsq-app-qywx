@@ -353,7 +353,7 @@ div.el-message-box input.el-input__inner {
 .icon-field-group .common-field {
   padding-left: 33px;
 }
-.icon-field-group .common-field:last-child {
+.icon-field-group .common-field:last-child,.icon-field-group .common-field:last-child:after {
   border-bottom: 0;
 }
 .icon-field-group .common-field .outer-wrap {
@@ -366,10 +366,37 @@ button.el-message-box__headerbtn i.el-message-box__close {
 }
 
 .icon-field-group{
-  border-top: 0.5px solid #D4D4D4;
-  border-bottom: 0.5px solid #D4D4D4;
+  // border-top: 0.5px solid #D4D4D4;
+  // border-bottom: 0.5px solid #D4D4D4;
   background-color: #fff;
   padding-left: 15px;
+  position: relative;
+}
+.icon-field-group:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d9d9d9;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+}
+.icon-field-group:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d9d9d9;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
 }
 .common-field .bottom-border{
   border-bottom: 0 !important;

@@ -244,9 +244,37 @@
     background-color: white;
     margin-top: 20px;
     // padding-bottom: 2.9rem;
-    border-top: 0.5px solid #D4D4D4;
-    border-bottom: 0.5px solid #D4D4D4;
+    border-top: 0.5px solid transparent;
+    border-bottom: 0.5px solid transparent;
+    position: relative;
   }
+  .comment-list:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .comment-list:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+
   .operation{
     font-family: PingFangSC-Regular;
     font-size: 15px;
@@ -259,7 +287,20 @@
     height: 40px;
   }
   .top{
-    border-bottom: 0.5px solid #D4D4D4;
+    position: relative;
+  }
+  .top:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .chose{
     color: #55A8FD;

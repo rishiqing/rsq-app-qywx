@@ -6,13 +6,18 @@
       class="preview-img-wrap">
       <div class="preview-flex">
         <div class="flex-item">
-          <v-touch
-            ref="imgView"
-            :src="previewImage.realPath"
-            :alt="fileName"
-            :class="{'zoom' : zoom}"
-            tag="img"
-            class="preview-img"/>
+          <swiper
+            ref="imgOverview"
+            :key="previewImage.id"
+            :options="swiperOption"
+            style="height: 100%;">
+            <swiper-slide>
+              <p class="swiper-zoom-container">
+                <img
+                  :src="previewImage.realPath">
+              </p>
+            </swiper-slide>
+          </swiper>
         </div>
         <v-touch
           class="close"
@@ -26,16 +31,24 @@
   </div>
 </template>
 <script>
+
   export default {
     data () {
       return {
         isShow: false,
         previewImage: {},
         previewFile: {},
-        zoom: false
+        swiperOption: {
+          width: window.innerWidth,
+          zoom: true,
+          initialSlide: 0
+        }
       }
     },
     computed: {
+      swiper () {
+        return this.$refs.imgOverview.swiper
+      },
       fileName () {
         var file = this.previewImage.id ? this.previewImage : this.previewFile
         if (!file.name) return ''
@@ -53,7 +66,6 @@
       window.onpopstate = function () {
         that.closePreview()
       }
-      this.zoom = false
     },
     methods: {
       closePreview (e) {
@@ -62,7 +74,11 @@
         }, 50)
       },
       more () {
-        this.zoom = !this.zoom
+        this.swiperOption = {
+          width: window.innerWidth,
+          zoom: true,
+          initialSlide: 0
+        }
       },
       closePreviewfix (e) {
         if (e) {

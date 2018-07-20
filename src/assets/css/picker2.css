@@ -255,3 +255,6 @@ input[type="text"]{
 	top: 80px;
 	font-size: 14px
 }
+.swiper-container{
+	overflow: visible !important;
+}

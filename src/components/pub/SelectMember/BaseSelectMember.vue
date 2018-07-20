@@ -658,7 +658,7 @@
     z-index: 10100;
     background: #F5F5F5;
     padding: 8px 10px;
-    box-shadow: inset 0 0 0 0 #D9D9D9;
+    box-shadow: inset 0 0 0 0 #d4d4d4;
     // border-bottom: solid 1px #E0E0E0;
   }
   .sel-header:after{
@@ -668,7 +668,7 @@
     bottom: -1px;
     right: 0;
     height: 1px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #d4d4d4;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
@@ -689,7 +689,7 @@
     top: 0;
     right: 0;
     height: 1px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #d4d4d4;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
@@ -763,7 +763,7 @@
     top: 0;
     right: 0;
     height: 1px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #d4d4d4;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
@@ -787,7 +787,7 @@
     bottom: -1px;
     right: 0;
     height: 1px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #d4d4d4;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
@@ -877,7 +877,7 @@
     bottom: -1px;
     right: 0;
     height: 1px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #d4d4d4;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
@@ -910,7 +910,7 @@
     bottom: -1px;
     right: 0;
     height: 1px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #d4d4d4;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
@@ -925,7 +925,7 @@
     bottom: -1px;
     right: 0;
     height: 1px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid #d4d4d4;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);

@@ -83,6 +83,9 @@
     font-size: 17px;
     padding-left: 0;
 }
+#fix-input .pb:after{
+	border-top: 0;
+}
 #fix-input{
 	height: 98px;
 }
@@ -251,4 +254,7 @@ input[type="text"]{
 	background-color: #F5A623;
 	top: 80px;
 	font-size: 14px
+}
+.swiper-container{
+	overflow: visible !important;
 }

@@ -6,7 +6,7 @@
     <p class="deleted">该任务已被删除</p>
     <p class="deleted">您可登录日事清官网，在回收站查找已删除的任务</p>
     <v-touch @tap="returnTo">
-      <div class="returnTo">回到日程</div>
+      <div class="returnTo">回到{{ plan ? '计划' : '日程' }}</div>
     </v-touch>
   </div>
 </template>
@@ -16,9 +16,18 @@
     data () {
       return {}
     },
+    computed: {
+      plan () {
+        return this.$route.query.from === 'plan'
+      }
+    },
     methods: {
       returnTo () {
-        this.$router.replace('/sche')
+        if (!this.plan) {
+          this.$router.replace('/sche')
+        } else {
+          this.$router.replace('/plan/list')
+        }
       }
     }
   }

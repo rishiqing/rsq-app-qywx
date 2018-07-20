@@ -110,7 +110,8 @@
       return {
         editItem: {},
         joinUserRsqIds: [],
-        planMember: []
+        planMember: [],
+        error: false
       }
     },
     computed: {
@@ -164,6 +165,10 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     beforeRouteLeave (to, from, next) {
+      if (this.error) {
+        next()
+        return
+      }
       if (!this.$refs.title.$refs.titleInput.value || /^\s+$/.test(this.$refs.title.$refs.titleInput.value)) {
         window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
         next(false)
@@ -365,6 +370,16 @@
           .then(() => {
             this.fetchCommentIds()
             // window.rsqadmg.exec('hideLoader')
+          })
+          .catch(err => {
+            console.log(err)
+           // window.rsqadmg.exec('hideLoader')
+            if (err.code === 400320) {
+              that.error = true
+              that.$router.push('/pub/check-failure?from=plan')
+            } else if (err.code === 400318) {
+              that.$router.push('/pub/noPermission')
+            }
           })
       }
     }

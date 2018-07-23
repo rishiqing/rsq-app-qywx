@@ -303,7 +303,7 @@
     }
     span{
       display:block;
-      margin-left: 0.45rem;
+      margin-left: 15px;
       color: #3D3D3D;
       font-family: PingFangSC-Regular;
       font-size: 17px;
@@ -321,7 +321,7 @@
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
-    margin-left: 0.45rem;
+    margin-left: 15px;
     }
     .user-define {
       color:#3D3D3D;
@@ -333,6 +333,7 @@
     li{
       position: relative;
       padding:2px;
+      padding-left: 0;
       height: 1.112rem;
       line-height:  1.112rem;;
       font-family: PingFangSC-Regular;

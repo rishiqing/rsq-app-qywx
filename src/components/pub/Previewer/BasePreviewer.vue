@@ -24,7 +24,7 @@
           @tap="closePreview">
           <img
             class="close-img"
-            src="../../../assets/img/close.svg">
+            src="../../../assets/img/close-img.svg">
         </v-touch>
       </div>
     </div>

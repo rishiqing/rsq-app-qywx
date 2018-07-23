@@ -31,9 +31,23 @@
           return this.$store.state.todo.currentTodo.kanbanItem
         }
       },
+      childPlanName () {
+        if (this.plan) {
+          return this.kanbanItem.childKanbanName
+        } else {
+          return this.$store.state.todo.currentTodo.from.levelFourName
+        }
+      },
+      cardName () {
+        if (this.plan) {
+          return this.kanbanItem.kanbanCardName
+        } else {
+          return this.kanbanItem.kanbanItemName
+        }
+      },
       planName () {
         if (this.kanbanItem) {
-          return this.kanbanItem.kanbanName || ''
+          return this.kanbanItem.kanbanName + '，' + this.childPlanName + '，' + this.cardName
         } else {
           return '添加到计划'
         }

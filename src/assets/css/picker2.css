@@ -258,3 +258,35 @@ input[type="text"]{
 .swiper-container{
 	overflow: visible !important;
 }
+[data-attach-type = word]{
+    display: inline-block;
+    width: 35px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+	background-image: url(../../assets/img/word.svg);
+}
+[data-attach-type = ppt]{
+    display: inline-block;
+    width: 35px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+	background-image: url(../../assets/img/ppt.svg);
+}
+[data-attach-type = excel]{
+    display: inline-block;
+    width: 35px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+	background-image: url(../../assets/img/excel.svg);
+}
+[data-attach-type = pdf]{
+    display: inline-block;
+    width: 35px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+	background-image: url(../../assets/img/pdf.svg);
+}

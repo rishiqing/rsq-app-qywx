@@ -6,7 +6,7 @@
     <p class="deleted">该任务已被删除</p>
     <p class="deleted">您可登录日事清官网，在回收站查找已删除的任务</p>
     <v-touch @tap="returnTo">
-      <div class="returnTo">回到{{ plan ? '计划' : '日程' }}</div>
+      <div class="returnTo">回到{{ backText }}</div>
     </v-touch>
   </div>
 </template>
@@ -19,14 +19,28 @@
     computed: {
       plan () {
         return this.$route.query.from === 'plan'
+      },
+      isInbox () {
+        return this.$route.query.from === 'isInbox'
+      },
+      backText () {
+        if (this.plan) {
+          return '计划'
+        } else if (this.isInbox) {
+          return '记事'
+        } else {
+          return '日程'
+        }
       }
     },
     methods: {
       returnTo () {
-        if (!this.plan) {
-          this.$router.replace('/sche')
-        } else {
+        if (this.plan) {
           this.$router.replace('/plan/list')
+        } else if (this.isInbox) {
+          this.$router.replace('/inbox')
+        } else {
+          this.$router.replace('/sche')
         }
       }
     }

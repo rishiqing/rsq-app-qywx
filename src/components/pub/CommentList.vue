@@ -159,6 +159,8 @@
       showAction (f) {
         if (f.contentType === 'png' || f.contentType === 'jpg' || f.contentType === 'jpeg' || f.contentType === 'bmp' || f.contentType === 'gif') {
           Previewer.show({ file: f })
+        } else {
+          window.rsqadmg.execute('alert', {message: '该文件类型暂不支持预览'})
         }
         return
         // var that = this

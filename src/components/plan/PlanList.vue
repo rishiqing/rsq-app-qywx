@@ -207,6 +207,7 @@
     right: 24px;
     width: 48px;
     height: 48px;
+    z-index: 9999999;
   }
   .new{
   width:141px;

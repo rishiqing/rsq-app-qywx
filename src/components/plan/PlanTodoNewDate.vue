@@ -531,6 +531,8 @@
   }
   .is-active{
     box-shadow:0px -2px 0px 0px #0082EF inset;
+    position: relative;
+    z-index: 999999;
   }
   .clear{
     color: #000 !important;

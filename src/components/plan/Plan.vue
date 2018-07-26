@@ -275,6 +275,8 @@
     font-family: PingFangSC-Medium;
     font-size: 17px;
     color: #FFFFFF;
+    position: relative;
+    z-index: 9999;
   }
   .star-main{
     width:23.4%;

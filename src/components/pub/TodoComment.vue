@@ -207,6 +207,7 @@
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
+    z-index: 999999;
   }
   .pb:after{
     content: " ";

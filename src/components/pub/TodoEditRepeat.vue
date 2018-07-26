@@ -4,7 +4,7 @@
       <v-touch
         tag="li"
         @tap="setSelected(noRepeat)">
-        <span>{{ toCycle(noRepeat) }}</span>
+        <span class="first-span">{{ toCycle(noRepeat) }}</span>
         <i
           v-show="selected === noRepeat"
           class="icon2-selected finish"/>
@@ -30,11 +30,11 @@
     <v-touch
       class="user-repeat"
       @tap="showUserRepeat">
-      <span class="list-key u-pull-left user-define">
+      <span class="list-key u-pull-left first-span user-define">
         {{ toCycle(userRepeat) }}
       </span>
-      <i class="icon2-arrow-right arrow u-pull-right"/>
-      <span class="list-value u-pull-right">
+      <i class="icon2-arrow-right arrow u-pull-right icon2-arrow-right-small arrow"/>
+      <span class="list-value u-pull-right ">
         {{ repeatText }}
       </span>
     </v-touch>
@@ -414,6 +414,12 @@
       span{
         // border-bottom: 0.5px solid #d4d4d4 !important;
       }
+    }
+    span.first-span:before{
+      border-bottom: 0;
+    }
+    .u-pull-right:before{
+      border-bottom: 0
     }
   }
 </style>

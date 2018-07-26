@@ -62,7 +62,7 @@
     // border-top:0.5px solid #D4D4D4 ;
     padding-left: 15px;
     // overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
   }
   .sche-list:after {
     content: " ";

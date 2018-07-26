@@ -130,7 +130,7 @@
     content: " ";
     position: absolute;
     left: 0;
-    bottom: -1;
+    bottom: -1px;
     right: 0;
     height: 1px;
     border-top: 1px solid #d4d4d4;
@@ -222,7 +222,7 @@
     content: " ";
     position: absolute;
     left: 0;
-    bottom: -1;
+    bottom: -1px;
     right: 0;
     height: 1px;
     border-top: 1px solid #d4d4d4;

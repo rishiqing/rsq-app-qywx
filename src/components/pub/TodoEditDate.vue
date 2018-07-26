@@ -76,7 +76,7 @@
       class="date-repeat"
       @tap="gotoRepeat">
       <span class="list-key u-pull-left">重复</span>
-      <i class="icon2-arrow-right arrow u-pull-right light-color"/>
+      <i class="icon2-arrow-right arrow u-pull-right light-color icon2-arrow-right-small arrow"/>
       <span class="list-value u-pull-right light-color">
         {{ repeatText }}
       </span>
@@ -649,6 +649,8 @@
   }
   .is-active{
     box-shadow:0px -2px 0px 0px #0082EF inset;
+    position: relative;
+    z-index: 999999;
   }
   .clear{
     color: #000 !important;

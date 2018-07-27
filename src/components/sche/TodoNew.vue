@@ -125,18 +125,22 @@
     },
     mounted () {
       this.joinUserRsqIds = [this.$store.state.loginUser.rsqUser.id]
-      if (this.editItem.receiverIds !== null) {
-        var idArray = this.editItem.receiverIds.split(',')
-        this.joinUserRsqIds = []
-        for (var i = 0; i < idArray.length; i++) {
-          this.joinUserRsqIds.push(idArray[i])
-        }
-      }
+      // if (this.editItem.receiverIds !== null || this.editItem.receiverIds !== undefined) {
+      //   console.log(this.editItem.receiverIds)
+      //   var idArray = this.editItem.receiverIds.split(',')
+      //   this.joinUserRsqIds = []
+      //   for (var i = 0; i < idArray.length; i++) {
+      //     this.joinUserRsqIds.push(idArray[i])
+      //   }
+      // }
     },
     methods: {
       findId (id) {
         var that = this
         for (let i = 0; i < id.length; i++) {
+          if (id[i].userList.length === 0) {
+            continue
+          }
           for (let j = 0; j < id[i].userList.length; j++) {
             that.idArray.push(id[i].userList[j].id)
           }

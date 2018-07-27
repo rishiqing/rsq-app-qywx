@@ -416,7 +416,7 @@
       position: absolute;
       right: 0.2rem;
     height: 100%;
-    line-height: 56px;
+    line-height: 1.2rem;
       font-size: 21px;
       color: #999999;
     }

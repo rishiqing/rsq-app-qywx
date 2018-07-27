@@ -292,6 +292,6 @@ input[type="text"]{
 }
 .weui-btn:after{
     width: auto !important;
-    height: auto !!important;
+    height: auto !important;
     border: 0.5px solid rgba(0, 0, 0, 0.2)!important;
 }

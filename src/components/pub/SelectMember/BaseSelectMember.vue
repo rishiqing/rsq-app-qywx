@@ -539,6 +539,9 @@
       addObj (arr) {
         var that = this
         for (let i = 0, lenI = arr.length; i < lenI; i++) {
+          if (arr[i].userList.length === 0) {
+            continue
+          }
           for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {
             for (let k = 0, lenK = that.localList.length; k < lenK; k++) {
               if (arr[i].userList[j].id.toString() === that.localList[k].id) {
@@ -558,6 +561,9 @@
       changeSelectObj (arr, id, isSelect) {
         var that = this
         for (let i = 0, lenI = arr.length; i < lenI; i++) {
+          if (arr[i].userList.length === 0) {
+            continue
+          }
           for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {
             if (arr[i].userList[j].id === id) {
               arr[i].userList[j].isSelected = isSelect

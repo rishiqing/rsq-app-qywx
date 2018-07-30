@@ -80,7 +80,7 @@
 </script>
 <style lang="scss" scoped>
   .inbox-main{
-    min-height: 100%;
+    // min-height: 100%;
   }
   .tips{
     position: fixed;
@@ -230,5 +230,8 @@
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
+  }
+  .fff:empty:after,.fff:empty:before {
+    border-top: 0;
   }
 </style>

@@ -276,7 +276,7 @@
     .finish{
       position:absolute;
       right:0.63rem;
-      top:0.3rem;
+      top:0.4rem;
       color: #55A8FD;
       font-weight: bold;
     }

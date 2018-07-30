@@ -557,7 +557,7 @@ export default {
           resolve(res.json())
         }, err => {
           window.rsqadmg.error(JSON.stringify(err))
-          reject(err)
+          reject(err.body)
         })
     })
   },

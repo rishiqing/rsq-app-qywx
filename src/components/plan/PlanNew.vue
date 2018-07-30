@@ -1,10 +1,12 @@
 <template>
   <div>
-    <input
-      v-model="content"
-      type="text"
-      class="create-plan"
-      placeholder="计划名称">
+    <div class="pb">
+      <input
+        v-model="content"
+        type="text"
+        class="create-plan"
+        placeholder="计划名称">
+    </div>
     <div class="wrap-plan-member">
       <div class="plan-member-word">
         <span>计划成员</span><span class="count">{{ selectedLocalList.length }}人</span>
@@ -171,6 +173,9 @@
       findId (id) {
         var that = this
         for (let i = 0; i < id.length; i++) {
+          if (id[i].userList.length === 0) {
+            continue
+          }
           for (let j = 0; j < id[i].userList.length; j++) {
             that.idArray.push(id[i].userList[j].id)
           }
@@ -310,7 +315,21 @@
     color: #9B9B9B;
     height: 1rem;
     width: 100%;
-    border-bottom: 1px solid #D9D9D9;
+    position: relative;
+    // border-bottom: 1px solid #d4d4d4;
+  }
+  .plan-member-word:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .wrap-plan-member{
     display: flex;
@@ -321,8 +340,33 @@
     padding-left: 15px;
     padding-right: 0.2rem;
     flex-direction:column;
-    border-top: 0.5px solid #d4d4d4;
-    border-bottom: 0.5px solid #d4d4d4;
+    position: relative;
+  }
+  .wrap-plan-member:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .wrap-plan-member:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .plan-member{
     display: flex;
@@ -354,8 +398,37 @@
     margin-top: 20px;
     padding-bottom: 0.3rem;
     padding-top: 0.3rem;
-    border-top: 0.5px solid #d4d4d4;
-    border-bottom: 0.5px solid #d4d4d4;
+    position: relative;
+    // border-top: 0.5px solid #d4d4d4;
+    // border-bottom: 0.5px solid #d4d4d4;
+  }
+  .wrap-most:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    z-index: 9999
+  }
+  .wrap-most:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    z-index: 9999;
   }
   .plan-templ{
     font-family: PingFangSC-Regular;
@@ -393,9 +466,38 @@
     margin-top: 20px;
     font-family: PingFangSC-Regular;
     font-size: 17px;
-    border-top: 0.5px solid #d4d4d4;
-    border-bottom: 0.5px solid #d4d4d4;
+    // border-top: 0.5px solid #d4d4d4;
+    // border-bottom: 0.5px solid #d4d4d4;
     // line-height: 17px;
+  }
+  .pb{
+    position: relative;
+  }
+  .pb:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .pb:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .count{
     align-items: right;

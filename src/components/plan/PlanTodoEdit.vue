@@ -110,7 +110,8 @@
       return {
         editItem: {},
         joinUserRsqIds: [],
-        planMember: []
+        planMember: [],
+        error: false
       }
     },
     computed: {
@@ -164,6 +165,10 @@
       document.body.scrollTop = document.documentElement.scrollTop = 0
     },
     beforeRouteLeave (to, from, next) {
+      if (this.error) {
+        next()
+        return
+      }
       if (!this.$refs.title.$refs.titleInput.value || /^\s+$/.test(this.$refs.title.$refs.titleInput.value)) {
         window.rsqadmg.execute('alert', {message: '任务标题不能为空'})
         next(false)
@@ -366,6 +371,16 @@
             this.fetchCommentIds()
             // window.rsqadmg.exec('hideLoader')
           })
+          .catch(err => {
+            console.log(err)
+           // window.rsqadmg.exec('hideLoader')
+            if (err.code === 400320) {
+              that.error = true
+              that.$router.push('/pub/check-failure?from=plan')
+            } else if (err.code === 400318) {
+              that.$router.push('/pub/noPermission')
+            }
+          })
       }
     }
   }
@@ -515,7 +530,22 @@
     transition: border-color 0.4s, background-color ease 0.4s; }
   .itm-group{
     margin-top: 10px;
-    border-top: 0.5px solid #d4d4d4;
+    position: relative;
+    // border-top: 0.5px solid #d4d4d4;
+  }
+  .itm-group:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    z-index: 999;
   }
   .talk-png{
     width: 17px;

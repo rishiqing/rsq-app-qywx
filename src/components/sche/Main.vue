@@ -233,6 +233,7 @@
     right: 24px;
     width: 48px;
     height: 48px;
+    z-index: 9999999;
   }
   .calendar {
     overflow-y: auto;
@@ -266,8 +267,22 @@
     transition: padding-top 0.3s ease;
   }
   .ul-b{
-    border-bottom: 0.5px solid #d4d4d4;
+    // border-bottom: 0.5px solid #d4d4d4;
+    position: relative;
     background-color: #fff;
+  }
+  .ul-b:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .addNew{
     width: 141px;

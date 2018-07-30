@@ -339,14 +339,40 @@
     ul {
       position: relative;
       /*border-bottom: 0.5px solid #E3E3E3;*/
-      border-top: 0.5px solid #D4D4D4;
+      // border-top: 0.5px solid #D4D4D4;
       background: #FFFFFF;
     }
-    ul:not(:first-child){
+    ul:before{
+      content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    }
+    ul:not(:first-child):before{
       border-top: 0;
     }
     ul.bottom-border{
-      border-bottom: 0.5px solid #D4D4D4;
+      // border-bottom: 0.5px solid #D4D4D4;
+    }
+    ul.bottom-border:after{
+      content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
     }
     .top-ul {
       margin-top: 20px;
@@ -357,7 +383,22 @@
     span {
       /*line-height: 1.112rem;*/
       display: block;
-      border-bottom: 0.5px solid #d4d4d4;
+      // border-bottom: 0.5px solid #d4d4d4;
+    }
+    span:after{
+      content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    margin-left: 15px;
+
     }
     li {
       position: relative;
@@ -366,7 +407,7 @@
       font-family: PingFangSC-Regular;
       font-size: 17px;
       color: #3D3D3D;
-      padding-left: 3%;
+      padding-left: 15px;
     }
     li:last-child {
       border: none;
@@ -375,7 +416,7 @@
       position: absolute;
       right: 0.2rem;
     height: 100%;
-    line-height: 56px;
+    line-height: 1.2rem;
       font-size: 21px;
       color: #999999;
     }
@@ -383,10 +424,25 @@
       border-bottom: 0;
     }
     .mine-ul{
-      border-top: 0.5px solid #d4d4d4 !important;
+      // border-top: 0.5px solid #d4d4d4 !important;
+      position: relative;
       li{
         height: 1.2rem;
       }
+    }
+    .mine-ul li:before{
+       content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+
     }
     .fix-bb{
       li:last-child span{

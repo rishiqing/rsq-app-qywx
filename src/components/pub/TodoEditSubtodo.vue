@@ -129,6 +129,9 @@
       findId (id) {
         var that = this
         for (let i = 0; i < id.length; i++) {
+          if (id[i].userList.length === 0) {
+            continue
+          }
           for (let j = 0; j < id[i].userList.length; j++) {
             that.idArray.push(id[i].userList[j].id)
           }
@@ -265,7 +268,7 @@
     margin-top: 20px;
   }
   .firstGroup{
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 1px solid #d4d4d4;
   }
   .sche{
    font-size: 0.586rem;

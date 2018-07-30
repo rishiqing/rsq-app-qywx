@@ -125,8 +125,35 @@
     padding-left: 15px;
     margin-top: 20px;
     overflow-x: hidden;
-    border-top: 0.5px solid #d4d4d4;
-    border-bottom: 0.5px solid #d4d4d4;
+    position: relative;
+    // border-top: 0.5px solid #d4d4d4;
+    // border-bottom: 0.5px solid #d4d4d4;
+  }
+  .plan-list:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .plan-list:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .item-list{
     text-align: center;
@@ -180,6 +207,7 @@
     right: 24px;
     width: 48px;
     height: 48px;
+    z-index: 9999999;
   }
   .new{
   width:141px;

@@ -134,7 +134,8 @@ export default {
     }
     var funFormat = mills => {
       var d = new Date(mills)
-      return (d.getMonth() + 1) + '月' + (d.getDate()) + '日'
+      var year = d.getFullYear() === new Date().getFullYear() ? '' : d.getFullYear() + '年'
+      return year + (d.getMonth() + 1) + '月' + (d.getDate()) + '日'
     }
     switch (type) {
       case 'single':

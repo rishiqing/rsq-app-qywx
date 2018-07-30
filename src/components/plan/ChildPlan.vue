@@ -1026,7 +1026,21 @@
     align-items: center;
     justify-content: space-between;
     height: 1.1rem;
-    border-bottom: 0.5px solid #d4d4d4;
+    position: relative;
+    // border-bottom: 0.5px solid #d4d4d4;
+  }
+  .child-plan-item:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .selected-icon{
     color: #55A8FD;
@@ -1130,7 +1144,20 @@
     z-index: 100;
     position: relative;
     background-color: white;
-    border-bottom: 0.5px solid #D4D4D4;
+    // border-bottom: 0.5px solid #D4D4D4;
+  }
+  .top-child:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   ul.show-child{
     top: 46px

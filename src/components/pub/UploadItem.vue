@@ -149,14 +149,37 @@
     position: relative;
     display:flex;
     align-items: center;
-    border-top: 0.5px solid #d4d4d4;
+    // border-top: 0.5px solid #d4d4d4;
     border-bottom: none;
     background-color: white;
     padding-left: 15px;
     height: 56px;
   }
-  .task-list:last-child{
-    border-bottom: 0.5px solid #D4D4D4;
+  .task-list:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .task-list:last-child:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .progress-mask {
     position: absolute; top:0;bottom:0;left:0;width:1%;background: rgba(0,122,255,0.2);

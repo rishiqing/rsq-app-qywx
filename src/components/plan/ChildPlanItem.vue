@@ -89,19 +89,30 @@
     padding:0;
     line-height:1.612rem ;
     position: relative;
-    border-bottom:1px solid #E0E0E0 ;
   }
   .child-item{
     line-height: 1.412rem;
-    border-bottom:0.5px solid #d4d4d4;
-    background: #FFFFFF;
+    // background: #FFFFFF;
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     border-radius: 0;
   }
-  .child-item:last-child{
+  .child-item:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .child-item:last-child:after{
     border-bottom: none;
   }
   .subplan{

@@ -101,13 +101,26 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 0.5px solid #D4D4D4;
+    // border-bottom: 0.5px solid #D4D4D4;
     width: 131%;
     position: relative;
     user-select: none;
     transition: transform 0.3s;
   }
-   .slider:last-child {
+   .slider:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+   .slider:last-child,.slider:last-child:after {
     border-bottom: 0;
   }
   .icon2-selected{

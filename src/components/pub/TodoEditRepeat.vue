@@ -4,7 +4,7 @@
       <v-touch
         tag="li"
         @tap="setSelected(noRepeat)">
-        <span>{{ toCycle(noRepeat) }}</span>
+        <span class="first-span">{{ toCycle(noRepeat) }}</span>
         <i
           v-show="selected === noRepeat"
           class="icon2-selected finish"/>
@@ -30,11 +30,11 @@
     <v-touch
       class="user-repeat"
       @tap="showUserRepeat">
-      <span class="list-key u-pull-left user-define">
+      <span class="list-key u-pull-left first-span user-define">
         {{ toCycle(userRepeat) }}
       </span>
-      <i class="icon2-arrow-right arrow u-pull-right"/>
-      <span class="list-value u-pull-right">
+      <i class="icon2-arrow-right arrow u-pull-right icon2-arrow-right-small arrow"/>
+      <span class="list-value u-pull-right ">
         {{ repeatText }}
       </span>
     </v-touch>
@@ -276,25 +276,52 @@
     .finish{
       position:absolute;
       right:0.63rem;
-      top:0.3rem;
+      top:0.4rem;
       color: #55A8FD;
       font-weight: bold;
     }
     ul{
       position: relative;
       background: #FFFFFF;
-      border-bottom: 0.5px solid #d4d4d4;
+      // border-bottom: 0.5px solid #d4d4d4;
+    }
+    ul:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
     }
     .sec{
       margin-top: 0.373rem;
     }
     span{
       display:block;
-      margin-left: 0.45rem;
+      margin-left: 15px;
       color: #3D3D3D;
       font-family: PingFangSC-Regular;
       font-size: 17px;
-      border-bottom: 0.5px solid #D4D4D4;
+      // border-bottom: 0.5px solid #D4D4D4;
+    }
+    span:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    margin-left: 15px;
     }
     .user-define {
       color:#3D3D3D;
@@ -306,6 +333,7 @@
     li{
       position: relative;
       padding:2px;
+      padding-left: 0;
       height: 1.112rem;
       line-height:  1.112rem;;
       font-family: PingFangSC-Regular;
@@ -324,10 +352,36 @@
       padding: 0 0.45rem 0 0;
       background-color: white;
       align-items: center;
-      border-top: 0.5px solid #D4D4D4;
-      border-bottom:0.5px solid #D4D4D4;
+      // border-top: 0.5px solid #D4D4D4;
+      // border-bottom:0.5px solid #D4D4D4;
       font-family: PingFangSC-Regular;
       font-size: 17px;
+    }
+    .user-repeat:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    }
+    .user-repeat:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
     }
     span.list-value {margin-right:0.2rem;
       max-width:5rem;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;
@@ -336,17 +390,36 @@
       line-height: 1.2rem;
     }
     .top-ul{
-      border-top: 0.5px solid #d4d4d4;
-      border-bottom: 0.5px solid #d4d4d4;
+      // border-top: 0.5px solid #d4d4d4;
+      // border-bottom: 0.5px solid #d4d4d4;
       li:last-child span{
         // border-bottom: 0.5px solid #d4d4d4;
       }
     }
-    .no-repeat{
+    .top-ul:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+    }
+    .no-repeat:after{
       border-bottom: 0;
       span{
-        border-bottom: 0.5px solid #d4d4d4 !important;
+        // border-bottom: 0.5px solid #d4d4d4 !important;
       }
+    }
+    span.first-span:before{
+      border-bottom: 0;
+    }
+    .u-pull-right:before{
+      border-bottom: 0
     }
   }
 </style>

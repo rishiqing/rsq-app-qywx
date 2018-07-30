@@ -50,7 +50,33 @@
 </script>
 <style lang="scss" scoped>
   .input-wrap {
-
+    position: relative;
+  }
+  .input-wrap:before{
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
+  .input-wrap:after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
   }
   .input-wrap > input {
     background: #FFFFFF;
@@ -59,7 +85,7 @@
     font-size: 0.506rem;
     border-radius: 0;
     color: #3D3D3D;
-    border-top: 0.5px solid #d4d4d4;
-    border-bottom: 0.5px solid #d4d4d4;
+    // border-top: 0.5px solid #d4d4d4;
+    // border-bottom: 0.5px solid #d4d4d4;
   }
 </style>

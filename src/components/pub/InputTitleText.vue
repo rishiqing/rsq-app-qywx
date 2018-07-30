@@ -12,16 +12,18 @@
           :class="{'is-display-title':itemChecked}"
           class="icon2-selected hide"/>
       </v-touch>
-      <input
-        ref="titleInput"
-        :value="itemTitle"
-        :class="{'padding-fix':!isCheckable,'edit-border':isShowBottomBorder}"
-        :placeholder="placeholder"
-        class="title-input"
-        type="text"
-        @input="inputChange"
-        @blur="inputBlur"
-        @focus="checkDisabled">
+      <div class="pb">
+        <input
+          ref="titleInput"
+          :value="itemTitle"
+          :class="{'padding-fix':!isCheckable,'edit-border':isShowBottomBorder}"
+          :placeholder="placeholder"
+          class="title-input"
+          type="text"
+          @input="inputChange"
+          @blur="inputBlur"
+          @focus="checkDisabled">
+      </div>
     </div>
   </div>
 </template>
@@ -114,7 +116,7 @@
     display: none;
   }
   .edit-border{
-    border-bottom: 0.5px solid #D4D4D4;
+    // border-bottom: 0.5px solid #D4D4D4;
   }
   .edit{
     font-size: 17px;
@@ -137,7 +139,7 @@
     border-radius: 1px;
   }
   .is-display-title{
-display: block;
+    display: block;
     // transform: translateX(-17px) translateY(0px);
     font-size: 15px;
     color: #999;
@@ -166,6 +168,25 @@ display: block;
     padding-left: 0.1rem;
     padding-top: 2px;
   }
+  .pb{
+    height: 100%;
+    width: 100%;
+    margin-left: 15px;
+  }
+  .pb:after{
+    margin-left: 15px;
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #d4d4d4;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+    -webkit-transform: scaleY(0.5);
+    transform: scaleY(0.5);
+  }
   input[type='text']{
     height: 64px;
     background: #FFFFFF;
@@ -173,7 +194,7 @@ display: block;
     padding: 0.3rem;
     border-radius: 0;
     color: #3D3D3D;
-    margin-left: 15px;
+    // margin-left: 15px;
     padding-left: 35px;
   }
   .padding-fix{

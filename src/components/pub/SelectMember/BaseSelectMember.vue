@@ -540,6 +540,10 @@
         var that = this
         for (let i = 0, lenI = arr.length; i < lenI; i++) {
           if (arr[i].userList.length === 0) {
+            if (arr[i].childList.length !== 0) {
+            // 三重循环之后就是递归
+              that.addObj(arr[i].childList)
+            }
             continue
           }
           for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {

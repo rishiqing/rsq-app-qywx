@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="descrip-before" />
     <div
       ref="todoNote"
       class="descrip"
@@ -7,6 +8,7 @@
       @focus="inputFocus"
       @input="inputChange"
       @blur="inputBlur" />
+    <div class="descrip-after" />
     <div class="btn-group">
       <div class="btn-wrap">
         <v-touch
@@ -93,11 +95,19 @@
     position: relative;
     // border-bottom: 0.5px solid #d4d4d4;
   }
-  .descrip:before{
+  .descrip-before{
+    height: 0;
+    position: relative;
+  }
+  .descrip-after{
+    height: 0;
+    position: relative;
+  }
+  .descrip-before:after{
     content: " ";
     position: absolute;
     left: 0;
-    top: 0;
+    bottom: -1px;
     right: 0;
     height: 1px;
     border-top: 1px solid #d4d4d4;
@@ -106,11 +116,11 @@
     -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
   }
-  .descrip:after{
+  .descrip-after:before{
     content: " ";
     position: absolute;
     left: 0;
-    bottom: -1px;
+    top: 0;
     right: 0;
     height: 1px;
     border-top: 1px solid #d4d4d4;

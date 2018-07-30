@@ -750,17 +750,14 @@
   }
   ul.sel-member-list {
     background-color: #FFF;
-    overflow: auto;
-    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     padding: 51px 0 51px;
     padding-top: 0;
     margin-top: 20px;
-    height: -moz-calc(100% - 100px);
-    height: -webkit-calc(100% - 100px);
-    height: calc(100% - 100px);
     position: relative;
     // border-top: 0.5px solid #d4d4d4;
+    padding-bottom: 0;
+    margin-bottom: 51px;
   }
   .sel-member-list:before{
     content: " ";
@@ -798,6 +795,7 @@
     transform-origin: 0 0;
     -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
+    margin-left: 15px;
   }
   .sel-member-info > * {
     float: left;
@@ -868,7 +866,7 @@
     font-size: 14px;
     padding-left: 15px;
     // border-bottom: 0.5px solid #d4d4d4;
-    overflow: hidden;
+    // overflow: hidden;
     text-overflow:ellipsis;
     white-space: nowrap;
     position: relative;
@@ -955,5 +953,11 @@
   }
   .relative{
     position: relative;
+  }
+  li:last-child .sel-member-info:after{
+    margin-left: 0;
+  }
+  .organization .sel-member-info:after{
+    margin-left: 0;
   }
 </style>

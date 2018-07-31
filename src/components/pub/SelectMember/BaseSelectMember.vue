@@ -15,27 +15,6 @@
           @tap="clearNameSearch"/>
       </div>
     </div>
-    <v-touch
-      v-if="!index && !nameSearch"
-      class="back">
-      <v-touch
-        tag="span"
-        class="all-people"
-        @tap="goIndex">
-        所有成员
-      </v-touch>
-      <v-touch
-        v-if="cache.length > 0"
-        tag="span"
-        class="all-people"
-        @tap="back">
-        <span class="b9b">
-          /.../
-        </span>
-        返回上一级
-      </v-touch>
-      {{ '/' + newStaff.name }}
-    </v-touch>
     <!-- 首页层 -->
     <!-- 首页显示，搜索时候隐藏 -->
     <ul
@@ -111,7 +90,33 @@
     <ul
       v-if="arr.length !== 0 && !index"
       v-show="!nameSearch"
+      ref="man"
       class="sel-member-list">
+      <!-- 导航条 -->
+      <v-touch class="organization back-auto">
+        <v-touch
+          v-if="!index && !nameSearch"
+          class="back organization-inner"
+          tag="li">
+          <v-touch
+            tag="span"
+            class="all-people"
+            @tap="goIndex">
+            所有成员
+          </v-touch>
+          <v-touch
+            v-if="cache.length > 0"
+            tag="span"
+            class="all-people"
+            @tap="back">
+            <span class="b9b">
+              /.../
+            </span>
+            返回上一级
+          </v-touch>
+          {{ '/' + newStaff.name }}
+        </v-touch>
+      </v-touch>
       <li
         v-if="!singleSelect"
         class="all-select">
@@ -446,6 +451,8 @@
       },
       // 选择部门
       changeSelectStaff (member) {
+        // 变动部门回滚开头
+        document.body.scrollTop = document.documentElement.scrollTop = 0
         this.backName = this.newStaff.name
         window.rsqadmg.exec('setTitle', {title: member.name})
         // 缓存历史记录
@@ -539,9 +546,6 @@
       addObj (arr) {
         var that = this
         for (let i = 0, lenI = arr.length; i < lenI; i++) {
-          if (arr[i].userList.length === 0) {
-            continue
-          }
           for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {
             for (let k = 0, lenK = that.localList.length; k < lenK; k++) {
               if (arr[i].userList[j].id.toString() === that.localList[k].id) {
@@ -551,9 +555,11 @@
               }
             }
           }
-          if (arr[i].childList.length !== 0) {
+          if (Array.isArray(arr[i].childList)) {
             // 三重循环之后就是递归
-            that.addObj(arr[i].childList)
+            if (arr[i].childList.length !== 0) {
+              that.addObj(arr[i].childList)
+            }
           }
         }
       },
@@ -656,6 +662,8 @@
     top: 0;right: 0;bottom: 0;left: 0;
     z-index: 10000;
     background: #f5f5f5;
+    overflow:hidden;
+    padding-bottom: 100px;
   }
   .sel-header {
     position: fixed;
@@ -750,10 +758,13 @@
   }
   ul.sel-member-list {
     background-color: #FFF;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 100%;
     -webkit-overflow-scrolling: touch;
     padding: 51px 0 51px;
     padding-top: 0;
-    margin-top: 20px;
+    margin-top: 51px;
     position: relative;
     // border-top: 0.5px solid #d4d4d4;
     padding-bottom: 0;
@@ -806,6 +817,8 @@
     float: right;
     margin-right: 15px;
     width: 15px;
+    display: flex;
+    align-items: center;
   }
   .sel-icon-selected-bg {
     box-sizing: border-box;
@@ -825,10 +838,11 @@
     padding: 3px;
   }
   .sel-selected .sel-icon-selected {
-    display: block;
+    display: flex;
     color: #FFFFFF;
-    position: absolute;
-    top: 50%; margin-top: -8px;
+    position: relative;
+    align-items: center;
+
   }
   .sel-member-avatar {
     box-sizing: border-box;padding: 10px;
@@ -858,8 +872,8 @@
     color: #999999;
   }
   .back{
-    margin-top: 51px;
-    height: 36px;
+    // margin-top: 51px;
+    height: auto !important;
     background-color: #fff;
     line-height: 36px;
     color:#9B9B9B;
@@ -873,6 +887,10 @@
     .all-people{
       color: #4F77AA
     }
+  }
+  .back-auto{
+    height: auto !important;
+    padding-bottom: 20px;
   }
     .back:after{
       content: " ";

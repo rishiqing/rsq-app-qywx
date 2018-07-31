@@ -235,14 +235,13 @@
       findId (id) {
         var that = this
         for (let i = 0; i < id.length; i++) {
-          if (id[i].userList.length === 0) {
-            continue
-          }
           for (let j = 0; j < id[i].userList.length; j++) {
             that.idArray.push(id[i].userList[j].id)
           }
-          if (id[i].childList.length !== 0) {
-            that.findId(id[i].childList)
+          if (Array.isArray(id[i].childList)) {
+            if (id[i].childList) {
+              that.findId(id[i].childList)
+            }
           }
         }
       },

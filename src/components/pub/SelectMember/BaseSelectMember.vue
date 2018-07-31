@@ -546,13 +546,6 @@
       addObj (arr) {
         var that = this
         for (let i = 0, lenI = arr.length; i < lenI; i++) {
-          if (arr[i].userList.length === 0) {
-            if (arr[i].childList.length !== 0) {
-            // 三重循环之后就是递归
-              that.addObj(arr[i].childList)
-            }
-            continue
-          }
           for (let j = 0, lenJ = arr[i].userList.length; j < lenJ; j++) {
             for (let k = 0, lenK = that.localList.length; k < lenK; k++) {
               if (arr[i].userList[j].id.toString() === that.localList[k].id) {
@@ -562,9 +555,11 @@
               }
             }
           }
-          if (arr[i].childList.length !== 0) {
+          if (Array.isArray(arr[i].childList)) {
             // 三重循环之后就是递归
-            that.addObj(arr[i].childList)
+            if (arr[i].childList.length !== 0) {
+              that.addObj(arr[i].childList)
+            }
           }
         }
       },

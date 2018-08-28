@@ -493,6 +493,7 @@
         d.selected = !d.selected
       },
       selfClose () {
+        this.currentPage = pages.index
         this.$emit('self-close')
       },
       getSelectedDayValue () {

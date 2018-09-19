@@ -306,7 +306,7 @@
                 receiverIds: that.selectRsqidArray.join(',')
               }
             // console.log(datas, 1, compResCache.addList)
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
               that.$router.replace('/plan/list')
             }
           })
@@ -361,7 +361,7 @@
                 receiverIds: addList.join(',')
               }
             // console.log(datas, 1, compResCache.addList)
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             }
             if (delList.length !== 0) {
               let datas = {
@@ -373,7 +373,7 @@
                 receiverIds: delList.join(',')
               }
             // console.log(datas, 1, compResCache.addList)
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             }
           },
           cancel () {

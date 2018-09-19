@@ -388,7 +388,7 @@
                 receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
               }
               if (datas.description) {
-                this.$store.dispatch('qywxSendMessage', datas)
+                // this.$store.dispatch('qywxSendMessage', datas)
               }
               next()
             })

@@ -100,7 +100,7 @@
               receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
             }
             // console.log(datas, newTitle)
-            that.$store.dispatch('qywxSendMessage', datas)
+            // that.$store.dispatch('qywxSendMessage', datas)
             that.$router.go(-1)
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '保存成功'})

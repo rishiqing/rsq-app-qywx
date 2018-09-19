@@ -217,7 +217,7 @@
               receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
             }
             if (that.pId !== that.kanbanId) {
-              return that.$store.dispatch('qywxSendMessage', datas)
+              // return that.$store.dispatch('qywxSendMessage', datas)
             }
           }).then(function () {
             that.$router.go(-2)
@@ -235,7 +235,7 @@
               receiverIds: that.$store.state.todo.currentTodo.receiverIds
             }
             if (that.pId !== that.kanbanId) {
-              return that.$store.dispatch('qywxSendMessage', datas)
+              // return that.$store.dispatch('qywxSendMessage', datas)
             }
           }).then(function () {
             that.$router.go(-2)

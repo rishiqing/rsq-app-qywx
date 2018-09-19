@@ -156,7 +156,7 @@
           receiverIds: that.currentTodo.receiverIds
         }
         // console.log(datas)
-        that.$store.dispatch('qywxSendMessage', datas)
+        // that.$store.dispatch('qywxSendMessage', datas)
       },
       deleteItem () {
 //        bus.$emit('deleteItemList')
@@ -200,7 +200,7 @@
           receiverIds: that.item.receiverIds
         }
         // console.log(datas)
-        that.$store.dispatch('qywxSendMessage', datas)
+        // that.$store.dispatch('qywxSendMessage', datas)
         e.preventDefault()
       }
     }

@@ -243,7 +243,7 @@
                 description: item.pTitle,
                 receiverIds: item.receiverIds
               }
-              this.$store.dispatch('qywxSendMessage', datas)
+              // this.$store.dispatch('qywxSendMessage', datas)
 //                var note = this.editItem.pNote
 //                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
             }

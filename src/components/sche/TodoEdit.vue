@@ -343,7 +343,7 @@
                   receiverIds: mem
                 }
                 // console.log(mem)
-                that.$store.dispatch('qywxSendMessage', datas)
+                // that.$store.dispatch('qywxSendMessage', datas)
               })
           } else {
             return Promise.resolve()
@@ -420,7 +420,7 @@
                 receiverIds: ask
               }
               // console.log(params)
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             }
           })
           // var compRes2 = util.compareList(oldName, idArrayName)
@@ -447,7 +447,7 @@
                   receiverIds: create
                 }
                 // console.log(datas)
-                that.$store.dispatch('qywxSendMessage', datas)
+                // that.$store.dispatch('qywxSendMessage', datas)
               })
         }
       },
@@ -480,7 +480,7 @@
                     receiverIds: mem
                   }
                   // console.log(datas)
-                  that.$store.dispatch('qywxSendMessage', datas)
+                  // that.$store.dispatch('qywxSendMessage', datas)
                   that.$router.go(-1)
                 })
             }

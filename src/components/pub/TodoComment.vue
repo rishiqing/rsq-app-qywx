@@ -116,7 +116,7 @@
               receiverIds: that.$store.state.todo.currentTodo.receiverIds
             }
             // console.log(datas, newTitle)
-            that.$store.dispatch('qywxSendMessage', datas)
+            // that.$store.dispatch('qywxSendMessage', datas)
             that.$router.go(-1)
 //            alert(JSON.stringify(com))
             window.rsqadmg.exec('hideLoader')

@@ -265,7 +265,7 @@
                 receiverIds: ask
               }
               // console.log(datas)
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             }
           })
         })
@@ -309,7 +309,7 @@
                 receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
               }
               // console.log(mem)
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             })
         }
       },
@@ -340,7 +340,7 @@
                   receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
                 }
                 // console.log(datas)
-                that.$store.dispatch('qywxSendMessage', datas)
+                // that.$store.dispatch('qywxSendMessage', datas)
                 that.$router.go(-1)
               })
           }

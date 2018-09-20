@@ -230,7 +230,7 @@
             receiverIds: rsqId
           }
           // console.log(datas)
-          that.$store.dispatch('qywxSendMessage', datas)
+          // that.$store.dispatch('qywxSendMessage', datas)
           that.$router.go(-1)
         })
       },

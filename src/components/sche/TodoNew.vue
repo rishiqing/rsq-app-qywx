@@ -212,7 +212,7 @@
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})
         //  在有提醒的情况下返回值中居然不包括clock.alert的数据，需要前端组合传入
         var clockAlert = JSON.parse(JSON.stringify(this.currentTodo.clock.alert || null))
-        var that = this
+        // var that = this
         if (!this.currentTodo.clock.startTime && !this.currentTodo.clock.endtTime) {
           this.currentTodo.clock = {}
         }
@@ -232,21 +232,21 @@
             if (todoType === 'inbox') {
               this.$router.replace('/inbox')
             }
-            if (item.receiverIds) {
-              var name = that.loginUser.authUser.name
-              var url = window.location.href.split('#')
-              var datas = {
-                corpId: that.loginUser.authUser.corpId,
-                agentid: this.corpId,
-                title: name + ' 创建了一条任务',
-                url: url[0] + '#' + '/sche/todo/' + item.id,
-                description: item.pTitle,
-                receiverIds: item.receiverIds
-              }
+            // if (item.receiverIds) {
+              // var name = that.loginUser.authUser.name
+              // var url = window.location.href.split('#')
+              // var datas = {
+              //   corpId: that.loginUser.authUser.corpId,
+              //   agentid: this.corpId,
+              //   title: name + ' 创建了一条任务',
+              //   url: url[0] + '#' + '/sche/todo/' + item.id,
+              //   description: item.pTitle,
+              //   receiverIds: item.receiverIds
+              // }
               // this.$store.dispatch('qywxSendMessage', datas)
 //                var note = this.editItem.pNote
 //                var newnote = note.replace(/<\/?.+?>/g, '\n').replace(/(\n)+/g, '\n')
-            }
+            // }
             this.$router.replace('/sche')
           })
       }

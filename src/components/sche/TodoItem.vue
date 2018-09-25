@@ -109,7 +109,7 @@
               that.deleteCurrentTodo({todo: that.currentTodo})
                 .then(() => {
                   bus.$emit('deleteItemList')
-                  that.sendMessage()
+                  // that.sendMessage()
                   //                  window.rsqadmg.exec('hideLoader')
                   window.rsqadmg.execute('toast', {message: '删除成功'})
                 })
@@ -136,28 +136,28 @@
               promise.then(() => {
                 window.rsqadmg.exec('hideLoader')
                 bus.$emit('deleteItemList')
-                that.sendMessage()
+                // that.sendMessage()
                 window.rsqadmg.execute('toast', {message: '删除成功'})
               })
             }
           })
         }
       },
-      sendMessage () {
-        var that = this
-        var url = window.location.href.split('#')
-        var name = that.$store.getters.loginUser.authUser.name
-        var datas = {
-          corpId: that.$store.getters.loginUser.authUser.corpId,
-          agentid: that.$store.getters.loginUser.authUser.corpId,
-          title: name + ' 删除了任务',
-          url: url[0] + '#' + '/sche',
-          description: that.currentTodo.pTitle,
-          receiverIds: that.currentTodo.receiverIds
-        }
-        // console.log(datas)
-        // that.$store.dispatch('qywxSendMessage', datas)
-      },
+      // sendMessage () {
+      //   var that = this
+      //   var url = window.location.href.split('#')
+      //   var name = that.$store.getters.loginUser.authUser.name
+      //   var datas = {
+      //     corpId: that.$store.getters.loginUser.authUser.corpId,
+      //     agentid: that.$store.getters.loginUser.authUser.corpId,
+      //     title: name + ' 删除了任务',
+      //     url: url[0] + '#' + '/sche',
+      //     description: that.currentTodo.pTitle,
+      //     receiverIds: that.currentTodo.receiverIds
+      //   }
+      //   // console.log(datas)
+      //   // that.$store.dispatch('qywxSendMessage', datas)
+      // },
       deleteItem () {
 //        bus.$emit('deleteItemList')
 //        e.stopPropagation()
@@ -181,24 +181,24 @@
         }
       },
       clickCheckOut (e) {
-        var that = this
-        var name = that.$store.getters.loginUser.authUser.name
-        var url = window.location.href.split('#')
+        // var that = this
+        // var name = that.$store.getters.loginUser.authUser.name
+        // var url = window.location.href.split('#')
         var end = this.$store.getters.defaultNumTaskDate + 24 * 3600 * 1000 > new Date().getTime()
         if (!end) {
           window.rsqadmg.execute('toast', {message: '过去的任务不能编辑'})
           return
         }
         this.$emit('todo-item-check', this.item, !this.item.pIsDone)
-        var todoStatus = !this.item.pIsDone ? ' 完成了任务' : ' 重启了任务'
-        var datas = {
-          corpId: that.$store.getters.loginUser.authUser.corpId,
-          agentid: that.$store.getters.loginUser.authUser.corpId,
-          title: name + todoStatus,
-          url: url[0] + '#' + '/sche/todo/',
-          description: that.item.pTitle,
-          receiverIds: that.item.receiverIds
-        }
+        // var todoStatus = !this.item.pIsDone ? ' 完成了任务' : ' 重启了任务'
+        // var datas = {
+        //   corpId: that.$store.getters.loginUser.authUser.corpId,
+        //   agentid: that.$store.getters.loginUser.authUser.corpId,
+        //   title: name + todoStatus,
+        //   url: url[0] + '#' + '/sche/todo/',
+        //   description: that.item.pTitle,
+        //   receiverIds: that.item.receiverIds
+        // }
         // console.log(datas)
         // that.$store.dispatch('qywxSendMessage', datas)
         e.preventDefault()

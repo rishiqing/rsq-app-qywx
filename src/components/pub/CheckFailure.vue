@@ -4,7 +4,6 @@
       class="deletedSche"
       src="../../assets/img/delete.svg">
     <p class="deleted">您无权查看此任务</p>
-    <p class="deleted"></p>
     <v-touch @tap="returnTo">
       <div class="returnTo">回到{{ backText }}</div>
     </v-touch>

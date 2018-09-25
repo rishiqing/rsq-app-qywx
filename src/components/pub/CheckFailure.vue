@@ -3,8 +3,8 @@
     <img
       class="deletedSche"
       src="../../assets/img/delete.svg">
-    <p class="deleted">该任务已被归档或删除</p>
-    <p class="deleted">您可登录日事清官网，查找此任务</p>
+    <p class="deleted">您无权查看此任务</p>
+    <p class="deleted"></p>
     <v-touch @tap="returnTo">
       <div class="returnTo">回到{{ backText }}</div>
     </v-touch>

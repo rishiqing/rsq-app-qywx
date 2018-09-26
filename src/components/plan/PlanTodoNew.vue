@@ -194,7 +194,7 @@
               receiverIds: that.currentKanbanItem.joinUser
             }
             // console.log(datas)
-            this.$store.dispatch('qywxSendMessage', datas)
+            // this.$store.dispatch('qywxSendMessage', datas)
             that.$router.go(-1)
           })
       }

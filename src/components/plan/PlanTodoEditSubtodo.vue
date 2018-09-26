@@ -151,7 +151,7 @@
                 receiverIds: that.cache[0].toString()
               }
               // console.log(datas)
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             }
             if (that.cache[0] !== that.cacheNew[0] && that.cacheNew[0]) {
               let datas = {
@@ -163,7 +163,7 @@
                 receiverIds: that.cacheNew[0].toString()
               }
               // console.log(datas)
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             }
           })
       },

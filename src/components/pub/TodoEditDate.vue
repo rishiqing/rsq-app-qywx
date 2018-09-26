@@ -447,7 +447,7 @@
                   receiverIds: that.$store.state.todo.currentTodo.receiverIds
                 }
                 if (datas.description) {
-                  this.$store.dispatch('qywxSendMessage', datas)
+                  // this.$store.dispatch('qywxSendMessage', datas)
                 }
               }
               next()

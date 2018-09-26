@@ -345,7 +345,7 @@
             }
             // console.log(datas)
             if (datas.description) {
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             }
           } else {
             let datas = {
@@ -358,7 +358,7 @@
             }
             // console.log(datas)
             if (datas.description) {
-              that.$store.dispatch('qywxSendMessage', datas)
+              // that.$store.dispatch('qywxSendMessage', datas)
             }
           }
         }

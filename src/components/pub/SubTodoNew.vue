@@ -219,7 +219,7 @@
               receiverIds: that.joinUserRsqIds.length === 0 ? '' : that.joinUserRsqIds[0].toString()
             }
             // console.log(datas)
-            that.$store.dispatch('qywxSendMessage', datas)
+            // that.$store.dispatch('qywxSendMessage', datas)
           })
           .then(function () {
             that.$router.go(-1)

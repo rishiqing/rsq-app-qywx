@@ -203,6 +203,12 @@
         this.noAlert = true
       },
       selectAlert (a) {
+        this.displayedRuleList.forEach(o => {
+          o.selected = false
+        })
+        this.displayedTimeList.forEach(o => {
+          o.selected = false
+        })
         a.selected = !a.selected
         if (a.selected) {
           this.noAlert = false

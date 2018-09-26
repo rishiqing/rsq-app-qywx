@@ -208,16 +208,16 @@
             this.inputTitle = ''
             window.rsqadmg.exec('hideLoader')
             window.rsqadmg.execute('toast', {message: '创建成功'})
-            var url = window.location.href.split('#')
-            var name = that.$store.getters.loginUser.authUser.name
-            var datas = {
-              corpId: that.$store.getters.loginUser.authUser.corpId,
-              agentid: that.$store.getters.loginUser.authUser.corpId,
-              title: name + ' 分配给你一条子任务',
-              url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-              description: that.$store.state.todo.currentTodo.pTitle,
-              receiverIds: that.joinUserRsqIds.length === 0 ? '' : that.joinUserRsqIds[0].toString()
-            }
+            // var url = window.location.href.split('#')
+            // var name = that.$store.getters.loginUser.authUser.name
+            // var datas = {
+            //   corpId: that.$store.getters.loginUser.authUser.corpId,
+            //   agentid: that.$store.getters.loginUser.authUser.corpId,
+            //   title: name + ' 分配给你一条子任务',
+            //   url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+            //   description: that.$store.state.todo.currentTodo.pTitle,
+            //   receiverIds: that.joinUserRsqIds.length === 0 ? '' : that.joinUserRsqIds[0].toString()
+            // }
             // console.log(datas)
             // that.$store.dispatch('qywxSendMessage', datas)
           })

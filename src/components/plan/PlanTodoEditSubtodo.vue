@@ -127,7 +127,7 @@
         this.$store.commit('PUB_TITLE_SUB', value)
       },
       submitSubtodo () {
-        var that = this
+        // var that = this
         const value = this.newName
         const item = this.currentSubtodo
         var startDate = this.editItem.startDate
@@ -139,32 +139,32 @@
           .then(() => {
             //  触发标记重复修改
             window.rsqadmg.exec('hideLoader')
-            var url = window.location.href.split('#')
-            var name = that.$store.getters.loginUser.authUser.name
-            if (that.cache[0] !== that.cacheNew[0] && that.cache[0] && that.cacheNew[0]) {
-              let datas = {
-                corpId: that.$store.getters.loginUser.authUser.corpId,
-                agentid: that.$store.getters.loginUser.authUser.corpId,
-                title: name + ' 撤回了一条子任务',
-                description: that.$store.state.plan.currentKanbanItem.name,
-                url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
-                receiverIds: that.cache[0].toString()
-              }
+            // var url = window.location.href.split('#')
+            // var name = that.$store.getters.loginUser.authUser.name
+            // if (that.cache[0] !== that.cacheNew[0] && that.cache[0] && that.cacheNew[0]) {
+            //   let datas = {
+            //     corpId: that.$store.getters.loginUser.authUser.corpId,
+            //     agentid: that.$store.getters.loginUser.authUser.corpId,
+            //     title: name + ' 撤回了一条子任务',
+            //     description: that.$store.state.plan.currentKanbanItem.name,
+            //     url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+            //     receiverIds: that.cache[0].toString()
+            //   }
               // console.log(datas)
               // that.$store.dispatch('qywxSendMessage', datas)
-            }
-            if (that.cache[0] !== that.cacheNew[0] && that.cacheNew[0]) {
-              let datas = {
-                corpId: that.$store.getters.loginUser.authUser.corpId,
-                agentid: that.$store.getters.loginUser.authUser.corpId,
-                title: name + ' 分配给你一条子任务',
-                description: that.$store.state.plan.currentKanbanItem.name,
-                url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
-                receiverIds: that.cacheNew[0].toString()
-              }
-              // console.log(datas)
-              // that.$store.dispatch('qywxSendMessage', datas)
-            }
+            // }
+            // if (that.cache[0] !== that.cacheNew[0] && that.cacheNew[0]) {
+            //   let datas = {
+            //     corpId: that.$store.getters.loginUser.authUser.corpId,
+            //     agentid: that.$store.getters.loginUser.authUser.corpId,
+            //     title: name + ' 分配给你一条子任务',
+            //     description: that.$store.state.plan.currentKanbanItem.name,
+            //     url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+            //     receiverIds: that.cacheNew[0].toString()
+            //   }
+            //   // console.log(datas)
+            //   // that.$store.dispatch('qywxSendMessage', datas)
+            // }
           })
       },
       saveMember (idArray) {

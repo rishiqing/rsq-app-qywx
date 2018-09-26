@@ -394,7 +394,7 @@
         return o
       },
       submitTodo (next, to) {
-        var that = this
+        // var that = this
         if (this.isModified()) {
           if (this.isEdit) {
             // window.rsqadmg.exec('showLoader', {text: '保存中...'})
@@ -415,41 +415,41 @@
             .then(() => {
               // console.log(2)
               this.$store.commit('PUB_TODO_DATE_DELETE')
-              if (to.name !== 'todoNew') {
-                if (this.isEdit) {
+              // if (to.name !== 'todoNew') {
+                // if (this.isEdit) {
                   // window.rsqadmg.exec('hideLoader')
                   // window.rsqadmg.execute('toast', {message: '保存成功'})
-                }
-                var url = window.location.href.split('#')
-                var name = that.$store.getters.loginUser.authUser.name
-                var des = ''
-                if (editItem.repeatType !== undefined) {
-                  des = name + ' 更改了任务日期'
-                } else if (editItem.dates === null && editItem.endDate === null && editItem.startDate === null) {
-                  des = name + ' 清空了任务日期'
-                } else if (editItem.dates === null && editItem.endDate === editItem.startDate) {
-                  var singleDate = editItem.endDate.split('/')
-                  des = name + ' 更改了任务日期为 ' + singleDate[0] + '年' + singleDate[1] + '月' + singleDate[2] + '日'
-                } else if (editItem.dates === null && editItem.endDate !== editItem.startDate) {
-                  var startDate = editItem.startDate.split('/')
-                  var endDate = editItem.endDate.split('/')
-                  des = name + ' 更改了任务日期为 ' + startDate[0] + '年' + startDate[1] + '月' + startDate[2] + '日 ' + '-' + endDate[0] + '年' + endDate[1] + '月' + endDate[2] + '日'
-                } else if (editItem.dates) {
-                  var result = dateUtil.repeatDate2Text(editItem)
-                  des = name + ' 更改了任务日期为 ' + result
-                }
-                var datas = {
-                  corpId: that.$store.getters.loginUser.authUser.corpId,
-                  agentid: that.$store.getters.loginUser.authUser.corpId,
-                  title: des,
-                  url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-                  description: that.$store.state.todo.currentTodo.pTitle,
-                  receiverIds: that.$store.state.todo.currentTodo.receiverIds
-                }
-                if (datas.description) {
+                // }
+                // var url = window.location.href.split('#')
+                // var name = that.$store.getters.loginUser.authUser.name
+                // var des = ''
+                // if (editItem.repeatType !== undefined) {
+                //   des = name + ' 更改了任务日期'
+                // } else if (editItem.dates === null && editItem.endDate === null && editItem.startDate === null) {
+                //   des = name + ' 清空了任务日期'
+                // } else if (editItem.dates === null && editItem.endDate === editItem.startDate) {
+                //   var singleDate = editItem.endDate.split('/')
+                //   des = name + ' 更改了任务日期为 ' + singleDate[0] + '年' + singleDate[1] + '月' + singleDate[2] + '日'
+                // } else if (editItem.dates === null && editItem.endDate !== editItem.startDate) {
+                //   var startDate = editItem.startDate.split('/')
+                //   var endDate = editItem.endDate.split('/')
+                //   des = name + ' 更改了任务日期为 ' + startDate[0] + '年' + startDate[1] + '月' + startDate[2] + '日 ' + '-' + endDate[0] + '年' + endDate[1] + '月' + endDate[2] + '日'
+                // } else if (editItem.dates) {
+                //   var result = dateUtil.repeatDate2Text(editItem)
+                //   des = name + ' 更改了任务日期为 ' + result
+                // }
+                // var datas = {
+                //   corpId: that.$store.getters.loginUser.authUser.corpId,
+                //   agentid: that.$store.getters.loginUser.authUser.corpId,
+                //   title: des,
+                //   url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                //   description: that.$store.state.todo.currentTodo.pTitle,
+                //   receiverIds: that.$store.state.todo.currentTodo.receiverIds
+                // }
+                // if (datas.description) {
                   // this.$store.dispatch('qywxSendMessage', datas)
-                }
-              }
+                // }
+              // }
               next()
             })
         }

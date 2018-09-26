@@ -205,41 +205,45 @@
       move () {
         var that = this
         if (this.plan && this.clickId && this.clickId !== this.levelTwoId) {
-          this.$store.dispatch('planToPlan', {itemId: this.id, cardId: this.clickId}).then(function (res) {
-            var url = window.location.href.split('#')
-            var name = that.$store.getters.loginUser.authUser.name
-            var datas = {
-              corpId: that.$store.getters.loginUser.authUser.corpId,
-              agentid: that.$store.getters.loginUser.authUser.corpId,
-              title: name + ' 将任务移至计划 ' + that.pName,
-              url: url[0] + '#' + '/plan/' + res.kanbanId + '/child-plan',
-              description: res.name,
-              receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
-            }
-            if (that.pId !== that.kanbanId) {
+          this.$store.dispatch('planToPlan', {itemId: this.id, cardId: this.clickId})
+          // .then(function (res) {
+            // var url = window.location.href.split('#')
+            // var name = that.$store.getters.loginUser.authUser.name
+            // var datas = {
+            //   corpId: that.$store.getters.loginUser.authUser.corpId,
+            //   agentid: that.$store.getters.loginUser.authUser.corpId,
+            //   title: name + ' 将任务移至计划 ' + that.pName,
+            //   url: url[0] + '#' + '/plan/' + res.kanbanId + '/child-plan',
+            //   description: res.name,
+            //   receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
+            // }
+            // if (that.pId !== that.kanbanId) {
               // return that.$store.dispatch('qywxSendMessage', datas)
-            }
-          }).then(function () {
+            // }
+          // })
+          .then(function () {
             that.$router.go(-2)
           })
         } else if (this.clickId && this.clickId !== this.levelTwoId) {
-          this.$store.dispatch('moveToPlan', {todoId: this.id, cardId: this.clickId, createTaskDate: Number(dateUtil.dateNum2Text(new Date().getTime()))}).then(function () {
-            var url = window.location.href.split('#')
-            var name = that.$store.getters.loginUser.authUser.name
-            var datas = {
-              corpId: that.$store.getters.loginUser.authUser.corpId,
-              agentid: that.$store.getters.loginUser.authUser.corpId,
-              title: name + ' 将任务添置计划 ' + that.pName,
-              url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-              description: that.$store.state.todo.currentTodo.pTitle,
-              receiverIds: that.$store.state.todo.currentTodo.receiverIds
-            }
-            if (that.pId !== that.kanbanId) {
+          this.$store.dispatch('moveToPlan', {todoId: this.id, cardId: this.clickId, createTaskDate: Number(dateUtil.dateNum2Text(new Date().getTime()))})
+          // .then(function () {
+            // var url = window.location.href.split('#')
+            // var name = that.$store.getters.loginUser.authUser.name
+            // var datas = {
+            //   corpId: that.$store.getters.loginUser.authUser.corpId,
+            //   agentid: that.$store.getters.loginUser.authUser.corpId,
+            //   title: name + ' 将任务添置计划 ' + that.pName,
+            //   url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+            //   description: that.$store.state.todo.currentTodo.pTitle,
+            //   receiverIds: that.$store.state.todo.currentTodo.receiverIds
+            // }
+            // if (that.pId !== that.kanbanId) {
               // return that.$store.dispatch('qywxSendMessage', datas)
-            }
-          }).then(function () {
-            that.$router.go(-2)
-          })
+            // }
+          // })
+        .then(function () {
+          that.$router.go(-2)
+        })
         } else {
           that.$router.go(-2)
         }

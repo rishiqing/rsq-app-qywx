@@ -111,9 +111,9 @@ module.exports = {
     // 日事清地址
     rsqServer: 'https://betaold.rishiqing.com/',
     // 日事清api的后台地址
-    apiServer: 'https://dev1.ngrok.timetask.cn/',
+    apiServer: 'https://dev5.ngrok.timetask.cn/',
     // 日事清-portlet的权限认证后台地址
-    authServer: 'https://dev1.ngrok.timetask.cn/qywxbackauth/',
+    authServer: 'https://dev5.ngrok.timetask.cn/qywxbackauth/',
     // 日事清前端文件地址
     // frontServer: 'http://' + devIp + ':' + (process.env.PORT || devPort) + '/',
     frontServer: '/',

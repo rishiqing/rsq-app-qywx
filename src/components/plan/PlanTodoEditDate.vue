@@ -120,7 +120,7 @@
         //  重复功能相关
         dateType: '',  //  single单日期, range起止日期, discrete, 离散间隔日期，repeat:使用重复，none表示dateType被清空
         selectNumDate: null,  //  表示重复当前选中的日期
-        tap:false
+        tap: false
       }
     },
     computed: {

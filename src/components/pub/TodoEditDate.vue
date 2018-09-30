@@ -203,6 +203,7 @@
         this.dateType = 'none'
       },
       tapEmpty (e) {
+        this.tap = true
         this.selectNumDate = []
         this.clearType()
         this.clearSelected()

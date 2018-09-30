@@ -130,7 +130,8 @@
         days: [],
         //  重复功能相关
         dateType: '',  //  single单日期, range起止日期, discrete, 离散间隔日期，repeat:使用重复，none表示dateType被清空
-        selectNumDate: null  //  表示重复当前选中的日期
+        selectNumDate: null,  //  表示重复当前选中的日期
+        tap: false
       }
     },
     computed: {
@@ -221,6 +222,7 @@
         if (e) e.preventDefault()
       },
       tapChangeType (e, type) {
+        this.tap = true
         this.tapEmpty()
         this.dateType = type
         this.resetType()
@@ -236,6 +238,7 @@
         if (new Date(day.date).getTime() < new Date().getTime() - timeHaveGo) {
           return
         }
+        this.tap = true
         //  如果是在repeat状态下点击日期，那么清除重复，进入single状态
         if (this.dateType === 'repeat' || this.dateType === 'none') {
           this.dateType = 'single'
@@ -393,6 +396,9 @@
           o.repeatOverDate = c.repeatOverDate
         } else {
           o.isCloseRepeat = true
+        }
+        if (!tap) {
+          o.rrule = this.currentTodo.rrule
         }
         var actParamse = JSON.parse(JSON.stringify(o))
         o.createActive = {

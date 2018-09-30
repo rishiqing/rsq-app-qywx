@@ -73,6 +73,7 @@
       </div>
     </div>
     <v-touch
+      v-if="!isBackNewVersion"
       class="date-repeat"
       @tap="gotoRepeat">
       <span class="list-key u-pull-left">重复</span>
@@ -101,6 +102,7 @@
   </div>
 </template>
 <script>
+  import moment from 'moment'
   import dateUtil from 'ut/dateUtil'
 
   /**
@@ -132,6 +134,9 @@
       }
     },
     computed: {
+      isBackNewVersion () {
+        return this.$store.state.loginUser.rsqUser.isBackNewVersion
+      },
       numToday () {
         return dateUtil.clearTime(new Date()).getTime()
       },
@@ -143,6 +148,9 @@
       },
       currentTodoDate () {
         return this.$store.state.pub.currentTodoDate
+      },
+      isNewRepeat () {
+        return this.currentTodo.rrule !== undefined
       },
       repeatText () {
         var text

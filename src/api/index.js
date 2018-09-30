@@ -19,7 +19,6 @@ Vue.http.interceptors.push((request, next) => {
     })
 })
 
-
 export default {
   todo,
   system,

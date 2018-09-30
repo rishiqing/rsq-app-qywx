@@ -102,7 +102,6 @@
   </div>
 </template>
 <script>
-  import moment from 'moment'
   import dateUtil from 'ut/dateUtil'
 
   /**
@@ -397,7 +396,7 @@
         } else {
           o.isCloseRepeat = true
         }
-        if (!tap) {
+        if (!this.tap) {
           o.rrule = this.currentTodo.rrule
         }
         var actParamse = JSON.parse(JSON.stringify(o))

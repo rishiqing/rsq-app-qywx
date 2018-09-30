@@ -17,7 +17,7 @@ module.exports = {
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
       ? url.resolve(config.build.frontServer, config.build.assetsPublicPath)
-      : path.join(config.dev.frontServer, config.dev.assetsPublicPath)
+      : path.posix.join(config.dev.frontServer, config.dev.assetsPublicPath)
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

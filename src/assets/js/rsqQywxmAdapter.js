@@ -157,7 +157,7 @@ rsqAdapterManager.register({
             signature: res.signature,
             success: function(authUser){
               var loginUrl = rsqConfig.apiServer + 'task/qywxOauth/tokenLogin';
-              rsqAdapterManager.ajax.get(loginUrl, {
+              rsqAdapterManager.ajax.post(loginUrl, {
                 token: authUser.rsqLoginToken
               }, function(result){
                 //  企业微信打开默认浏览器直接登录

@@ -411,6 +411,9 @@
       }
     },
     beforeRouteLeave (to, from, next) {
+      if (!this.tap) {
+        next()
+      }
       //  做pub区缓存
       this.saveTodoDateState()
       if (to.name !== 'planTodoEdit') {

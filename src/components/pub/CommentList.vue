@@ -54,7 +54,6 @@
         required: true
       },
       todoId: {
-        type: Number,
         required: true
       },
       todoType: {

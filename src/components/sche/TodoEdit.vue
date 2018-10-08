@@ -280,6 +280,10 @@
              that.$router.push('/pub/check-failure')
            } else if (err.code === 400318) {
              that.$router.push('/pub/noPermission')
+           } else if (err.code === 501001) {
+            that.$router.go(0)
+           } else {
+            that.$router.push('/pub/check-failure')
            }
          })
       },

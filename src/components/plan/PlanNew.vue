@@ -193,8 +193,8 @@
         if (!this.content || /^\s+$/.test(that.content)) {
           return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
         }
-        var url = window.location.href.split('#')
-        var name = that.$store.getters.loginUser.authUser.name
+        // var url = window.location.href.split('#')
+        // var name = that.$store.getters.loginUser.authUser.name
         window.rsqadmg.exec('showLoader', {text: '创建中...'})
         var rsqId = this.memArray.join(',')
         var params = {
@@ -221,14 +221,14 @@
         that.$store.dispatch('postPlan', params).then((res) => {
           window.rsqadmg.exec('hideLoader')
           window.rsqadmg.exec('toast', {message: '创建成功'})
-          let datas = {
-            corpId: that.$store.getters.loginUser.authUser.corpId,
-            agentid: that.$store.getters.loginUser.authUser.corpId,
-            title: name + ' 将你添加到计划 ' + that.content,
-            url: url[0] + '#' + '/plan/list',
-            description: that.content,
-            receiverIds: rsqId
-          }
+          // let datas = {
+          //   corpId: that.$store.getters.loginUser.authUser.corpId,
+          //   agentid: that.$store.getters.loginUser.authUser.corpId,
+          //   title: name + ' 将你添加到计划 ' + that.content,
+          //   url: url[0] + '#' + '/plan/list',
+          //   description: that.content,
+          //   receiverIds: rsqId
+          // }
           // console.log(datas)
           // that.$store.dispatch('qywxSendMessage', datas)
           that.$router.go(-1)

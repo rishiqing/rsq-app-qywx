@@ -73,6 +73,7 @@
       </div>
     </div>
     <v-touch
+      v-if="!isBackNewVersion"
       class="date-repeat"
       @tap="gotoRepeat">
       <span class="list-key u-pull-left">重复</span>
@@ -128,10 +129,14 @@
         days: [],
         //  重复功能相关
         dateType: '',  //  single单日期, range起止日期, discrete, 离散间隔日期，repeat:使用重复，none表示dateType被清空
-        selectNumDate: null  //  表示重复当前选中的日期
+        selectNumDate: null,  //  表示重复当前选中的日期
+        tap: false
       }
     },
     computed: {
+      isBackNewVersion () {
+        return this.$store.state.loginUser.rsqUser.isBackNewVersion
+      },
       numToday () {
         return dateUtil.clearTime(new Date()).getTime()
       },
@@ -143,6 +148,9 @@
       },
       currentTodoDate () {
         return this.$store.state.pub.currentTodoDate
+      },
+      isNewRepeat () {
+        return this.currentTodo.rrule !== undefined
       },
       repeatText () {
         var text
@@ -195,6 +203,7 @@
         this.dateType = 'none'
       },
       tapEmpty (e) {
+        this.tap = true
         this.selectNumDate = []
         this.clearType()
         this.clearSelected()
@@ -213,6 +222,7 @@
         if (e) e.preventDefault()
       },
       tapChangeType (e, type) {
+        this.tap = true
         this.tapEmpty()
         this.dateType = type
         this.resetType()
@@ -228,6 +238,7 @@
         if (new Date(day.date).getTime() < new Date().getTime() - timeHaveGo) {
           return
         }
+        this.tap = true
         //  如果是在repeat状态下点击日期，那么清除重复，进入single状态
         if (this.dateType === 'repeat' || this.dateType === 'none') {
           this.dateType = 'single'
@@ -386,6 +397,9 @@
         } else {
           o.isCloseRepeat = true
         }
+        if (!this.tap) {
+          o.rrule = this.currentTodo.rrule
+        }
         var actParamse = JSON.parse(JSON.stringify(o))
         o.createActive = {
           name: 'saveDate',
@@ -394,7 +408,7 @@
         return o
       },
       submitTodo (next, to) {
-        var that = this
+        // var that = this
         if (this.isModified()) {
           if (this.isEdit) {
             // window.rsqadmg.exec('showLoader', {text: '保存中...'})
@@ -415,41 +429,41 @@
             .then(() => {
               // console.log(2)
               this.$store.commit('PUB_TODO_DATE_DELETE')
-              if (to.name !== 'todoNew') {
-                if (this.isEdit) {
+              // if (to.name !== 'todoNew') {
+                // if (this.isEdit) {
                   // window.rsqadmg.exec('hideLoader')
                   // window.rsqadmg.execute('toast', {message: '保存成功'})
-                }
-                var url = window.location.href.split('#')
-                var name = that.$store.getters.loginUser.authUser.name
-                var des = ''
-                if (editItem.repeatType !== undefined) {
-                  des = name + ' 更改了任务日期'
-                } else if (editItem.dates === null && editItem.endDate === null && editItem.startDate === null) {
-                  des = name + ' 清空了任务日期'
-                } else if (editItem.dates === null && editItem.endDate === editItem.startDate) {
-                  var singleDate = editItem.endDate.split('/')
-                  des = name + ' 更改了任务日期为 ' + singleDate[0] + '年' + singleDate[1] + '月' + singleDate[2] + '日'
-                } else if (editItem.dates === null && editItem.endDate !== editItem.startDate) {
-                  var startDate = editItem.startDate.split('/')
-                  var endDate = editItem.endDate.split('/')
-                  des = name + ' 更改了任务日期为 ' + startDate[0] + '年' + startDate[1] + '月' + startDate[2] + '日 ' + '-' + endDate[0] + '年' + endDate[1] + '月' + endDate[2] + '日'
-                } else if (editItem.dates) {
-                  var result = dateUtil.repeatDate2Text(editItem)
-                  des = name + ' 更改了任务日期为 ' + result
-                }
-                var datas = {
-                  corpId: that.$store.getters.loginUser.authUser.corpId,
-                  agentid: that.$store.getters.loginUser.authUser.corpId,
-                  title: des,
-                  url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-                  description: that.$store.state.todo.currentTodo.pTitle,
-                  receiverIds: that.$store.state.todo.currentTodo.receiverIds
-                }
-                if (datas.description) {
+                // }
+                // var url = window.location.href.split('#')
+                // var name = that.$store.getters.loginUser.authUser.name
+                // var des = ''
+                // if (editItem.repeatType !== undefined) {
+                //   des = name + ' 更改了任务日期'
+                // } else if (editItem.dates === null && editItem.endDate === null && editItem.startDate === null) {
+                //   des = name + ' 清空了任务日期'
+                // } else if (editItem.dates === null && editItem.endDate === editItem.startDate) {
+                //   var singleDate = editItem.endDate.split('/')
+                //   des = name + ' 更改了任务日期为 ' + singleDate[0] + '年' + singleDate[1] + '月' + singleDate[2] + '日'
+                // } else if (editItem.dates === null && editItem.endDate !== editItem.startDate) {
+                //   var startDate = editItem.startDate.split('/')
+                //   var endDate = editItem.endDate.split('/')
+                //   des = name + ' 更改了任务日期为 ' + startDate[0] + '年' + startDate[1] + '月' + startDate[2] + '日 ' + '-' + endDate[0] + '年' + endDate[1] + '月' + endDate[2] + '日'
+                // } else if (editItem.dates) {
+                //   var result = dateUtil.repeatDate2Text(editItem)
+                //   des = name + ' 更改了任务日期为 ' + result
+                // }
+                // var datas = {
+                //   corpId: that.$store.getters.loginUser.authUser.corpId,
+                //   agentid: that.$store.getters.loginUser.authUser.corpId,
+                //   title: des,
+                //   url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+                //   description: that.$store.state.todo.currentTodo.pTitle,
+                //   receiverIds: that.$store.state.todo.currentTodo.receiverIds
+                // }
+                // if (datas.description) {
                   // this.$store.dispatch('qywxSendMessage', datas)
-                }
-              }
+                // }
+              // }
               next()
             })
         }

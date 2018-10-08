@@ -161,32 +161,32 @@
             window.rsqadmg.exec('hideLoader')
             // this.$router.go(-1)
             // console.log(this.cache[0])
-            var url = window.location.href.split('#')
-            var name = that.$store.getters.loginUser.authUser.name
-            if (that.cache[0] !== that.cacheNew[0] && that.cache[0] && that.cacheNew[0]) {
-              let datas = {
-                corpId: that.$store.getters.loginUser.authUser.corpId,
-                agentid: that.$store.getters.loginUser.authUser.corpId,
-                title: name + ' 撤回了一条子任务',
-                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-                description: that.$store.state.todo.currentTodo.pTitle,
-                receiverIds: that.cache[0].toString()
-              }
+            // var url = window.location.href.split('#')
+            // var name = that.$store.getters.loginUser.authUser.name
+            // if (that.cache[0] !== that.cacheNew[0] && that.cache[0] && that.cacheNew[0]) {
+            //   let datas = {
+            //     corpId: that.$store.getters.loginUser.authUser.corpId,
+            //     agentid: that.$store.getters.loginUser.authUser.corpId,
+            //     title: name + ' 撤回了一条子任务',
+            //     url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+            //     description: that.$store.state.todo.currentTodo.pTitle,
+            //     receiverIds: that.cache[0].toString()
+            //   }
               // console.log(datas)
               // that.$store.dispatch('qywxSendMessage', datas)
-            }
-            if (that.cache[0] !== that.cacheNew[0] && that.cacheNew[0]) {
-              let datas = {
-                corpId: that.$store.getters.loginUser.authUser.corpId,
-                agentid: that.$store.getters.loginUser.authUser.corpId,
-                title: name + ' 分配给你一条子任务',
-                url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
-                description: that.$store.state.todo.currentTodo.pTitle,
-                receiverIds: that.cacheNew[0].toString()
-              }
+            // }
+            // if (that.cache[0] !== that.cacheNew[0] && that.cacheNew[0]) {
+            //   let datas = {
+            //     corpId: that.$store.getters.loginUser.authUser.corpId,
+            //     agentid: that.$store.getters.loginUser.authUser.corpId,
+            //     title: name + ' 分配给你一条子任务',
+            //     url: url[0] + '#' + '/sche/todo/' + that.$store.state.todo.currentTodo.id,
+            //     description: that.$store.state.todo.currentTodo.pTitle,
+            //     receiverIds: that.cacheNew[0].toString()
+            //   }
               // console.log(datas)
               // that.$store.dispatch('qywxSendMessage', datas)
-            }
+            // }
             // var datas = {
             //   corpId: that.$store.getters.loginUser.authUser.corpId,
             //   agentid: that.$store.getters.loginUser.authUser.corpId,

@@ -73,9 +73,9 @@
       },
       submitComment () {
         var that = this
-        var url = window.location.href.split('#')
-        var name = that.$store.getters.loginUser.authUser.name
-        var des = ''
+        // var url = window.location.href.split('#')
+        // var name = that.$store.getters.loginUser.authUser.name
+        // var des = ''
         const newTitle = this.content
         if ((!newTitle && this.fileId.length === 0) || /^\s+$/.test(newTitle)) {
           return window.rsqadmg.execute('alert', {message: '任务评论不能为空'})
@@ -86,19 +86,19 @@
             fileIds: this.fileId
           })
           .then((com) => {
-            if (newTitle) {
-              des = ' ' + newTitle
-            } else {
-              des = '上传了文件'
-            }
-            let datas = {
-              corpId: that.$store.getters.loginUser.authUser.corpId,
-              agentid: that.$store.getters.loginUser.authUser.corpId,
-              title: name + des,
-              url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
-              description: that.$store.state.plan.currentKanbanItem.name,
-              receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
-            }
+            // if (newTitle) {
+            //   des = ' ' + newTitle
+            // } else {
+            //   des = '上传了文件'
+            // }
+            // let datas = {
+            //   corpId: that.$store.getters.loginUser.authUser.corpId,
+            //   agentid: that.$store.getters.loginUser.authUser.corpId,
+            //   title: name + des,
+            //   url: url[0] + '#' + '/plan/todo/' + that.$store.state.plan.currentKanbanItem.id,
+            //   description: that.$store.state.plan.currentKanbanItem.name,
+            //   receiverIds: that.$store.state.plan.currentKanbanItem.joinUserIds
+            // }
             // console.log(datas, newTitle)
             // that.$store.dispatch('qywxSendMessage', datas)
             that.$router.go(-1)

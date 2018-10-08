@@ -118,6 +118,9 @@
       }
     },
     computed: {
+      isBackNewVersion () {
+        return this.$store.state.loginUser.rsqUser.isBackNewVersion
+      },
       numToday () {
         return dateUtil.clearTime(new Date()).getTime()
       },
@@ -335,7 +338,11 @@
           alert('请选择结束时间')
           return false
         }
-        var resObj = dateUtil.frontend2backend({dateType: this.dateType, dateResult: sorted, sep: '/'})
+        if (this.isBackNewVersion) {
+          var resObj = dateUtil.frontend2backend({dateType: this.dateType, dateResult: sorted, sep: ''})
+        } else {
+          var resObj = dateUtil.frontend2backend({dateType: this.dateType, dateResult: sorted, sep: '/'})
+        }
         //  如果不是repeat类型，那么清除
         resObj['repeatType'] = null
         resObj['repeatBaseTime'] = null
@@ -343,6 +350,7 @@
         resObj['_uRepeatType'] = null
         resObj['_uIsLastDate'] = false
         resObj['_uRepeatStrTimeArray'] = null
+        console.log(resObj)
         if (this.subId) {
           this.$store.commit('PUB_SUB_TODO_DATE_UPDATE_EDIT', {data: resObj})
         } else {

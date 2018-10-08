@@ -121,12 +121,13 @@
       }
       this.$store.commit('PUB_SUB_TODO_USER', {id: this.joinUserRsqIds})
       this.cache = [...this.joinUserRsqIds]
+      this.newName = this.editItem.name
     },
     methods: {
       copyTitle (value) {
         this.$store.commit('PUB_TITLE_SUB', value)
       },
-      submitSubtodo () {
+      submitSubtodo (next) {
         // var that = this
         const value = this.newName
         const item = this.currentSubtodo
@@ -135,10 +136,15 @@
         var dates = this.editItem.dates
         const joinUser = this.$store.state.subUserId[0] || ''
         window.rsqadmg.exec('showLoader', {text: '保存中...'})
+        var that = this
         this.$store.dispatch('updateKanbanSubtodo', {id: item.id, name: value, startDate: startDate, endDate: endDate, dates: dates, joinUser: joinUser})
           .then(() => {
             //  触发标记重复修改
             window.rsqadmg.exec('hideLoader')
+            that.$store.commit('PUB_TITLE_SUB', '')
+            that.$store.commit('PUB_SUB_TODO_USER', {id: ''})
+            next()
+
             // var url = window.location.href.split('#')
             // var name = that.$store.getters.loginUser.authUser.name
             // if (that.cache[0] !== that.cacheNew[0] && that.cache[0] && that.cacheNew[0]) {
@@ -165,6 +171,12 @@
             //   // console.log(datas)
             //   // that.$store.dispatch('qywxSendMessage', datas)
             // }
+          })
+          .catch(() => {
+            window.rsqadmg.exec('hideLoader')
+            that.$store.commit('PUB_TITLE_SUB', '')
+            that.$store.commit('PUB_SUB_TODO_USER', {id: ''})
+            next()
           })
       },
       saveMember (idArray) {
@@ -211,13 +223,10 @@
     beforeRouteLeave (to, from, next) {
       console.log(to.name)
       if (to.name === 'planTodoEdit') {
-        this.submitSubtodo()
+        this.submitSubtodo(next)
+      } else {
+        next()
       }
-      if (to.name !== 'SubTodoEditDate') {
-        this.$store.commit('PUB_TITLE_SUB', '')
-        this.$store.commit('PUB_SUB_TODO_USER', {id: ''})
-      }
-      next()
     }
   }
 </script>

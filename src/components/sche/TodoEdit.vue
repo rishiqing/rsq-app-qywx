@@ -276,10 +276,14 @@
            // window.rsqadmg.exec('hideLoader')
            if (err.code === 400320 && that.isInbox) {
              that.$router.push('/pub/check-failure?from=isInbox')
-           } else if (err.code) {
+           } else if (err.code === 400320) {
              that.$router.push('/pub/check-failure')
            } else if (err.code === 400318) {
              that.$router.push('/pub/noPermission')
+           } else if (err.code === 501001) {
+            that.$router.go(0)
+           } else {
+            that.$router.push('/pub/check-failure')
            }
          })
       },

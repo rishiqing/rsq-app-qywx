@@ -471,6 +471,9 @@
       }
     },
     beforeRouteLeave (to, from, next) {
+      if (!this.tap) {
+        next()
+      }
       //  如果是从日期页面跳回到编辑页面的，那么即使不在收纳箱中了，那么也暂时不显示checkbox
       if (this.currentTodo['pContainer'] === 'inbox') {
         this.$store.commit('DELAY_SHOW_CHECKBOX')

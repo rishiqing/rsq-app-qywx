@@ -139,7 +139,7 @@
           }
         }
       },
-      submitSubtodo () {
+      submitSubtodo (next) {
         const name = this.$store.state.pub.subtitle
         const id = this.$store.state.todo.currentSubtodo.id
         const isDone = this.$store.state.todo.currentSubtodo.isDone
@@ -159,6 +159,9 @@
             //  触发标记重复修改
             that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
             window.rsqadmg.exec('hideLoader')
+            that.$store.commit('PUB_TITLE_SUB', '')
+            that.$store.commit('PUB_SUB_TODO_USER', {id: ''})
+            next()
             // this.$router.go(-1)
             // console.log(this.cache[0])
             // var url = window.location.href.split('#')
@@ -197,6 +200,13 @@
             // }
             // // console.log(datas)
             // that.$store.dispatch('qywxSendMessage', datas)
+          })
+          .catch(() => {
+            that.$store.commit('TD_CURRENT_TODO_REPEAT_EDITED')
+            window.rsqadmg.exec('hideLoader')
+            that.$store.commit('PUB_TITLE_SUB', '')
+            that.$store.commit('PUB_SUB_TODO_USER', {id: ''})
+            next()
           })
       },
       saveMember (idArray) {
@@ -244,13 +254,10 @@
     },
     beforeRouteLeave (to, from, next) {
       if (to.name === 'todoEdit') {
-        this.submitSubtodo()
+        this.submitSubtodo(next)
+      } else {
+        next()
       }
-      if (to.name !== 'SubTodoEditDate') {
-        this.$store.commit('PUB_TITLE_SUB', '')
-        this.$store.commit('PUB_SUB_TODO_USER', {id: ''})
-      }
-      next()
     }
   }
 </script>

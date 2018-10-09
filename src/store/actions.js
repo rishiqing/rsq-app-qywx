@@ -1121,7 +1121,7 @@ export default {
         return item
       })
       .catch(err => {
-        alert(JSON.stringify(err))
+        // alert(JSON.stringify(err))
       })
   },
   updatePlanImg ({commit, state}, p) {

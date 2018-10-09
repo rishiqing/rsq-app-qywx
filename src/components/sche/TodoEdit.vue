@@ -14,7 +14,6 @@
               :is-disabled="!isEditable"
               :disabled-text="disabledText"
               :is-show-bottom-border="true"
-              @text-blur="saveTitle"
               @click-checkout="finishChecked"/>
             <r-input-note
               :content="editItem.pNote"
@@ -322,7 +321,7 @@
           return Promise.reject()
         }
         if (this.currentTodo.kanbanId) {
-          this.$store.dispatch('updateKanbanItem', {id: this.currentTodo.id, name: newTitle})
+          return this.$store.dispatch('updateKanbanItem', {id: this.currentTodo.id, name: newTitle})
         } else {
           if (newTitle !== this.editItem.pTitle) {
 //          window.rsqadmg.exec('showLoader', {text: '保存中...'})

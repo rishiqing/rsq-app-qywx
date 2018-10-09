@@ -39,11 +39,7 @@
         }
       },
       cardName () {
-        if (this.plan) {
-          return this.kanbanItem.kanbanCardName
-        } else {
-          return this.kanbanItem.kanbanItemName
-        }
+        return this.kanbanItem.kanbanCardName
       },
       planName () {
         if (this.kanbanItem) {

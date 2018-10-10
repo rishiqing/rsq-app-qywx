@@ -41,6 +41,7 @@ import PlanTodoComment from 'com/plan/PlanTodoComment'
 import InboxNew from 'com/inbox/InboxNew'
 import MoveToPlanList from 'com/pub/MoveToPlanList'
 import MoveToPlanItem from 'com/pub/MoveToPlanItem'
+import TodoEditRepeatNew from 'com/pub/NewRepeat/TodoEditRepeat'
 
 Vue.use(Router)
 
@@ -138,6 +139,12 @@ const router = new Router({
       path: '/sche/todo/repeat',
       name: 'todoEditRepeat',
       component: TodoEditRepeat,
+      meta: {requireAuth: false}
+    },
+    {
+      path: '/todoEdit/repeatNew',
+      name: 'todoeditrepeatnew',
+      component: TodoEditRepeatNew,
       meta: {requireAuth: false}
     },
     //  todo的时间编辑页面，用于新增或者编辑日程时候的时间设置

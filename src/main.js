@@ -23,6 +23,8 @@ Pro.polyfill()
 
 import Vue from 'vue'
 import VueTouch from 'vue-touch'
+import { RRule } from 'rrule'
+
 import App from './App'
 import router from './router'
 import store from './store'
@@ -67,6 +69,8 @@ Vue.use(weui)
 Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.prototype.$rrule = RRule
+
 window.rsqadmg.exec('auth', {
   success: function (rsqUser, authUser) {
     store.state.loginUser = {

@@ -73,13 +73,15 @@
       </div>
     </div>
     <v-touch
-      v-if="!isBackNewVersion"
       class="date-repeat"
       @tap="gotoRepeat">
       <span class="list-key u-pull-left">重复</span>
       <i class="icon2-arrow-right arrow u-pull-right light-color icon2-arrow-right-small arrow"/>
-      <span class="list-value u-pull-right light-color">
+      <span v-if="!isBackNewVersion" class="list-value u-pull-right light-color">
         {{ repeatText }}
+      </span>
+      <span v-else class="list-value u-pull-right light-color">
+        {{ res }}
       </span>
     </v-touch>
     <div class="btn-group">
@@ -102,6 +104,7 @@
   </div>
 </template>
 <script>
+  import moment from 'moment'
   import dateUtil from 'ut/dateUtil'
 
   /**
@@ -130,7 +133,7 @@
         //  重复功能相关
         dateType: '',  //  single单日期, range起止日期, discrete, 离散间隔日期，repeat:使用重复，none表示dateType被清空
         selectNumDate: null,  //  表示重复当前选中的日期
-        tap: false
+        res: '不重复'
       }
     },
     computed: {
@@ -150,7 +153,10 @@
         return this.$store.state.pub.currentTodoDate
       },
       isNewRepeat () {
-        return this.currentTodo.rrule !== undefined
+        return this.currentTodo.rrule !== ''
+      },
+      rruleText () {
+        return this.currentTodo.rrule
       },
       repeatText () {
         var text
@@ -163,7 +169,24 @@
           }
         }
         return (text || '不') + '重复'
-      }
+      },
+      // repeatTypeNew: {
+      //   res: '',
+      //   get () {
+      //     if (this.rruleText) {
+      //       var rruleObj = this.$rrule.fromString(this.rruleText).origOptions
+      //       this.res = dateUtil.rruleToText(rruleObj, this.currentTodo.startDate)
+      //       return this.res
+      //     } else {
+      //       this.res = '不重复'
+      //       return this.res
+      //     }
+      //   },
+      //   set (newValue) {
+
+      //     return this.res = newValue
+      //   }
+      // }
     },
     created () {
       this.initData()
@@ -203,10 +226,11 @@
         this.dateType = 'none'
       },
       tapEmpty (e) {
-        this.tap = true
         this.selectNumDate = []
         this.clearType()
         this.clearSelected()
+        this.$store.commit('SAVE_CURRENT_RRULE',{rrule: ''})
+        this.res = '不重复'
         if (e) e.preventDefault()
       },
       tapBackToday (e) {
@@ -222,7 +246,8 @@
         if (e) e.preventDefault()
       },
       tapChangeType (e, type) {
-        this.tap = true
+        this.$store.commit('SAVE_CURRENT_RRULE',{rrule: ''})
+        this.res = '不重复'
         this.tapEmpty()
         this.dateType = type
         this.resetType()
@@ -238,7 +263,8 @@
         if (new Date(day.date).getTime() < new Date().getTime() - timeHaveGo) {
           return
         }
-        this.tap = true
+        this.$store.commit('SAVE_CURRENT_RRULE',{rrule: ''})
+        this.res = '不重复'
         //  如果是在repeat状态下点击日期，那么清除重复，进入single状态
         if (this.dateType === 'repeat' || this.dateType === 'none') {
           this.dateType = 'single'
@@ -361,7 +387,11 @@
           newObj.isLastDate !== oldObj.isLastDate
       },
       gotoRepeat () {
-        this.$router.push('/sche/todo/repeat')
+        if (this.isBackNewVersion) {
+          this.$router.push('/todoEdit/repeatNew')
+        } else {
+          this.$router.push('/todoEdit/repeat')
+        }
       },
       saveTodoDateState () {
         var sorted = this.selectNumDate.sort((a, b) => { return a > b ? 1 : -1 })
@@ -387,7 +417,12 @@
           dates: c.dates
         }
         //  如果重复相关属性存在，那么处理重复相关的其他属性
-        if (c.repeatType) {
+        if (this.isBackNewVersion) {
+          o.isCloseRepeat = false
+          o.rrule = this.currentTodo.rrule
+          o.startDate = moment().format('YYYY/MM/DD')
+          o.endDate = moment().format('YYYY/MM/DD')
+        } else if (c.repeatType) {
           o.repeatType = c.repeatType
           o.repeatBaseTime = c.repeatBaseTime
           o.alwaysRepeat = c.alwaysRepeat
@@ -396,9 +431,6 @@
           o.repeatOverDate = c.repeatOverDate
         } else {
           o.isCloseRepeat = true
-        }
-        if (!this.tap) {
-          o.rrule = this.currentTodo.rrule
         }
         var actParamse = JSON.parse(JSON.stringify(o))
         o.createActive = {
@@ -470,10 +502,15 @@
         next()
       }
     },
-    beforeRouteLeave (to, from, next) {
-      if (!this.tap) {
-        next()
+    mounted () {
+      if (this.rruleText) {
+        var rruleObj = this.$rrule.fromString(this.rruleText).origOptions
+        this.res = dateUtil.rruleToText(rruleObj, this.currentTodo.startDate)
+      } else {
+        this.res = '不重复'
       }
+    },
+    beforeRouteLeave (to, from, next) {
       //  如果是从日期页面跳回到编辑页面的，那么即使不在收纳箱中了，那么也暂时不显示checkbox
       if (this.currentTodo['pContainer'] === 'inbox') {
         this.$store.commit('DELAY_SHOW_CHECKBOX')

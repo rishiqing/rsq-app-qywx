@@ -618,5 +618,8 @@ export default {
   },
   SLIDER_MARK (state, p) {
     state.pub.sliderId = p.mark
+  },
+  SAVE_CURRENT_RRULE (state, p) {
+    state.todo.currentTodo.rrule = p.rrule
   }
 }

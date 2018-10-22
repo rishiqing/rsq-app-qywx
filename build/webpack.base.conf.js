@@ -18,6 +18,7 @@ module.exports = {
     publicPath: process.env.NODE_ENV === 'production'
       ? url.resolve(config.build.frontServer, config.build.assetsPublicPath)
       : path.posix.join(config.dev.frontServer, config.dev.assetsPublicPath)
+      // 根据系统变化posix
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],

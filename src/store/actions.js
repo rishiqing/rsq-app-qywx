@@ -119,7 +119,7 @@ export default {
     } else {
       return api.todo.getScheduleTodos({startDate: strCurrentDate, endDate: strCurrentDate})
         .then(todos => {
-          let reverseTodo = todos.reverse()
+          let reverseTodo = todos
           //  坑……不显示deletedDate字段为当前日期的日程，新版本需要优化
           var compareDate = moment(strDate).format('YYYYMMDD')
           reverseTodo = reverseTodo.filter(t => {
@@ -643,31 +643,19 @@ export default {
    * @param p
    */
   getDatesHasTodo ({commit, state}, p) {
-    var hasCache = true
     var start = p.startDate.getTime()
     var end = p.endDate.getTime()
     //  如果start和end中有一天没有缓存，那么就强制从服务器读取缓存
-    for (var d = start; d <= end; d += 24 * 3600 * 1000) {
-      if (!state.dayHasTodoCache.hasOwnProperty(String(d))) {
-        hasCache = false
-        break
-      }
-    }
-    var promise
-    if (hasCache) {
-      promise = Promise.resolve()
-    } else {
-      promise = api.todo.getDatesHasTodo({
+    var promise = api.todo.getDatesHasTodo({
         startDate: dateUtil.dateNum2Text(start, '-'),
         endDate: dateUtil.dateNum2Text(end, '-')
       })
-        .then(result => {
-          p.daysHasTodo = result.date.split(',').map(text => {
-            return moment(text).valueOf()
-          })
-          commit('TD_DATE_HAS_TD_CACHE', p)
+      .then(result => {
+        p.daysHasTodo = result.date.split(',').map(text => {
+          return moment(text).valueOf()
         })
-    }
+        commit('TD_DATE_HAS_TD_CACHE', p)
+      })
     return promise.then(() => {
       var cache = state.dayHasTodoCache
       var resultArray = []

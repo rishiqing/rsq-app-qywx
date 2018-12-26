@@ -43,8 +43,9 @@
                   tag="a"
                   class="weui-btn weui-btn_primary"
                   href="javascript:;"
+                  :style="{'background-color':loading ? '#ccc' : ''}"
                   @tap="submitTodo">
-                  创建
+                  {{loading ? '创建中' : '创建'}}
                 </v-touch>
               </div>
             </div>
@@ -72,6 +73,7 @@
     },
     data () {
       return {
+        loading: false,
         editItem: {
           isChecked: false,
           isAllDay: true
@@ -161,6 +163,9 @@
         this.$store.commit('PLAN_CURRENT_KANBAN_ITEM_UPDATE', {kanbanItem: this.editItem})
       },
       submitTodo () {
+        if (this.loading) {
+          return
+        }
         if (!this.editItem.name || /^\s+$/.test(this.editItem.name)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务标题'})
         }
@@ -181,6 +186,7 @@
         }
         this.$store.dispatch('createKanbanItem', params)
           .then((res) => {
+            this.loading = true
             window.rsqadmg.execute('toast', {message: '创建成功'})
             // console.log(this.currentKanbanItem)
             // var name = that.$store.getters.loginUser.authUser.name

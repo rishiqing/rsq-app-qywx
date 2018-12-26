@@ -54,8 +54,9 @@
                   tag="a"
                   class="weui-btn weui-btn_primary"
                   href="javascript:;"
+                  :style="{'background-color':loading ? '#ccc' : ''}"
                   @tap="delayCall('submitTodo')">
-                  创建
+                  {{loading ? '创建中' : '创建'}}
                 </v-touch>
               </div>
             </div>
@@ -90,7 +91,8 @@
 //          receiverIds: []
         },
         joinUserRsqIds: [],
-        idArray: []
+        idArray: [],
+        loading: false
       }
     },
     computed: {
@@ -185,11 +187,12 @@
         this.$store.commit('TD_CURRENT_TODO_UPDATE', {item: this.editItem})
       },
       delayCall (func) {
-        window.setTimeout(() => {
-          this[func].apply(this, Array.prototype.slice.call(arguments, 1))
-        }, 50)
+        this.submitTodo()
       },
       submitTodo () {
+        if (this.loading) {
+          return
+        }
         if (!this.editItem.pTitle || /^\s+$/.test(this.editItem.pTitle)) {
           return window.rsqadmg.execute('alert', {message: '请填写任务标题'})
         }
@@ -207,6 +210,7 @@
             this.editItem.repeatOverDate = dateUtil.dateNum2Text(dateUtil.dateText2Num(overDate))
           }
         }
+        this.loading = true
         this.saveTodoState()
         var todoType = this.isInbox ? 'inbox' : 'schedule'
 //        window.rsqadmg.execute('showLoader', {text: '创建中...'})
@@ -227,6 +231,7 @@
             }
           })
           .then(item => {
+            this.loading = false
             window.rsqadmg.execute('toast', {message: '创建成功'})
             this.$store.commit('TD_DATE_HAS_TD_CACHE_DELETE_ALL')
             if (todoType === 'inbox') {

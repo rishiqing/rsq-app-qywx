@@ -58,8 +58,9 @@
           tag="a"
           class="weui-btn weui-btn_primary"
           href="javascript:;"
+          :style="{'background-color':loading ? '#ccc' : ''}"
           @tap="delayCall('create')">
-          创建
+          {{loading ? '创建中' : '创建'}}
         </v-touch>
       </div>
     </div>
@@ -80,6 +81,7 @@
     },
     data () {
       return {
+        loading: false,
         content: '',
         currentTemplate: {},
         rsqIdArray: [],
@@ -184,12 +186,16 @@
         }
       },
       delayCall (func) {
-        window.setTimeout(() => {
-          this[func].apply(this, Array.prototype.slice.call(arguments, 1))
-        }, 50)
+        // window.setTimeout(() => {
+        //   this[func].apply(this, Array.prototype.slice.call(arguments, 1))
+        // }, 50)
+        this.create()
       },
       create () {
         var that = this
+        if (this.loading) {
+          return
+        }
         if (!this.content || /^\s+$/.test(that.content)) {
           return window.rsqadmg.execute('alert', {message: '请填写计划名称'})
         }
@@ -218,7 +224,9 @@
           starMark: false,
           position: 'bottom'
         }
+        this.loading = true
         that.$store.dispatch('postPlan', params).then((res) => {
+          this.loading = false
           window.rsqadmg.exec('hideLoader')
           window.rsqadmg.exec('toast', {message: '创建成功'})
           // let datas = {

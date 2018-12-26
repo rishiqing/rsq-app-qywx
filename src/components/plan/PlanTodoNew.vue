@@ -184,9 +184,10 @@
           endDate: endDate,
           isWeb: true
         }
+        this.loading = true
         this.$store.dispatch('createKanbanItem', params)
           .then((res) => {
-            this.loading = true
+            this.loading = false
             window.rsqadmg.execute('toast', {message: '创建成功'})
             // console.log(this.currentKanbanItem)
             // var name = that.$store.getters.loginUser.authUser.name
